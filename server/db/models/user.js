@@ -23,7 +23,14 @@ var schema = new mongoose.Schema({
     },
     google: {
         id: String
-    }
+    },
+    apiKey: {
+        type: String
+    },
+    routes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Route'
+    }]
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations

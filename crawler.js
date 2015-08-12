@@ -3,14 +3,16 @@ var x = Xray();
 var Q = require('q');
 
 function crawl(url, selector, name) {
+	// convert returned function format to promise
 	var deferred = Q.defer();
-	x(url, [selector], function(err) {
-		var results = arguments[1];
-		console.log(results);
+	x(url, [selector]) 
+	(function(err) {
+		if (err) deferred.reject(new Error(err));
 		var data = {};
-		data[name] = results;
-		console.log('got this data', data);
+		data[name] = arguments[1];
+		deferred.resolve(data);
 	});
+	return deferred.promise;
 }
 
 var data = [{
@@ -21,23 +23,26 @@ var data = [{
 	{
 		url: 'http://espn.go.com',
 		name: 'navs',
-		selector: '.link-text-short'
+		selector: 'h2'
 	}
 ];
 
-// data.forEach(function(datum) {
-// 	var crawledData = [];
-// 	crawl(datum.url, datum.selector, datum.name);
-// });
+data.forEach(function(datum) {
+	var crawledData = [];
+	crawl(datum.url, datum.selector, datum.name)
+		.then(function(data) {
+			console.log('in the promise', data);
+		});
+});
 
-x('http://espn.go.com', ['h1'])
-	(function(err) {
-		var results = arguments[1];
-		console.log(results);
-		console.log('got this data', results);
-	});
+// x('http://espn.go.com', ['h1'])
+// 	(function(err) {
+// 		var results = arguments[1];
+// 		console.log(results);
+// 		console.log('got this data', results);
+// 	});
 
-// crawl('http://espn.go.com', '.headlines a', 'headline');
+crawl('http://espn.go.com', '.headlines a', 'headline');
 
 
 // x('http://github.com/stars/matthewmueller', [{

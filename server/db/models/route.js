@@ -12,7 +12,7 @@ var schema = new mongoose.Schema({
 	},
 	data: [{
 		name: String,
-		selectors: String,
+		selector: String,
 		cached: String
 	}],
 	crawlFrequency: {

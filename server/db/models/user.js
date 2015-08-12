@@ -4,10 +4,12 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
     email: {
-        type: String
+        type: String,
+        required: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
     },
     salt: {
         type: String
@@ -25,7 +27,9 @@ var schema = new mongoose.Schema({
         id: String
     },
     apiKey: {
-        type: String
+        // used for auth
+        type: String,
+        required: true
     },
     routes: [{
         type: mongoose.Schema.Types.ObjectId,

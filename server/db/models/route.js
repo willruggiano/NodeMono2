@@ -3,10 +3,12 @@ var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
 	name: {
-		type: String
+		type: String,
+		required: true
 	},
 	url: {
-		type: String
+		type: String,
+		required: true
 	},
 	data: [{
 		name: String,
@@ -15,18 +17,21 @@ var schema = new mongoose.Schema({
 	}],
 	crawlFrequency: {
 		// stored as milliseconds - consistent with Unix time
-		type: Number
+		type: Number,
+		required: true
 	},
 	lastTimeCrawled: {
 		type: Date
 	},
 	lastCrawlStatus: {
 		// true if successful, false if failed
-		type: Boolean
+		type: Boolean,
+		default: true
 	},
 	count: {
 		// times crawled
-		type: Number
+		type: Number,
+		default: 0
 	}
 });
 

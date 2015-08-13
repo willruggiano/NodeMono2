@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>Nodemono</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+        font-size: 100%;
+        width: 125px;
+      }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">nodemono</a>
+      </div>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Property Name">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a class="glyphicon glyphicon-file"> Data</a></li>
+        <li><a class="glyphicon glyphicon-align-justify"> Files</a></li>
+        <li><a class="glyphicon glyphicon-remove"> Remove</a></li>
+        <li><span>" "</span></li>
+      </ul>
+    </nav>
+  </body>
+</html>
+

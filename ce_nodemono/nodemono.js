@@ -28,46 +28,40 @@ document.getElementsByTagName("head")[0].appendChild(bootstrap);
 $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// console.log(data);
 	// $(data).appendTo('body');
+	// $(data).prependTo('body').first();
 
+	//create a div with ngNonBindable property to prevent automatically bootstrap angular;
 	var div = document.createElement('div');
 	div.dataset.ngNonBindable = '';
-	div.style.cssText = [
-		'background:  rgb(250, 150, 50);',
-		'bottom:      0px;',
-		'font-weight: bold;',
-		'position:    fixed;',
-		'text-align:  center;',
-		'width:       100%;',
-		''
-	].join('\n');
 
-	// Create the app's root element (everything else should go in here)
 	var appRoot = document.createElement('div');
-	appRoot.dataset.ngController = 'MyCtrl as ctrl';
-	appRoot.innerHTML = 'Angular says: {{ctrl.message}}';
-	appRoot.id = "nodemonoAppRoot";
+	appRoot.dataset.ngController = 'NodemonoMainCtrl as ctrl';
 
+	appRoot.id = "nodemonofy"
 	// Insert elements into the DOM
-	// document.body.appendChild(div);
-	$(div).prepend('body')
+	// document.body.pre(div);
+	$(div).prependTo('body')
 	div.appendChild(appRoot);
-	$(data).appendTo('#nodemonoAppRoot'); //.first();
+	$(data).appendTo('#nodemonofy');
 
-	var app = angular
+	window.app = angular
 		.module('myApp', [])
 		.controller('NodemonoMainCtrl', function($scope) {
 			$scope.collection = {};
 			console.log('go here')
-			$scope.buttonClicked = function() {
-				console.log($scope.collection)
-			}
+			this.message = "Hello";
+
 		})
-		.controller('MyCtrl', function MyCtrl() {
-			this.message = 'Hello, isolated world !';
+		.controller('ToolbarCtrl', function MyCtrl($scope) {
+			// this.message = 'Hello, isolated world !';
+			$scope.buttonClicked = function() {
+				console.log($scope.collection);
+			}
 		});
 
 	/* Manually bootstrap the Angular app */
-	window.name = ''; // To allow `bootstrap()` to continue normally
+	window.name = '';
+	// To allow `bootstrap()` to continue normally
 	angular.bootstrap(appRoot, ['myApp']);
 	// console.log(angular);
 	console.log('Boot and loaded !');

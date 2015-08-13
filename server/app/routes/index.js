@@ -2,7 +2,6 @@
 var router = require('express').Router();
 module.exports = router;
 
-router.use('/members', require('./members'));
 // router.use('/users', require('./users'));
 router.use('/routes', require('./routes'));
 
@@ -11,3 +10,13 @@ router.use('/routes', require('./routes'));
 router.use(function (req, res) {
     res.status(404).end();
 });
+
+/*
+  var ensureAuthenticated = function (req, res, next) {
+      if (req.isAuthenticated()) {
+          next();
+      } else {
+          res.status(401).end();
+      }
+  };
+*/

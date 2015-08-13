@@ -10,7 +10,6 @@ router.get('/testing', function(req, res, next) {
             return route.getCrawlData();
         })
         .then(function(crawledData) {
-            console.log(crawledData);
             res.json(crawledData);
         })
         .then(null, next);

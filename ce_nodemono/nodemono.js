@@ -1,2 +1,2 @@
-$("body").append('<p>Test</p>');
+$("body").prepend('<p>Test</p>');
 // console.log($("body"));

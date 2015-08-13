@@ -26,7 +26,7 @@ var schema = new mongoose.Schema({
     google: {
         id: String
     },
-    apiKey: {
+    userKey: {
         // used for auth
         type: String,
         required: true

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "background": {
+    "persistent": false,
+    "scripts": ["nodemono.js", "jquery/jquery.min.js", "background.js"]
+  },
+  "name": "Nodemono",
+  "description": "Extension tool transform webpage to crawlify states",
+  "version": "1.0",
+  // "content_scripts": {
+  //   ""
+  // },
+  "icons": {
+    "64": "icon_64.png"
+  },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "Nodemono"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}

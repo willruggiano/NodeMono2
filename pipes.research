@@ -1,0 +1,54 @@
+// Yahoo Pipes
+
+## What is it?
+  -'service that lets you remix popular feed types and creata data mashups'
+
+## Pipe
+  -pipe consists of modules which perform a single, specific task
+    >> 'Fetch will retrieve a feed URL'
+    >> 'Sort will re-order a feed based on user defined criteria'
+  -pipes can also have user input fields which show up at runtime as fields the user can fill in
+
+## Data mashups (what pipes is building)
+  -classification: newer Web 2.0 techniques
+  -philosophy: uses APIs to aggregate and reuse content in another way
+  -content dependencies: operate on pure XML and also presentation-oriented content (HTML)
+  -location dependencies: aggregation takes place client or server-side
+  -aggregation style: 'melting pot'... individual content combined in any manner => hybrid content
+  -event model: CRUD operations based on REST architectural principles
+  -standards: XML interchanged as REST, RSS &|| Atom are common, more specific like EMML emerging
+
+## Data integration challenges
+  -text/data mismatch
+    data often described in text... human language inherently ambiguous
+    ambiguity makes cross-linking structured data difficult
+  -object identifiers and schema mismatch
+    'lifting' data to common format is first step
+    reconciling different representations of objects and schemas
+      >> SEC uses Central Index Key (CIK) while others use URIs to identify entities
+  -abstraction level mismatch
+    data is published at varying levels of abstraction (eg person, company, country)
+      >> data aggregated for individual viewpoint may not match data for other viewpoint
+    geographic aggregation (region data vs country data)
+      >> currency reconciliation to make data comparable
+  -data accuracy
+    data is often erroneous... combining data increases this problem
+      >> especially when performing reasoning (inferring new data from existing data)
+
+## Architectural aspects
+  -two styles: web-based && server-based
+    >> web-based: combine and reformat data in the browser
+    >> server-based: analyze and reformat data server-side, then transmit back to client in final form
+
+## Exisiting YP modules
+  -sources: data source, modules grab data and bring it into your pipe for procession
+  -user inputs: define parameters for your pipe, can be fed into other modules
+  -operators: transform and filter data flowing through pipe
+  -url: manipulate URLs
+  -string: help manipulate and combine text strings
+  -data: define and format dates
+  -location: help convert text strings to geographic locations
+  -number: provides basic arithmetic operations
+
+
+Functional Javascript - Michael Fogus

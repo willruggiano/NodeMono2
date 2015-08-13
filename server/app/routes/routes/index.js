@@ -27,7 +27,6 @@ router.post('/', function(req, res, next) {
 	var newRoute = new Route(req.body);
 	newRoute.save()
 		.then(function(route) {
-			// res.json(route);
 			// return the crawled data
 			return route.getCrawlData();
 		})

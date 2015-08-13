@@ -25,6 +25,12 @@ bootstrap.setAttribute("type", "text/css");
 bootstrap.setAttribute("href", chrome.extension.getURL("css/bootstrap.min.css"));
 document.getElementsByTagName("head")[0].appendChild(bootstrap);
 
+function transformHtml() {
+	$
+}
+
+
+
 $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// console.log(data);
 	// $(data).appendTo('body');
@@ -49,13 +55,23 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 		.controller('NodemonoMainCtrl', function($scope) {
 			$scope.collection = {};
 			console.log('go here')
-			this.message = "Hello";
+			// this.message = "Hello";
 
 		})
 		.controller('ToolbarCtrl', function MyCtrl($scope) {
-			// this.message = 'Hello, isolated world !';
+			$scope.property = "property1"
 			$scope.buttonClicked = function() {
-				console.log($scope.collection);
+				// console.log($scope.collection);
+				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
+
+				$('a').filter(function(element) {
+					return element.href !== "";
+				}).forEach(function(element) {
+					$()
+				});
+			}
+			$scope.selectCollection = function() {
+
 			}
 		});
 
@@ -65,13 +81,4 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	angular.bootstrap(appRoot, ['myApp']);
 	// console.log(angular);
 	console.log('Boot and loaded !');
-
-	// Or if you're using jQuery 1.8+:
-	// $($.parseHTML(data)).appendTo('body');
-	// app = angular.module("Nodemono", []);
-	// app.controller("ToolbarCtrl", function($scope) {
-	// 	$scope.buttonClicked = function() {
-	// 		console.log($scope.collection)
-	// 	}
-	// })
 });

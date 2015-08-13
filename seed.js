@@ -37,6 +37,11 @@ var seedUsers = function () {
             email: 'obama@gmail.com',
             password: 'potus',
             userKey: 'testkey22',
+        },
+        {
+            email: 'jack@mulrow.com',
+            password: 'jack',
+            userKey: 'jackKey'
         }
     ];
 
@@ -56,7 +61,6 @@ var seedRoutes = function () {
             data: [{
                     name: 'headline',
                     selector: '.theme-summary .story-heading a',
-                    // indexes: [0, 3, 7]
                 },
                 {
                     name: 'link',
@@ -65,7 +69,25 @@ var seedRoutes = function () {
                 }
             ],
             config: {
-                returnObj: true
+                returnObj: false
+            }
+        },
+        {
+            name: 'testroute2',
+            userKey: 'testkey2',
+            url: 'https://espn.go.com',
+            data: [{
+                    name: 'headlines',
+                    selector: '.headlines a',
+                },
+                {
+                    name: 'links',
+                    selector: '.headlines a',
+                    attr: 'href'
+                }
+            ],
+            config: {
+                returnObj: false
             }
         }
     ];

@@ -1,0 +1,58 @@
+<div class="row">
+	<filter></filter>
+	<h1>Pipes homepage</h1>
+	<div class="col-sm-4">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2>Select Inputs</h2>
+				<ul>
+					<li ng-repeat="route in routes">
+						<route route="route" select="selectRoute(route)" get="getCrawlData(route)"></route>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h2>Select Pipes</h2>
+				<ul>
+					<li ng-repeat="filter in filters">
+						<filter filter="filter" select="selectFilter(filter)"></filter>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-8">
+		<div class="row">
+			<div class="col-sm-12" id="pipesCanvas">
+				<h2>Pipes Canvas</h2>
+				<h3>Select Pipes</h3>
+			</div>
+			<div class="col-sm-12">
+				<h3>Inputs: </h3>
+				<ul>
+					<li ng-repeat="input in inputs">
+						Name: {{input.name}}
+						<a class="btn btn-xs btn-danger" ng-click="deselectRoute(input)">X</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h3>Pipes: </h3>
+				<ul>
+					<li ng-repeat="pipe in pipes">
+						Name: {{pipe.name}}
+						<a class="btn btn-xs btn-danger" ng-click="deselectFilter(pipe)">X</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h3>Output: <a class="btn btn-info" ng-click="generateOutput()">Generate</a></h3>
+				<ul>
+					<li ng-repeat="out in output">
+						{{out | json}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

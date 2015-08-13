@@ -5,6 +5,15 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Route');
 var _ = require('lodash');
 
+// get all routes (with optional search by query string)
+router.get('/', function(req, res, next) {
+    Route.find(req.query).exec()
+        .then(function(routes) {
+            res.json(routes);
+        })
+        .then(null, next);
+});
+
 // return crawled data for a route
 router.get('/:userKey/:routeName', function(req, res, next) {
 	// do validation with the userkey

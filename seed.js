@@ -24,25 +24,44 @@ var connectToDb = require('./server/db');
 var User = Promise.promisifyAll(mongoose.model('User'));
 var Route = Promise.promisifyAll(mongoose.model('Route'));
 
-var routes = [{
-  name: 'testroute',
-  url: 'https://nytimes.com',
-  data: [
+var routes = [
     {
-      name: 'headline',
-      selector: '.theme-summary .story-heading a',
-      // indexes: [0, 3, 7]
+        name: 'testroute',
+        userKey: 'testkey',
+        url: 'https://nytimes.com',
+        data: [{
+                name: 'headline',
+                selector: '.theme-summary .story-heading a',
+            },
+            {
+                name: 'link',
+                selector: '.theme-summary .story-heading a',
+                attr: 'href'
+            }
+        ],
+        config: {
+            returnObj: false
+        }
     },
     {
-      name: 'link',
-      selector: '.theme-summary .story-heading a',
-      attr: 'href'
+        name: 'testroute2',
+        userKey: 'testkey2',
+        url: 'https://espn.go.com',
+        data: [{
+                name: 'headlines',
+                selector: '.headlines a',
+            },
+            {
+                name: 'links',
+                selector: '.headlines a',
+                attr: 'href'
+            }
+        ],
+        config: {
+            returnObj: false
+        }
     }
-  ],
-  config: {
-      returnObj: true
-  }
-}];
+];
 
 var seedUsers = function() {
 
@@ -72,48 +91,6 @@ var seedUsers = function() {
 
 };
 
-var seedRoutes = function () {
-
-    var routes = [
-        {
-            name: 'testroute',
-            userKey: 'testkey',
-            url: 'https://nytimes.com',
-            data: [{
-                    name: 'headline',
-                    selector: '.theme-summary .story-heading a',
-                },
-                {
-                    name: 'link',
-                    selector: '.theme-summary .story-heading a',
-                    attr: 'href'
-                }
-            ],
-            config: {
-                returnObj: false
-            }
-        },
-        {
-            name: 'testroute2',
-            userKey: 'testkey2',
-            url: 'https://espn.go.com',
-            data: [{
-                    name: 'headlines',
-                    selector: '.headlines a',
-                },
-                {
-                    name: 'links',
-                    selector: '.headlines a',
-                    attr: 'href'
-                }
-            ],
-            config: {
-                returnObj: false
-            }
-        }
-    ];
-};
-
 var seedRoutes = function (routes) {
     return Route.remove().then(function() {
         return Route.createAsync(routes);
@@ -124,7 +101,8 @@ connectToDb.then(function() {
     User.findAsync({}).then(function(users) {
         return seedUsers();
     }).then(function(users) {
-        routes[0].user = users[0]._id;
+        routes[0].user = users[2]._id;
+        routes[1].user = users[2]._id;
         return seedRoutes(routes);
     }).then(function() {
         console.log(chalk.green('Seed successful!'));

@@ -20,7 +20,7 @@ router.get('/:userId/:apiRouteName', function(req, res, next) {
     // do validation with the userId
     Route.findOne({
             name: req.params.apiRouteName,
-            userId: req.params.userId
+            user: req.params.userId
         }).exec()
         .then(function(apiRoute) {
             return apiRoute.getCrawlData();

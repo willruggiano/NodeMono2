@@ -10,19 +10,19 @@ app.factory('PipesFactory', function($http, $q) {
 		// dummy filter data for now
 		return [{
 			name: 'length'
-		}]
+		}];
 	};
 
 	fact.getCrawlData = (route) => {
 		// get crawled data for the route
-		return $http.get(`/api/routes/${route.userKey}/${route.name}`)
+		return $http.get(`/api/routes/${route.user}/${route.name}`)
 			.then(res => res.data);
 	};
 	
 	fact.getAllInputData = (inputRoutes) => {
 		// fire off requests for crawled data
 		var crawlPromises = inputRoutes.map(inputRoute => {
-			return $http.get(`/api/routes/${inputRoute.userKey}/${inputRoute.name}`)
+			return $http.get(`/api/routes/${inputRoute.user}/${inputRoute.name}`)
 				.then(res => res.data);
 		});
 		// resolve when all promises resolve with their crawled data

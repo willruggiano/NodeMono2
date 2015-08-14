@@ -7,10 +7,9 @@ var _ = require('lodash');
 
 // get all users (with optional search by query string)
 router.get('/', function(req, res, next) {
-    User.find(req.query)
-        .populate('routes').exec()
+    User.find(req.query).exec()
         .then(function(users) {
-            res.json(users);
+            res.status(200).json(users);
         })
         .then(null, next);
 });
@@ -32,10 +31,9 @@ router.post('/', function(req, res, next) {
         .then(null, next);
 });
 
-// for finding route by id
+// for finding user by id
 router.param('id', function(req, res, next, id) {
-    User.findById(id)
-        .populate('routes').exec()
+    User.findById(id).exec()
         .then(function(user) {
             if (!user) throw Error('Not Found');
             req.user = user;
@@ -71,6 +69,12 @@ router.delete('/:id', function(req, res, next) {
         })
         .then(null, next);
 });
+
+// router.get('/:id/routes', (res, res, next) => {
+//   Route.find({ 'user': req.params.id }).exec()
+//     .then(routes => res.status(200).json(routes))
+//     .then(null, next)
+// })
 
 
 module.exports = router;

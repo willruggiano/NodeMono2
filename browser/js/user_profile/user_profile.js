@@ -5,12 +5,10 @@ app.config(($stateProvider) => {
     controller: ($scope, user, routes) => {
       $scope.user = user
       $scope.routes = routes
-
-      console.log(user, routes)
     },
     resolve: {
       user: ($stateParams, User) => User.find($stateParams.id),
-      routes: (user, Route) => Route.findAll({ '_user': user })
+      routes: (user) => user.getRoutes()
     }
   })
 })

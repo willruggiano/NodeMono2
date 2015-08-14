@@ -11,8 +11,7 @@ app.factory('Route', ($state, DS) => {
           localField: '_user',
           // local key is the "join" field
           // the name of the field on the route that points to its parent user
-          localKey: 'user',
-          parent: true
+          localKey: 'user'
         }
       }
     },

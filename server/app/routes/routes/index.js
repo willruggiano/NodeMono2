@@ -5,20 +5,20 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Route');
 var _ = require('lodash');
 
-//get all
+// get all routes with optional query string
 router.get('/', (req, res, next) => {
-    Route.find().exec()
-        .then(routes => res.json(routes))
+    Route.find(req.query).exec()
+        .then(routes => res.status(200).json(routes))
         .then(null, next)
 })
 
-// return crawled data for a apiRoute    
+// return crawled data for a apiRoute
 //-->nodemono.com/api/routes/:userId/:apiRouteName
 router.get('/:userId/:apiRouteName', function(req, res, next) {
     // do validation with the userId
     Route.findOne({
             name: req.params.apiRouteName,
-            userId: req.params.userId
+            user: req.params.userId
         }).exec()
         .then(function(apiRoute) {
             return apiRoute.getCrawlData();

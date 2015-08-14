@@ -1,4 +1,4 @@
-app.factory('User', ($state, DS) => {
+app.factory('User', ($state, Route, DS) => {
 
   let User = DS.defineResource({
     name: 'user',
@@ -21,6 +21,9 @@ app.factory('User', ($state, DS) => {
       go: function() {
         console.log(`transitioning to user state (${this.name})`)
         $state.go('user', { id: this._id })
+      },
+      getRoutes: function() {
+        return Route.findAll({ 'user': this._id })
       }
     }
   })

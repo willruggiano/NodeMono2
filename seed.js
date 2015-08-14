@@ -111,6 +111,7 @@ var seedRoutes = function () {
             }
         }
     ];
+};
 
 var seedRoutes = function (routes) {
     return Route.remove().then(function() {

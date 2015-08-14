@@ -59,6 +59,7 @@ var seedUsers = function() {
             userKey: 'testkey22',
         },
         {
+            name: 'Jack Mulrow',
             email: 'jack@mulrow.com',
             password: 'jack',
             userKey: 'jackKey'

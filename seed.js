@@ -25,22 +25,20 @@ var User = Promise.promisifyAll(mongoose.model('User'));
 var Route = Promise.promisifyAll(mongoose.model('Route'));
 
 
-var seedUsers = function () {
 
-    var users = [
-        {
-            name: 'Full Stack',
-            email: 'testing@fsa.com',
-            password: 'password',
-            userKey: 'testkey11',
-        },
-        {
-            name: 'Barack Obama',
-            email: 'obama@gmail.com',
-            password: 'potus',
-            userKey: 'testkey22',
-        }
-    ];
+var seedUsers = function() {
+
+    var users = [{
+        name: 'Full Stack',
+        email: 'testing@fsa.com',
+        password: 'password',
+        userKey: 'testkey11',
+    }, {
+        name: 'Barack Obama',
+        email: 'obama@gmail.com',
+        password: 'potus',
+        userKey: 'testkey22',
+    }];
 
     return User.remove().then(function() {
         return User.createAsync(users);
@@ -48,45 +46,42 @@ var seedUsers = function () {
 
 };
 
-var seedRoutes = function () {
+var seedRoutes = function() {
 
-    var routes = [
-        {
+    var routes = [{
             name: 'testroute',
             userKey: 'testkey11',
             url: 'https://nytimes.com',
             data: [{
-                    name: 'headline',
-                    selector: '.theme-summary .story-heading a',
-                    // indexes: [0, 3, 7]
-                },
-                {
-                    name: 'link',
-                    selector: '.theme-summary .story-heading a',
-                    attr: 'href'
-                }
-            ],
+                name: 'headline',
+                selector: '.theme-summary .story-heading a',
+                // indexes: [0, 3, 7]
+            }, {
+                name: 'link',
+                selector: '.theme-summary .story-heading a',
+                attr: 'href'
+            }],
             config: {
                 returnObj: true
             }
         }
-    ];
+    }];
 
-    return Route.remove().then(function() {
-        return Route.createAsync(routes);
-    });
+return Route.remove().then(function() {
+    return Route.createAsync(routes);
+});
 
 };
 
-connectToDb.then(function () {
-    User.findAsync({}).then(function (users) {
+connectToDb.then(function() {
+    User.findAsync({}).then(function(users) {
         return seedUsers();
     }).then(function() {
         return seedRoutes();
-    }).then(function () {
+    }).then(function() {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
-    }).catch(function (err) {
+    }).catch(function(err) {
         console.error(err);
         process.kill(1);
     });

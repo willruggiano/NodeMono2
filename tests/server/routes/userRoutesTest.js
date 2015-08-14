@@ -225,6 +225,7 @@ describe('Users CRUD routes', function() {
 
   describe('DELETES data', function() {
     var userId;
+    var tempUser;
     beforeEach('seed database', function(done) {
       tempUser = new User(desiredUser)
       tempUser.save()

@@ -29,11 +29,13 @@ var seedUsers = function () {
 
     var users = [
         {
+            name: 'Full Stack',
             email: 'testing@fsa.com',
             password: 'password',
             userKey: 'testkey11',
         },
         {
+            name: 'Barack Obama',
             email: 'obama@gmail.com',
             password: 'potus',
             userKey: 'testkey22',
@@ -51,7 +53,7 @@ var seedRoutes = function () {
     var routes = [
         {
             name: 'testroute',
-            userKey: 'testkey',
+            userKey: 'testkey11',
             url: 'https://nytimes.com',
             data: [{
                     name: 'headline',

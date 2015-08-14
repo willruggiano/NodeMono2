@@ -1,4 +1,4 @@
-app.factory('User', (DS, $state) => {
+app.factory('User', ($state, DS) => {
 
   let User = DS.defineResource({
     name: 'user',

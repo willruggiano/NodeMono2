@@ -1,4 +1,4 @@
-app.factory('Route', (DS) => {
+app.factory('Route', ($state, DS) => {
 
   let Route = DS.defineResource({
     name: 'route',

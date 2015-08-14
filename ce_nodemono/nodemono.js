@@ -1,35 +1,61 @@
-// var html = chrome.extension.getURL('kimono-toolbar.html', function(data) {
-// 	console.log(data);
-// });
-// console.log(html);
-// $("body").prepend('<div class="nodemonoToolbar">Test</div>');
-// $("body").prepend('<div class="navbar-header"><a class="navbar-brand" href="#">nodemono</a></div>');
-// console.log($("body"))
-// console.log($("body"));
-
-//inject angular library
-// var ang = document.createElement("script");
-// ang.setAttribute("scr", "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js")
-// document.getElementsByTagName("head")[0].appendChild(ang);
-//create link element contain some custom styles
-
+//import CSS library
 importCSS(chrome.extension.getURL("css/style.css"));
 importCSS(chrome.extension.getURL("css/bootstrap.min.css"))
-importCSS(chrome.extension.getURL("selectorgadget/selectorgadget.css"))
-importJS(chrome.extension.getURL("jquery.min.js"))
-console.log(jQuery);
-jQuery.noConflict();
-importJS(chrome.extension.getURL("selectorgadget/diff_match_patch.js"))
-importJS(chrome.extension.getURL("selectorgadget/dom.js"))
+importCSS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.css"))
+
+
+// //import Jquery library and selectorgadget
+// importJS(chrome.extension.getURL("jquery.min.js"))
+// console.log(jQuery);
+// jQuery.noConflict();
+// importJS(chrome.extension.getURL("selectorgadget/diff_match_patch.js"))
 // importJS(chrome.extension.getURL("selectorgadget/dom.js"))
-importJS(chrome.extension.getURL("selectorgadget/interface.js"))
+// importJS(chrome.extension.getURL("selectorgadget/interface.js"))
 
-function transformHtml() {
-	// $
-}
+//load selectorgadget combined
+// importJS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.js"))
 
-// window.selectorgadget = new SelectorGadget();
-// console.log(window.selectorgadget);
+//initiating selectorgadget
+window.selector_gadget = new SelectorGadget();
+var SG = window.selector_gadget;
+console.log(SG);
+
+SG.makeInterface();
+SG.clearEverything();
+SG.setMode('interactive');
+
+// var path = jQuerySG('<input>', {
+// 	id: 'sg-status',
+// 	class: 'selectorgadget_ignore'
+// });
+// SG.sg_div.append(path)
+// SG.path_output_field = path.get(0)
+
+// // Add button to dismiss SelectorGadget
+// var btnOk = jQuerySG('<button>', {
+// 	id: 'sg-ok',
+// 	class: 'selectorgadget_ignore'
+// }).text('OK')
+// SG.sg_div.append(btnOk)
+// jQuerySG(btnOk).bind('click', function(event) {
+// 	jQuerySG(SG).unbind()
+// 	jQuerySG(SG.sg_div).unbind()
+// 	SG.unbindAndRemoveInterface()
+// 	SG = null
+// })
+
+// Watch the input field for changes
+// var val = saved = path.val()
+// var tid = setInterval(function() {
+// 	val = path.val()
+// 	if (saved != val) {
+// 		console.log('New path', val, 'matching', (jQuerySG(val).length), 'element(s)')
+// 		saved = val
+// 	}
+// }, 50)
+
+
+
 $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// console.log(data);
 	// $(data).appendTo('body');
@@ -79,7 +105,7 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// To allow `bootstrap()` to continue normally
 	angular.bootstrap(appRoot, ['myApp']);
 	// console.log(angular);
-	console.log('Boot and loaded !');
+	console.log('Angularjs Boot and loaded !');
 });
 
 

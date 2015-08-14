@@ -19,7 +19,7 @@ app.factory('User', ($state, DS) => {
     // functionality added to every instance of User
     methods: {
       go: function() {
-        console.log(`transitioning to user state (${this.name}, ${this._id})`)
+        console.log(`transitioning to user state (${this.name})`)
         $state.go('user', { id: this._id })
       }
     }

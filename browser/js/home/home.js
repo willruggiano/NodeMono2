@@ -6,8 +6,6 @@ app.config(function ($stateProvider) {
           $scope.users = users
           $scope.routes = routes
 
-          console.log(users)
-
           // check whether user agent is running chrome
           $scope.hasChrome = () => navigator.userAgent.toLowerCase().includes('chrome')
         },

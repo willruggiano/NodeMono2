@@ -1,0 +1,18 @@
+
+    <div class="nodemonoToolbar navbar-inverse" ng-controller = "ToolbarCtrl">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">nodemono</a>
+        </div>
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Property Name" ng-model="collection.property">
+            </div>
+        </form>
+            <button type="submit" class="btn btn-primary" ng-click="buttonClicked()">Submit</button>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a class=""> Data</a></li>
+            <li><a class=""> Files</a></li>
+            <li><a class=" "> Remove</a></li>
+            <li><span>" "</span></li>
+        </ul>
+    </div>

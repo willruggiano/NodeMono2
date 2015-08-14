@@ -1,17 +1,26 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
         <div class="navbar-header">
-            <nodemono-logo></nodemono-logo>
+            <nodemono-logo ui-sref='home'></nodemono-logo>
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
-        <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
-            <a ng-click="logout()">Logout</a>
+        <div class='nav navbar-right'>
+          <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+          <div ng-show='user' class='welcome'>
+            <span class='navbar-text'>Welcome, <span ng-click='user.go()'>{{ user.name }}</span>!</span>
+            <button ng-click='logout()' class='btn login-button'>Logout</button>
+          </div>
+        </div>
+        <div class='nav navbar-right divider'>
+          <span class='glyphicon glyphicon-search'></span>
+        </div>
+        <div class='nav navbar-right'>
+          <button
+            ng-repeat='item in items'
+            ng-show='!item.auth || isLoggedIn()'
+            ui-sref='{{ item.state }}'
+            class='btn login-button'
+            >{{ item.label }}
+          </button>
         </div>
     </div>
 </nav>

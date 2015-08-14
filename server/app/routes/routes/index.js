@@ -14,15 +14,16 @@ router.get('/', function(req, res, next) {
         .then(null, next);
 });
 
-// return crawled data for a route
-router.get('/:userKey/:routeName', function(req, res, next) {
-	// do validation with the userkey
+// return crawled data for a apiRoute    
+//-->nodemono.com/api/routes/:userId/:apiRouteName
+router.get('/:userId/:apiRouteName', function(req, res, next) {
+    // do validation with the userId
     Route.findOne({
-    	name: req.params.routeName,
-    	userKey: req.params.userKey
-    }).exec()
-        .then(function(route) {
-            return route.getCrawlData();
+            name: req.params.apiRouteName,
+            userId: req.params.userId
+        }).exec()
+        .then(function(apiRoute) {
+            return apiRoute.getCrawlData();
         })
         .then(function(crawledData) {
             res.json(crawledData);
@@ -30,27 +31,27 @@ router.get('/:userKey/:routeName', function(req, res, next) {
         .then(null, next);
 });
 
-// create a new route (userKey and routeName in the body)
+// create a new apiRoute (userId and apiRouteName in the body)
 router.post('/', function(req, res, next) {
-	// req.body should have name, userKey, url, data, and config
-	var newRoute = new Route(req.body);
-	newRoute.save()
-		.then(function(route) {
-			// return the crawled data
-			return route.getCrawlData();
-		})
-		.then(function(data) {
-			res.json(data);
-		})
-		.then(null, next);
+    // req.body should have name, userId, url, data, and config
+    var newRoute = new Route(req.body);
+    newRoute.save()
+        .then(function(apiRoute) {
+            // return the crawled data
+            return apiRoute.getCrawlData();
+        })
+        .then(function(data) {
+            res.json(data);
+        })
+        .then(null, next);
 });
 
-// for finding route by id
+// for finding apiRoute by id
 router.param('id', function(req, res, next, id) {
     Route.findById(id).exec()
-        .then(function(route) {
-            if (!route) throw Error('Not Found');
-            req.route = route;
+        .then(function(apiRoute) {
+            if (!apiRoute) throw Error('Not Found');
+            req.apiRoute = apiRoute;
             next();
         })
         .then(null, function(e) {
@@ -60,24 +61,24 @@ router.param('id', function(req, res, next, id) {
         });
 });
 
-// get a route by id
-router.get('/:id', function(req, res) {
-    res.json(req.route);
+// get a apiRoute by id
+router.get('/:id', function(req, res, next) {
+    res.json(req.apiRoute);
 });
 
-// update a route by id
+// update a apiRoute by id
 router.put('/:id', function(req, res, next) {
-    _.extend(req.route, req.body);
-    req.route.save()
-        .then(function(route) {
-            res.json(route);
+    _.extend(req.apiRoute, req.body);
+    req.apiRoute.save()
+        .then(function(apiRoute) {
+            res.json(apiRoute);
         })
         .then(null, next);
 });
 
-// delete a route by id
+// delete a apiRoute by id
 router.delete('/:id', function(req, res, next) {
-    req.route.remove()
+    req.apiRoute.remove()
         .then(function() {
             res.status(204).end();
         })

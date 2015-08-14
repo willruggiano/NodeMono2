@@ -24,16 +24,36 @@ var connectToDb = require('./server/db');
 var User = Promise.promisifyAll(mongoose.model('User'));
 var Route = Promise.promisifyAll(mongoose.model('Route'));
 
+var routes = [{
+  name: 'testroute',
+  url: 'https://nytimes.com',
+  data: [
+    {
+      name: 'headline',
+      selector: '.theme-summary .story-heading a',
+      // indexes: [0, 3, 7]
+    },
+    {
+      name: 'link',
+      selector: '.theme-summary .story-heading a',
+      attr: 'href'
+    }
+  ],
+  config: {
+      returnObj: true
+  }
+}];
 
-var seedUsers = function () {
+var seedUsers = function() {
 
     var users = [
         {
+            name: 'Full Stack',
             email: 'testing@fsa.com',
             password: 'password',
-            userKey: 'testkey11',
         },
         {
+            name: 'Barack Obama',
             email: 'obama@gmail.com',
             password: 'potus',
             userKey: 'testkey22',
@@ -92,21 +112,22 @@ var seedRoutes = function () {
         }
     ];
 
+var seedRoutes = function (routes) {
     return Route.remove().then(function() {
         return Route.createAsync(routes);
     });
-
 };
 
-connectToDb.then(function () {
-    User.findAsync({}).then(function (users) {
+connectToDb.then(function() {
+    User.findAsync({}).then(function(users) {
         return seedUsers();
+    }).then(function(users) {
+        routes[0].user = users[0]._id;
+        return seedRoutes(routes);
     }).then(function() {
-        return seedRoutes();
-    }).then(function () {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
-    }).catch(function (err) {
+    }).catch(function(err) {
         console.error(err);
         process.kill(1);
     });

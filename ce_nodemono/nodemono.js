@@ -18,33 +18,17 @@ importCSS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.css"))
 //initiating selectorgadget
 window.selector_gadget = new SelectorGadget();
 var SG = window.selector_gadget;
-console.log(SG);
+console.log(jQuerySG);
 
-SG.makeInterface();
-SG.clearEverything();
-SG.setMode('interactive');
 
 // var path = jQuerySG('<input>', {
 // 	id: 'sg-status',
 // 	class: 'selectorgadget_ignore'
-// });
+// })
+// SG.sg_div = jQuerySG('<div>').attr('id', 'selectorgadget_main').addClass('selectorgadget_bottom').addClass('selectorgadget_ignore');
 // SG.sg_div.append(path)
 // SG.path_output_field = path.get(0)
 
-// // Add button to dismiss SelectorGadget
-// var btnOk = jQuerySG('<button>', {
-// 	id: 'sg-ok',
-// 	class: 'selectorgadget_ignore'
-// }).text('OK')
-// SG.sg_div.append(btnOk)
-// jQuerySG(btnOk).bind('click', function(event) {
-// 	jQuerySG(SG).unbind()
-// 	jQuerySG(SG.sg_div).unbind()
-// 	SG.unbindAndRemoveInterface()
-// 	SG = null
-// })
-
-// Watch the input field for changes
 // var val = saved = path.val()
 // var tid = setInterval(function() {
 // 	val = path.val()
@@ -54,7 +38,25 @@ SG.setMode('interactive');
 // 	}
 // }, 50)
 
+SG.makeInterface();
+SG.clearEverything();
+SG.setMode('interactive');
+// var path = jQuerySG('<input>', {
+// 	id: 'selectorgadget_path_field',
+// 	class: 'selectorgadget_ignore selectorgadget_input_field'
+// });
 
+
+// console.log('saved', saved);
+// var tid = setInterval(function() {
+// val = $("selectorgadget_path_field").val();
+// console.log(val);
+console.log(SG.path_output_field.value);
+// if (saved != val) {
+// 	console.log('New path', val, 'matching', (jQuerySG(val).length), 'element(s)')
+// 	saved = val
+// }
+// }, 500)
 
 $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// console.log(data);
@@ -84,20 +86,82 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 		})
 		.controller('ToolbarCtrl', function MyCtrl($scope) {
-			$scope.property = "property1"
+			// $scope.property = "property1"
+			// var tid = setInterval(function() {
+
+			// 	$scope.property = SG.path_output_field.value
+
+			// }, 500);
+
 			$scope.buttonClicked = function() {
 				// console.log($scope.collection);
+
 				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
 
-				$('a').filter(function(element) {
-					return element.href !== "";
-				}).forEach(function(element) {
-					$()
-				});
 			}
 			$scope.selectCollection = function() {
 
 			}
+
+			$scope.doneClicked = function() {
+
+			}
+		})
+		.factory("Collection", function($http, $scope, $rootScope) {
+			function Collection(props) {
+				angular.extend(this, props);
+				return this;
+
+			};
+
+			Collection.clearEverything = function() {
+				$rootScope.collection = {};
+			}
+
+			return Collection;
+		})
+		.factory("User", function($http) {
+			function User(props) {
+				angular.extend(this, props)
+				return this
+			}
+
+			User.url = '/api/users/';
+
+			Object.defineProperty(User.prototype, 'url', {
+				get: function() {
+					return User.url + this._id
+				}
+			})
+			User.prototype.isNew = function() {
+				return !this._id
+			};
+
+			User.prototype.fetch = function() {
+				return $http.get(this.url)
+					.then(res = > new User(res.data))
+			};
+
+			User.prototype.save = function() {
+				let verb
+				let url
+				if (this.isNew()) {
+					verb = 'post'
+					url = User.url
+				} else {
+					verb = 'put'
+					url = this.url
+				}
+				return $http[verb](url, this)
+					.then(res = > new User(res.data))
+			}
+			User.prototype.destroy = function() {
+				return $http.delete(this.url)
+			}
+
+			return User;
+
+
 		});
 
 	/* Manually bootstrap the Angular app */

@@ -6,7 +6,7 @@ var schema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	userKey: {
+	userId: {
 		type: String,
 		required: true
 	},
@@ -22,20 +22,6 @@ var schema = new mongoose.Schema({
 		// optionally extract certain indexes from selected elements
 		indexes: [Number]
 	}],
-	lastTimeCrawled: {
-		type: Date,
-		default: Date.now
-	},
-	lastCrawlStatus: {
-		// true if successful, false if failed
-		type: Boolean,
-		default: true
-	},
-	count: {
-		// times crawled
-		type: Number,
-		default: 0
-	},
 	// options for crawled data
 	config: {
 		// concat data fields into an array of objects
@@ -47,15 +33,25 @@ var schema = new mongoose.Schema({
 		limitNum: {
 			type: Number
 		}
-	}
+	},
+
+
+	//extra information about the crawler
+	lastTimeCrawled: {
+		type: Date,
+		default: Date.now
+	},
+	lastCrawlSucceeded: {
+		// true if successful, false if failed
+		type: Boolean,
+		default: true
+	},
+	count: {
+		// times crawled
+		type: Number,
+		default: 0
+	},
 });
-
-// add an on save method to generate the user key (later)
-
-
-
-// also crawl the route when it's created
-
 
 
 // add the crawl function to each mongoose route object
@@ -68,11 +64,16 @@ schema.methods.getCrawlData = function getCrawlData() {
 		.then(function(crawledData) {
 			// update the last time crawled
 			self.lastTimeCrawled = Date.now();
+			self.lastCrawlSucceeded = true;
+			self.count++;
+			self.save();
 			return crawledData;
 		})
 		.catch(function(err) {
 			// the crawl failed, so log that
-			self.lastCrawlStatus = false;
+			self.lastTimeCrawled = Date.now()
+			self.lastCrawlSucceeded = false;
+			self.save()
 			console.log('there was an error in getCrawlData method');
 		});
 };

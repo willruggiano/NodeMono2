@@ -5,6 +5,13 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Route');
 var _ = require('lodash');
 
+//get all
+router.get('/', (req, res, next) => {
+    Route.find().exec()
+        .then(routes => res.json(routes))
+        .then(null, next)
+})
+
 // return crawled data for a apiRoute    
 //-->nodemono.com/api/routes/:userId/:apiRouteName
 router.get('/:userId/:apiRouteName', function(req, res, next) {

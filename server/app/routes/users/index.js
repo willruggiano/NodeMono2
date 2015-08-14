@@ -50,7 +50,7 @@ router.param('id', function(req, res, next, id) {
 
 // get a user by id
 router.get('/:id', function(req, res) {
-    res.json(req.user);
+    res.status(200).json(req.user);
 });
 
 // update a user by id

@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, User) {
 
     return {
         restrict: 'E',
@@ -7,9 +7,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         link: function (scope) {
 
             scope.items = [
-                { label: 'Home', state: 'home' },
-                //{ label: 'About', state: 'about' },
-                //{ label: 'Documentation', state: 'docs' },
+                // { label: 'Home', state: 'home' },
+                { label: 'Documentation', state: 'docs' },
+                { label: 'About', state: 'about' },
+                { label: 'Help', state: 'help' },
                 //{ label: 'Members Only', state: 'membersOnly', auth: true }
             ];
 
@@ -26,9 +27,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             };
 
             var setUser = function () {
-                AuthService.getLoggedInUser().then(function (user) {
-                    scope.user = user;
-                });
+                AuthService.getLoggedInUser()
+                  .then(user => User.find(user._id))
+                  .then(user => {
+                    scope.user = user
+                    return user
+                  })
             };
 
             var removeUser = function () {

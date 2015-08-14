@@ -1,5 +1,7 @@
 'use strict';
 
+require('babel/register')
+
 // All used modules.
 var babel = require('gulp-babel');
 var gulp = require('gulp');
@@ -22,15 +24,15 @@ var istanbul = require('gulp-istanbul');
 // --------------------------------------------------------------
 
 // Live reload business.
-gulp.task('reload', function () {
+gulp.task('reload', function() {
     livereload.reload();
 });
 
-gulp.task('reloadCSS', function () {
+gulp.task('reloadCSS', function() {
     return gulp.src('./public/style.css').pipe(livereload());
 });
 
-gulp.task('lintJS', function () {
+gulp.task('lintJS', function() {
 
     return gulp.src(['./browser/js/**/*.js', './server/**/*.js'])
         .pipe(eslint())
@@ -39,7 +41,7 @@ gulp.task('lintJS', function () {
 
 });
 
-gulp.task('buildJS', ['lintJS'], function () {
+gulp.task('buildJS', ['lintJS'], function() {
     return gulp.src(['./browser/js/app.js', './browser/js/**/*.js'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -49,21 +51,27 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(gulp.dest('./public'));
 });
 
-gulp.task('testServerJS', function () {
-	return gulp.src('./tests/server/**/*.js', {
-		read: false
-	}).pipe(mocha({ reporter: 'spec' }));
+gulp.task('testServerJS', function() {
+    return gulp.src('./tests/server/**/*.js', {
+        read: false
+    }).pipe(mocha({
+        reporter: 'spec'
+    }));
 });
 
-gulp.task('testServerJSWithCoverage', function (done) {
+gulp.task('testServerJSWithCoverage', function(done) {
     gulp.src('./server/**/*.js')
         .pipe(istanbul({
             includeUntested: true
         }))
         .pipe(istanbul.hookRequire())
-        .on('finish', function () {
-            gulp.src('./tests/server/**/*.js', {read: false})
-                .pipe(mocha({reporter: 'spec'}))
+        .on('finish', function() {
+            gulp.src('./tests/server/**/*.js', {
+                    read: false
+                })
+                .pipe(mocha({
+                    reporter: 'spec'
+                }))
                 .pipe(istanbul.writeReports({
                     dir: './coverage/server/',
                     reporters: ['html', 'text']
@@ -72,14 +80,14 @@ gulp.task('testServerJSWithCoverage', function (done) {
         });
 });
 
-gulp.task('testBrowserJS', function (done) {
+gulp.task('testBrowserJS', function(done) {
     karma.start({
         configFile: __dirname + '/tests/browser/karma.conf.js',
         singleRun: true
     }, done);
 });
 
-gulp.task('buildCSS', function () {
+gulp.task('buildCSS', function() {
     return gulp.src('./browser/scss/main.scss')
         .pipe(sass({
             errLogToConsole: true
@@ -88,22 +96,27 @@ gulp.task('buildCSS', function () {
         .pipe(gulp.dest('./public'));
 });
 
-gulp.task('seedDB', function () {
+gulp.task('seedDB', function() {
 
-    var users = [
-        { email: 'testing@fsa.com', password: 'testing123' },
-        { email: 'joe@fsa.com', password: 'rainbowkicks' },
-        { email: 'obama@gmail.com', password: 'potus' }
-    ];
+    var users = [{
+        email: 'testing@fsa.com',
+        password: 'testing123'
+    }, {
+        email: 'joe@fsa.com',
+        password: 'rainbowkicks'
+    }, {
+        email: 'obama@gmail.com',
+        password: 'potus'
+    }];
 
     var dbConnected = require('./server/db');
 
-    return dbConnected.then(function () {
+    return dbConnected.then(function() {
         var User = require('mongoose').model('User');
         return User.create(users);
-    }).then(function () {
+    }).then(function() {
         process.kill(0);
-    }).catch(function (err) {
+    }).catch(function(err) {
         console.error(err);
     });
 
@@ -114,7 +127,7 @@ gulp.task('seedDB', function () {
 // Production tasks
 // --------------------------------------------------------------
 
-gulp.task('buildCSSProduction', function () {
+gulp.task('buildCSSProduction', function() {
     return gulp.src('./browser/scss/main.scss')
         .pipe(sass())
         .pipe(rename('style.css'))
@@ -122,7 +135,7 @@ gulp.task('buildCSSProduction', function () {
         .pipe(gulp.dest('./public'))
 });
 
-gulp.task('buildJSProduction', function () {
+gulp.task('buildJSProduction', function() {
     return gulp.src(['./browser/js/app.js', './browser/js/**/*.js'])
         .pipe(concat('main.js'))
         .pipe(babel())
@@ -138,7 +151,7 @@ gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction']);
 // Composed tasks
 // --------------------------------------------------------------
 
-gulp.task('build', function () {
+gulp.task('build', function() {
     if (process.env.NODE_ENV === 'production') {
         runSeq(['buildJSProduction', 'buildCSSProduction']);
     } else {
@@ -146,16 +159,16 @@ gulp.task('build', function () {
     }
 });
 
-gulp.task('default', function () {
+gulp.task('default', function() {
 
     livereload.listen();
     gulp.start('build');
 
-    gulp.watch('browser/js/**', function () {
+    gulp.watch('browser/js/**', function() {
         runSeq('buildJS', 'reload');
     });
 
-    gulp.watch('browser/scss/**', function () {
+    gulp.watch('browser/scss/**', function() {
         runSeq('buildCSS', 'reloadCSS');
     });
 

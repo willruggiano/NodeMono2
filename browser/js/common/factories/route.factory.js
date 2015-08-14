@@ -8,10 +8,10 @@ app.factory('Route', ($state, DS) => {
         user: {
           // local field is for linking relations
           // route.user -> user(owner) of the route
-          localField: 'user',
+          localField: '_user',
           // local key is the "join" field
           // the name of the field on the route that points to its parent user
-          localKey: 'userKey',
+          localKey: 'user',
           parent: true
         }
       }

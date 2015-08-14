@@ -6,8 +6,9 @@ var schema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	userKey: {
-		type: String,
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
 		required: true
 	},
 	url: {

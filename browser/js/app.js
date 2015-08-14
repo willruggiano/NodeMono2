@@ -11,6 +11,16 @@ app.config(function ($urlRouterProvider, $locationProvider, DSProvider, DSHttpAd
     DSProvider.defaults.basePath = '/api'
     DSProvider.defaults.idAttribute = '_id'
 
+
+    // a method to the DSProvider defaults object that automatically
+    // checks if there is any data in the cache for a given service before
+    // pinging the database
+    DSProvider.defaults.getOrFind = function(service){
+      var data = this.getAll()
+      if (data.length) return Promise.resolve(angular.copy(data))
+      else return this.findAll().then(data => angular.copy(data))
+    }
+
     // Mongoose Relation Fix (fixes deserialization)
     // From http://plnkr.co/edit/3z90PD9wwwhWdnVrZqkB?p=preview
     // This was shown to us by @jmdobry, the idea here is that

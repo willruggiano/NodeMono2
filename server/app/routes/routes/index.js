@@ -5,26 +5,26 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Route');
 var _ = require('lodash');
 
-//get all
+// get all routes with optional query string
 router.get('/', (req, res, next) => {
-    Route.find().exec()
-        .then(routes => res.json(routes))
+    Route.find(req.query).exec()
+        .then(routes => res.status(200).json(routes))
         .then(null, next)
 })
 
-// return crawled data for a apiRoute    
+// return crawled data for a apiRoute
 //-->nodemono.com/api/routes/:userId/:apiRouteName
 router.get('/:userId/:apiRouteName', function(req, res, next) {
     // do validation with the userId
     Route.findOne({
             name: req.params.apiRouteName,
-            userId: req.params.userId
+            user: req.params.userId
         }).exec()
         .then(function(apiRoute) {
             return apiRoute.getCrawlData();
         })
         .then(function(crawledData) {
-            res.json(crawledData);
+            res.status(200).json(crawledData);
         })
         .then(null, next);
 });
@@ -39,7 +39,7 @@ router.post('/', function(req, res, next) {
             return apiRoute.getCrawlData();
         })
         .then(function(data) {
-            res.json(data);
+            res.status(201).json(data);
         })
         .then(null, next);
 });
@@ -61,7 +61,7 @@ router.param('id', function(req, res, next, id) {
 
 // get a apiRoute by id
 router.get('/:id', function(req, res, next) {
-    res.json(req.apiRoute);
+    res.status(200).json(req.apiRoute);
 });
 
 // update a apiRoute by id
@@ -69,7 +69,7 @@ router.put('/:id', function(req, res, next) {
     _.extend(req.apiRoute, req.body);
     req.apiRoute.save()
         .then(function(apiRoute) {
-            res.json(apiRoute);
+            res.status(201).json(apiRoute);
         })
         .then(null, next);
 });

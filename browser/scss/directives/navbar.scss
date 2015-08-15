@@ -39,6 +39,16 @@ navbar {
     }
   }
 
+  .nav {
+    display: flex;
+    justify-content: center;
+
+    .navbar-search {
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid $nodemono-gray;
+    }
+  }
 
   nodemono-logo {
     margin-right: 20px;

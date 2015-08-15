@@ -43,6 +43,13 @@ navbar {
           cursor: pointer; }
           navbar .navbar.navbar-static-top .container .divider span:hover {
             color: #f31214; }
+  navbar .nav {
+    display: flex;
+    justify-content: center; }
+    navbar .nav .navbar-search {
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid #969696; }
   navbar nodemono-logo {
     margin-right: 20px;
     height: inherit; }

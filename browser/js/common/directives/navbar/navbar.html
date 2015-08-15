@@ -11,7 +11,10 @@
           </div>
         </div>
         <div class='nav navbar-right divider'>
-          <span class='glyphicon glyphicon-search'></span>
+          <span class='glyphicon glyphicon-search' ng-click='toggle()'></span>
+        </div>
+        <div class='nav navbar-right'>
+          <input ng-if='show' ng-enter='search()' class='navbar-search' type='text' placeholder='search for something...'></input>
         </div>
         <div class='nav navbar-right'>
           <button

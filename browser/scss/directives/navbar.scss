@@ -2,19 +2,62 @@ navbar {
 
   display: block;
   background: white;
-  border-bottom: 1px solid black;
-  box-shadow: 1px 1px 14px -3px black;
+  border-bottom: 1px solid $nodemono-gray;
+  height: 50px;
 
-  .container {
-    width: 91%;
-    max-width: 1340px;
-    padding-top: 20px;
+  .navbar {
+
+    &.navbar-static-top {
+      height: inherit;
+
+      .container {
+        width: $nodemono-width;
+        height: inherit;
+
+        & > * {
+          box-sizing: border-box;
+          height: 100%;
+        }
+
+        .divider {
+          background: lighten($nodemono-gray, 30%);
+          border-bottom: 1px solid $nodemono-gray;
+          width: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          span {
+            color: darken($nodemono-gray, 10%);
+            cursor: pointer;
+
+            &:hover { color: $nodemono-red; }
+          }
+        }
+      }
+    }
   }
 
-  fullstack-logo {
-    margin-top: 5px;
+  .nav {
+    display: flex;
+    justify-content: center;
+
+    .navbar-search {
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid $nodemono-gray;
+    }
+  }
+
+  nodemono-logo {
     margin-right: 20px;
-    width: 40px;
+    height: inherit;
+
+    & > img {
+      box-sizing: border-box;
+      padding: 5px;
+      width: 50px;
+    }
   }
 
   a {
@@ -22,37 +65,32 @@ navbar {
     font-size: 16px;
   }
 
-  .nav > li > a {
-    cursor: pointer;
-    transition: color 0.2s;
-    &.active {
-      color: darken(#f31214, 10%);
-    }
-    &:hover {
-      background: none;
-      color: #f31214;
-    }
-    &:focus {
-      background: none;
-    }
-  }
-
   .login-button {
+    box-sizing: border-box;
     float: right;
-    border: 1px solid black;
-    margin-top: 10px;
     background: none;
     outline: none !important;
+    height: 100%;
+    transition: color 0.2s;
+
+    &.active { color: darken($nodemono-red, 10%); }
+    &:hover { color: $nodemono-red; }
   }
 
   .welcome {
     float: right;
-    margin-top: 12px;
+    height: 100%;
+
     span {
-      color: white;
+      color: $nodemono-gray;
+
+      span {
+        cursor: pointer;
+
+        &:hover { color: $nodemono-red; }
+      }
     }
-    a {
-      color: #f30046;
+    button {
       cursor: pointer;
     }
   }

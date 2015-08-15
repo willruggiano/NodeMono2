@@ -1,4 +1,11 @@
 <section id="home">
-    <fullstack-logo></fullstack-logo>
-    <rando-greeting></rando-greeting>
+  <div class='row'>
+    <h3 class='page-header'>Welcome to <span>Nodemono Labs</span></h3>
+    <div ng-if='hasChrome()'>
+      <nodemono-logo ng-click='installChromeExt()'></nodemono-logo>
+      <h4>Get started. Click to install.</h4>
+    </div>
+    <pre>{{ users | json }}</pre>
+    <pre>{{ routes | json }}</pre>
+  </div>
 </section>

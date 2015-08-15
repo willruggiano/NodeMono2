@@ -1,12 +1,21 @@
 #home {
-  fullstack-logo {
+  nodemono-logo {
     padding-top: 30px;
     width: 150px;
     margin: 0 auto;
   }
-  h1 {
+
+  h3, h4 {
     margin-top: 40px;
     text-align: center;
+
+    span {
+      color: $nodemono-red;
+    }
+  }
+
+  h4 {
+    color: $nodemono-gray;
+    font-weight: bolder;
   }
 }
-

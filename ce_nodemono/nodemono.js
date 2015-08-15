@@ -15,10 +15,14 @@ importCSS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.css"))
 //load selectorgadget combined
 // importJS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.js"))
 
+//load our js
+
+importJS(chrome.extension.getURL("main.js"));
+
 //initiating selectorgadget
-window.selector_gadget = new SelectorGadget();
-var SG = window.selector_gadget;
-console.log(jQuerySG);
+// window.selector_gadget = new SelectorGadget();
+// var SG = window.selector_gadget;
+// console.log(jQuerySG);
 
 
 // var path = jQuerySG('<input>', {
@@ -38,9 +42,9 @@ console.log(jQuerySG);
 // 	}
 // }, 50)
 
-SG.makeInterface();
-SG.clearEverything();
-SG.setMode('interactive');
+// SG.makeInterface();
+// SG.clearEverything();
+// SG.setMode('interactive');
 // var path = jQuerySG('<input>', {
 // 	id: 'selectorgadget_path_field',
 // 	class: 'selectorgadget_ignore selectorgadget_input_field'
@@ -51,7 +55,7 @@ SG.setMode('interactive');
 // var tid = setInterval(function() {
 // val = $("selectorgadget_path_field").val();
 // console.log(val);
-console.log(SG.path_output_field.value);
+// console.log(SG.path_output_field.value);
 // if (saved != val) {
 // 	console.log('New path', val, 'matching', (jQuerySG(val).length), 'element(s)')
 // 	saved = val
@@ -79,6 +83,34 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 	window.app = angular
 		.module('myApp', [])
+		.controller('NodemonoMainCtrl', function($scope) {
+			$scope.collection = {};
+			console.log('go here')
+			// this.message = "Hello";
+
+		})
+		.controller('ToolbarCtrl', function MyCtrl($scope) {
+			// $scope.property = "property1"
+			// var tid = setInterval(function() {
+
+			// 	$scope.property = SG.path_output_field.value
+
+			// }, 500);
+
+			$scope.buttonClicked = function() {
+				// console.log($scope.collection);
+
+				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
+
+			}
+			$scope.selectCollection = function() {
+
+			}
+
+			$scope.doneClicked = function() {
+
+			}
+		})
 		.factory("Collection", function($http, $scope, $rootScope) {
 			function Collection(props) {
 				angular.extend(this, props);
@@ -198,7 +230,4 @@ function importCSS(href) {
 	css.setAttribute("type", "text/css");
 	css.setAttribute("href", href);
 	document.getElementsByTagName("head")[0].appendChild(css);
-
-
-
 }

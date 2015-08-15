@@ -1,17 +1,26 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, User) {
 
     return {
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
-        link: function (scope) {
+        link: function (scope, elem, attr) {
 
             scope.items = [
-                { label: 'Home', state: 'home' },
-                { label: 'About', state: 'about' },
+                // { label: 'Home', state: 'home' },
                 { label: 'Documentation', state: 'docs' },
-                { label: 'Members Only', state: 'membersOnly', auth: true }
+                { label: 'About', state: 'about' },
+                { label: 'Help', state: 'help' },
+                //{ label: 'Members Only', state: 'membersOnly', auth: true }
             ];
+
+            scope.show = false
+
+            scope.toggle = () => scope.show = !scope.show
+
+            scope.search = () => {
+              console.log('searching for something...')
+            }
 
             scope.user = null;
 
@@ -26,9 +35,12 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
             };
 
             var setUser = function () {
-                AuthService.getLoggedInUser().then(function (user) {
-                    scope.user = user;
-                });
+                AuthService.getLoggedInUser()
+                  .then(user => User.find(user._id))
+                  .then(user => {
+                    scope.user = user
+                    return user
+                  })
             };
 
             var removeUser = function () {

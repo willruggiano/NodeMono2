@@ -24,7 +24,7 @@ router.get('/:userId/:apiRouteName', function(req, res, next) {
             return apiRoute.getCrawlData();
         })
         .then(function(crawledData) {
-            res.json(crawledData);
+            res.status(200).json(crawledData);
         })
         .then(null, next);
 });
@@ -39,7 +39,7 @@ router.post('/', function(req, res, next) {
             return apiRoute.getCrawlData();
         })
         .then(function(data) {
-            res.json(data);
+            res.status(201).json(data);
         })
         .then(null, next);
 });
@@ -61,7 +61,7 @@ router.param('id', function(req, res, next, id) {
 
 // get a apiRoute by id
 router.get('/:id', function(req, res, next) {
-    res.json(req.apiRoute);
+    res.status(200).json(req.apiRoute);
 });
 
 // update a apiRoute by id
@@ -69,7 +69,7 @@ router.put('/:id', function(req, res, next) {
     _.extend(req.apiRoute, req.body);
     req.apiRoute.save()
         .then(function(apiRoute) {
-            res.json(apiRoute);
+            res.status(201).json(apiRoute);
         })
         .then(null, next);
 });

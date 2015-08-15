@@ -18,6 +18,7 @@ app.factory('Route', ($state, DS) => {
     methods: {
       go: function() {
         console.log(`transitioning to route state (${this.name}, ${this._id})`)
+        // $state.go('route', { id: this._id })
       }
     }
   })

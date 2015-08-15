@@ -15,11 +15,8 @@ app.factory('User', ($state, Route, DS) => {
         }
       }
     },
-
-    // functionality added to every instance of User
-    methods: {
+    methods: {  // functionality added to every instance of User
       go: function() {
-        console.log(`transitioning to user state (${this.name})`)
         $state.go('user', { id: this._id })
       },
       getRoutes: function() {

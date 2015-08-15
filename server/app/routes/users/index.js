@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
             req.logIn(user, function(loginErr) {
                 if (loginErr) return next(loginErr);
                 // send back user without password and salt
-                res.status(200).send(_.omit(user.toJSON(), ['password', 'salt']));
+                res.status(201).send(_.omit(user.toJSON(), ['password', 'salt']));
             });
         })
         .then(null, next);
@@ -56,7 +56,7 @@ router.put('/:id', function(req, res, next) {
     _.extend(req.user, req.body);
     req.user.save()
         .then(function(user) {
-            res.json(user);
+            res.status(201).json(user);
         })
         .then(null, next);
 });
@@ -69,12 +69,5 @@ router.delete('/:id', function(req, res, next) {
         })
         .then(null, next);
 });
-
-// router.get('/:id/routes', (res, res, next) => {
-//   Route.find({ 'user': req.params.id }).exec()
-//     .then(routes => res.status(200).json(routes))
-//     .then(null, next)
-// })
-
 
 module.exports = router;

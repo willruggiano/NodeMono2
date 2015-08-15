@@ -11,8 +11,7 @@ navbar {
       height: inherit;
 
       .container {
-        width: 90%;
-        max-width: 1340px;
+        width: $nodemono-width;
         height: inherit;
 
         & > * {
@@ -39,6 +38,16 @@ navbar {
     }
   }
 
+  .nav {
+    display: flex;
+    justify-content: center;
+
+    .navbar-search {
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid $nodemono-gray;
+    }
+  }
 
   nodemono-logo {
     margin-right: 20px;

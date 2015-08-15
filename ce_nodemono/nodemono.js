@@ -15,10 +15,14 @@ importCSS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.css"))
 //load selectorgadget combined
 // importJS(chrome.extension.getURL("selectorgadget/selectorgadget_combined.js"))
 
+//load our js
+
+importJS(chrome.extension.getURL("main.js"));
+
 //initiating selectorgadget
-window.selector_gadget = new SelectorGadget();
-var SG = window.selector_gadget;
-console.log(jQuerySG);
+// window.selector_gadget = new SelectorGadget();
+// var SG = window.selector_gadget;
+// console.log(jQuerySG);
 
 
 // var path = jQuerySG('<input>', {
@@ -38,9 +42,9 @@ console.log(jQuerySG);
 // 	}
 // }, 50)
 
-SG.makeInterface();
-SG.clearEverything();
-SG.setMode('interactive');
+// SG.makeInterface();
+// SG.clearEverything();
+// SG.setMode('interactive');
 // var path = jQuerySG('<input>', {
 // 	id: 'selectorgadget_path_field',
 // 	class: 'selectorgadget_ignore selectorgadget_input_field'
@@ -51,7 +55,7 @@ SG.setMode('interactive');
 // var tid = setInterval(function() {
 // val = $("selectorgadget_path_field").val();
 // console.log(val);
-console.log(SG.path_output_field.value);
+// console.log(SG.path_output_field.value);
 // if (saved != val) {
 // 	console.log('New path', val, 'matching', (jQuerySG(val).length), 'element(s)')
 // 	saved = val
@@ -128,36 +132,36 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 			User.url = '/api/users/';
 
-		// Object.defineProperty(User.prototype, 'url', {
-		// 	get: function() {
-		// 		return User.url + this._id
-		// 	}
-		// })
-		// User.prototype.isNew = function() {
-		// 	return !this._id
-		// };
+			// Object.defineProperty(User.prototype, 'url', {
+			// 	get: function() {
+			// 		return User.url + this._id
+			// 	}
+			// })
+			// User.prototype.isNew = function() {
+			// 	return !this._id
+			// };
 
-		// User.prototype.fetch = function() {
-		// 	return $http.get(this.url)
-		// 		.then(res => new User(res.data))
-		// };
+			// User.prototype.fetch = function() {
+			// 	return $http.get(this.url)
+			// 		.then(res => new User(res.data))
+			// };
 
-		// User.prototype.save = function() {
-		// 	let verb
-		// 	let url
-		// 	if (this.isNew()) {
-		// 		verb = 'post'
-		// 		url = User.url
-		// 	} else {
-		// 		verb = 'put'
-		// 		url = this.url
-		// 	}
-		// 	return $http[verb](url, this)
-		// 		.then(res => new User(res.data));
-		// }
-		// User.prototype.destroy = function() {
-		// 	return $http.delete(this.url)
-		// }
+			// User.prototype.save = function() {
+			// 	let verb
+			// 	let url
+			// 	if (this.isNew()) {
+			// 		verb = 'post'
+			// 		url = User.url
+			// 	} else {
+			// 		verb = 'put'
+			// 		url = this.url
+			// 	}
+			// 	return $http[verb](url, this)
+			// 		.then(res => new User(res.data));
+			// }
+			// User.prototype.destroy = function() {
+			// 	return $http.delete(this.url)
+			// }
 
 			return User;
 
@@ -189,7 +193,4 @@ function importCSS(href) {
 	css.setAttribute("type", "text/css");
 	css.setAttribute("href", href);
 	document.getElementsByTagName("head")[0].appendChild(css);
-
-
-
 }

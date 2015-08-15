@@ -71,8 +71,8 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	appRoot.dataset.ngController = 'NodemonoMainCtrl as ctrl';
 
 	appRoot.id = "nodemonofy"
-	// Insert elements into the DOM
-	// document.body.pre(div);
+		// Insert elements into the DOM
+		// document.body.pre(div);
 	$(div).prependTo('body')
 	div.appendChild(appRoot);
 	$(data).appendTo('#nodemonofy');
@@ -82,7 +82,7 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 		.controller('NodemonoMainCtrl', function($scope) {
 			$scope.collection = {};
 			console.log('go here')
-			// this.message = "Hello";
+				// this.message = "Hello";
 
 		})
 		.controller('ToolbarCtrl', function MyCtrl($scope) {
@@ -128,36 +128,36 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 			User.url = '/api/users/';
 
-			Object.defineProperty(User.prototype, 'url', {
-				get: function() {
-					return User.url + this._id
-				}
-			})
-			User.prototype.isNew = function() {
-				return !this._id
-			};
+		// Object.defineProperty(User.prototype, 'url', {
+		// 	get: function() {
+		// 		return User.url + this._id
+		// 	}
+		// })
+		// User.prototype.isNew = function() {
+		// 	return !this._id
+		// };
 
-			User.prototype.fetch = function() {
-				return $http.get(this.url)
-					.then(res = > new User(res.data))
-			};
+		// User.prototype.fetch = function() {
+		// 	return $http.get(this.url)
+		// 		.then(res => new User(res.data))
+		// };
 
-			User.prototype.save = function() {
-				let verb
-				let url
-				if (this.isNew()) {
-					verb = 'post'
-					url = User.url
-				} else {
-					verb = 'put'
-					url = this.url
-				}
-				return $http[verb](url, this)
-					.then(res = > new User(res.data))
-			}
-			User.prototype.destroy = function() {
-				return $http.delete(this.url)
-			}
+		// User.prototype.save = function() {
+		// 	let verb
+		// 	let url
+		// 	if (this.isNew()) {
+		// 		verb = 'post'
+		// 		url = User.url
+		// 	} else {
+		// 		verb = 'put'
+		// 		url = this.url
+		// 	}
+		// 	return $http[verb](url, this)
+		// 		.then(res => new User(res.data));
+		// }
+		// User.prototype.destroy = function() {
+		// 	return $http.delete(this.url)
+		// }
 
 			return User;
 

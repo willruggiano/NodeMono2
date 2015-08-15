@@ -11,8 +11,7 @@ navbar {
       height: inherit;
 
       .container {
-        width: 90%;
-        max-width: 1340px;
+        width: $nodemono-width;
         height: inherit;
 
         & > * {

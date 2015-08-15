@@ -1,5 +1,6 @@
 $nodemono-gray: rgba(150, 150, 150, 1);
 $nodemono-red: #f31214;
+$nodemono-width: 70%;
 
 * {
   box-sizing: border-box;
@@ -19,8 +20,10 @@ body {
 }
 
 #main {
+  width: $nodemono-width;
   padding-top: 40px;
-  width: 1200px;
+  padding-right: 15px;
+  padding-left: 15px;
   margin: 0 auto;
 }
 
@@ -28,3 +31,4 @@ body {
 @import 'home/main';
 @import 'about/main';
 @import 'login/main';
+@import 'user_profile/main';

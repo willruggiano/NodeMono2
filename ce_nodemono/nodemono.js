@@ -79,34 +79,6 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 	window.app = angular
 		.module('myApp', [])
-		.controller('NodemonoMainCtrl', function($scope) {
-			$scope.collection = {};
-			console.log('go here')
-			// this.message = "Hello";
-
-		})
-		.controller('ToolbarCtrl', function MyCtrl($scope) {
-			// $scope.property = "property1"
-			// var tid = setInterval(function() {
-
-			// 	$scope.property = SG.path_output_field.value
-
-			// }, 500);
-
-			$scope.buttonClicked = function() {
-				// console.log($scope.collection);
-
-				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
-
-			}
-			$scope.selectCollection = function() {
-
-			}
-
-			$scope.doneClicked = function() {
-
-			}
-		})
 		.factory("Collection", function($http, $scope, $rootScope) {
 			function Collection(props) {
 				angular.extend(this, props);
@@ -139,12 +111,14 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 			User.prototype.fetch = function() {
 				return $http.get(this.url)
-					.then(res = > new User(res.data))
+					.then(function(res) {
+						return res.data;
+					})
 			};
 
 			User.prototype.save = function() {
-				let verb
-				let url
+				var verb
+				var url
 				if (this.isNew()) {
 					verb = 'post'
 					url = User.url
@@ -153,7 +127,9 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 					url = this.url
 				}
 				return $http[verb](url, this)
-					.then(res = > new User(res.data))
+					.then(function(res) {
+						return res.data
+					})
 			}
 			User.prototype.destroy = function() {
 				return $http.delete(this.url)
@@ -161,6 +137,39 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 			return User;
 
+
+		})
+		.controller('NodemonoMainCtrl', function($scope) {
+			$scope.collection = {};
+			console.log('go here')
+			// this.message = "Hello";
+
+		})
+		.controller('ToolbarCtrl', function MyCtrl($scope, Collection, $rootScope) {
+			// $scope.property = "property1"
+			// var tid = setInterval(function() {
+
+			// 	$scope.property = SG.path_output_field.value
+
+			// }, 500);
+
+			$scope.buttonClicked = function() {
+				// console.log($scope.collection);
+				$rootScope.collection = {
+					property: SG.path_output_field.value
+				};
+				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
+
+			}
+			$scope.selectCollection = function() {
+
+			}
+
+			$scope.doneClicked = function() {
+
+			}
+		})
+		.controller("OverlayCtrl", function($scope) {
 
 		});
 

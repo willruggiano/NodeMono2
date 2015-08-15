@@ -9,8 +9,6 @@
             </div>
             <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
         </form>
-
-
         <!-- <ul class="nav navbar-nav navbar-right">
             <li><a class=""> Data</a></li>
             <li><a class=""> Files</a></li>
@@ -21,3 +19,12 @@
 
         </div>
     </div>
+
+
+    <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
+        <div class="navbar-form navbar-right">
+            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
+
+        </div>
+
+    </div>  

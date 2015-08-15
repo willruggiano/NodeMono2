@@ -29,7 +29,7 @@
 			<div class="col-sm-12">
 				<h3>Inputs: </h3>
 				<ul>
-					<li ng-repeat="input in inputs">
+					<li ng-repeat="input in pipe.inputs">
 						Name: {{input.name}}
 						<a class="btn btn-xs btn-danger" ng-click="deselectRoute(input)">X</a>
 					</li>
@@ -38,17 +38,17 @@
 			<div class="col-sm-12">
 				<h3>Pipes: </h3>
 				<ul>
-					<li ng-repeat="pipe in pipes">
-						Name: {{pipe.name}}
-						<a class="btn btn-xs btn-danger" ng-click="deselectFilter(pipe)">X</a>
+					<li ng-repeat="filter in pipe.filters">
+						Name: {{filter.name}}
+						<a class="btn btn-xs btn-danger" ng-click="deselectFilter(filter)">X</a>
 					</li>
 				</ul>
 			</div>
 			<div class="col-sm-12">
 				<h3>Output: <a class="btn btn-info" ng-click="generateOutput()">Generate</a></h3>
 				<ul>
-					<li ng-repeat="out in output">
-						{{out | json}}
+					<li ng-repeat="output in pipe.output">
+						{{output | json}}
 					</li>
 				</ul>
 			</div>

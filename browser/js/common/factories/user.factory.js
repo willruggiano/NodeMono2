@@ -17,7 +17,7 @@ app.factory('User', ($state, Route, DS) => {
     },
     methods: {  // functionality added to every instance of User
       go: function() {
-        $state.go('user', { id: this._id })
+        $state.go('api', { id: this._id })
       },
       getRoutes: function() {
         return Route.findAll({ 'user': this._id })

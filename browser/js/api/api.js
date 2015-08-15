@@ -1,7 +1,7 @@
 app.config(($stateProvider) => {
-  $stateProvider.state('user', {
-    url: '/:id/profile',
-    templateUrl: 'js/user_profile/user_profile.html',
+  $stateProvider.state('api', {
+    url: '/:id/apis',
+    templateUrl: 'js/api/api.html',
     controller: ($scope, user, routes) => {
       $scope.user = user
       $scope.routes = routes

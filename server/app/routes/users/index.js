@@ -7,10 +7,9 @@ var _ = require('lodash');
 
 // get all users (with optional search by query string)
 router.get('/', function(req, res, next) {
-    User.find(req.query)
-        .populate('routes').exec()
+    User.find(req.query).exec()
         .then(function(users) {
-            res.json(users);
+            res.status(200).json(users);
         })
         .then(null, next);
 });
@@ -26,16 +25,15 @@ router.post('/', function(req, res, next) {
             req.logIn(user, function(loginErr) {
                 if (loginErr) return next(loginErr);
                 // send back user without password and salt
-                res.status(200).send(_.omit(user.toJSON(), ['password', 'salt']));
+                res.status(201).send(_.omit(user.toJSON(), ['password', 'salt']));
             });
         })
         .then(null, next);
 });
 
-// for finding route by id
+// for finding user by id
 router.param('id', function(req, res, next, id) {
-    User.findById(id)
-        .populate('routes').exec()
+    User.findById(id).exec()
         .then(function(user) {
             if (!user) throw Error('Not Found');
             req.user = user;
@@ -58,7 +56,7 @@ router.put('/:id', function(req, res, next) {
     _.extend(req.user, req.body);
     req.user.save()
         .then(function(user) {
-            res.json(user);
+            res.status(201).json(user);
         })
         .then(null, next);
 });
@@ -71,6 +69,5 @@ router.delete('/:id', function(req, res, next) {
         })
         .then(null, next);
 });
-
 
 module.exports = router;

@@ -6,9 +6,9 @@ var schema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	userId: {
-		type: String,
-		required: true
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
 	},
 	url: {
 		type: String,
@@ -34,8 +34,6 @@ var schema = new mongoose.Schema({
 			type: Number
 		}
 	},
-
-
 	//extra information about the crawler
 	lastTimeCrawled: {
 		type: Date,

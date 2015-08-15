@@ -2,13 +2,15 @@ app.config(($stateProvider) => {
   $stateProvider.state('user', {
     url: '/:id/profile',
     templateUrl: 'js/user_profile/user_profile.html',
-    controller: ($scope, user) => {
+    controller: ($scope, user, routes) => {
       $scope.user = user
-      console.log(`loaded user profile page for ${user.name}`)
-      console.log(user)
+      $scope.routes = routes
+
+      console.log(user, routes)
     },
     resolve: {
-      user: ($stateParams, User) => User.find($stateParams.id)
+      user: ($stateParams, User) => User.find($stateParams.id),
+      routes: (user, Route) => Route.findAll({ '_user': user })
     }
   })
 })

@@ -85,6 +85,7 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 		PipesFactory.generateOutput($scope.pipe)
 			.then(output => {
 				$scope.pipe.output = output;
+				$scope.error = undefined;
 			})
 			.catch(err => {
 				// display the error in some way
@@ -97,6 +98,7 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 		PipesFactory.savePipe($scope.pipe)
 			.then(output => {
 				$scope.pipe.output = output;
+				$scope.error = undefined;
 			})
 			.catch(err => {
 				// display the error in some way

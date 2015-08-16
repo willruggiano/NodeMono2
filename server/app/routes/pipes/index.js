@@ -31,19 +31,22 @@ router.get('/:userId/:pipeName', function(req, res, next) {
         .then(null, next);
 });
 
-// create a new pipe (userId and pipeName in the body)
+// create a new pipe (userId and pipeName in the body) (pass save = false to only test output, and not save the pipe)
 router.post('/', function(req, res, next) {
     // req.body should have: 
     var newPipe = new Pipe(req.body);
+    // save pipe _id to optionally remove the pipe
     newPipe.save()
         .then(function(pipe) {
-            // return the crawled data
-            return pipe.populate('inputs.routes inputs.pipes filters').exec().then(function(popPipe) {
-                return popPipe.getPipeData();
-            });
+            // return the piped data
+            return pipe.getPipeData();
         })
         .then(function(data) {
             res.json(data);
+        })
+        .then(function() {
+            // remove from db, if the pipe is temporary
+            if (!req.body.save) return newPipe.remove();
         })
         .then(null, next);
 });

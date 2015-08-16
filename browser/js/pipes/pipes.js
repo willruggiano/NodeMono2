@@ -9,23 +9,32 @@ app.config(function ($stateProvider) {
         	},
         	filters: function(PipesFactory) {
         		return PipesFactory.getFilters();
+        	},
+        	pipes: function(PipesFactory) {
+        		return PipesFactory.getPipes();
         	}
         }
     });
 });
 
-app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters) {
+app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipes) {
 	$scope.routes = routes;
 	$scope.filters = filters;
+	$scope.pipes = pipes;
+
+	// for displaying errors
+	$scope.error;
 
 	// holds pipeline logic (what the user is making on this page)
 	$scope.pipe = {
-		// array of selected routes
-		inputs: [],
+		// array of selected inputs (routes and pipes)
+		inputs: {
+			routes: [],
+			pipes: []
+		},
 		// array of the selected filters (and their order?)
-		// / call it "pipeline" instead?
 		filters: [],
-		// array (for now) of the outputs from each pipe/input (for now)
+		// array (for now) of the outputs from each pipe/input (for now) (for display only)
 		output: []
 	};
 
@@ -40,12 +49,22 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters) {
 
 	// add route to pipe input
 	$scope.selectRoute = (route) => {
-		$scope.pipe.inputs.push(route);
+		$scope.pipe.inputs.routes.push(route);
 	};
 
 	// remove route from pipe input
 	$scope.deselectRoute = (route) => {
-		$scope.pipe.inputs = $scope.pipe.inputs.filter(input => input !== route);
+		$scope.pipe.inputs.routes = $scope.pipe.inputs.routes.filter(input => input !== route);
+	};
+
+	// add route to pipe input
+	$scope.selectPipe = (pipe) => {
+		$scope.pipe.inputs.pipes.push(pipe);
+	};
+
+	// remove pipe from pipe input
+	$scope.deselectPipe = (pipe) => {
+		$scope.pipe.inputs.pipes = $scope.pipe.inputs.pipes.filter(input => input !== pipe);
 	};
 
 	// add filter to pipeline
@@ -62,15 +81,23 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters) {
 	$scope.generateOutput = () => {
 		PipesFactory.generateOutput($scope.pipe)
 			.then(output => {
-				console.log(output);
+				$scope.pipe.output = output;
+			})
+			.catch(err => {
+				// display the error in some way
+				$scope.error = err;
 			});
 	};
 
 	// saves this pipe to the user db
 	$scope.savePipe = () => {
 		PipesFactory.savePipe($scope.pipe)
-			.then(data => {
-				console.log('saved the pipe', data);
+			.then(output => {
+				$scope.pipe.output = output;
+			})
+			.catch(err => {
+				// display the error in some way
+				$scope.error = err;
 			});
 	};
 

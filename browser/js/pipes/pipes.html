@@ -96,13 +96,13 @@
 					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
 					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
 				</h3>
-				<ul>
+				<pre>{{pipe.output | json}}</pre>
+				<!-- <ul>
 					<li ng-repeat="output in pipe.output">
-						{{output | json}}
+						<pre>{{output | json}}</pre>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 	</div>
 </div>
-<pre>{{pipe|json}}</pre>

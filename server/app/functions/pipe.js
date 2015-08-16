@@ -225,6 +225,5 @@ function getPipeData(pipe) {
 		});
 }
 
-
 // exports
 module.exports = getPipeData;

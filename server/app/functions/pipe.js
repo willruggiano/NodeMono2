@@ -205,7 +205,7 @@ function getPipeData(pipe) {
 		})
 		.then(function(inputData) {
 			// flatten the data (pipes return array of objects, but routes only return objects)
-			// inputData = _.flatten(inputData);
+			inputData = _.flatten(inputData);
 			// apply each filter to each input
 			return pipeline(inputData, populatedFilters);
 		})

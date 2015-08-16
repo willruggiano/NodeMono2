@@ -23,6 +23,7 @@
   "web_accessible_resources": [
     "template/*",
     "css/style.css",
+    "selectorgadget/*",
     "*"
   ],
   "permissions": [

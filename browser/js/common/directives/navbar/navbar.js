@@ -4,7 +4,7 @@ app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, 
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
-        link: function (scope) {
+        link: function (scope, elem, attr) {
 
             scope.items = [
                 // { label: 'Home', state: 'home' },
@@ -14,6 +14,14 @@ app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, 
                 { label: 'Help', state: 'help' },
                 //{ label: 'Members Only', state: 'membersOnly', auth: true }
             ];
+
+            scope.show = false
+
+            scope.toggle = () => scope.show = !scope.show
+
+            scope.search = () => {
+              console.log('searching for something...')
+            }
 
             scope.user = null;
 

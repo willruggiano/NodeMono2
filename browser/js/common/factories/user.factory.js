@@ -1,4 +1,4 @@
-app.factory('User', ($state, DS) => {
+app.factory('User', ($state, Route, DS) => {
 
   let User = DS.defineResource({
     name: 'user',
@@ -15,12 +15,12 @@ app.factory('User', ($state, DS) => {
         }
       }
     },
-
-    // functionality added to every instance of User
-    methods: {
+    methods: {  // functionality added to every instance of User
       go: function() {
-        console.log(`transitioning to user state (${this.name})`)
-        $state.go('user', { id: this._id })
+        $state.go('api', { id: this._id })
+      },
+      getRoutes: function() {
+        return Route.findAll({ 'user': this._id })
       }
     }
   })

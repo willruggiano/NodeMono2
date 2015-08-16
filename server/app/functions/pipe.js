@@ -61,11 +61,11 @@ var filterBank = {
 		return interleavedArr;
 	},
 	// expects array of objects, applied last
-	// merges all objects in the array into one object (in an array)
+	// merges all objects in the array into one object (returns the object, no array)
 	merge: function(arr) {
-		return [arr.reduce(function(accum, obj) {
+		return arr.reduce(function(accum, obj) {
 			return _.merge(accum, obj);
-		}, {})];
+		}, {});
 	}
 };
 
@@ -178,13 +178,11 @@ function getPipeData(pipe) {
 	// fire off promises for the inputs' data
 	// find them in the db first - pipes only hold reference to their inputs
 	var inputRoutesPromises = pipe.inputs.routes.map(function(route) {
-		// return route.getCrawlData();
 		return Route.findById(route).exec().then(function(populatedRoute) {
 			return populatedRoute.getCrawlData();
 		});
 	});
 	var inputPipesPromises = pipe.inputs.pipes.map(function(pipe) {
-		// return pipe.getPipeData();
 		return Pipe.findById(pipe).then(function(populatedPipe) {
 			return populatedPipe.getPipeData();
 		});
@@ -202,20 +200,20 @@ function getPipeData(pipe) {
 		.then(function(filters) {
 			// save the populated filters
 			populatedFilters = filters;
-			// wait for all the data to come back
+			// wait for all the crawling data to come back
 			return Q.all(inputRoutesPromises.concat(inputPipesPromises));
 		})
 		.then(function(inputData) {
 			// flatten the data (pipes return array of objects, but routes only return objects)
-			inputData = _.flatten(inputData);
+			// inputData = _.flatten(inputData);
 			// apply each filter to each input
 			return pipeline(inputData, populatedFilters);
 		})
 		.then(function(pipedData) {
 			// interleave or merge if necessary
-			if (pipe.interleave) {
+			if (pipe.outputFormat === 'interleave') {
 				return filterBank.interleave(pipedData);
-			} else if (pipe.merge) {
+			} else if (pipe.outputFormat === 'merge') {
 				return filterBank.merge(pipedData);
 			}
 			return pipedData;

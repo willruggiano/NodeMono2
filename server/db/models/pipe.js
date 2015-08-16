@@ -26,17 +26,14 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Filter'
 	}],
-	// make interleave a special filter? i.e. it has to be applied at the end, and maybe an interleaved pipe can't be filtered anymore (too hard to work with)
-	interleave: {
-		// true -> apply as last filter
-		type: Boolean,
-		default: false
-	},
-	// true if input should be combined into one object
-	merge: {
-		// true -> merge the data (if input then assume it will arrive merged)
-		type: Boolean,
-		default: false
+	// how data is returned (applied last)
+	outputFormat: {
+		type: String,
+		// merge -> merge all objects into one (return as one object)
+		// interleave -> return array of interleaved objects
+		// default -> return array of regular objects
+		enum: ['default', 'merge', 'interleave'],
+		default: 'default'
 	},
 	//extra information about the pipe
 	lastTimePiped: {

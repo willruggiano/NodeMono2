@@ -27,6 +27,7 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 
 	// holds pipeline logic (what the user is making on this page)
 	$scope.pipe = {
+		name: '',
 		// array of selected inputs (routes and pipes)
 		inputs: {
 			routes: [],
@@ -35,7 +36,9 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 		// array of the selected filters (and their order?)
 		filters: [],
 		// array (for now) of the outputs from each pipe/input (for now) (for display only)
-		output: []
+		output: [],
+		// default output format
+		outputFormat: 'default'
 	};
 
 	// returns crawled data for the passed in route

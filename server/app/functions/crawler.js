@@ -24,13 +24,14 @@ function crawl(url, data, config) {
 
 			// loop through each data (contains selector, name, etc.
 			var output = data.reduce(function(accum, datum) {
-				// if attr idspecified, get that attribute from each
-				if (datum.attr) {
+				// if attr is specified, get that attribute from each selected element
+				var attribute = datum.attr;
+				if (attribute) {
 					accum[datum.name] = $(datum.selector).map(function() {
-						return $(this).attr(datum.att);
+						return $(this).attr(attribute);
 					}).get();
 				}
-				// else default behavior (get text)
+				// otherwise default behavior (get text)
 				else {
 					accum[datum.name] = $(datum.selector).map(function() {
 						return $(this).text();
@@ -42,6 +43,7 @@ function crawl(url, data, config) {
 						return datum.indexes.indexOf(idx) > -1;
 					});
 				}
+				// pass accumulation of data to next iteration of reduce
 				return accum;
 			}, {});
 

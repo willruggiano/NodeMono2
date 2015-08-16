@@ -7,10 +7,13 @@ app.factory('PipesFactory', function($http, $q) {
 	};
 
 	fact.getFilters = () => {
-		// dummy filter data for now
-		return [{
-			name: 'length'
-		}];
+		return $http.get('/api/filters')
+			.then(res => res.data);
+	};
+
+	fact.getPipes = () => {
+		return $http.get('/api/pipes')
+			.then(res => res.data);
 	};
 
 	fact.getCrawlData = (route) => {
@@ -22,42 +25,47 @@ app.factory('PipesFactory', function($http, $q) {
 			.then(res => res.data);
 	};
 
-	fact.getAllInputData = (inputRoutes) => {
+	fact.getPipedData = (pipe) => {
+		// dummy data for testing
+		// return {title: [pipe.name, pipe.name + '1'], more: [pipe.user]};
+
+		// get crawled data for the pipe
+		return $http.get(`/api/pipes/${pipe.user}/${pipe.name}`)
+			.then(res => res.data);
+	};
+
+	fact.getAllInputData = (inputs) => {
 		// fire off requests for crawled data
-		var crawlPromises = inputRoutes.map(inputRoute => {
-			return fact.getCrawlData(inputRoute);
+		var crawlPromises = inputs.routes.map(input => {
+			return fact.getCrawlData(input);
+		});
+		// fire off requests for crawled data
+		var pipePromises = inputs.pipes.map(input => {
+			return fact.getPipedData(input);
 		});
 		// resolve when all promises resolve with their crawled data
-		return $q.all(crawlPromises);
+		return $q.all(crawlPromises.concat(pipePromises));
 	};
 
 	// run selected inputs through the pipe filters and return the output
 	fact.generateOutput = (pipe) => {
-		// get all the input's crawled data
-		return fact.getAllInputData(pipe.inputs)
-			.then(inputData => {
-				console.log('input data', inputData);
-				// run input data through the selected pipes (i.e. filters)
-				return fact.pipe(inputData, pipe.filters);
-			})
-			.then(pipedData => {
-				// piped data, basically the output data (?)
-				console.log('piped data', pipedData);
-				pipe.output = pipedData; // (?)
-				return pipedData;
-			})
-			.catch(err => {
-				// handle errors
-				console.error(err);
-			});
+		// set save to false (don't persist this in the db)
+		pipe.save = false;
+		return postPipe(pipe);
 	};
 
-	fact.pipe = (inputData, pipes) => {
-		// nothing for now
-		return inputData;
+	// save pipe to db
+	fact.savePipe = (pipe) => {
+		// save is true b/c user is finalizing the pipe
+		pipe.save = true;
+		return postPipe(pipe);
 	};
 
-	// fact.savePipe = ()
+	// sends post request with a new pipe
+	function postPipe(pipe) {
+		return $http.post('/api/pipes', pipe)
+			.then(res => res.data);
+	}
 
 	return fact;
 });

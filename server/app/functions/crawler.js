@@ -21,51 +21,34 @@ function crawl(url, data, config) {
 		.then(function(html) {
 			// use cheerio to make dom accessor for html
 			var $ = cheerio.load(html);
-			var output = {};
-			// keep max length for returnObj config
-			var maxLen = 0;
-			data.forEach(function(datum) {
 
-				// if attr idspecified, get that attribute from each
-				if (datum.attr) {
-					output[datum.name] = $(datum.selector).map(function() {
-						return $(this).attr(datum.att);
+			// loop through each data (contains selector, name, etc.
+			var output = data.reduce(function(accum, datum) {
+				// if attr is specified, get that attribute from each selected element
+				var attribute = datum.attr;
+				if (attribute) {
+					accum[datum.name] = $(datum.selector).map(function() {
+						return $(this).attr(attribute);
 					}).get();
 				}
-				// else default behavior (get text)
+				// otherwise default behavior (get text)
 				else {
-					output[datum.name] = $(datum.selector).map(function() {
+					accum[datum.name] = $(datum.selector).map(function() {
 						return $(this).text();
 					}).get();
 				}
 				// if indexes are specified, only keep those indexes
 				if (datum.indexes && datum.indexes.length) {
-					output[datum.name] = output[datum.name].filter(function(out, idx) {
+					accum[datum.name] = accum[datum.name].filter(function(out, idx) {
 						return datum.indexes.indexOf(idx) > -1;
 					});
 				}
-				maxLen = output[datum.name].length;
-			});
+				// pass accumulation of data to next iteration of reduce
+				return accum;
+			}, {});
 
-			// map over the arrays and merge them into an array of objects
-			if (config.returnObj) {
-				var mergedData = [];
-				// use maxLen (length of longest array in the object)
-				for (var i = 0; i < maxLen; i++) {
-					// make new obj with fields for each name
-					var mergedObj = {};
-					data.forEach(function(datum, idx) {
-						// each object gets elements from a certain index (i)
-						mergedObj[datum.name] = output[datum.name][i];
-					});
-					// add to the array of these objects
-					mergedData.push(mergedObj);
-				}
-				deferred.resolve(mergedData);
-			} else {
-				deferred.resolve(output);
-			}
-
+			// return the found data
+			deferred.resolve(output);
 		})
 		.then(null, function(err) {
 			deferred.reject(err);

@@ -53,10 +53,7 @@ var seedDb = function() {
                         selector: '.theme-summary .story-heading a',
                         attr: 'href'
                     }
-                ],
-                config: {
-                    returnObj: false
-                }
+                ]
             },
             {
                 name: 'testroute2',
@@ -71,10 +68,7 @@ var seedDb = function() {
                         selector: '.headlines a',
                         attr: 'href'
                     }
-                ],
-                config: {
-                    returnObj: false
-                }
+                ]
             }
         ];
 
@@ -125,8 +119,7 @@ var seedDb = function() {
                 // unique
                 filters[3]
             ],
-            interleave: false,
-            merge: false
+            outputFormat: 'default'
         },
         {
             name: 'testPipe2',
@@ -143,8 +136,7 @@ var seedDb = function() {
                 // unique
                 filters[3]
             ],
-            interleave: false,
-            merge: true
+            outputFormat: 'merge'
         }];
 
         return Pipe.remove().then(function() {
@@ -172,9 +164,6 @@ var seedDb = function() {
         return activeUser.save();
     });
 };
-
-
-
 
 var seedUsers = function() {
 
@@ -205,21 +194,9 @@ var seedUsers = function() {
 
 };
 
-var seedRoutes = function (routes) {
-    return Route.remove().then(function() {
-        return Route.createAsync(routes);
-    });
-};
-
 connectToDb.then(function() {
-    User.findAsync({}).then(function(users) {
-        return seedDb();
-    //     return seedUsers();
-    // }).then(function(users) {
-    //     routes[0].user = users[2]._id;
-    //     routes[1].user = users[2]._id;
-    //     return seedRoutes(routes);
-    }).then(function() {
+    // seedDb is defined above - adds all pipes, users, routes, filters, etc. to db
+    seedDb().then(function() {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
     }).catch(function(err) {

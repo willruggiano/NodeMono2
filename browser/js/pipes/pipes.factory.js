@@ -63,7 +63,8 @@ app.factory('PipesFactory', function($http, $q) {
 
 	// sends post request with a new pipe
 	function postPipe(pipe) {
-		return $http.post('/api/pipes', pipe)
+		// omit the output field - just for display, not saved in db
+		return $http.post('/api/pipes', _.omit(pipe, 'output'))
 			.then(res => res.data);
 	}
 

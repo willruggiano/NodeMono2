@@ -43,6 +43,31 @@
 			</div>
 			<div class="col-sm-12">
 				<h3>Pipe name: <input ng-model="pipe.name"></h3>
+				<div class="row">
+					<div class="col-sm-4">
+						<h3>Output format: </h3>
+					</div>
+					<div class="col-sm-8">
+						<div class="radio">
+						  <label>
+						    <input type="radio" ng-model="pipe.outputFormat" value="default">
+						    Array of JSON objects (default)
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" ng-model="pipe.outputFormat" value="merge">
+						    	Single merged JSON object
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" ng-model="pipe.outputFormat" value="interleave">
+						    Array of interleaved JSON objects
+						  </label>
+						</div>
+					</div>
+				</div>
 				<h3>Inputs (pipes and routes): </h3>
 				<ul>
 					<li ng-repeat="route in pipe.inputs.routes">
@@ -71,11 +96,12 @@
 					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
 					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
 				</h3>
-				<ul>
+				<pre>{{pipe.output | json}}</pre>
+				<!-- <ul>
 					<li ng-repeat="output in pipe.output">
-						{{output | json}}
+						<pre>{{output | json}}</pre>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
 		</div>
 	</div>

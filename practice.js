@@ -1,3 +1,5 @@
+// easier way to test pipes and routes
+
 var connectToDb = require('./server/main');
 var mongoose = require('mongoose');
 var Pipe = mongoose.model('Pipe');

@@ -6,8 +6,10 @@ body {
   background: #fdfdfd; }
 
 #main {
+  width: 70%;
   padding-top: 40px;
-  width: 1200px;
+  padding-right: 15px;
+  padding-left: 15px;
   margin: 0 auto; }
 
 nodemono-logo {
@@ -25,8 +27,7 @@ navbar {
   navbar .navbar.navbar-static-top {
     height: inherit; }
     navbar .navbar.navbar-static-top .container {
-      width: 90%;
-      max-width: 1340px;
+      width: 70%;
       height: inherit; }
       navbar .navbar.navbar-static-top .container > * {
         box-sizing: border-box;
@@ -43,6 +44,13 @@ navbar {
           cursor: pointer; }
           navbar .navbar.navbar-static-top .container .divider span:hover {
             color: #f31214; }
+  navbar .nav {
+    display: flex;
+    justify-content: center; }
+    navbar .nav .navbar-search {
+      width: 200px;
+      border: none;
+      border-bottom: 1px solid #969696; }
   navbar nodemono-logo {
     margin-right: 20px;
     height: inherit; }
@@ -123,3 +131,60 @@ navbar {
 #login-form {
   width: 60%;
   margin: 0 auto; }
+
+.btn-nodemono {
+  font-size: 10px;
+  border: 1px solid #969696;
+  background: inherit;
+  color: #969696;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #c9c9c9;
+  color: #b0b0b0; }
+  .btn-nodemono:hover {
+    color: #f31214; }
+
+table#headerTable {
+  display: flex;
+  align-content: center; }
+  table#headerTable td.td-label {
+    width: 150px;
+    color: #7d7d7d; }
+  table#headerTable button {
+    border-radius: 4px; }
+  table#headerTable #nm-status {
+    color: green; }
+    table#headerTable #nm-status + span {
+      color: #969696; }
+
+table#dataPreviewTable {
+  font-size: 10px;
+  width: 100%; }
+  table#dataPreviewTable td, table#dataPreviewTable th {
+    word-wrap: break-word;
+    max-width: 200px;
+    padding: 4px; }
+  table#dataPreviewTable tr:nth-child(even) {
+    background: #e3e3e3; }
+
+#apiHeader {
+  height: 42px;
+  display: flex;
+  align-content: center; }
+  #apiHeader p {
+    font-size: 30px;
+    margin: 0;
+    margin-right: 10px; }
+  #apiHeader button {
+    border-radius: 4px; }
+
+#apiEdit {
+  height: 42px;
+  display: flex;
+  align-content: center;
+  justify-content: flex-end; }
+  #apiEdit button {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border: 1px solid #7d7d7d;
+    color: #7d7d7d; }

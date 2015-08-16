@@ -15,11 +15,11 @@ app.factory('PipesFactory', function($http, $q) {
 
 	fact.getCrawlData = (route) => {
 		// dummy data for testing
-		return {title: [route.name, route.name + '1'], more: [route.url]};
+		// return {title: [route.name, route.name + '1'], more: [route.url]};
 
 		// get crawled data for the route
-		// return $http.get(`/api/routes/${route.user}/${route.name}`)
-			// .then(res => res.data);
+		return $http.get(`/api/routes/${route.user}/${route.name}`)
+			.then(res => res.data);
 	};
 
 	fact.getAllInputData = (inputRoutes) => {
@@ -56,6 +56,8 @@ app.factory('PipesFactory', function($http, $q) {
 		// nothing for now
 		return inputData;
 	};
+
+	// fact.savePipe = ()
 
 	return fact;
 });

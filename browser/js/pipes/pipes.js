@@ -60,7 +60,6 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters) {
 
 	// run selected inputs through the pipe filters and return the output
 	$scope.generateOutput = () => {
-
 		PipesFactory.generateOutput($scope.pipe)
 			.then(output => {
 				console.log(output);
@@ -68,8 +67,8 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters) {
 	};
 
 	// saves this pipe to the user db
-	$scope.savePipe =() => {
-		PipesFactory.savePipe()
+	$scope.savePipe = () => {
+		PipesFactory.savePipe($scope.pipe)
 			.then(data => {
 				console.log('saved the pipe', data);
 			});

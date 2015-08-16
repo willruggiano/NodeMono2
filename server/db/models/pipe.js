@@ -10,17 +10,33 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	inputs: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Route'
-	}],
+	// inputs can be custom api routes, or other pipes
+	inputs: {
+		routes: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Route'
+		}],
+		pipes: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Pipe'	
+		}]
+	},
+	// filters applied to the input data
 	filters: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Filter'
 	}],
-	// ?? probably don't need this
-	output: {
-		type: Object
+	// make interleave a special filter? i.e. it has to be applied at the end, and maybe an interleaved pipe can't be filtered anymore (too hard to work with)
+	interleave: {
+		// true -> apply as last filter
+		type: Boolean,
+		default: false
+	},
+	// true if input should be combined into one object
+	merge: {
+		// true -> merge the data (if input then assume it will arrive merged)
+		type: Boolean,
+		default: false
 	},
 	//extra information about the pipe
 	lastTimePiped: {
@@ -39,28 +55,20 @@ var schema = new mongoose.Schema({
 	},
 });
 
+var pipe = require('../../app/functions/pipe');
+
 // returns a promise for the piped data, also updates pipe statistics
 schema.methods.getPipeData = function getPipeData() {
 	var self = this;
 
-	// fire off crawlers for all input routes
-	var promiseArray = self.inputs.map(function(input) {
-		return input.getCrawlData();
-	});
-
-	// continue when all the data is returned
-	return Q.all(promiseArray)
-		.then(function(inputData) {
-			// do something with the filters
-			return inputData;
-		})
+	return pipe(self)
 		.then(function(pipedData) {
 			// update the last time piped
 			self.lastTimePiped = Date.now();
 			self.lastPipeSucceeded = true;
 			self.count++;
 			self.save();
-			return crawledData;
+			return pipedData;
 		})
 		.catch(function(err) {
 			// the pipe failed, so log that

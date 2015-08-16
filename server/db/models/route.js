@@ -69,9 +69,9 @@ schema.methods.getCrawlData = function getCrawlData() {
 		})
 		.catch(function(err) {
 			// the crawl failed, so log that
-			self.lastTimeCrawled = Date.now()
+			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = false;
-			self.save()
+			self.save();
 			console.log('there was an error in getCrawlData method');
 		});
 };

@@ -5,12 +5,14 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Route');
 var _ = require('lodash');
 
-// get all routes with optional query string
-router.get('/', (req, res, next) => {
+// get all routes (with optional search by query string)
+router.get('/', function(req, res, next) {
     Route.find(req.query).exec()
-        .then(routes => res.status(200).json(routes))
-        .then(null, next)
-})
+        .then(function(routes) {
+            res.status(200).json(routes);
+        })
+        .then(null, next);
+});
 
 // return crawled data for a apiRoute
 //-->nodemono.com/api/routes/:userId/:apiRouteName

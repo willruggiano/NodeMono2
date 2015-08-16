@@ -1,0 +1,7 @@
+<div>
+	<span>Name: {{route.name}}</span>
+	<a class="btn btn-default" ng-click="get({route: route})">Get data</a>
+	<a class="btn btn-default" ng-click="select({route: route})">Select Route</a>
+	<p>Url: {{route.url}}</p>
+	<pre>{{route | json}}</pre>
+</div>

@@ -41,7 +41,20 @@
   background-color: black;
   position: fixed;
   backface-visibility: hidden;
+  color: white;
 }
+
+.loginForm, .signupForm {
+  margin-top: 15%%;
+  width: 400px !important;
+  margin-left: 33%;
+  cursor: pointer;
+  
+}
+
+
+
+
 /*toolbar buttons and fields*/
 /*aplicable styles*/
 .show {
@@ -81,5 +94,21 @@
   height:50px;
   transition: all 0.5s;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

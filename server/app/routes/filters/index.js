@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
         .then(null, next);
 });
 
-// make a new user
+// make a new filter
 router.post('/', function(req, res, next) {
     // req.body should have: name, and parameters (an array)
     var newFilter = new Filter(req.body);
@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
         .then(null, next);
 });
 
-// for finding route by id
+// for finding filter by id
 router.param('id', function(req, res, next, id) {
     Filter.findById(id)
         .populate('routes').exec()
@@ -39,7 +39,7 @@ router.param('id', function(req, res, next, id) {
             // invalid ids sometimes throw cast error
             if (e.name === "CastError" || e.message === "Not Found") e.status = 404;
             next(e);
-        });
+        })
 });
 
 // get a filter by id

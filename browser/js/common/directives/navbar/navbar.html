@@ -6,7 +6,7 @@
         <div class='nav navbar-right'>
           <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
           <div ng-show='user' class='welcome'>
-            <span class='navbar-text'>Welcome, <span ng-click='user.go()'>{{ user.name }}</span>!</span>
+            <span class='navbar-text'>Welcome, <span ui-sref="profile({ id: user._id })">{{ user.name }}</span>!</span>
             <button ng-click='logout()' class='btn login-button'>Logout</button>
           </div>
         </div>

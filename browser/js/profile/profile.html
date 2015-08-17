@@ -1,0 +1,11 @@
+User:
+<pre>{{ user | json }}</pre>
+Routes:
+<ul>
+  <li ng-repeat='route in user.routes'>
+    <a ng-click='route.go(user._id)'>{{ route.name }}</a>
+  </li>
+</ul>
+<pre>{{ user.routes | json }}</pre>
+Pipes:
+<pre>{{ user.pipes | json }}</pre>

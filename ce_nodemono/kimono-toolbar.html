@@ -52,6 +52,7 @@
                     <button type="submit" class="btn btn-success">Log In</button> or
                     <a type="submit" ng-click="toggleLogin()"style="cursor: pointer;">Sign Up</a>
                 </form>
+                <div ng-if="error">{{error}}</div>
             </div>
             <div class="col-lg-12 signupForm" ng-if="!user &&!showLogin">
                 <form id="signup-form" name="signupForm" ng-submit="signupNewUser()">

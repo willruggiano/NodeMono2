@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
         .then(null, next);
 });
 
-// return crawled data for a apiRoute
+// return crawled data for an apiRoute
 //-->nodemono.com/api/routes/:userId/:apiRouteName
 router.get('/:userId/:apiRouteName', function(req, res, next) {
     // do validation with the userId

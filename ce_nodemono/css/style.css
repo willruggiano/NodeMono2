@@ -2,11 +2,11 @@
 	height: 40px;
 	width: 100%;
 	position: fixed;
-	display: inline-table;
-	 -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    z-index: 3456789;
+  display: inline-table;
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 3456789;
 }
 
 #nodemonofy {
@@ -34,30 +34,41 @@
 /*toolbar buttons and fields*/
 /*aplicable styles*/
 .show {
-  min-width:15%;
+  min-width: 100px;
   max-width:40%;
+  padding:10px 10px;
 }
 .hide {
+  padding:0px 0px;
+  min-width: 0;
   width: 0;
 }
 
 /*the elements*/
 #oneButton{
+  margin: 0px 0px;
+  border: 0px solid black;
+  display: inline-block !important;
   height:50px;
   background-color: #00ff00;
   transition: all 0.5s;
 }
 #allButton{
+  margin: 0px 0px;
+  border: 0px solid black;
+  display:inline-block !important;
   height:50px;
   background-color: yellow;
   transition: all 0.5s;
 }
 #greenAttrSelector{
+  margin: 0px 0px;
   height:50px;
   background-color: #00ff00;
   transition: all 0.5s;
 }
 #yellowAttrSelector{
+  margin: 0px 0px;
   height:50px;
   background-color: yellow;
   transition: all 0.5s;
@@ -67,8 +78,25 @@
   transition: all 0.5s;
 }
 #saveBtn{
+  margin: 0px 0px;
   height:50px;
   transition: all 0.5s;
+}
+#backButton{
+  margin: 0px 0px;
+  border: 0px solid black;
+  display:inline-block !important;
+  height:50px;
+  background-color: red;
+  transition: all 0.5s;
+}
+#cover {
+  background-color: rgba(1, 1, 1, .2);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
 }
 
 

@@ -8,7 +8,13 @@ var schema = new mongoose.Schema({
 		required: true
 	},
 	// only accept number parameters for now (will any filters need string arguments?)
-	parameters: [Number]
+	parameters: [{
+		type: mongoose.Schema.Types.Mixed
+	}],
+	// description of what the filter does
+	description: {
+		type: String
+	}
 });
 
 mongoose.model('Filter', schema);

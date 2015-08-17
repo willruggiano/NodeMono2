@@ -6,8 +6,8 @@ app.factory('Pipe', (DS, $http, $q) => {
     relations: {
       belongsTo: {
         user: {
-          localField: '_user',
-          localKey: 'user'
+          localField: '_user', // mypipe._user => user obj
+          localKey: 'user' // mypipe.user => user._id
         }
       }
     },

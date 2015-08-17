@@ -13,7 +13,7 @@ var schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     salt: {
         type: String
@@ -29,11 +29,16 @@ var schema = new mongoose.Schema({
     },
     google: {
         id: String
+    },
+    github: {
+        id: String
     }
+    // USER HAS .getRoutes() METHOD THAT RETURNS ROUTES FOR THAT USER
     // routes: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Route'
     // }],
+    // USER HAS .getPipes() METHOD THAT RETURNS PIPES FOR THAT USER
     // pipes: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Pipe'

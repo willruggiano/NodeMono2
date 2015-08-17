@@ -77,29 +77,8 @@ var seedDb = function() {
         });
     })
     .then(function(savedRoutes) {
-        // attach saved routes to higher scope
         routes = savedRoutes;
-
-        var newFilters = [{
-            name: 'intersection',
-            parameters: []
-        },
-        {
-            name: 'union',
-            parameters: []
-        },
-        {
-            name: 'maxLength',
-            parameters: [3]
-        },
-        {
-            name: 'unique',
-            parameters: []
-        }];
-
-        return Filter.remove().then(function() {
-            return Filter.createAsync(newFilters);
-        });
+        return seedFilters();
     })
     .then(function(savedFilters) {
         // attach saved filters to higher scope
@@ -192,6 +171,48 @@ var seedUsers = function() {
         return User.createAsync(users);
     });
 
+};
+
+// create and save all filters to the db (dynamic)
+var seedFilters = function() {
+    // load in the filter functions, descriptions, and default params
+    var filterBank = require('./server/app/functions/filterBank');
+    var filterDescriptions = require('./server/app/functions/filterDescriptions');
+    var filterDefaultParams = require('./server/app/functions/filterDefaultParams');
+
+    // make a filter object for each filter function in the bank
+    // start with single array functions
+    var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
+    var singles = singleArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then multiple array functions
+    var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
+    var multis = multiArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // join the filters together
+    var filters = singles.concat(multis);
+
+    // clear db of filters
+    return Filter.remove().then(function() {
+        // save the new filters
+        return Filter.createAsync(filters);
+    });
 };
 
 connectToDb.then(function() {

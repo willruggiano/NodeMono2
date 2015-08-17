@@ -5,7 +5,7 @@ app.config(($stateProvider) => {
     controller: ($scope, user, route, data) => {
       $scope.user = user
       $scope.route = route
-      // $scope.data = data
+      $scope.data = data
 
       $scope.crawlStatus = route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
       $scope.tableHeadings = () => {
@@ -13,7 +13,7 @@ app.config(($stateProvider) => {
       }
 
       // test data
-      $scope.data = {
+      $scope.testdata = {
         name: "Hacker News",
         count: 30,
         frequency: "Manual Crawl",

@@ -183,7 +183,7 @@ var seedFilters = function() {
     // make a filter object for each filter function in the bank
     // start with single array functions
     var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
-    var singles = singleArrFunctionKeys.reduce(function(accum, key) {
+    var singleArrs = singleArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
@@ -195,7 +195,31 @@ var seedFilters = function() {
 
     // then multiple array functions
     var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
-    var multis = multiArrFunctionKeys.reduce(function(accum, key) {
+    var multiArrs = multiArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then single object functions
+    var singleObjFunctionKeys = Object.keys(filterBank.singleObj);
+    var singleObjs = singleObjFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then multiple object functions
+    var multiObjFunctionKeys = Object.keys(filterBank.multiObj);
+    var multiObjs = multiObjFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
@@ -206,7 +230,7 @@ var seedFilters = function() {
     }, []);
 
     // join the filters together
-    var filters = singles.concat(multis);
+    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs);
 
     // clear db of filters
     return Filter.remove().then(function() {

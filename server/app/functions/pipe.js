@@ -6,9 +6,8 @@ var mongoose = require('mongoose');
 // load in filter functions
 var filterBank = require('./filterBank');
 
-// takes a filter and applies it to a stream of data (an objects of arrays)
-//  expects input to be a single object of arrays
-function pipeSingle(input, filterName, parameters) {
+// takes a filter and applies it to the input object's arrays (expects an object of arrays)
+function pipeSingleArr(input, filterName, parameters) {
 	// get associated function
 	var func = filterBank.singleArray[filterName];
 	// apply filter to each array in the input object
@@ -24,16 +23,20 @@ function pipeSingle(input, filterName, parameters) {
 	return input;
 }
 
-// takes a filter and applies it to a stream of data (an array of objects of arrays)
-//  expects input to be an array of objects of arrays
-function pipeMulti(inputArr, filterName, parameters) {
+// filter is applied to each input object as a whole, not the object's arrays individually
+function pipeSingleObj(input, filterName, parameters) {
+	// get associated function
+	var func = filterBank.singleObj[filterName];
+	// apply filter to the input object
+	var paramsArr = [input].concat(parameters);
+	return func.apply(null, paramsArr);
+}
+
+// takes a filter and applies it to an array of objects (an array of objects of arrays)
+//   each object is transformed into an array of all its inner arrays concatenated together
+function pipeMultiArr(inputArr, filterName, parameters) {
 	// merge each object's arrays and add each to an array of such arrays
 	var combinedArr = inputArr.reduce(function(accum, inputObj) {
-		//// ** for intersection b/w ALL arrays in all objects (** this version needs _.flatten on combinedArr)
-		// var combinedInputs = Object.keys(inputObj).reduce(function(innerAccum, key) {
-		// 	innerAccum.push(inputObj[key]);
-		// 	return innerAccum;
-		// },[]);
 		//// for intersection of values between objects (ie routes)
 		var combinedInputs = Object.keys(inputObj).reduce(function(innerAccum, key) {
 			return innerAccum.concat(inputObj[key]);
@@ -51,21 +54,44 @@ function pipeMulti(inputArr, filterName, parameters) {
 	return output;
 }
 
+// takes a filter and applies it to an array of objects (an array of objects of arrays)
+function pipeMultiObj(inputArr, filterName, parameters) {
+	// if the function takes more params, add them to the parameter array
+	var paramsArr = [inputArr].concat(parameters);
+	// pass combined array as parameter to associated filter function
+	// and return the output
+	return filterBank.multiObj[filterName].apply(null, paramsArr);
+}
+
 // choose how to apply filter to the input data and return the transformed data
 function applyPipe(inputData, filter, parameters) {
-	// if (!_.isArray(inputData)) inputData = [inputData];
-	if (_.has(filterBank.singleArray, filter.name)) {
+	var name = filter.name;
+	// if filter is applied to each array in each input object
+	if (_.has(filterBank.singleArray, name)) {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
-			var args = [input].concat(filter.name, filter.parameters);
-			return pipeSingle.apply(null, args);
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleArr.apply(null, args);
 		});
 	}
-	// if filter expects an array of inputs
+	// if filter expects a single input object at a time
+	else if (_.has(filterBank.singleObj, name)) {
+		// apply the filter to each input in the input array
+		return inputData.map(function(input) {
+			// each filter can have any number of parameters, so use apply
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleObj.apply(null, args);
+		});
+	}
+	// if filter is applied to an array of objects with no transformations
+	else if (_.has(filterBank.multiObj, name)) {
+		return pipeMultiObj(inputData, name);
+	}
+	// if filter expects an array of input objects and is applied to transformed arrays
 	else {
 		// apply the filter to the total input array
-		return pipeMulti(inputData, filter.name);
+		return pipeMultiArr(inputData, name);
 	}
 }
 

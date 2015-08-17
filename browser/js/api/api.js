@@ -1,10 +1,16 @@
 app.config(($stateProvider) => {
   $stateProvider.state('api', {
-    url: '/:id/apis',
+    url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
-    controller: ($scope, user, routes) => {
+    controller: ($scope, user, route, data) => {
       $scope.user = user
-      $scope.routes = routes
+      $scope.route = route
+      // $scope.data = data
+
+      $scope.crawlStatus = route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
+      $scope.tableHeadings = () => {
+        // pull out table headings from crawl data
+      }
 
       // test data
       $scope.data = {
@@ -534,8 +540,9 @@ app.config(($stateProvider) => {
       }
     },
     resolve: {
-      user: ($stateParams, User) => User.find($stateParams.id),
-      routes: (user) => user.getRoutes()
+      user: (User, $stateParams) => User.find($stateParams.userid),
+      route: (Route, $stateParams) => Route.find($stateParams.routeid),
+      data: (route) => route.getCrawlData()
     }
   })
 })

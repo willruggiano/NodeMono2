@@ -29,15 +29,15 @@ var schema = new mongoose.Schema({
     },
     google: {
         id: String
-    },
-    routes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Route'
-    }],
-    pipes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pipe'
-    }]
+    }
+    // routes: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Route'
+    // }],
+    // pipes: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Pipe'
+    // }]
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations

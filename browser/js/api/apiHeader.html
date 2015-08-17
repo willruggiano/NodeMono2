@@ -1,6 +1,6 @@
 <div class='row'>
   <div id='apiHeader' class='col-md-8'>
-    <p>{{ data.name }}</p>
+    <p>{{ route.name }}</p>
     <button class='btn-nodemono'>rename</button>
   </div>
   <div id='apiEdit' class='btn-group col-md-4'>
@@ -21,7 +21,7 @@
         <tr>
           <td class='td-label'>Source URL</td>
           <td>
-            <a href='{{ data.sourceUrl }}'>{{ data.sourceUrl }}</a>
+            <a href='{{ data.sourceUrl }}'>{{ route.url }}</a>
             <button class='btn-nodemono'>edit</button>
           </td>
         </tr>
@@ -29,7 +29,7 @@
           <td class='td-label'>Crawl Status</td>
           <td>
             <span id='nm-status' class='glyphicon glyphicon-ok-circle'></span>
-            <span>{{ data.thisVersionStatus }}</span>
+            <span>{{ crawlStatus }}</span>
           </td>
         </tr>
       </tbody>

@@ -30,6 +30,7 @@
     "tabs",
     "notifications",
     "activeTab",
-    "https://*/*"
+    "https://*/*",
+    "http://*/*"
   ]
 }

@@ -1,16 +1,34 @@
-<form id="login-form" name="loginForm" ng-submit="loginForm.$valid && sendLogin(login)">
+<div id="signup-container">
+    <br><br>
+    <label>
+        Don't have an account?
+    </label>
+    <button class="btn btn-primary" ui-sref="signup"> sign up!</button>
+</div>
+<section class="container col-lg-8" id="login-container">
+    <form id="login-form" name="loginForm" ng-submit="sendLogin(login)" class="container col-lg-6">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-default" id="login-submit">Login</button>
+        
+        <div class="alert alert-danger" id="invalid" ng-if="error">
+            <strong>Oops!</strong> Incorrect email or password.
+        </div>
+    </form>
 
-    <alert type="danger" ng-show="error">
-        {{ error }}
-    </alert>
+    <div class="container col-lg-1"></div>  
 
-    <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+    <div class="container col-lg-4">
+        <label class="invisible"> pas </label>     
+        <oauth-button provider-name="Google"></oauth-button>
+        <label class="invisible"> pas </label> <br> <br>
+        <oauth-button provider-name="Github"></oauth-button>
     </div>
-    <div class="form-group">
-        <label for="login-password">Password</label>
-        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+</section>
+

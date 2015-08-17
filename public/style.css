@@ -97,14 +97,18 @@ navbar {
   width: 100%; }
 
 #signup-btns {
-  float: none; }
+  float: none;
+  text-align: center; }
+
+#main {
+  background-color: #f8f8f8; }
 
 .intro-header {
+  max-width: 100%;
   padding-top: 50px;
   padding-bottom: 50px;
   text-align: center;
-  color: black;
-  background-size: cover; }
+  color: black; }
 
 .intro-message {
   padding-top: 20%;
@@ -178,7 +182,7 @@ navbar {
   box-shadow: 5px 5px 19px #888888; }
   #login-container oauth-button {
     margin-right: 20px;
-    width: 100%; }
+    width: 25px; }
 
 #login-submit {
   width: 100%; }

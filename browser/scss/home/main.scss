@@ -1,10 +1,15 @@
+#main{
+  background-color: #f8f8f8;
+}
+
 .intro-header {
+    max-width: 100%;
     padding-top: 50px;
     padding-bottom: 50px;
     text-align: center;
     color: black;
-    background-size: cover;
 }
+
 .intro-message {
     padding-top: 20%;
     padding-bottom: 20%;

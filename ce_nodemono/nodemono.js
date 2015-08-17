@@ -83,34 +83,6 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 	window.app = angular
 		.module('myApp', [])
-		.controller('NodemonoMainCtrl', function($scope) {
-			$scope.collection = {};
-			console.log('go here')
-			// this.message = "Hello";
-
-		})
-		.controller('ToolbarCtrl', function MyCtrl($scope) {
-			// $scope.property = "property1"
-			// var tid = setInterval(function() {
-
-			// 	$scope.property = SG.path_output_field.value
-
-			// }, 500);
-
-			$scope.buttonClicked = function() {
-				// console.log($scope.collection);
-
-				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
-
-			}
-			$scope.selectCollection = function() {
-
-			}
-
-			$scope.doneClicked = function() {
-
-			}
-		})
 		.factory("Collection", function($http, $scope, $rootScope) {
 			function Collection(props) {
 				angular.extend(this, props);
@@ -178,12 +150,8 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 
 		})
 		.controller('ToolbarCtrl', function MyCtrl($scope, Collection, $rootScope) {
-			// $scope.property = "property1"
-			// var tid = setInterval(function() {
-
-			// 	$scope.property = SG.path_output_field.value
-
-			// }, 500);
+			$scope.property = "property1";
+			console.log(Collection);
 
 			$scope.buttonClicked = function() {
 				// console.log($scope.collection);
@@ -210,7 +178,7 @@ $.get(chrome.extension.getURL('kimono-toolbar.html'), function(data) {
 	// To allow `bootstrap()` to continue normally
 	angular.bootstrap(appRoot, ['myApp']);
 	// console.log(angular);
-	console.log('Angularjs Boot and loaded !');
+	// console.log('Angularjs Boot and loaded !');
 });
 
 

@@ -84,6 +84,22 @@ navbar {
     navbar .welcome button {
       cursor: pointer; }
 
+#signin-container {
+  top: 10vh;
+  border: 1px solid black;
+  padding: 10px;
+  float: none;
+  box-shadow: 10px 10px 40px #888888; }
+  #signin-container oauth-button {
+    margin-right: 20px;
+    width: 100%; }
+
+#signin-submit {
+  width: 100%; }
+
+#signup-btns {
+  float: none; }
+
 #home nodemono-logo {
   padding-top: 30px;
   width: 150px;
@@ -128,9 +144,30 @@ navbar {
       display: block;
       margin: 0 auto; }
 
-#login-form {
-  width: 60%;
-  margin: 0 auto; }
+#signup-container {
+  float: none;
+  margin: 0 auto;
+  text-align: center; }
+
+#login-container {
+  top: 10vh;
+  border: 1px solid black;
+  padding: 10px;
+  float: none;
+  box-shadow: 10px 10px 40px #888888; }
+  #login-container oauth-button {
+    margin-right: 20px;
+    width: 100%; }
+
+#login-submit {
+  width: 100%; }
+
+#signup-btn {
+  width: 100%; }
+
+#invalid {
+  margin-top: 10px;
+  margin-bottom: 0; }
 
 .btn-nodemono {
   font-size: 10px;

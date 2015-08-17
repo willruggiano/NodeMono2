@@ -105,7 +105,7 @@
         //added function for signup process
         //what's Q for?
         this.signup = function(credentials) {
-            console.log(credentials)
+            console.log("we are over here", credentials)
             return $http.post('/signup', credentials)
                 .then(onSuccessfulLogin)
                 .catch(function() {

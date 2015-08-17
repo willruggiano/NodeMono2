@@ -55,7 +55,7 @@
 .labelOverlay {
   color: white;
 }
-.routeFrequency {
+.routeFrequency, .paginationDepth {
   height:34px;
 }
 

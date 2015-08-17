@@ -2,19 +2,15 @@
     <div class="navbar-header">
         <a class="navbar-brand" href="#">nodemono</a>
     </div>
-    <!-- <form class="navbar-form navbar-left" role="search">
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
-            </div>
-            <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-        </form>
-        <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
+    <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
         </div>
-<<<<<<< HEAD:ce_nodemono/html/kimono-toolbar.html
         <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-    </form> --> 
+    </form>
+    <div class="navbar-form navbar-right">
+        <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
+    </div>
     <div>
         <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='hide';>Back</button>
         <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>One</button>
@@ -27,25 +23,10 @@
         </div>
         <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='hide'></input>
         <button id="saveBtn" ng-click="save();" class='hide'>Save</button>
-                <div class="navbar-form navbar-right">
+        <div class="navbar-form navbar-right">
         </div>
     </div>
-    <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
-        <!--     <form class="navbar-form navbar-left" role="search">
-</form> -->
-        <!-- <div>
-            <button id="oneButton" ng-click="oneBtn(); $event.preventDefault(); $event.stopPropagation()" class='hide'>One</button>
-            <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation()" class='hide'>All</button>
-            <div id="greenAttrSelector" class='hide'>
-                <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
-            </div>
-            <div id="yellowAttrSelector" class='hide'>
-                <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
-            </div>
-            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='propName' class='hide'></input>
-            <button id="saveBtn" ng-click="save(); $event.preventDefault(); $event.stopPropagation();" class='hide'>Save</button>
-        </div> -->
-        <!-- show overlay when click done button, prompt login function or setup route UI -->
+    <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
         <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
@@ -99,20 +80,14 @@
                     <input name="route" type="text" class="form-control" ng-model="route.name" placeholder="Route name">
                 </div>
                 <div class="routeFrequency form-group">
-                    <select ng-model="route.frequency" ng-options="frequency.text for frequency in Frequencies track by frequency.Id" class="selectStyle"></select>
+                <select ng-model="route.frequency" ng-options="frequency.text for frequency in Frequencies track by frequency.Id" class="selectStyle"></select>
                 </div>
-                <button class="btn btn-default" ng-click="createNewRoute()" type="submit">
-                Create Route
-                </button>
-            </form>
-        </div>
+                <div class="paginationDepth form-group" ng-if="pagination">
+                <select ng-model="route.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle"></select>
+                </div>
+            <button class="btn btn-default" ng-click="createNewRoute()" type="submit">
+            Create Route
+            </button>
+        </form>
     </div>
 </div>
-
-
-
-
-
-
-
-

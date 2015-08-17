@@ -1,7 +1,7 @@
 function startNodemono() {
 	//import CSS library
 	importCSS(chrome.extension.getURL("css/bootstrap.min.css"))
-		// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
+	// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
 	importCSS(chrome.extension.getURL("css/style.css"));
 
 	importJS(chrome.extension.getURL('js/main.js'));
@@ -16,8 +16,8 @@ function startNodemono() {
 		appRoot.dataset.ngController = 'NodemonoMainCtrl as ctrl';
 
 		appRoot.id = "nodemonofy"
-			// Insert elements into the DOM
-			// document.body.pre(div);
+		// Insert elements into the DOM
+		// document.body.pre(div);
 		$(div).prependTo('body')
 		div.appendChild(appRoot);
 		$(data).appendTo('#nodemonofy');
@@ -26,56 +26,56 @@ function startNodemono() {
 			.module('myApp', []);
 		registerAuthService();
 		app.factory("User", function($http) {
-				function User(props) {
-					angular.extend(this, props)
-					return this
+			function User(props) {
+				angular.extend(this, props)
+				return this
+			}
+
+			User.url = '/api/users/';
+
+			Object.defineProperty(User.prototype, 'url', {
+				get: function() {
+					return User.url + this._id
 				}
-
-				User.url = '/api/users/';
-
-				Object.defineProperty(User.prototype, 'url', {
-					get: function() {
-						return User.url + this._id
-					}
-				})
-				User.prototype.isNew = function() {
-					return !this._id
-				};
-
-				User.prototype.fetch = function() {
-					return $http.get(this.url)
-						.then(function(res) {
-							return res.data;
-						})
-				};
-
-				User.prototype.save = function() {
-					var verb
-					var url
-					if (this.isNew()) {
-						verb = 'post'
-						url = User.url
-					} else {
-						verb = 'put'
-						url = this.url
-					}
-					return $http[verb](url, this)
-						.then(function(res) {
-							return res.data
-						})
-				}
-				User.prototype.destroy = function() {
-					return $http.delete(this.url)
-				}
-
-				return User;
-
-
 			})
+			User.prototype.isNew = function() {
+				return !this._id
+			};
+
+			User.prototype.fetch = function() {
+				return $http.get(this.url)
+					.then(function(res) {
+						return res.data;
+					})
+			};
+
+			User.prototype.save = function() {
+				var verb
+				var url
+				if (this.isNew()) {
+					verb = 'post'
+					url = User.url
+				} else {
+					verb = 'put'
+					url = this.url
+				}
+				return $http[verb](url, this)
+					.then(function(res) {
+						return res.data
+					})
+			}
+			User.prototype.destroy = function() {
+				return $http.delete(this.url)
+			}
+
+			return User;
+
+
+		})
 			.controller('NodemonoMainCtrl', function($scope) {
 				$scope.collection = {};
 				console.log('go here')
-					// this.message = "Hello";
+				// this.message = "Hello";
 
 			})
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
@@ -99,9 +99,9 @@ function startNodemono() {
 				}
 
 				$scope.doneClicked = function() {
-						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
-					}
-					//cancel 
+					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
+				}
+				//cancel 
 				$scope.cancel = function() {
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -239,7 +239,22 @@ function startNodemono() {
 					Id: "6",
 					text: "Monthly"
 				}];
+				$scope.Depths = [{
+					Id: "1",
+					text: "10 pages max"
+				}, {
+					Id: "2",
+					text: "15 pages max"
+				}, {
+					Id: "3",
+					text: "25 pages max"
+				}];
 				$scope.route.frequency = $scope.Frequencies[0];
+
+				$scope.pagination = true;
+				if ($scope.pagination) {
+					$scope.route.depth = $scope.Depths[0];
+				}
 				$scope.toggleLogin = function() {
 					console.log('hello0')
 					$scope.showLogin = $scope.showLogin === true ? false : true;
@@ -250,9 +265,10 @@ function startNodemono() {
 						.then(function(user) {
 							console.log(user)
 							$rootScope.user = user;
-						}).catch(function() {
-							$scope.error = "Invalid credentials";
-						});
+						}).
+					catch (function() {
+						$scope.error = "Invalid credentials";
+					});
 				};
 
 				$scope.createNewRoute = function() {
@@ -374,7 +390,7 @@ function registerAuthService() {
 			// If it returns a user, call onSuccessfulLogin with the response.
 			// If it returns a 401 response, we catch it and instead resolve to null.
 			return $http.get(AUTH_EVENTS.serverUrl + '/session').then(onSuccessfulLogin).
-			catch(function() {
+			catch (function() {
 				return null;
 			});
 
@@ -384,7 +400,7 @@ function registerAuthService() {
 			return $http.post(AUTH_EVENTS.serverUrl + '/login', credentials)
 				.then(onSuccessfulLogin)
 				.
-			catch(function() {
+			catch (function() {
 				return $q.reject({
 					message: 'Invalid login credentials.'
 				});
@@ -406,7 +422,7 @@ function registerAuthService() {
 			return $http.post(AUTH_EVENTS.serverUrl + '/signup', credentials)
 				.then(onSuccessfulLogin)
 				.
-			catch(function() {
+			catch (function() {
 				return $q.reject({
 					message: 'Invalid login credentials.'
 				});

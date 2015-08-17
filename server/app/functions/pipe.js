@@ -3,102 +3,11 @@ var _ = require('lodash');
 var Q = require('q');
 var mongoose = require('mongoose');
 
-// contains the logic for the different filters
-var filterBank = {
-	// single array functions
-	singleArray: {
-		maxLength: function(arr, len) {
-			return arr.slice(0, len);
-		},
-		unique: function(arr) {
-			return _.uniq(arr);
-		}
-	},
-	// any number of array functions
-	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)
-	multiArray: {
-		// returns array of all unique values between the two input objects
-		union: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				union: _.union.apply(null, arrArgs)
-			}];
-		},
-		// returns array of values in all input arrays
-		//  should it be intersection b/w ALL arrays, or just objects? (ie concat all arrays in each object and then run intersection)?
-		//   does the latter as of now
-		intersection: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				intersection: _.intersection.apply(null, arrArgs)
-			}];
-		}
-	},
-	// special filter - always applied last; takes an array of objects of arrays
-	interleave: function(arr) {
-		// interleave each object - expects each obj to have keys with arrays
-		// then merge each object at each index
-		arr = arr.reduce(function(accum, obj) {
-			accum.push(interleaveObj(obj));
-			return accum;
-		}, []);
+// load in filter functions
+var filterBank = require('./filterBank');
 
-		// find longest interleaved arr
-		var maxLen = 0;
-		arr.forEach(function(elem) {
-			if (elem.length > maxLen) maxLen = elem.length;
-		});
-
-		var interleavedArr = [];
-		var len = arr.length;
-		// merge each object in the sub arrays at each index
-		for (var i = 0; i < maxLen; i++) {
-			interleavedArr.push(arr.reduce(function(accum, innerArr) {
-				return _.merge(accum, innerArr[i]);
-			}, {}));
-		}
-
-		return interleavedArr;
-	},
-	// expects array of objects, applied last
-	// merges all objects in the array into one object (returns the object, no array)
-	merge: function(arr) {
-		return arr.reduce(function(accum, obj) {
-			return _.merge(accum, obj);
-		}, {});
-	}
-};
-
-// helper function for interleave - interleaves a single object of arrays
-function interleaveObj(obj) {
-	// find all keys in the object
-	var keys = Object.keys(obj);
-
-	// find longest stored array
-	var maxLen = keys.reduce(function(max, key) {
-		if (obj[key].length > max) return obj[key].length;
-		else return max;
-	}, 0);
-
-	var mergedData = [];
-	// use maxLen (length of longest array in the object)
-	for (var i = 0; i < maxLen; i++) {
-		// make new obj with fields for each name
-		var mergedObj = {};
-		keys.forEach(function(key, idx) {
-			// each object gets elements from a certain index (i)
-			mergedObj[key] = obj[key][i];
-		});
-		// add to the array of these objects
-		mergedData.push(mergedObj);
-	}
-
-	return mergedData;
-}
-
-// takes a filter and applies it to a stream of data (an objects of arrays)
-//  expects input to be a single object of arrays
-function pipeSingle(input, filterName, parameters) {
+// takes a filter and applies it to the input object's arrays (expects an object of arrays)
+function pipeSingleArr(input, filterName, parameters) {
 	// get associated function
 	var func = filterBank.singleArray[filterName];
 	// apply filter to each array in the input object
@@ -114,16 +23,20 @@ function pipeSingle(input, filterName, parameters) {
 	return input;
 }
 
-// takes a filter and applies it to a stream of data (an array of objects of arrays)
-//  expects input to be an array of objects of arrays
-function pipeMulti(inputArr, filterName, parameters) {
+// filter is applied to each input object as a whole, not the object's arrays individually
+function pipeSingleObj(input, filterName, parameters) {
+	// get associated function
+	var func = filterBank.singleObj[filterName];
+	// apply filter to the input object
+	var paramsArr = [input].concat(parameters);
+	return func.apply(null, paramsArr);
+}
+
+// takes a filter and applies it to an array of objects (an array of objects of arrays)
+//   each object is transformed into an array of all its inner arrays concatenated together
+function pipeMultiArr(inputArr, filterName, parameters) {
 	// merge each object's arrays and add each to an array of such arrays
 	var combinedArr = inputArr.reduce(function(accum, inputObj) {
-		//// ** for intersection b/w ALL arrays in all objects (** this version needs _.flatten on combinedArr)
-		// var combinedInputs = Object.keys(inputObj).reduce(function(innerAccum, key) {
-		// 	innerAccum.push(inputObj[key]);
-		// 	return innerAccum;
-		// },[]);
 		//// for intersection of values between objects (ie routes)
 		var combinedInputs = Object.keys(inputObj).reduce(function(innerAccum, key) {
 			return innerAccum.concat(inputObj[key]);
@@ -141,20 +54,44 @@ function pipeMulti(inputArr, filterName, parameters) {
 	return output;
 }
 
+// takes a filter and applies it to an array of objects (an array of objects of arrays)
+function pipeMultiObj(inputArr, filterName, parameters) {
+	// if the function takes more params, add them to the parameter array
+	var paramsArr = [inputArr].concat(parameters);
+	// pass combined array as parameter to associated filter function
+	// and return the output
+	return filterBank.multiObj[filterName].apply(null, paramsArr);
+}
+
 // choose how to apply filter to the input data and return the transformed data
 function applyPipe(inputData, filter, parameters) {
-	// if (!_.isArray(inputData)) inputData = [inputData];
-	if (_.has(filterBank.singleArray, filter.name)) {
+	var name = filter.name;
+	// if filter is applied to each array in each input object
+	if (_.has(filterBank.singleArray, name)) {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
-			var args = [input].concat(filter.name, filter.parameters);
-			return pipeSingle.apply(null, args);
+			// each filter can have any number of parameters, so use apply
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleArr.apply(null, args);
 		});
 	}
-	// if filter expects an array of inputs
+	// if filter expects a single input object at a time
+	else if (_.has(filterBank.singleObj, name)) {
+		// apply the filter to each input in the input array
+		return inputData.map(function(input) {
+			// each filter can have any number of parameters, so use apply
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleObj.apply(null, args);
+		});
+	}
+	// if filter is applied to an array of objects with no transformations
+	else if (_.has(filterBank.multiObj, name)) {
+		return pipeMultiObj(inputData, name);
+	}
+	// if filter expects an array of input objects and is applied to transformed arrays
 	else {
 		// apply the filter to the total input array
-		return pipeMulti(inputData, filter.name);
+		return pipeMultiArr(inputData, name);
 	}
 }
 

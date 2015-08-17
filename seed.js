@@ -28,7 +28,6 @@ var Pipe = Promise.promisifyAll(mongoose.model('Pipe'));
 
 
 var wipeDB = function() {
-
     var models = [User, Route, Filter, Pipe];
     var promiseArr = [];
     models.forEach(function(model) {
@@ -36,9 +35,7 @@ var wipeDB = function() {
     });
 
     return Promise.all(promiseArr);
-
 };
-
 
 
 var seedDb = function() {
@@ -87,23 +84,7 @@ var seedDb = function() {
             // attach saved routes to higher scope
             routes = savedRoutes;
 
-            var newFilters = [{
-                name: 'intersection',
-                parameters: []
-            }, {
-                name: 'union',
-                parameters: []
-            }, {
-                name: 'maxLength',
-                parameters: [3]
-            }, {
-                name: 'unique',
-                parameters: []
-            }];
-
-            return Filter.remove().then(function() {
-                return Filter.createAsync(newFilters);
-            });
+            return seedFilters();
         })
         .then(function(savedFilters) {
             // attach saved filters to higher scope
@@ -187,10 +168,7 @@ var seedUsers = function() {
         userKey: 'obamaKey',
     }];
 
-    return User.remove().then(function() {
-        return User.createAsync(users);
-    });
-
+    return User.createAsync(users);
 };
 
 // create and save all filters to the db (dynamic)
@@ -203,7 +181,7 @@ var seedFilters = function() {
     // make a filter object for each filter function in the bank
     // start with single array functions
     var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
-    var singles = singleArrFunctionKeys.reduce(function(accum, key) {
+    var singleArrs = singleArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
@@ -215,7 +193,31 @@ var seedFilters = function() {
 
     // then multiple array functions
     var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
-    var multis = multiArrFunctionKeys.reduce(function(accum, key) {
+    var multiArrs = multiArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then single object functions
+    var singleObjFunctionKeys = Object.keys(filterBank.singleObj);
+    var singleObjs = singleObjFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then multiple object functions
+    var multiObjFunctionKeys = Object.keys(filterBank.multiObj);
+    var multiObjs = multiObjFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
@@ -226,13 +228,10 @@ var seedFilters = function() {
     }, []);
 
     // join the filters together
-    var filters = singles.concat(multis);
+    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs);
 
-    // clear db of filters
-    return Filter.remove().then(function() {
-        // save the new filters
-        return Filter.createAsync(filters);
-    });
+    // save the new filters
+    return Filter.createAsync(filters);
 };
 
 connectToDb.then(function() {
@@ -246,6 +245,5 @@ connectToDb.then(function() {
             console.error(err);
             process.kill(1);
         });
-
-    })
+    });
 });

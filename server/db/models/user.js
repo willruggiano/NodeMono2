@@ -13,7 +13,7 @@ var schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     salt: {
         type: String
@@ -28,6 +28,9 @@ var schema = new mongoose.Schema({
         id: String
     },
     google: {
+        id: String
+    },
+    github: {
         id: String
     },
     routes: [{

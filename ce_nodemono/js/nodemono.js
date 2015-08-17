@@ -241,6 +241,7 @@ function startNodemono() {
 				}];
 				$scope.route.frequency = $scope.Frequencies[0];
 				$scope.toggleLogin = function() {
+					console.log('hello0')
 					$scope.showLogin = $scope.showLogin === true ? false : true;
 				}
 				$scope.sendLogin = function(user) {

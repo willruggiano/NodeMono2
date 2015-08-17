@@ -69,6 +69,7 @@ function setUpDom(scope) {
     if (isDescendant(document.getElementById('nodemonofy'), element)) {
       //kill all clicks on toolbar
       element.addEventListener("click", function(event) {
+        console.log('nodemonofy element')
         event.preventDefault();
         event.stopPropagation();
       })

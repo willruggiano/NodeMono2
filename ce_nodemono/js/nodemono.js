@@ -244,13 +244,14 @@ function startNodemono() {
 					$scope.showLogin = $scope.showLogin === true ? false : true;
 				}
 				$scope.sendLogin = function(user) {
+					console.log(user)
 					AuthService.login(user)
 						.then(function(user) {
+							console.log(user)
 							$rootScope.user = user;
-						}).
-					catch(function() {
-						$scope.error = "Invalid credentials";
-					});
+						}).catch(function() {
+							$scope.error = "Invalid credentials";
+						});
 				};
 
 				$scope.createNewRoute = function() {

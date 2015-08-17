@@ -2,7 +2,7 @@
     <div class="navbar-header">
         <a class="navbar-brand" href="#">nodemono</a>
     </div>
-    <form class="navbar-form navbar-left" role="search">
+    <!-- <form class="navbar-form navbar-left" role="search">
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
@@ -12,9 +12,9 @@
         <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
         </div>
-<!-- <<<<<<< HEAD:ce_nodemono/html/kimono-toolbar.html -->
-<!--         <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-    </form> -->
+<<<<<<< HEAD:ce_nodemono/html/kimono-toolbar.html
+        <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
+    </form> --> 
     <div>
         <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='hide';>Back</button>
         <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>One</button>
@@ -27,15 +27,13 @@
         </div>
         <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='hide'></input>
         <button id="saveBtn" ng-click="save();" class='hide'>Save</button>
-    </div> -->
-<!-- ======= -->
+                <div class="navbar-form navbar-right">
+        </div>
+    </div>
+    <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
         <!--     <form class="navbar-form navbar-left" role="search">
-                                                        <div class="form-group">
-                                                                            <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-        </form> -->
-        <div>
+</form> -->
+        <!-- <div>
             <button id="oneButton" ng-click="oneBtn(); $event.preventDefault(); $event.stopPropagation()" class='hide'>One</button>
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation()" class='hide'>All</button>
             <div id="greenAttrSelector" class='hide'>
@@ -46,7 +44,7 @@
             </div>
             <input id="nameInput" type="text" placeholder="Prop Name" ng-model='propName' class='hide'></input>
             <button id="saveBtn" ng-click="save(); $event.preventDefault(); $event.stopPropagation();" class='hide'>Save</button>
-        </div>
+        </div> -->
         <!-- show overlay when click done button, prompt login function or setup route UI -->
         <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
             <div class="navbar-form navbar-right">
@@ -107,12 +105,8 @@
                     Create Route
                     </button>
                 </form>
-
-
-
             </div>
         </div>
->>>>>>> master:ce_nodemono/kimono-toolbar.html
 
 
 

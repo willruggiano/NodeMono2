@@ -3,6 +3,13 @@ var _ = require('lodash');
 
 // contains all filter functions for pipes
 var filterBank = {
+	// filters for single elements (those inside arrays)
+	//// each element is expected to be a string
+	singleElement: {
+		elementSlice: function(elem, x) {
+			return elem.slice(x);
+		}
+	},
 	// single array functions
 	singleArray: {
 		maxLength: function(arr, len) {

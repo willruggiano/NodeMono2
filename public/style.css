@@ -100,18 +100,37 @@ navbar {
 #signup-btns {
   float: none; }
 
-#home nodemono-logo {
-  padding-top: 30px;
-  width: 150px;
-  margin: 0 auto; }
-#home h3, #home h4 {
-  margin-top: 40px;
-  text-align: center; }
-  #home h3 span, #home h4 span {
-    color: #f31214; }
-#home h4 {
-  color: #969696;
-  font-weight: bolder; }
+.intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: black; }
+
+.intro-message {
+  padding-top: 20%;
+  padding-bottom: 20%; }
+
+.intro-divider {
+  width: 400px;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+
+.chrome-invite {
+  padding-top: 10%;
+  padding-bottom: 10%; }
+  .chrome-invite nodemono-logo {
+    padding-top: 30px;
+    width: 150px;
+    margin: 0 auto; }
+    .chrome-invite nodemono-logo :hover {
+      opacity: 0.2; }
+
+.content-section-a {
+  padding: 50px 0; }
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px; }
 
 #about {
   margin: 0 auto;

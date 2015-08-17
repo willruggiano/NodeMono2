@@ -19,11 +19,13 @@ module.exports = function (app) {
 
         UserModel.findOne({ 'google.id': profile.id }).exec()
             .then(function (user) {
-
                 if (user) {
                     return user;
                 } else {
+                    console.log(profile)
                     return UserModel.create({
+                        name: profile.name.givenName,
+                        email: profile.emails[0].value,
                         google: {
                             id: profile.id
                         }

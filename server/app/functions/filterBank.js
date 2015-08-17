@@ -35,9 +35,19 @@ var filterBank = {
 		// should they pick which property to sort by? like for interleaved output?
 		sort: function(arr, sortName, descending) {
 			var sortFunc;
-			if (descending) sortFunc = sortMap[sortName].descending;
+			if (descending) {
+				// special case for descending alphabetical (uses default sort)
+				if (sortName === 'alphabetic') {
+					return arr.sort(sortMap.alphabetic).reverse();
+				}
+				sortFunc = sortMap[sortName].descending;
+			}
 			else sortFunc = sortMap[sortName].ascending;
 			return arr.sort(sortFunc);
+		},
+		randomize: function(arr) {
+			// apply special randomizing sort function
+			return arr.sort(sortMap.randomize);
 		}
 	},
 	// any number of array functions
@@ -74,7 +84,8 @@ var filterBank = {
 			}];
 		}
 	},
-	// special filter - always applied last; takes an array of objects of arrays
+	// ** special filters - always applied last **
+	// takes an array of objects of arrays
 	interleave: function(arr) {
 		// interleave each object - expects each obj to have keys with arrays
 		// then merge each object at each index
@@ -109,7 +120,7 @@ var filterBank = {
 	}
 };
 
-// helper functions below
+// ** helper functions below **
 
 // helper function for interleave - interleaves a single object of arrays
 function interleaveObj(obj) {
@@ -149,20 +160,13 @@ var sortMap = {
 		}
 	},
 	alphabetic: {
-		// isn't this the default sort?
-		ascending: {},
-		descending: // uhhhh 
-			{}
+		// just uses the default sort, so no function is passed in
+		// descening reverses the array after (inefficient, but it should be ok)
+	},
+	randomize: function(a,b) {
+		return 0.5 - Math.random();
 	}
 	// put more below
 };
-
-
-var dummyArr = [0,1,2,3,4,5];
-// console.log(filterBank.singleArray.pullAt(dummyArr, 1));
-console.log(filterBank.singleArray.sort(dummyArr, 'numeric'));
-
-
-// console.log('ran the filterBank');
 
 module.exports = filterBank;

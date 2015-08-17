@@ -33,6 +33,7 @@
 }*/
 
 
+
 #collectionOverlay {
   z-index: 2147483700;
   width:100%;
@@ -41,3 +42,44 @@
   position: fixed;
   backface-visibility: hidden;
 }
+/*toolbar buttons and fields*/
+/*aplicable styles*/
+.show {
+  min-width:15%;
+  max-width:40%;
+}
+.hide {
+  width: 0;
+}
+
+/*the elements*/
+#oneButton{
+  height:50px;
+  background-color: #00ff00;
+  transition: all 0.5s;
+}
+#allButton{
+  height:50px;
+  background-color: yellow;
+  transition: all 0.5s;
+}
+#greenAttrSelector{
+  height:50px;
+  background-color: #00ff00;
+  transition: all 0.5s;
+}
+#yellowAttrSelector{
+  height:50px;
+  background-color: yellow;
+  transition: all 0.5s;
+}
+#nameInput{
+  height:50px;
+  transition: all 0.5s;
+}
+#saveBtn{
+  height:50px;
+  transition: all 0.5s;
+}
+
+

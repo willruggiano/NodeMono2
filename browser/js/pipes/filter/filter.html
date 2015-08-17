@@ -1,0 +1,7 @@
+<div>
+	<span>Name: {{filter.name}}</span>
+	<a class="btn btn-default" ng-click="select({filter: filter})">Select filter</a>
+	<p>Url: {{filter.url}}</p>
+	<p>Parameters: <span ng-repeat="param in filter.parameters">{{param}} </span></p>
+	<!-- <pre>{{filter | json}}</pre> -->
+</div>

@@ -22,18 +22,6 @@ var schema = new mongoose.Schema({
 		// optionally extract certain indexes from selected elements
 		indexes: [Number]
 	}],
-	// options for crawled data
-	config: {
-		// concat data fields into an array of objects
-		returnObj: {
-			type: Boolean,
-			default: false
-		},
-		// limit number of results
-		limitNum: {
-			type: Number
-		}
-	},
 	//extra information about the crawler
 	lastTimeCrawled: {
 		type: Date,
@@ -69,10 +57,11 @@ schema.methods.getCrawlData = function getCrawlData() {
 		})
 		.catch(function(err) {
 			// the crawl failed, so log that
-			self.lastTimeCrawled = Date.now()
+			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = false;
-			self.save()
-			console.log('there was an error in getCrawlData method');
+			self.save();
+			console.log('there was an error in getCrawlData method', err);
+			return err;
 		});
 };
 

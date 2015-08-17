@@ -2,6 +2,7 @@
     <div class="navbar-header">
         <a class="navbar-brand" href="#">nodemono</a>
     </div>
+<!-- 
     <form class="navbar-form navbar-left" role="search">
         <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
@@ -9,15 +10,28 @@
             </div>
             <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
         </form>
-        <!-- <ul class="nav navbar-nav navbar-right">
-            <li><a class=""> Data</a></li>
-            <li><a class=""> Files</a></li>
-            <li><a class=" "> Remove</a></li>
-        </ul> -->
         <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
 
+        </div> -->
+<!--     <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
         </div>
+        <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
+    </form> -->
+    <div>
+        <button id="oneButton" ng-click="oneBtn(); $event.preventDefault(); $event.stopPropagation()" class='hide'>One</button>
+        <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation()" class='hide'>All</button>
+        <div id="greenAttrSelector" class='hide'>
+            <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
+        </div>
+        <div id="yellowAttrSelector" class='hide'>
+            <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
+        </div>
+        <input id="nameInput" type="text" placeholder="Prop Name" ng-model='propName' class='hide'></input>
+        <button id="saveBtn" ng-click="save(); $event.preventDefault(); $event.stopPropagation();" class='hide'>Save</button>
+
     </div>
 
 

@@ -1,0 +1,52 @@
+// var dummyObjArr = [{
+// 	'headlines': [
+// 		"AT&T Helped\nU.S. Spy on\nInternet Traffic,\nFiles Reveal", "AT&T Helped\nU.S. Spy on\nInternet Traffic,\nFiles Reveal", "G.O.P. Offers No Shared Vision on Use of Clout Abroad", "Young Couple Linked to ISIS, Perplexing Mississippi", "Frustration Increases as Officials Struggle After Blasts in China", "Locked in Solitary at 14: The Risks of Juvenile Isolation", "Moral of Airbnb Horror Story: Beware", "Bounce, Launch, Splash! The Joy of the Diving Board", "How Celebrities Keep Their Weddings Secret", "The Roller Rink Origins of N.W.A.", "Looking at the Bigger Picture in Los Angeles", "The Painful Lessons of the Yonkers Housing Crisis", "Icy Reception to a Backyard Party ", "Related C.E.O. Sells Co-op for $30 Million"
+// 	],
+// 	'links': [
+// 		"jack", "http://www.nytimes.com/2015/08/16/us/politics/att-helped-nsa-spy-on-an-array-of-internet-traffic.html", "http://www.nytimes.com/2015/08/16/us/politics/hawkish-gop-offers-no-plan-for-us-action.html", "http://www.nytimes.com/2015/08/15/us/disbelief-in-mississippi-at-how-far-isis-message-can-travel.html", "http://www.nytimes.com/2015/08/16/world/asia/china-tianjin-blasts-chemical-containment.html", "http://www.nytimes.com/2015/08/16/us/citing-safety-adult-jails-put-youths-in-solitary-despite-risks.html", "http://www.nytimes.com/2015/08/15/your-money/airbnb-horror-story-points-to-need-for-precautions.html", "http://www.nytimes.com/2015/08/16/nyregion/bounce-launch-splash-the-joy-of-the-diving-board.html", "http://www.nytimes.com/2015/08/15/fashion/jennifer-aniston-justin-theroux-how-celebrities-keep-their-weddings-a-secret.html", "http://www.nytimes.com/2015/08/13/magazine/the-roller-rink-origins-of-nwa.html", "http://www.nytimes.com/2015/08/16/arts/design/elaine-wynn-eyes-the-bigger-picture-in-los-angeles.html", "http://www.nytimes.com/2015/08/15/opinion/the-painful-lessons-of-the-yonkers-housing-crisis.html", "http://www.nytimes.com/2015/08/16/realestate/icy-reception-to-a-backyard-party.html", "http://www.nytimes.com/2015/08/16/realestate/big-ticket-related-ceo-sells-co-op-for-30-million.html"
+// 	]
+// },
+// {
+// 	'headlines2': [
+// 		"here",
+// 	],
+// 	'links2': [
+// 		"and", "jack", "I", "was", "here"
+// 	]
+// }];
+
+// var dummyFilters = [
+// 	{
+// 		name: 'intersection',
+// 		parameters: []
+// 	},
+// 	{
+// 		name: 'maxLength',
+// 		parameters: [1]
+// 	}
+// ];
+
+// console.log(pipeline(dummyObjArr, dummyFilters));
+
+
+// var obj = {
+// 	a: [1,2,3,5],
+// 	b: [2,7]
+// };
+// var obj2 = {
+// 	c: [11,12,13,15, 25],
+// 	d: [12,17, 20]
+// };
+// var obj3 = {
+// 	e: [11,2,13,545, 25],
+// 	f: [212,217, 220]
+// };
+// var obj4 = {
+// 	g: [11,12,813,15, 25,6, 9090],
+// 	h: [312,317, 320]
+// };
+
+// var objArr = [obj, obj2, obj3, obj4];
+
+// console.log(interleaveObj(obj2));
+// console.log(filterBank.merge(objArr));

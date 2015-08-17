@@ -23,39 +23,168 @@ var chalk = require('chalk');
 var connectToDb = require('./server/db');
 var User = Promise.promisifyAll(mongoose.model('User'));
 var Route = Promise.promisifyAll(mongoose.model('Route'));
+var Filter = Promise.promisifyAll(mongoose.model('Filter'));
+var Pipe = Promise.promisifyAll(mongoose.model('Pipe'));
 
-var routes = [{
-  name: 'testroute',
-  url: 'https://nytimes.com',
-  data: [
-    {
-      name: 'headline',
-      selector: '.theme-summary .story-heading a',
-      // indexes: [0, 3, 7]
-    },
-    {
-      name: 'link',
-      selector: '.theme-summary .story-heading a',
-      attr: 'href'
-    }
-  ],
-  config: {
-      returnObj: true
-  }
-}]
+
+var seedDb = function() {
+    // initialize variables so they can be accessed later
+    var users, routes, filters, pipes;
+    var activeUser;
+
+    // start seeding - add users to db
+    return seedUsers()
+    .then(function(savedUsers) {
+        // attach saved users to higher scope
+        users = savedUsers;
+        // the first user seeded will have the routes
+        activeUser = users[0];
+        var newRoutes = [
+            {
+                name: 'testroute',
+                user: activeUser,
+                url: 'https://nytimes.com',
+                data: [{
+                        name: 'headline',
+                        selector: '.theme-summary .story-heading a',
+                    },
+                    {
+                        name: 'link',
+                        selector: '.theme-summary .story-heading a',
+                        attr: 'href'
+                    }
+                ]
+            },
+            {
+                name: 'testroute2',
+                user: activeUser,
+                url: 'https://espn.go.com',
+                data: [{
+                        name: 'headlines',
+                        selector: '.headlines a',
+                    },
+                    {
+                        name: 'links',
+                        selector: '.headlines a',
+                        attr: 'href'
+                    }
+                ]
+            }
+        ];
+
+        return Route.remove().then(function() {
+            return Route.createAsync(newRoutes);
+        });
+    })
+    .then(function(savedRoutes) {
+        // attach saved routes to higher scope
+        routes = savedRoutes;
+
+        var newFilters = [{
+            name: 'intersection',
+            parameters: []
+        },
+        {
+            name: 'union',
+            parameters: []
+        },
+        {
+            name: 'maxLength',
+            parameters: [3]
+        },
+        {
+            name: 'unique',
+            parameters: []
+        }];
+
+        return Filter.remove().then(function() {
+            return Filter.createAsync(newFilters);
+        });
+    })
+    .then(function(savedFilters) {
+        // attach saved filters to higher scope
+        filters = savedFilters;
+
+        var newPipes = [{
+            name: 'testPipe',
+            user: activeUser,
+            inputs: {
+                routes: routes,
+                // added later
+                pipes: []
+            },
+            filters: [
+                // max length 3
+                filters[2],
+                // unique
+                filters[3]
+            ],
+            outputFormat: 'default'
+        },
+        {
+            name: 'testPipe2',
+            user: activeUser,
+            inputs: {
+                // only second route
+                routes: routes[1],
+                // added later
+                pipes: []
+            },
+            filters: [
+                // max length 3
+                filters[2],
+                // unique
+                filters[3]
+            ],
+            outputFormat: 'merge'
+        }];
+
+        return Pipe.remove().then(function() {
+            return Pipe.createAsync(newPipes);
+        });
+    })
+    .then(function(savedPipes) {
+        // attach saved pipes to higher scope
+        pipes = savedPipes;
+
+        // attach pipes as inputs to other pipes
+        pipes[1].inputs.pipes.push(pipes[0]);
+
+        // save the pipes
+        return pipes[1].save();
+    })
+    .then(function() {
+        // attach pipes to users
+        activeUser.pipes = pipes;
+
+        // attach routes to users
+        activeUser.routes = routes;
+
+        // save the update
+        return activeUser.save();
+    });
+};
 
 var seedUsers = function() {
 
     var users = [
         {
+            name: 'Jack Mulrow',
+            email: 'jack@mulrow.com',
+            password: 'jack',
+            userKey: 'jackKey'
+        },
+        {
             name: 'Full Stack',
             email: 'testing@fsa.com',
             password: 'password',
+            userKey: 'fullKey'
         },
         {
             name: 'Barack Obama',
             email: 'obama@gmail.com',
             password: 'potus',
+            userKey: 'obamaKey',
         }
     ];
 
@@ -65,19 +194,9 @@ var seedUsers = function() {
 
 };
 
-var seedRoutes = function (routes) {
-    return Route.remove().then(function() {
-        return Route.createAsync(routes);
-    });
-};
-
 connectToDb.then(function() {
-    User.findAsync({}).then(function(users) {
-        return seedUsers();
-    }).then(function(users) {
-        routes[0].user = users[0]._id
-        return seedRoutes(routes)
-    }).then(function() {
+    // seedDb is defined above - adds all pipes, users, routes, filters, etc. to db
+    seedDb().then(function() {
         console.log(chalk.green('Seed successful!'));
         process.kill(0);
     }).catch(function(err) {

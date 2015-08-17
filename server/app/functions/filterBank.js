@@ -47,7 +47,7 @@ var filterBank = {
 		},
 		randomize: function(arr) {
 			// apply special randomizing sort function
-			return arr.sort(sortMap.randomize);
+			return _.shuffle(arr);
 		}
 	},
 	// any number of array functions
@@ -84,7 +84,50 @@ var filterBank = {
 			}];
 		}
 	},
+	// functions applied to each input object
+	singleObj: {
+		// returns the object without the specified fields
+		omit: function(obj) {
+			return _.omit.apply(null, arguments);
+		}
+	},
+	// functions applied to all objects in an array of objects
+	multiObj: {
+		interleave: function(arr) {
+			// interleave each object - expects each obj to have keys with arrays
+			// then merge each object at each index
+			arr = arr.reduce(function(accum, obj) {
+				accum.push(interleaveObj(obj));
+				return accum;
+			}, []);
+
+			// find longest interleaved arr
+			var maxLen = 0;
+			arr.forEach(function(elem) {
+				if (elem.length > maxLen) maxLen = elem.length;
+			});
+
+			var interleavedArr = [];
+			var len = arr.length;
+			// merge each object in the sub arrays at each index
+			for (var i = 0; i < maxLen; i++) {
+				interleavedArr.push(arr.reduce(function(accum, innerArr) {
+					return _.merge(accum, innerArr[i]);
+				}, {}));
+			}
+
+			return interleavedArr;
+		},
+		// expects array of objects, applied last
+		// merges all objects in the array into one object (returns the object, no array)
+		merge: function(arr) {
+			return [arr.reduce(function(accum, obj) {
+				return _.merge(accum, obj);
+			}, {})];
+		}
+	},
 	// ** special filters - always applied last **
+	// =-=-=-= this use of them may be deprecated - also stored in filterBank.multiObj =-=-=-=
 	// takes an array of objects of arrays
 	interleave: function(arr) {
 		// interleave each object - expects each obj to have keys with arrays
@@ -160,14 +203,15 @@ var sortMap = {
 		}
 	},
 	alphabetic: {
+		ascending: {}
 		// just uses the default sort, so no function is passed in
 		// descening reverses the array after (inefficient, but it should be ok)
-	},
-	randomize: function(a,b) {
-		return 0.5 - Math.random();
 	}
 	// put more below
 };
+
+var dummyObj = {a:1, b:2, c:3};
+console.log(filterBank.singleObj.omit(dummyObj, 'a', 'c'));
 
 
 module.exports = filterBank;

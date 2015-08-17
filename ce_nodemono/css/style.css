@@ -44,14 +44,30 @@
   color: white;
 }
 
-.loginForm, .signupForm {
+.loginForm, .signupForm,.newRouteConfigureForm {
   margin-top: 15%%;
   width: 400px !important;
   margin-left: 33%;
+  color: black;
   
 }
 
+.labelOverlay {
+  color: white;
+}
+.routeFrequency {
+  height:34px;
+}
 
+.selectStyle{
+  height:100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 50%;
+  font-size: 20px;
+  /*color: black;*/
+}
 
 
 /*toolbar buttons and fields*/

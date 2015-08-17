@@ -93,17 +93,9 @@ function startNodemono() {
 		}).controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 			$scope.property = "property1";
 			$rootScope.showCollectionOverlay = false;
-			// var tid = setInterval(function() {
-
-			// 	$scope.property = SG.path_output_field.value
-
-			// }, 500);
-
 			var currentProperty;
 
 			$scope.buttonClicked = function() {
-				// console.log($scope.collection);
-
 				$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
 
 			}
@@ -158,12 +150,31 @@ function startNodemono() {
 		}).controller("OverlayCtrl", function($scope, $http, User, AuthService, $rootScope) {
 			$scope.showLogin = true;
 			$scope.error = null;
+			$scope.route = {};
+			$scope.Frequencies = [{
+				Id: "1",
+				text: "Manual Crawl"
+			}, {
+				Id: "2",
+				text: "Every 15 minutes"
+			}, {
+				Id: "3",
+				text: "Every 30 minutes"
+			}, {
+				Id: "4",
+				text: "Daily"
+			}, {
+				Id: "5",
+				text: "Weekly"
+			}, {
+				Id: "6",
+				text: "Monthly"
+			}];
+			$scope.route.frequency = $scope.Frequencies[0];
 			$scope.toggleLogin = function() {
 				$scope.showLogin = $scope.showLogin === true ? false : true;
 			}
 			$scope.sendLogin = function(user) {
-				console.log(user);
-				console.log(AuthService);
 				AuthService.login(user)
 					.then(function(user) {
 						$rootScope.user = user;
@@ -172,6 +183,11 @@ function startNodemono() {
 					$scope.error = "Invalid credentials";
 				});
 			};
+
+			$scope.createNewRoute = function() {
+				console.log($scope.route)
+			}
+
 		});
 
 		/* Manually bootstrap the Angular app */

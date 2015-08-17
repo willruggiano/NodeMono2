@@ -28,6 +28,10 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 	$scope.filters = filters;
 	$scope.pipes = pipes;
 
+	console.log('the pipes', pipes);
+	console.log('the filters', filters);
+
+
 	// for displaying errors
 	$scope.error;
 

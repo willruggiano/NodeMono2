@@ -9,6 +9,8 @@ app.config(($stateProvider) => {
     },
     controller: ($scope, user) => {
       $scope.user = user
+
+      console.dir(user)
     }
   })
 })

@@ -193,6 +193,48 @@ var seedUsers = function() {
 
 };
 
+// create and save all filters to the db (dynamic)
+var seedFilters = function() {
+    // load in the filter functions, descriptions, and default params
+    var filterBank = require('./server/app/functions/filterBank');
+    var filterDescriptions = require('./server/app/functions/filterDescriptions');
+    var filterDefaultParams = require('./server/app/functions/filterDefaultParams');
+
+    // make a filter object for each filter function in the bank
+    // start with single array functions
+    var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
+    var singles = singleArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // then multiple array functions
+    var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
+    var multis = multiArrFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
+    // join the filters together
+    var filters = singles.concat(multis);
+
+    // clear db of filters
+    return Filter.remove().then(function() {
+        // save the new filters
+        return Filter.createAsync(filters);
+    });
+};
+
 connectToDb.then(function() {
     wipeDB().then(function() {
         // seedDb is defined above - adds all pipes, users, routes, filters, etc. to db

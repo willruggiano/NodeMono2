@@ -33,7 +33,7 @@ router.get('/:userId/:pipeName', function(req, res, next) {
 
 // create a new pipe (userId and pipeName in the body) (pass save = false to only test output, and not save the pipe)
 router.post('/', function(req, res, next) {
-    // req.body should have: 
+    // req.body should have:
     var newPipe = new Pipe(req.body);
     // save pipe _id to optionally remove the pipe
     newPipe.save()

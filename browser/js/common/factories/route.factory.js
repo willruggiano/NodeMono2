@@ -1,4 +1,4 @@
-app.factory('Route', ($state, DS) => {
+app.factory('Route', ($state, $http, DS) => {
 
   let Route = DS.defineResource({
     name: 'route',
@@ -16,9 +16,13 @@ app.factory('Route', ($state, DS) => {
       }
     },
     methods: {
-      go: function() {
-        console.log(`transitioning to route state (${this.name}, ${this._id})`)
-        // $state.go('route', { id: this._id })
+      go: function(userId) {
+        console.log(`going to /${userId}/apis/${this._id}`)
+        $state.go('api', { userid: userId, routeid: this._id })
+      },
+      getCrawlData: function() {
+        return $http.get(`/api/routes/${this.user}/${this.name}`)
+          .then(res => res.data)
       }
     }
   })

@@ -32,15 +32,17 @@ var schema = new mongoose.Schema({
     },
     github: {
         id: String
-    },
-    routes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Route'
-    }],
-    pipes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Pipe'
-    }]
+    }
+    // USER HAS .getRoutes() METHOD THAT RETURNS ROUTES FOR THAT USER
+    // routes: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Route'
+    // }],
+    // USER HAS .getPipes() METHOD THAT RETURNS PIPES FOR THAT USER
+    // pipes: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Pipe'
+    // }]
 });
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations

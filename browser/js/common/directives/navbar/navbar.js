@@ -30,10 +30,9 @@ app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, 
             };
 
             scope.logout = function () {
-                AuthService.logout().then(function () {
-                   $state.go('home');
-                });
-            };
+                AuthService.logout()
+                $state.go('login');
+             };
 
             var setUser = function () {
                 AuthService.getLoggedInUser()

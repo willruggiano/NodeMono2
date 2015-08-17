@@ -1,10 +1,4 @@
-#signup-container{
-    float: none;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#login-container{
+#signin-container{
 	top: 10vh;
 	border: 1px solid black;
     padding: 10px;
@@ -16,15 +10,10 @@
     }
 }
 
-#login-submit{
+#signin-submit{
 	width: 100%;
 }
 
-#signup-btn{
-	width: 100%;
-}
-
-#invalid{
-	margin-top: 10px;
-	margin-bottom: 0;
+#signup-btns{
+	float: none;
 }

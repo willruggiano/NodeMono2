@@ -73,8 +73,37 @@ var seedDb = function() {
                     name: 'links',
                     selector: '.headlines a',
                     attr: 'href'
+                },
+                {
+                    name: 'headline name',
+                    selector: '.headlines a',
+                    attr: 'name'
                 }]
-            }];
+            },
+            {
+                name: 'testroute3',
+                user: activeUser,
+                url: 'https://news.ycombinator.com/',
+                data: [{
+                    name: 'title',
+                    selector: '.title a'
+                },
+                {
+                    name: 'title link',
+                    selector: '.title a',
+                    attr: 'href'
+                },
+                {
+                    name: 'comments link',
+                    selector: '.subtext a~ a+ a',
+                    attr: 'href'
+                },
+                {
+                    name: 'comments',
+                    selector: '.subtext a~ a+ a'
+                }]
+            }
+            ];
 
             return Route.remove().then(function() {
                 return Route.createAsync(newRoutes);

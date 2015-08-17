@@ -9,14 +9,17 @@ app.config(function($stateProvider){
 })
 
 app.controller('SignupCtrl', function($scope, AuthService, $state){
+  $scope.credentials = {};
+
   $scope.signup = function(userData){
-    console.log(userData)
+
+
+    //we have to create a way to avoid any duplication 
+    //in the creation of users still.
     AuthService.signup(userData)
-    .then(function(signedInUser){
-      $state.go('home', { id: user._id }) // {id: signedInUser._id}
-    })
-    .catch(function(){
-      $scope.error = 'Invalid signup credentials.';
+    .then(function(newUser){
+      console.log("newUser", newUser)
+      $state.go('home') // {id: signedInUser._id}
     })
   }
 })

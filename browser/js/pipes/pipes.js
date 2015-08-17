@@ -4,20 +4,26 @@ app.config(function ($stateProvider) {
         templateUrl: 'js/pipes/pipes.html',
         controller: 'PipesCtrl',
         resolve: {
-        	routes: function(PipesFactory) {
-        		return PipesFactory.getRoutes();
+        	user: function(AuthService, User) {
+        		return AuthService.getLoggedInUser()
+	        		.then(user => {
+	        			return User.find(user._id);
+	        		});
         	},
-        	filters: function(PipesFactory) {
-        		return PipesFactory.getFilters();
+        	routes: function(user) {
+        		return user.getRoutes();
         	},
-        	pipes: function(PipesFactory) {
-        		return PipesFactory.getPipes();
+        	pipes: function(user) {
+        		return user.getPipes();
+        	},
+        	filters: function(Filter) {
+        		return Filter.findAll();
         	}
         }
     });
 });
 
-app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipes) {
+app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user) {
 	$scope.routes = routes;
 	$scope.filters = filters;
 	$scope.pipes = pipes;
@@ -28,6 +34,7 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 	// holds pipeline logic (what the user is making on this page)
 	$scope.pipe = {
 		name: '',
+		user: user._id,
 		// array of selected inputs (routes and pipes)
 		inputs: {
 			routes: [],
@@ -43,9 +50,8 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 
 	// returns crawled data for the passed in route
 	$scope.getCrawlData = (route) => {
-		console.log('crawling for', route.name);
-		PipesFactory.getCrawlData(route)
-			.then(function(data) {
+		route.getCrawlData()
+			.then(data => {
 				console.log('got data', data);
 			});
 	};
@@ -82,7 +88,10 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 
 	// run selected inputs through the pipe filters and return the output
 	$scope.generateOutput = () => {
-		PipesFactory.generateOutput($scope.pipe)
+		Pipe.create($scope.pipe)
+			.then(pipe => {
+				return pipe.generateOutput();
+			})
 			.then(output => {
 				$scope.pipe.output = output;
 				$scope.error = undefined;
@@ -93,9 +102,12 @@ app.controller('PipesCtrl', function($scope, PipesFactory, routes, filters, pipe
 			});
 	};
 
-	// saves this pipe to the user db
+	// saves this pipe to the user db, and returns its output
 	$scope.savePipe = () => {
-		PipesFactory.savePipe($scope.pipe)
+		Pipe.create($scope.pipe)
+			.then(pipe => {
+				return pipe.savePipe();
+			})
 			.then(output => {
 				$scope.pipe.output = output;
 				$scope.error = undefined;

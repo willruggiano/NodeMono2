@@ -15,14 +15,11 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.tabs.executeScript(tab.id, {
 		file: "jquery.min.js"
 	});
-
 	chrome.tabs.executeScript(tab.id, {
-		file: "selectorgadget/selectorgadget_combined.js"
-	});
-
-
+		file: "js/main.js"
+	})
 	chrome.tabs.executeScript(tab.id, {
-		file: "nodemono.js"
+		file: "js/nodemono.js"
 	});
 	// chrome.tabs.executeScript(tab.id, {
 	// 	file: "selectorgadget.js"

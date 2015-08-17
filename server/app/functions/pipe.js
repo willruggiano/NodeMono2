@@ -3,98 +3,8 @@ var _ = require('lodash');
 var Q = require('q');
 var mongoose = require('mongoose');
 
-// contains the logic for the different filters
-var filterBank = {
-	// single array functions
-	singleArray: {
-		maxLength: function(arr, len) {
-			return arr.slice(0, len);
-		},
-		unique: function(arr) {
-			return _.uniq(arr);
-		}
-	},
-	// any number of array functions
-	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)
-	multiArray: {
-		// returns array of all unique values between the two input objects
-		union: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				union: _.union.apply(null, arrArgs)
-			}];
-		},
-		// returns array of values in all input arrays
-		//  should it be intersection b/w ALL arrays, or just objects? (ie concat all arrays in each object and then run intersection)?
-		//   does the latter as of now
-		intersection: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				intersection: _.intersection.apply(null, arrArgs)
-			}];
-		}
-	},
-	// special filter - always applied last; takes an array of objects of arrays
-	interleave: function(arr) {
-		// interleave each object - expects each obj to have keys with arrays
-		// then merge each object at each index
-		arr = arr.reduce(function(accum, obj) {
-			accum.push(interleaveObj(obj));
-			return accum;
-		}, []);
-
-		// find longest interleaved arr
-		var maxLen = 0;
-		arr.forEach(function(elem) {
-			if (elem.length > maxLen) maxLen = elem.length;
-		});
-
-		var interleavedArr = [];
-		var len = arr.length;
-		// merge each object in the sub arrays at each index
-		for (var i = 0; i < maxLen; i++) {
-			interleavedArr.push(arr.reduce(function(accum, innerArr) {
-				return _.merge(accum, innerArr[i]);
-			}, {}));
-		}
-
-		return interleavedArr;
-	},
-	// expects array of objects, applied last
-	// merges all objects in the array into one object (returns the object, no array)
-	merge: function(arr) {
-		return arr.reduce(function(accum, obj) {
-			return _.merge(accum, obj);
-		}, {});
-	}
-};
-
-// helper function for interleave - interleaves a single object of arrays
-function interleaveObj(obj) {
-	// find all keys in the object
-	var keys = Object.keys(obj);
-
-	// find longest stored array
-	var maxLen = keys.reduce(function(max, key) {
-		if (obj[key].length > max) return obj[key].length;
-		else return max;
-	}, 0);
-
-	var mergedData = [];
-	// use maxLen (length of longest array in the object)
-	for (var i = 0; i < maxLen; i++) {
-		// make new obj with fields for each name
-		var mergedObj = {};
-		keys.forEach(function(key, idx) {
-			// each object gets elements from a certain index (i)
-			mergedObj[key] = obj[key][i];
-		});
-		// add to the array of these objects
-		mergedData.push(mergedObj);
-	}
-
-	return mergedData;
-}
+// load in filter functions
+var filterBank = require('./filterBank');
 
 // takes a filter and applies it to a stream of data (an objects of arrays)
 //  expects input to be a single object of arrays
@@ -147,6 +57,7 @@ function applyPipe(inputData, filter, parameters) {
 	if (_.has(filterBank.singleArray, filter.name)) {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
+			// each filter can have any number of parameters, so use apply
 			var args = [input].concat(filter.name, filter.parameters);
 			return pipeSingle.apply(null, args);
 		});

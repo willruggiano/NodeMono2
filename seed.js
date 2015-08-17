@@ -28,7 +28,6 @@ var Pipe = Promise.promisifyAll(mongoose.model('Pipe'));
 
 
 var wipeDB = function() {
-
     var models = [User, Route, Filter, Pipe];
     var promiseArr = [];
     models.forEach(function(model) {
@@ -36,9 +35,7 @@ var wipeDB = function() {
     });
 
     return Promise.all(promiseArr);
-
 };
-
 
 
 var seedDb = function() {
@@ -87,23 +84,7 @@ var seedDb = function() {
             // attach saved routes to higher scope
             routes = savedRoutes;
 
-            var newFilters = [{
-                name: 'intersection',
-                parameters: []
-            }, {
-                name: 'union',
-                parameters: []
-            }, {
-                name: 'maxLength',
-                parameters: [3]
-            }, {
-                name: 'unique',
-                parameters: []
-            }];
-
-            return Filter.remove().then(function() {
-                return Filter.createAsync(newFilters);
-            });
+            return seedFilters();
         })
         .then(function(savedFilters) {
             // attach saved filters to higher scope
@@ -187,10 +168,7 @@ var seedUsers = function() {
         userKey: 'obamaKey',
     }];
 
-    return User.remove().then(function() {
-        return User.createAsync(users);
-    });
-
+    return User.createAsync(users);
 };
 
 // create and save all filters to the db (dynamic)
@@ -252,11 +230,8 @@ var seedFilters = function() {
     // join the filters together
     var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs);
 
-    // clear db of filters
-    return Filter.remove().then(function() {
-        // save the new filters
-        return Filter.createAsync(filters);
-    });
+    // save the new filters
+    return Filter.createAsync(filters);
 };
 
 connectToDb.then(function() {
@@ -270,6 +245,5 @@ connectToDb.then(function() {
             console.error(err);
             process.kill(1);
         });
-
-    })
+    });
 });

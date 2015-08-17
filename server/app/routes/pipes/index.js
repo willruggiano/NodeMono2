@@ -18,35 +18,34 @@ router.get('/', function(req, res, next) {
 //-->nodemono.com/api/pipes/:userId/:pipeName
 router.get('/:userId/:pipeName', function(req, res, next) {
     // do validation with the userId
+    var pipe;
     Pipe.findOne({
             name: req.params.pipeName,
             user: req.params.userId
         }).exec()
-        .then(function(pipe) {
+        .then(function(foundPipe) {
+            pipe = foundPipe;
             return pipe.getPipeData();
         })
         .then(function(pipedData) {
             res.json(pipedData);
+        })
+        // delete pipe if the data was just for testing
+        .then(function() {
+            if (req.query.remove === 'true') pipe.remove();
         })
         .then(null, next);
 });
 
 // create a new pipe (userId and pipeName in the body) (pass save = false to only test output, and not save the pipe)
 router.post('/', function(req, res, next) {
-    // req.body should have: 
+    // req.body should have:
     var newPipe = new Pipe(req.body);
     // save pipe _id to optionally remove the pipe
     newPipe.save()
         .then(function(pipe) {
-            // return the piped data
-            return pipe.getPipeData();
-        })
-        .then(function(data) {
-            res.json(data);
-        })
-        .then(function() {
-            // remove from db, if the pipe is temporary
-            if (!req.body.save) return newPipe.remove();
+            // return the new pipe
+            res.json(pipe);
         })
         .then(null, next);
 });

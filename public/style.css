@@ -86,10 +86,9 @@ navbar {
 
 #signin-container {
   top: 10vh;
-  border: 1px solid black;
   padding: 10px;
   float: none;
-  box-shadow: 10px 10px 40px #888888; }
+  box-shadow: 5px 5px 19px #888888; }
   #signin-container oauth-button {
     margin-right: 20px;
     width: 100%; }
@@ -104,7 +103,8 @@ navbar {
   padding-top: 50px;
   padding-bottom: 50px;
   text-align: center;
-  color: black; }
+  color: black;
+  background-size: cover; }
 
 .intro-message {
   padding-top: 20%;
@@ -131,6 +131,9 @@ navbar {
 .row {
   margin-right: -15px;
   margin-left: -15px; }
+
+.content-section-b {
+  padding: 50px 0; }
 
 #about {
   margin: 0 auto;
@@ -170,10 +173,9 @@ navbar {
 
 #login-container {
   top: 10vh;
-  border: 1px solid black;
   padding: 10px;
   float: none;
-  box-shadow: 10px 10px 40px #888888; }
+  box-shadow: 5px 5px 19px #888888; }
   #login-container oauth-button {
     margin-right: 20px;
     width: 100%; }

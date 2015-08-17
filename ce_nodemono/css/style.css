@@ -3,16 +3,17 @@
 	width: 100%;
 	position: fixed;
 	display: inline-table;
-	 -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    z-index: 3456789;
+	-webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 3456789;
 }
 
 #nodemonofy {
 	height:40px;
 	width: 100%;
 	margin-bottom: 11px;
+  box-sizing:border-box;
 }
 
 
@@ -30,6 +31,44 @@
   display: inline-block;
   float:right !important;
 }*/
+
+
+
+#collectionOverlay {
+  z-index: 2147483700;
+  width:100%;
+  height:100%;
+  background-color: black;
+  position: fixed;
+  backface-visibility: hidden;
+  color: white;
+}
+
+.loginForm, .signupForm,.newRouteConfigureForm {
+  margin-top: 15%%;
+  width: 400px !important;
+  margin-left: 33%;
+  color: black;
+  
+}
+
+.labelOverlay {
+  color: white;
+}
+.routeFrequency {
+  height:34px;
+}
+
+.selectStyle{
+  height:100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 50%;
+  font-size: 20px;
+  /*color: black;*/
+}
+
 
 /*toolbar buttons and fields*/
 /*aplicable styles*/
@@ -70,5 +109,21 @@
   height:50px;
   transition: all 0.5s;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

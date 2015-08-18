@@ -104,7 +104,7 @@ function applyPipe(inputData, filter) {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
-			var args = [inpu].concat(name, filter.parameters);
+			var args = [input].concat(name, filter.parameters);
 			return pipeSingleObj.apply(null, args);
 		});
 	}
@@ -156,8 +156,8 @@ function getPipeData(pipe) {
 			return populatedRoute.getCrawlData();
 		});
 	});
-	var inputPipesPromises = pipe.inputs.pipes.map(function(pipe) {
-		return Pipe.findById(pipe).then(function(populatedPipe) {
+	var inputPipesPromises = pipe.inputs.pipes.map(function(innerPipe) {
+		return Pipe.findById(innerPipe).then(function(populatedPipe) {
 			return populatedPipe.getPipeData();
 		});
 	});
@@ -189,24 +189,6 @@ function getPipeData(pipe) {
 			throw err;
 		});
 }
-
-var dummyData = [{
-	a: ['11','22','33'],
-	b: ['44','55','66'],
-	c: ['77','88','99']
-}];
-var filterFunc = function(elem) {
-	return elem * elem;
-};
-var params = [5];
-var dummyFilter = {
-	name: 'elementSlice',
-	parameters: [1],
-	type: 'singleElem'
-};
-var args = [dummyData].concat(dummyFilter);
-console.log(args);
-console.log(applyPipe.apply(null, args));
 
 // exports
 module.exports = getPipeData;

@@ -51,6 +51,11 @@ var crawl = require('../../app/functions/crawler');
 // returns a promise for the crawled data, also updates crawling statistics
 schema.methods.getCrawlData = function getCrawlData() {
 	var self = this;
+	// remember old pagination limits (weird mongo stuff happening here)
+	var oldLimits = self.pagination.map(function(page) {
+		return page.limit;
+	});
+	console.log(oldLimits);
 	return crawl(self)
 		.then(function(crawledData) {
 			// update the last time crawled
@@ -67,6 +72,12 @@ schema.methods.getCrawlData = function getCrawlData() {
 			self.save();
 			console.log('there was an error in getCrawlData method', err);
 			return err;
+		})
+		.finally(function() {
+			// reset limits to original values - get overwritten through pagination
+			self.pagination.forEach(function(page, idx) {
+				page.limit = oldLimits[idx];
+			});
 		});
 };
 

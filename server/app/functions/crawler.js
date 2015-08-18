@@ -10,45 +10,8 @@ function getUrl(url) {
 		if (err) deferred.reject(err);
 		else deferred.resolve(body);
 	});
-	console.log('requested', url);
 	return deferred.promise;
 }
-
-// var dummyRoute = {
-//     name: 'redditroute',
-//     // user: activeUser,
-//     url: 'https://www.reddit.com/',
-//     data: [{
-//         name: 'rd-title',
-//         selector: '.title a.title'
-//     // },
-//     // {
-//     //     name: 'rd-title-link',
-//     //     selector: '.title a.title',
-//     //     attr: 'href'
-//     // },
-//     // {
-//     // 	name: 'rd-title-score',
-//     // 	selector: '#siteTable .score'
-//     }],
-//     // the "next" button at the bottom of the page
-//     pagination: [{
-//         link: '.nav-buttons .nextprev a',
-//         limit: '2'
-//     },
-//     {
-//     	link: '.selected+ li .choice',
-//     	limit: '1'
-//     }]
-// };
-
-// crawl(dummyRoute.url, dummyRoute.data, dummyRoute.pagination)
-// 	.then(function(data) {
-// 		console.log('really done', data);
-// 	})
-// 	.catch(function(err) {
-// 		throw err;
-// 	});
 
 function getSelectors(html, data, paginationArr) {
 	// use cheerio to make dom accessor for html
@@ -91,10 +54,6 @@ function getSelectors(html, data, paginationArr) {
 		// subtract one from the limit (to prevent infinite pagination)
 		paginationObj.limit -= 1;
 	});
-
-	console.log(paginationArr);
-
-	console.log('the links', nextLinks);
 
 	var promiseArray = [];
 	// see if there are more links

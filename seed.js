@@ -120,6 +120,10 @@ var seedDb = function() {
                 pagination: [{
                     link: '.nav-buttons .nextprev a',
                     limit: '2'
+                },
+                {
+                    link: '.selected+ li .choice',
+                    limit: '1'
                 }]
             }
             ];

@@ -81,7 +81,6 @@ function startNodemono() {
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
-				var propList = ['href', 'src', 'style', 'id']
 
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
@@ -117,16 +116,12 @@ function startNodemono() {
 					}
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
-					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'hide'
-					document.getElementById('oneButton').className = 'show'
-					document.getElementById('allButton').className = 'show'
-						//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelectors');
-					console.log(attrSelectors)
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
+					//hide/show toolbar
+					hideAllElms();
+					setTimeout(function() {
+						document.getElementById('oneButton').className = 'toolbarEl show';
+						document.getElementById('allButton').className = 'toolbarEl show';
+					}, 300)
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
@@ -138,33 +133,25 @@ function startNodemono() {
 
 					//set properties of the currentProperty
 					$scope.currentProperty['selector'] = $scope.selector;
-					$scope.currentProperty['indecies'] = $scope.matchList.indexOf($scope.targetElement);
+					$scope.currentProperty['indecies'] = [$scope.matchList.indexOf($scope.targetElement)];
+					console.log($scope.currentProperty['indecies']);
 
 					//change stylings on DOM
-					for (var i = 0; i < $scope.matchList.length; i++) {
-						$scope.matchList[i].style['background-color'] = '';
-					}
+					resetHighlights($scope);
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
 					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'show'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-						//show attribute buttons
-					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
-						var prop = $scope.targetElement.attributes[i].name;
-						if (propList.indexOf(prop) >= 0) {
-							var newButton = document.createElement('button');
-							newButton.innerHTML = prop;
-							newButton.addEventListener('click', function(event) {
-								var button = event.target || event.srcElement;
-								var property = button.innerHTML;
-								$scope.selectedAttr(property);
-							});
-							document.getElementById('attrSelectors').appendChild(newButton);
-							newButton.className = "greenAttr show";
+					hideAllElms();
+					generateAttrButtons('green', $scope);
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						var attrSelectors = document.getElementById('attrSelectors');
+						console.log(attrSelectors);
+						for (var i = 0; i < attrSelectors.children.length; i++) {
+							attrSelectors.children[i].className = 'greenAttr show'
+							console.log(attrSelectors[i])
 						}
-					}
+					}, 300);
 
 					//block clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -180,24 +167,15 @@ function startNodemono() {
 					$scope.targetElement.style['background-color'] = '#ffff00'
 
 					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'show'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-						//show attribute buttons
-					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
-						var prop = $scope.targetElement.attributes[i].name;
-						if (propList.indexOf(prop) >= 0) {
-							var newButton = document.createElement('button');
-							newButton.innerHTML = prop;
-							newButton.addEventListener('click', function(event) {
-								var button = event.target || event.srcElement;
-								var property = button.innerHTML;
-								$scope.selectedAttr(property);
-							});
-							document.getElementById('attrSelectors').appendChild(newButton);
-							newButton.className = "greenAttr show";
+					hideAllElms();
+					generateAttrButtons('yellow', $scope);
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						var attrSelectors = document.getElementById('attrSelectors');
+						for (var i = 0; i < attrSelectors.children.length; i++) {
+							attrSelectors.children[i].className = 'yellowAttr show'
 						}
-					}
+					}, 300);
 
 					//block all clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -210,40 +188,63 @@ function startNodemono() {
 					$scope.currentProperty['attr'] = attr;
 
 					//hide/show toolbar elements
-					document.getElementById('saveBtn').className = 'show'
-					document.getElementById('nameInput').className = 'show'
-						//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelectors');
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
+					hideAllElms();
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						document.getElementById('saveBtn').className = 'toolbarEl show'
+						document.getElementById('nameInput').className = 'toolbarEl show'
+					}, 300);
+
 				}
 
 				$scope.save = function() {
 					//save the property to this route
 					$rootScope.apiRoute.data.push($scope.currentProperty);
+					console.log($rootScope.apiRoute);
 					//reset the DOM
-					//reset currentProperty
-					$scope.currentProperty = {};
 
 					//change stylings on DOM
-					for (var i = 0; i < $scope.matchList.length; i++) {
-						$scope.matchList[i].style['background-color'] = '';
-					}
+					resetHighlights($scope);
 
-					//hide all toolbar elements
-					document.getElementById('backButton').id = 'hide'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-						//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelector');
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
-
+					//hide/show toolbar elements
+					hideAllElms();
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
+
+					//create a new button to show chosen properties
+					var newButton = document.createElement('button');
+					newButton.className = 'toolbarEl hide selectorBtn'
+					newButton.dataProp = $scope.currentProperty
+					if (newButton.dataProp.indecies.length > 0) {
+						newButton.innerHTML = newButton.dataProp.indecies.length;
+					} else {
+						var list = document.querySelectorAll(newButton.dataProp.selector);
+						newButton.innerHTML = list.length;
+					}
+					newButton.addEventListener('click', function(event) {
+						var button = event.target || event.srcElement;
+						hideAllElms();
+						resetHighlights($scope);
+						$scope.matchList = document.querySelectorAll(button.dataProp.selector)
+						var indecies = button.dataProp.indecies
+						if (indecies.length > 0) {
+							for (var i = 0; i < indecies.length; i++) {
+								$scope.matchList[indecies[i]].style['background-color'] = '#00ff00';
+							}
+						} else {
+							for (var i = 0; i < $scope.matchList.length; i++) {
+								$scope.matchList[i].style['background-color'] = 'yellow';
+							}
+						}
+					})
+					document.getElementById('buttonContainer').appendChild(newButton)
+					setTimeout(function() {
+						newButton.className = 'toolbarEl show selectorBtn'
+					}, 300)
+
+					//reset currentProperty
+					$scope.currentProperty = {};
 				}
 
 				setUpDom($scope);
@@ -367,7 +368,6 @@ if (!document.getElementById('nodemonofy')) {
 }
 
 
-
 function registerAuthService() {
 	app.factory('Socket', function() {
 		if (!window.io) throw new Error('socket.io not found!');
@@ -483,7 +483,6 @@ function registerAuthService() {
 					});
 				})
 		}
-
 	});
 
 	app.service('Session', function($rootScope, AUTH_EVENTS) {

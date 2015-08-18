@@ -1,5 +1,5 @@
 .nodemonoToolbar{
-	height: 40px;
+	height: 50px;
 	width: 100%;
 	position: fixed;
   display: inline-table;
@@ -10,7 +10,7 @@
 }
 
 #nodemonofy {
-	height:40px;
+	height: 50px;
 	width: 100%;
 	margin-bottom: 11px;
   box-sizing:border-box;
@@ -44,7 +44,7 @@
   color: white;
 }
 
-.loginForm, .signupForm,.newRouteConfigureForm {
+.loginForm, .signupForm, .newRouteConfigureForm {
   margin-top: 15%%;
   width: 400px !important;
   margin-left: 33%;
@@ -69,73 +69,72 @@
   /*color: black;*/
 }
 
-
 /*toolbar buttons and fields*/
 /*aplicable styles*/
 .show {
   min-width: 100px;
   max-width:40%;
+  margin: 3px 3px;
   padding:10px 10px;
 }
 .hide {
-  padding:0px 0px;
   min-width: 0;
   width: 0;
+  margin: 3px 0;
+  padding: 3px 0;
+}
+.toolbarEl{
+  height:44px;
+  border: 0px solid black;
+  border-radius:3px;
+  display:inline-block !important;
+  overflow: hidden;
 }
 
 /*the elements*/
 #oneButton{
-  margin: 0px 0px;
-  border: 0px solid black;
-  display: inline-block !important;
-  height:50px;
   background-color: #00ff00;
-  transition: all 0.5s;
+  transition: all 0.2s linear;
 }
 #allButton{
-  margin: 0px 0px;
-  border: 0px solid black;
-  display:inline-block !important;
-  height:50px;
   background-color: yellow;
-  transition: all 0.5s;
+  transition: all 0.2s linear;
 }
 #backButton{
-  margin: 0px 0px;
-  border: 0px solid black;
-  display:inline-block !important;
-  height:50px;
   background-color: red;
-  transition: all 0.5s;
+  transition: all 0.2s linear;
+
 }
 #attrSelectors{
   display:inline-block;
 }
 .greenAttr{
-  margin: 0px 5px;
+  height:44px;
   border: 0px solid black;
-  display: inline-block !important;
-  height:50px;
+  border-radius:3px;
   background-color: #00ff00;
-  transition: all 0.5s;
+  display:inline-block !important;
+  overflow: hidden;
+  transition: all 0.2s linear;
 }
 .yellowAttr{
-  margin: 0px 5px;
+  height:44px;
   border: 0px solid black;
-  display: inline-block !important;
-  height:50px;
+  border-radius:3px;
   background-color: yellow;
-  transition: all 0.5s;
+  display:inline-block !important;
+  overflow: hidden;
+  transition: all 0.2s linear;
 }
+
 #nameInput{
-  height:50px;
-  transition: all 0.5s;
+  transition: all 0.2s linear;
 }
+
 #saveBtn{
-  margin: 0px 0px;
-  height:50px;
-  transition: all 0.5s;
+  transition: all 0.2s linear;
 }
+
 #cover {
   background-color: rgba(1, 1, 1, .2);
   bottom: 0;
@@ -145,11 +144,55 @@
   top: 0;
 }
 
+.selectorBtn{
+  float: right;
+  border-radius:22px;
+  min-width:44px;
+}
 
+#doneBtn {
+  float:right;
+  display:inline-block;
+}
+/*
+@keyframes show{
+  0% {
+    min-width: 0;
+    width: 0;
+    margin: 0 0;
+    padding: 0 0;
+  }
+  1% {  
+    display:inline-block !important;
+  }
+  100% {
+    min-width: 100px;
+    max-width:40%;
+    margin: 3px 3px;
+    padding:10px 10px;
+  }
+}
 
+@keyframs hide{
+  0% {
+    min-width: 100px;
+    max-width:40%;
+    margin: 3px 3px;
+    padding:10px 10px;
+  }
+  99% {
+    display: none !important;
+  }
+  100% {
+    min-width: 0;
+    width: 0;
+    margin: 0 0;
+    padding: 0 0;
+  }
 
+}
 
-
+*/
 
 
 

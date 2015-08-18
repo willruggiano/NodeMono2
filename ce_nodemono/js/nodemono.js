@@ -87,14 +87,9 @@ function startNodemono() {
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
-				$scope.selectCollection = function() {
+				$scope.getPagination = function() {
 
 				}
-
-				$scope.doneClicked = function() {
-					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
-				}
-
 				$scope.doneClicked = function() {
 					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
 				}
@@ -246,20 +241,24 @@ function startNodemono() {
 				$scope.showLogin = true;
 				$scope.error = null;
 				$scope.user;
+				if (Session.user) $scope.user = Session.user;
 				$scope.Depths = [{
 					Id: "1",
-					text: "10 pages max"
+					text: "10 pages max",
+					value: 10
 				}, {
 					Id: "2",
-					text: "15 pages max"
+					text: "15 pages max",
+					value: 15
 				}, {
 					Id: "3",
-					text: "25 pages max"
+					text: "25 pages max",
+					value: 25
 				}];
 
-				$rootScope.apiRoute.pagination = true;
+				$rootScope.apiRoute.pagination = null;
 				if ($rootScope.apiRoute.pagination) {
-					$rootScope.apiRoute.depth = $scope.Depths[0];
+					$rootScope.apiRoute.pagination.limit = $scope.Depths[0].value;
 				}
 				$scope.toggleLogin = function() {
 					if ($scope.showLogin) {

@@ -52,7 +52,7 @@ app.config(($stateProvider) => {
       $scope.editing = {}
 
 
-      // API HEADER
+      /* API HEADER */
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)

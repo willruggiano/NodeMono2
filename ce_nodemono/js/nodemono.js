@@ -4,7 +4,7 @@ function startNodemono() {
 		// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
 	importCSS(chrome.extension.getURL("css/style.css"));
 
-	importJS(chrome.extension.getURL('js/main.js'));
+	// importJS(chrome.extension.getURL('js/main.js'));
 
 	$.get(chrome.extension.getURL('html/kimono-toolbar.html'), function(data) {
 
@@ -81,6 +81,7 @@ function startNodemono() {
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
+				var propList = ['href', 'src', 'style', 'id']
 
 				// 			$scope.buttonClicked = function() {
 				// 	$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
@@ -113,10 +114,15 @@ function startNodemono() {
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
 					//hide/show toolbar elements
-					console.log(document.getElementById('oneButton').className)
 					document.getElementById('backButton').className = 'hide'
 					document.getElementById('oneButton').className = 'show'
 					document.getElementById('allButton').className = 'show'
+						//remove all attrSelector buttons
+					var attrSelectors = document.getElementById('attrSelectors');
+					console.log(attrSelectors)
+					while (attrSelectors.firstChild) {
+						attrSelectors.removeChild(attrSelectors.firstChild)
+					}
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
@@ -140,7 +146,21 @@ function startNodemono() {
 					document.getElementById('backButton').className = 'show'
 					document.getElementById('oneButton').className = 'hide'
 					document.getElementById('allButton').className = 'hide'
-					document.getElementById('greenAttrSelector').className = 'show'
+						//show attribute buttons
+					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
+						var prop = $scope.targetElement.attributes[i].name;
+						if (propList.indexOf(prop) >= 0) {
+							var newButton = document.createElement('button');
+							newButton.innerHTML = prop;
+							newButton.addEventListener('click', function(event) {
+								var button = event.target || event.srcElement;
+								var property = button.innerHTML;
+								$scope.selectedAttr(property);
+							});
+							document.getElementById('attrSelectors').appendChild(newButton);
+							newButton.className = "greenAttr show";
+						}
+					}
 
 					//block clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -159,7 +179,21 @@ function startNodemono() {
 					document.getElementById('backButton').className = 'show'
 					document.getElementById('oneButton').className = 'hide'
 					document.getElementById('allButton').className = 'hide'
-					document.getElementById('yellowAttrSelector').className = 'show'
+						//show attribute buttons
+					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
+						var prop = $scope.targetElement.attributes[i].name;
+						if (propList.indexOf(prop) >= 0) {
+							var newButton = document.createElement('button');
+							newButton.innerHTML = prop;
+							newButton.addEventListener('click', function(event) {
+								var button = event.target || event.srcElement;
+								var property = button.innerHTML;
+								$scope.selectedAttr(property);
+							});
+							document.getElementById('attrSelectors').appendChild(newButton);
+							newButton.className = "greenAttr show";
+						}
+					}
 
 					//block all clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -172,10 +206,13 @@ function startNodemono() {
 					$scope.currentProperty['attribute'] = attr;
 
 					//hide/show toolbar elements
-					document.getElementById('greenAttrSelector').className = 'hide'
-					document.getElementById('yellowAttrSelector').className = 'hide'
-					document.getElementById('saveBtn') = 'show'
-					document.getElementById('nameInput') = 'show'
+					document.getElementById('saveBtn').className = 'show'
+					document.getElementById('nameInput').className = 'show'
+						//remove all attrSelector buttons
+					var attrSelectors = document.getElementById('attrSelectors');
+					while (attrSelectors.firstChild) {
+						attrSelectors.removeChild(attrSelectors.firstChild)
+					}
 				}
 
 				$scope.save = function() {
@@ -194,6 +231,11 @@ function startNodemono() {
 					document.getElementById('backButton').id = 'hide'
 					document.getElementById('oneButton').className = 'hide'
 					document.getElementById('allButton').className = 'hide'
+						//remove all attrSelector buttons
+					var attrSelectors = document.getElementById('attrSelector');
+					while (attrSelectors.firstChild) {
+						attrSelectors.removeChild(attrSelectors.firstChild)
+					}
 
 
 					//allow clicks on webpage

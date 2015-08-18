@@ -19,11 +19,7 @@
         <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='hide';>Back</button>
         <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>One</button>
         <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>All</button>
-        <div id="greenAttrSelector" class='hide' >
-            <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr);">{{attr}}</a>
-        </div>
-        <div id="yellowAttrSelector" class='hide'>
-            <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr);">{{attr}}</a>
+        <div id="attrSelectors">
         </div>
         <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='hide'></input>
         <button id="saveBtn" ng-click="save();" class='hide'>Save</button>

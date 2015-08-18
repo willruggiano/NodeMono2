@@ -23,7 +23,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user) {
+app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipes, user) {
 	$scope.routes = routes;
 	$scope.filters = filters;
 	$scope.pipes = pipes;
@@ -83,7 +83,8 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 
 	// remove filter from pipeline
 	$scope.deselectFilter = (filter) => {
-		$scope.pipe.filters = $scope.pipe.filters.filter(pipe => pipe !== filter);
+		/// make this more robust
+		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
 	};
 
 	// run selected inputs through the pipe filters and return the output
@@ -115,6 +116,31 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 			.catch(err => {
 				// display the error in some way
 				$scope.error = err;
+			});
+	};
+
+	$scope.saveFilter = (filter) => {
+		// convert csv to an array
+		if (filter.type === 'singleElem' && !_.isArray(filter.keys)) {
+			filter.keys = filter.keys.split(/\s*,\s*/);
+		}
+		// filter is
+		filter.defaultFilter = false;
+		// save this filter to the db
+		Filter.saveFilter(filter)
+			.then(savedFilter => {
+				// replace this filter in the pipe mockup with the id of the newly created filter
+				var oldId = filter._id;
+				$scope.pipe.filters = $scope.pipe.filters.map(fil => {
+					if (fil._id === oldId) {
+						return savedFilter;
+					}
+					return fil;
+				});
+			})
+			.catch(err => {
+				console.error('there was an error', err);
+				return err;
 			});
 	};
 

@@ -1,4 +1,4 @@
-app.factory('Route', ($rootScope, $state, $http, DS) => {
+app.factory('Route', (DS, $state, $http) => {
 
   let Route = DS.defineResource({
     name: 'route',
@@ -21,13 +21,11 @@ app.factory('Route', ($rootScope, $state, $http, DS) => {
       },
       getCrawlData: function() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
-          .then(res => {
-            return res.data
-          })
+          .then(res => res.data);
       }
     }
-  })
+  });
 
-  return Route
+  return Route;
 })
-.run(Route => {})
+.run(Route => {});

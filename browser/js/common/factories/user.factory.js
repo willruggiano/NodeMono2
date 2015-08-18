@@ -21,17 +21,17 @@ app.factory('User', (DS, Pipe, Route, $state) => {
     },
     methods: {  // functionality added to every instance of User
       go: function() {
-        $state.go('profile', { id: this._id })
+        $state.go('profile', { id: this._id });
       },
       getRoutes: function() {
-        return Route.findAll({ 'user': this._id })
+        return Route.findAll({ 'user': this._id });
       },
       getPipes: function() {
-        return Pipe.findAll({ 'user': this._id })
+        return Pipe.findAll({ 'user': this._id });
       }
     }
-  })
+  });
 
-  return User
+  return User;
 })
-.run(User => {})
+.run(User => {});

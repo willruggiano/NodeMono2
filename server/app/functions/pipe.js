@@ -6,10 +6,34 @@ var mongoose = require('mongoose');
 // load in filter functions
 var filterBank = require('./filterBank');
 
+// takes a filter and applies it to each element in the specified arrays (all is the default)
+//  expects first parameter in parameter array to be an array of property names (empty array means apply to all)
+function pipeSingleElement(input, filterName, props, parameters) {
+	// get associated function
+	var func = filterBank.singleElem[filterName];
+	// only apply filter to specified object property names
+	var keys = Object.keys(input);
+	if (props.length) {
+		keys = keys.filter(function(key) {
+			return props.indexOf(key) > -1;
+		});
+		console.log(keys);
+	}
+	// loop through the acceptable keys and apply the function to each element
+	keys.forEach(function(key) {
+		input[key] = input[key].map(function(elem) {
+			var paramsArr = [elem].concat(parameters);
+			return func.apply(null, paramsArr);
+		});
+	});
+	// return transformed input
+	return input;
+}
+
 // takes a filter and applies it to the input object's arrays (expects an object of arrays)
 function pipeSingleArr(input, filterName, parameters) {
 	// get associated function
-	var func = filterBank.singleArray[filterName];
+	var func = filterBank.singleArr[filterName];
 	// apply filter to each array in the input object
 	var keys = Object.keys(input);
 	keys.forEach(function(key) {
@@ -48,7 +72,7 @@ function pipeMultiArr(inputArr, filterName, parameters) {
 	// if the function takes more params, add them to the parameter array
 	if (parameters) combinedArr = combinedArr.concat(parameters);
 	// pass combined array as parameter to associated filter function
-	var output = filterBank.multiArray[filterName].apply(null, combinedArr);
+	var output = filterBank.multiArr[filterName].apply(null, combinedArr);
 
 	// return modified input data object
 	return output;
@@ -64,10 +88,10 @@ function pipeMultiObj(inputArr, filterName, parameters) {
 }
 
 // choose how to apply filter to the input data and return the transformed data
-function applyPipe(inputData, filter, parameters) {
+function applyPipe(inputData, filter) {
 	var name = filter.name;
 	// if filter is applied to each array in each input object
-	if (_.has(filterBank.singleArray, name)) {
+	if (filter.type === 'singleArr') {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
@@ -76,7 +100,7 @@ function applyPipe(inputData, filter, parameters) {
 		});
 	}
 	// if filter expects a single input object at a time
-	else if (_.has(filterBank.singleObj, name)) {
+	else if (filter.type === 'singleObj') {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
@@ -84,8 +108,21 @@ function applyPipe(inputData, filter, parameters) {
 			return pipeSingleObj.apply(null, args);
 		});
 	}
+	// if filter applies to each element in an array
+	else if (filter.type === 'singleElem') {
+		// these filters expect an array of obj properties first, check for this
+		if (!_.isArray(filter.parameters[0])) {
+			// add an empty array if it is not there
+			filter.parameters.unshift([]);
+		}
+		return inputData.map(function(input) {
+			// each filter can have any number of parameters, so use apply
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleElement.apply(null, args);
+		});
+	}
 	// if filter is applied to an array of objects with no transformations
-	else if (_.has(filterBank.multiObj, name)) {
+	else if (filter.type === 'multiObj') {
 		return pipeMultiObj(inputData, name);
 	}
 	// if filter expects an array of input objects and is applied to transformed arrays
@@ -119,8 +156,8 @@ function getPipeData(pipe) {
 			return populatedRoute.getCrawlData();
 		});
 	});
-	var inputPipesPromises = pipe.inputs.pipes.map(function(pipe) {
-		return Pipe.findById(pipe).then(function(populatedPipe) {
+	var inputPipesPromises = pipe.inputs.pipes.map(function(innerPipe) {
+		return Pipe.findById(innerPipe).then(function(populatedPipe) {
 			return populatedPipe.getPipeData();
 		});
 	});
@@ -145,15 +182,6 @@ function getPipeData(pipe) {
 			inputData = _.flatten(inputData);
 			// apply each filter to each input
 			return pipeline(inputData, populatedFilters);
-		})
-		.then(function(pipedData) {
-			// interleave or merge if necessary
-			if (pipe.outputFormat === 'interleave') {
-				return filterBank.interleave(pipedData);
-			} else if (pipe.outputFormat === 'merge') {
-				return filterBank.merge(pipedData);
-			}
-			return pipedData;
 		})
 		.catch(function(err) {
 			console.log('caught this error in generateOutput');

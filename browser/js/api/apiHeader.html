@@ -1,11 +1,16 @@
 <div class='row'>
   <div id='apiHeader' class='col-md-8'>
-    <p>{{ route.name }}</p>
-    <button class='btn-nodemono'>rename</button>
+    <p id='routename' ng-model='route.name' editablecontent editable='editing.routename'>{{ route.name }}</p>
+    <button
+      class='btn-nodemono'
+      ng-class="editing.routename ? 'editing' : 'not-editing'"
+      ng-click="toggleStatus('routename')"
+      ng-bind="editing.routename ? 'save' : 'edit'">
+    </button>
   </div>
   <div id='apiEdit' class='btn-group col-md-4'>
-    <button class='btn btn-nodemono'>clone api</button>
-    <button class='btn btn-nodemono'>edit api</button>
+    <button class='btn btn-nodemono' ng-click=''>clone api</button>
+    <button class='btn btn-nodemono' ng-click=''>edit api</button>
   </div>
 </div>
 <div class='row'>
@@ -15,21 +20,32 @@
         <tr>
           <td class='td-label'>Endpoints</td>
           <td>
-            <a>json</a>|<a>csv</a>|<a>rss</a>
+            <a href='#'>json</a>|<a href='#'>csv</a>|<a href='#'>rss</a>
           </td>
         </tr>
         <tr>
           <td class='td-label'>Source URL</td>
           <td>
-            <a href='{{ route.url }}'>{{ route.url }}</a>
-            <button class='btn-nodemono'>edit</button>
+            <a id='routeurl' ng-model='route.url' href='{{ route.url }}' target='_blank' editablecontent editable='editing.routeurl'>{{ route.url }}</a>
+            <button
+              class='btn-nodemono'
+              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
+              ng-click="toggleStatus('routeurl')"
+              ng-bind="editing.routeurl ? 'save' : 'edit'">
+            </button>
           </td>
         </tr>
         <tr>
           <td class='td-label'>Crawl Status</td>
           <td>
-            <span id='nm-status' class='glyphicon glyphicon-ok-circle'></span>
-            <span>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : short }})</span>
+            <span
+              id='nm-status'
+              ng-show='!editing.crawl'
+              ng-class="route.lastCrawlSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
+            </span>
+            <span ng-show='editing.crawl' class='glyphicon glyphicon-refresh loading'></span>
+            <span ng-show='!editing.crawl' ng-model='crawlStatus'>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
+            <span ng-show='editing.crawl' style='color: green;'>Updating...</span>
           </td>
         </tr>
       </tbody>

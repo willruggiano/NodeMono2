@@ -1,47 +1,29 @@
-<div class="nodemonoToolbar navbar-inverse" ng-controller = "ToolbarCtrl">
+<div class="nodemonoToolbar navbar-inverse" ng-controller="ToolbarCtrl">
     <div class="navbar-header">
         <a class="navbar-brand" href="#">nodemono</a>
     </div>
-    <!-- <form class="navbar-form navbar-left" role="search">
-        <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Property Name" ng-model="property">
+    <div class="navbar-form navbar-left" style="margin: 0 0;">
+        <div class="form-group">
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>&#10094</button>
+            <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
+            <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
+            <div id="attrSelectors">
             </div>
-            <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-        </form>
-        <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
+            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
+            <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
         </div>
-<<<<<<< HEAD:ce_nodemono/html/kimono-toolbar.html
-        <button type="submit" class="btn btn-primary btn-circle" ng-click="buttonClicked()" id="addProperty">+</button>
-    </form> --> 
-    <div id="buttonContainer">
-        <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide';>Back</button>
-        <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
-        <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
-        <div id="attrSelectors">
-        </div>
-        <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
-        <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
-                <div class="navbar-form navbar-right ">
-        </div>
-        <button type="submit" class="btn btn-primary doneBtn" style="float:right;"ng-click="doneClicked()">Done</button>
     </div>
-        <!--     <form class="navbar-form navbar-left" role="search">
-</form> -->
-        <!-- <div>
-            <button id="oneButton" ng-click="oneBtn(); $event.preventDefault(); $event.stopPropagation()" class='hide'>One</button>
-            <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation()" class='hide'>All</button>
-            <div id="greenAttrSelector" class='hide'>
-                <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
-            </div>
-            <div id="yellowAttrSelector" class='hide'>
-                <a ng-repeat="attr in targetElement.attributes" ng-click="selectedAttr(attr); $event.preventDefault(); $event.stopPropagation()">{{attr}}</a>
-            </div>
-            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='propName' class='hide'></input>
-            <button id="saveBtn" ng-click="save(); $event.preventDefault(); $event.stopPropagation();" class='hide'>Save</button>
-        </div> -->
-        <!-- show overlay when click done button, prompt login function or setup route UI -->
+    <div class="navbar-form navbar-right">
+        <button type="submit" id="doneBtn" class="btn btn-primary" ng-click="doneClicked()">Done</button>
+    </div>
+        <div id="propButtons">
+    </div>
+<!--     <div class="navbar-form navbar-right">
+
+        <button type="submit" class="paginationBtn btn btn-primary" ng-click="getPagination()">Pagination</button>
+        <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
+    </div> -->
+    <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
         <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
@@ -50,18 +32,18 @@
         <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
             <form id="login-form" name="loginForm">
                 <alert type="danger" ng-show="error">
-                {{ error }}
+                    {{ error }}
                 </alert>
                 <div class="form-group">
                     <label for="email" class="labelOverlay">Email address</label>
                     <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
                 </div>
                 <div class="form-group">
-                    <label for="login-password"class="labelOverlay">Password</label>
+                    <label for="login-password" class="labelOverlay">Password</label>
                     <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-success" ng-click='loginForm.$valid && sendLogin(login)'>Log In</button> or
-                <a type="submit" ng-click="toggleLogin()"style="cursor: pointer;">Sign Up</a>
+                <a type="submit" ng-click="toggleLogin()" style="cursor: pointer;">Sign Up</a>
             </form>
             <div ng-if="error">{{error}}</div>
         </div>
@@ -88,21 +70,15 @@
             <h4 style="color:white;">Enter Route details</h4>
             <form>
                 <div class="form-group">
-                    <input name="route" type="text" class="form-control" ng-model="route.name" placeholder="Route name">
+                    <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
                 </div>
-                <div class="routeFrequency form-group">
-                    <select ng-model="route.frequency" ng-options="frequency.text for frequency in Frequencies track by frequency.Id" class="selectStyle"></select>
+                <div class="paginationDepth form-group" ng-if="apiRoute.pagination">
+                    <select ng-model="apiRoute.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
+                    </select>
                 </div>
-                <button class="btn btn-default" ng-click="createNewRoute()" type="submit">Create Route</button>
+                    <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
+                    <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-

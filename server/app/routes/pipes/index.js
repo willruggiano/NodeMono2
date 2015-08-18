@@ -66,7 +66,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 // get a pipe by id
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
     res.json(req.pipe);
 });
 

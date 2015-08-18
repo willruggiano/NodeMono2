@@ -1,3 +1,5 @@
+<div class="main-container">
+<div class="container">
 <div class="row">
 	<h1>Pipes homepage</h1>
 	<div class="col-sm-4">
@@ -23,7 +25,7 @@
 				<h2>Select Filters</h2>
 				<ul>
 					<li ng-repeat="filter in filters">
-						<filter filter="filter" select="selectFilter(filter)"></filter>
+						<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
 					</li>
 				</ul>
 			</div>
@@ -43,31 +45,6 @@
 			</div>
 			<div class="col-sm-12">
 				<h3>Pipe name: <input ng-model="pipe.name"></h3>
-				<div class="row">
-					<div class="col-sm-4">
-						<h3>Output format: </h3>
-					</div>
-					<div class="col-sm-8">
-						<div class="radio">
-						  <label>
-						    <input type="radio" ng-model="pipe.outputFormat" value="default">
-						    Array of JSON objects (default)
-						  </label>
-						</div>
-						<div class="radio">
-						  <label>
-						    <input type="radio" ng-model="pipe.outputFormat" value="merge">
-						    	Single merged JSON object
-						  </label>
-						</div>
-						<div class="radio">
-						  <label>
-						    <input type="radio" ng-model="pipe.outputFormat" value="interleave">
-						    Array of interleaved JSON objects
-						  </label>
-						</div>
-					</div>
-				</div>
 				<h3>Inputs (pipes and routes): </h3>
 				<ul>
 					<li ng-repeat="route in pipe.inputs.routes">
@@ -86,8 +63,7 @@
 				<h3>Filters: </h3>
 				<ul>
 					<li ng-repeat="filter in pipe.filters">
-						Name: {{filter.name}}
-						<a class="btn btn-xs btn-danger" ng-click="deselectFilter(filter)">X</a>
+						<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
 					</li>
 				</ul>
 			</div>
@@ -105,4 +81,6 @@
 			</div>
 		</div>
 	</div>
+</div>
+</div>
 </div>

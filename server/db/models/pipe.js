@@ -26,15 +26,6 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Filter'
 	}],
-	// how data is returned (applied last)
-	outputFormat: {
-		type: String,
-		// merge -> merge all objects into one (return as one object)
-		// interleave -> return array of interleaved objects
-		// default -> return array of regular objects
-		enum: ['default', 'merge', 'interleave'],
-		default: 'default'
-	},
 	//extra information about the pipe
 	lastTimePiped: {
 		type: Date,
@@ -49,7 +40,7 @@ var schema = new mongoose.Schema({
 		// times piped
 		type: Number,
 		default: 0
-	},
+	}
 });
 
 var pipe = require('../../app/functions/pipe');
@@ -72,7 +63,8 @@ schema.methods.getPipeData = function getPipeData() {
 			self.lastTimePiped = Date.now();
 			self.lastPipeSucceeded = false;
 			self.save();
-			console.log('there was an error in getPipeData method');
+			console.log('there was an error in getPipeData method', err);
+			return err;
 		});
 };
 

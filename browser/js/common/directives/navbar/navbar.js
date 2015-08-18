@@ -1,10 +1,10 @@
-app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, User) {
+app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS) {
 
     return {
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
-        link: function (scope, elem, attr) {
+        link: function (scope) {
 
             scope.items = [
                 // { label: 'Home', state: 'home' },
@@ -21,7 +21,7 @@ app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, 
 
             scope.search = () => {
               console.log('searching for something...')
-            }
+            };
 
             scope.user = null;
 
@@ -37,8 +37,8 @@ app.directive('navbar', function ($rootScope, $state, AuthService, AUTH_EVENTS, 
             var setUser = function () {
                 AuthService.getLoggedInUser()
                   .then(user => {
-                    scope.user = user
-                  })
+                    scope.user = user;
+                  });
             };
 
             var removeUser = function () {

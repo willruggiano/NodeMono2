@@ -3,6 +3,10 @@ $api-font-sm: 14px;
 $api-font-med: 20px;
 $api-font-lg: 30px;
 
+#profile{
+  padding: 50px;
+}
+
 .btn-nodemono {
   font-size: $api-font-xs;
   border: 1px solid $nodemono-gray;
@@ -16,6 +20,13 @@ $api-font-lg: 30px;
     color: $nodemono-red;
   }
 }
+
+.btn-crawl-start {
+  font-size: $api-font-sm;
+}
+
+.success { color: green; }
+.error { color: red; }
 
 table#headerTable {
   display: flex;
@@ -31,9 +42,7 @@ table#headerTable {
   }
 
   #nm-status {
-    color: green;
-
-    &+span { color: $nodemono-gray; }
+    & + span { color: $nodemono-gray; }
   }
 }
 
@@ -55,6 +64,15 @@ table#dataPreviewTable {
   }
 }
 
+.editing {
+  background: rgb(64, 157, 0);
+  color: white;
+}
+.not-editing {
+  background: inherit;
+  color: $nodemono-gray;
+}
+
 #apiHeader {
   height: 42px;
   display: flex;
@@ -66,9 +84,7 @@ table#dataPreviewTable {
     margin-right: 10px;
   }
 
-  button {
-    border-radius: 4px;
-  }
+  button { border-radius: 4px; }
 }
 
 #apiEdit {
@@ -82,4 +98,93 @@ table#dataPreviewTable {
     border: 1px solid darken($nodemono-gray, 10%);
     color: darken($nodemono-gray, 10%);
   }
+}
+
+#crawlsetup {
+  margin-top: 15px;
+
+  h5 {
+    font-size: $api-font-sm;
+    font-weight: bolder;
+  }
+
+  .strategy-selector {
+    margin-left: 15px;
+
+
+    .label {
+      color: $nodemono-gray;
+      font-size: $api-font-xs;
+      font-weight: lighter;
+      padding: 0;
+      @extend %clearfix;
+    }
+
+    select {
+      background: inherit;
+      border-radius: 4px;
+      padding: 2px;
+      font-size: $api-font-sm;
+    }
+  }
+
+  table#crawlstatustable {
+    font-size: $api-font-sm;
+
+    td { padding-top: 3px; padding-bottom: 3px; }
+
+    .td-status-extra { color: lighten($nodemono-gray, 10%); }
+    td.td-status-label {
+      width: 100px;
+      font-size: $api-font-xs;
+      font-weight: lighter;
+      color: lighten($nodemono-gray, 10%);
+    }
+  }
+}
+
+// safari and chrome
+@-webkit-keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+// others
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+// class necessary for animation
+.loading {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+  color: rgb(0, 255, 163)
 }

@@ -25,52 +25,51 @@ function startNodemono() {
 		window.app = angular
 			.module('myApp', []);
 		registerAuthService();
-		app.factory("User", function($http) {
-				function User(props) {
-					angular.extend(this, props)
-					return this
-				}
+		app
+			.factory("Route", function($http, AUTH_EVENTS) {
+				function Route(props) {
+					angular.extend(this, props);
+					return this;
 
-				User.url = '/api/users/';
+				};
 
-				Object.defineProperty(User.prototype, 'url', {
+				Route.serverUrl = '/api/routes/';
+
+				Object.defineProperty(Route.prototype, 'serverUrl', {
 					get: function() {
-						return User.url + this._id
+						return AUTH_EVENTS.serverUrl + Route.serverUrl;
 					}
 				})
-				User.prototype.isNew = function() {
+				Route.prototype.isNew = function() {
 					return !this._id
 				};
 
-				User.prototype.fetch = function() {
-					return $http.get(this.url)
+				Route.prototype.fetch = function() {
+					return $http.get(this.serverUrl)
 						.then(function(res) {
 							return res.data;
 						})
 				};
 
-				User.prototype.save = function() {
+				Route.prototype.save = function() {
 					var verb
-					var url
+					var serverUrl
 					if (this.isNew()) {
 						verb = 'post'
-						url = User.url
+							// serverUrl = Route.serverUrl
 					} else {
 						verb = 'put'
-						url = this.url
 					}
-					return $http[verb](url, this)
+					serverUrl = this.serverUrl
+					return $http[verb](serverUrl, this)
 						.then(function(res) {
 							return res.data
 						})
 				}
-				User.prototype.destroy = function() {
-					return $http.delete(this.url)
+				Route.prototype.destroy = function() {
+					return $http.delete(this.serverUrl)
 				}
-
-				return User;
-
-
+				return Route;
 			})
 			.controller('NodemonoMainCtrl', function($scope) {
 				$scope.collection = {};
@@ -82,26 +81,14 @@ function startNodemono() {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
 
+
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
-				// 			$scope.buttonClicked = function() {
-				// 	$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
-
-				// }
-				$scope.selectCollection = function() {
+				$scope.getPagination = function() {
 
 				}
-
-				$scope.doneClicked = function() {
-					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
-				}
-
-				$scope.selectCollection = function() {
-
-				}
-
 				$scope.doneClicked = function() {
 						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
 					}
@@ -121,7 +108,7 @@ function startNodemono() {
 					setTimeout(function() {
 						document.getElementById('oneButton').className = 'toolbarEl show';
 						document.getElementById('allButton').className = 'toolbarEl show';
-					}, 300)
+					}, 100)
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
@@ -151,7 +138,7 @@ function startNodemono() {
 							attrSelectors.children[i].className = 'greenAttr show'
 							console.log(attrSelectors[i])
 						}
-					}, 300);
+					}, 100);
 
 					//block clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -175,7 +162,7 @@ function startNodemono() {
 						for (var i = 0; i < attrSelectors.children.length; i++) {
 							attrSelectors.children[i].className = 'yellowAttr show'
 						}
-					}, 300);
+					}, 100);
 
 					//block all clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -193,11 +180,11 @@ function startNodemono() {
 						document.getElementById('backButton').className = 'toolbarEl show'
 						document.getElementById('saveBtn').className = 'toolbarEl show'
 						document.getElementById('nameInput').className = 'toolbarEl show'
-					}, 300);
-
+					}, 100);
 				}
 
 				$scope.save = function() {
+
 					//save the property to this route
 					$rootScope.apiRoute.data.push($scope.currentProperty);
 					console.log($rootScope.apiRoute);
@@ -214,7 +201,7 @@ function startNodemono() {
 
 					//create a new button to show chosen properties
 					var newButton = document.createElement('button');
-					newButton.className = 'toolbarEl hide selectorBtn'
+					newButton.className = 'show selectorBtn'
 					newButton.dataProp = $scope.currentProperty
 					if (newButton.dataProp.indecies.length > 0) {
 						newButton.innerHTML = newButton.dataProp.indecies.length;
@@ -238,10 +225,24 @@ function startNodemono() {
 							}
 						}
 					})
-					document.getElementById('buttonContainer').appendChild(newButton)
-					setTimeout(function() {
-						newButton.className = 'toolbarEl show selectorBtn'
-					}, 300)
+					var xButton = document.createElement('button');
+					xButton.id = 'xButton';
+					xButton.innerHTML = 'X'
+					newButton.appendChild(xButton);
+					xButton.addEventListener('click', function(event) {
+						newButton.parentNode.removeChild(newButton);
+						var index = $rootScope.apiRoute.data.indexOf(newButton.dataProp)
+						$rootScope.apiRoute.data.splice(index, 1);
+						event.preventDefault();
+						event.stopPropagation();
+					})
+					newButton.onmouseover = function() {
+						xButton.style.opacity = 1;
+					}
+					newButton.onmouseout = function() {
+						xButton.style.opacity = 0;
+					}
+					document.getElementById('propButtons').appendChild(newButton)
 
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -250,58 +251,29 @@ function startNodemono() {
 				setUpDom($scope);
 
 			})
-			.factory("Collection", function($http, $scope, $rootScope) {
-				function Collection(props) {
-					angular.extend(this, props);
-					return this;
-
-				};
-
-				Collection.clearEverything = function() {
-					$rootScope.collection = {};
-				}
-
-				return Collection;
-			})
-			.controller("OverlayCtrl", function($scope, $http, User, AuthService, $rootScope) {
-
-				//if logged in, show user page
-				if (AuthService.isAuthenticated) {
-					$scope.showLogin = true;
-					$scope.showSignup = false;
-				} else {
-					$scope.showLogin = false;
-					$scope.showSignup = false;
-
-				}
-				//on login
-				$rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
-					$scope.showLogin = false;
-					$scope.showSignup = false;
-					$scope.show
-				})
+			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route, Session) {
+				$scope.showLogin = true;
 				$scope.error = null;
-				$scope.route = {};
-				$scope.Frequencies = [{
+				$scope.user;
+				if (Session.user) $scope.user = Session.user;
+				$scope.Depths = [{
 					Id: "1",
-					text: "Manual Crawl"
+					text: "10 pages max",
+					value: 10
 				}, {
 					Id: "2",
-					text: "Every 15 minutes"
+					text: "15 pages max",
+					value: 15
 				}, {
 					Id: "3",
-					text: "Every 30 minutes"
-				}, {
-					Id: "4",
-					text: "Daily"
-				}, {
-					Id: "5",
-					text: "Weekly"
-				}, {
-					Id: "6",
-					text: "Monthly"
+					text: "25 pages max",
+					value: 25
 				}];
-				$scope.route.frequency = $scope.Frequencies[0];
+
+				$rootScope.apiRoute.pagination = null;
+				if ($rootScope.apiRoute.pagination) {
+					$rootScope.apiRoute.pagination.limit = $scope.Depths[0].value;
+				}
 				$scope.toggleLogin = function() {
 					if ($scope.showLogin) {
 						$scope.showLogin = false;
@@ -312,26 +284,34 @@ function startNodemono() {
 					}
 				}
 				$scope.sendLogin = function(user) {
-					console.log(user)
 					AuthService.login(user)
 						.then(function(user) {
-							console.log(user)
-							$rootScope.user = user;
-						}).catch(function() {
-							$scope.error = "Invalid credentials";
-						});
+							$scope.user = Session.user;
+						}).
+					catch(function() {
+						$scope.error = "Invalid credentials";
+					});
 				};
 				$scope.signUpNewUser = function(user) {
 					AuthService.signup(user)
-						.then(function(user) {
-
-						})
+						.then(function() {
+							$scope.user = Session.user;
+						});
 				}
 
 				$scope.createNewRoute = function() {
-					console.log($scope.route)
+					// console.log($rootScope.user)
+					if (!$rootScope.apiRoute.data.length) {
+						$scope.error = "You must create some routes first";
+					} else {
+						console.log(Session.user);
+						$rootScope.apiRoute.user = Session.user._id;
+						$rootScope.apiRoute.url = document.URL;
+						new Route($rootScope.apiRoute).save().then(function(res) {
+							console.log(res);
+						})
+					}
 				}
-
 			});
 
 		/* Manually bootstrap the Angular app */
@@ -384,7 +364,7 @@ function registerAuthService() {
 		sessionTimeout: 'auth-session-timeout',
 		notAuthenticated: 'auth-not-authenticated',
 		notAuthorized: 'auth-not-authorized',
-		serverUrl: '//localhost:1337'
+		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '3000' : '1337')
 	});
 
 	app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
@@ -413,11 +393,11 @@ function registerAuthService() {
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	});
 
-	app.service('AuthService', function($http, Session, $rootScope, AUTH_EVENTS, $q, User) {
+	app.service('AuthService', function($http, Session, $rootScope, AUTH_EVENTS, $q) {
 
 		function onSuccessfulLogin(response) {
 			var data = response.data;
-			Session.create(data.id, data.user);
+			Session.create(data.id, data.user || data);
 			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 			return data.user;
 		}
@@ -474,14 +454,14 @@ function registerAuthService() {
 		//added function for signup process
 		//what's Q for?
 		this.signup = function(credentials) {
-			console.log(credentials)
 			return $http.post(AUTH_EVENTS.serverUrl + '/signup', credentials)
 				.then(onSuccessfulLogin)
-				.catch(function() {
-					return $q.reject({
-						message: 'Invalid login credentials.'
-					});
-				})
+				.
+			catch(function() {
+				return $q.reject({
+					message: 'Invalid login credentials.'
+				});
+			})
 		}
 	});
 

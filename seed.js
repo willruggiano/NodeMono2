@@ -73,8 +73,37 @@ var seedDb = function() {
                     name: 'links',
                     selector: '.headlines a',
                     attr: 'href'
+                },
+                {
+                    name: 'headline name',
+                    selector: '.headlines a',
+                    attr: 'name'
                 }]
-            }];
+            },
+            {
+                name: 'testroute3',
+                user: activeUser,
+                url: 'https://news.ycombinator.com/',
+                data: [{
+                    name: 'title',
+                    selector: '.title a'
+                },
+                {
+                    name: 'title link',
+                    selector: '.title a',
+                    attr: 'href'
+                },
+                {
+                    name: 'comments link',
+                    selector: '.subtext a~ a+ a',
+                    attr: 'href'
+                },
+                {
+                    name: 'comments',
+                    selector: '.subtext a~ a+ a'
+                }]
+            }
+            ];
 
             return Route.remove().then(function() {
                 return Route.createAsync(newRoutes);
@@ -103,8 +132,7 @@ var seedDb = function() {
                     filters[2],
                     // unique
                     filters[3]
-                ],
-                outputFormat: 'default'
+                ]
             }, {
                 name: 'testPipe2',
                 user: activeUser,
@@ -119,8 +147,7 @@ var seedDb = function() {
                     filters[2],
                     // unique
                     filters[3]
-                ],
-                outputFormat: 'merge'
+                ]
             }];
 
             return Pipe.remove().then(function() {
@@ -180,25 +207,29 @@ var seedFilters = function() {
 
     // make a filter object for each filter function in the bank
     // start with single array functions
-    var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
+    var singleArrFunctionKeys = Object.keys(filterBank.singleArr);
     var singleArrs = singleArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'singleArr',
+            defaultFilter: true
         }));
         return accum;
     }, []);
 
     // then multiple array functions
-    var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
+    var multiArrFunctionKeys = Object.keys(filterBank.multiArr);
     var multiArrs = multiArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'multiArr',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -210,7 +241,9 @@ var seedFilters = function() {
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'singleObj',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -222,13 +255,30 @@ var seedFilters = function() {
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'multiObj',
+            defaultFilter: true
+        }));
+        return accum;
+    }, []);
+
+    // then single element functions
+    var singleElemFunctionKeys = Object.keys(filterBank.singleElem);
+    var singleElems = singleElemFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key],
+            type: 'singleElem',
+            keys: [],
+            defaultFilter: true
         }));
         return accum;
     }, []);
 
     // join the filters together
-    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs);
+    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs, singleElems);
 
     // save the new filters
     return Filter.createAsync(filters);

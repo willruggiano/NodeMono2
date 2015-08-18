@@ -1,5 +1,10 @@
 // contains descriptions for filter functions for pipes
 var filterDescriptions = {
+	// single element functions
+	elementSlice: 'returns the first X characters in each string',
+	square: 'multiplies each element by itself',
+	multiply: 'multiplies each element by X',
+	regexMatchElem: 'returns the part of each element that matches the regex',
 	// single array functions
 	maxLength: 'limits length of all arrays to the specified value (defaults to 4)',
 	unique: 'removes all non unique values from each array (scope limited to each array)',
@@ -11,6 +16,8 @@ var filterDescriptions = {
 	// should they pick which property to sort by? like for interleaved output?
 	sort: 'sorts the array (given name of the sorting type, and the direction to sort in - defaults to ascending)',
 	randomize: 'randomly shuffle the elements',
+	filter: [],
+	regexFilter: [],
 	// multiple array functions
 	union: 'returns array of all unique values between the input objects',
 	intersection: 'returns array of values in all input objects',

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "background": {
     "persistent": false,
-    "scripts": ["jquery.min.js", "background.js", "nodemono.js"]
+    "scripts": ["jquery.min.js", "background.js", "js/nodemono.js"]
   },
   "name": "Nodemono",
   "description": "Extension tool transform webpage to crawlify states",
@@ -30,6 +30,7 @@
     "tabs",
     "notifications",
     "activeTab",
-    "https://*/*"
+    "https://*/*",
+    "http://*/*"
   ]
 }

@@ -99,10 +99,9 @@ status-bar {
 
 #signin-container {
   top: 10vh;
-  border: 1px solid black;
   padding: 10px;
   float: none;
-  box-shadow: 10px 10px 40px #888888; }
+  box-shadow: 5px 5px 19px #888888; }
   #signin-container oauth-button {
     margin-right: 20px;
     width: 100%; }
@@ -111,20 +110,47 @@ status-bar {
   width: 100%; }
 
 #signup-btns {
-  float: none; }
-
-#home nodemono-logo {
-  padding-top: 30px;
-  width: 150px;
-  margin: 0 auto; }
-#home h3, #home h4 {
-  margin-top: 40px;
+  float: none;
   text-align: center; }
-  #home h3 span, #home h4 span {
-    color: #f31214; }
-#home h4 {
-  color: #969696;
-  font-weight: bolder; }
+
+#main {
+  background-color: #f8f8f8; }
+
+.intro-header {
+  max-width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: black; }
+
+.intro-message {
+  padding-top: 20%;
+  padding-bottom: 20%; }
+
+.intro-divider {
+  width: 400px;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+
+.chrome-invite {
+  padding-top: 10%;
+  padding-bottom: 10%; }
+  .chrome-invite nodemono-logo {
+    padding-top: 30px;
+    width: 150px;
+    margin: 0 auto; }
+    .chrome-invite nodemono-logo :hover {
+      opacity: 0.2; }
+
+.content-section-a {
+  padding: 50px 0; }
+
+.row {
+  margin-right: -15px;
+  margin-left: -15px; }
+
+.content-section-b {
+  padding: 50px 0; }
 
 #about {
   margin: 0 auto;
@@ -164,13 +190,12 @@ status-bar {
 
 #login-container {
   top: 10vh;
-  border: 1px solid black;
   padding: 10px;
   float: none;
-  box-shadow: 10px 10px 40px #888888; }
+  box-shadow: 5px 5px 19px #888888; }
   #login-container oauth-button {
     margin-right: 20px;
-    width: 100%; }
+    width: 25px; }
 
 #login-submit {
   width: 100%; }

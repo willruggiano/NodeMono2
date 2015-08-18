@@ -8,7 +8,7 @@
             <label for="login-password">Password:</label>
             <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-default" id="login-submit">Login</button>
+        <button type="submit" class="btn btn-primary" id="login-submit">Login</button>
         
         <div class="alert alert-danger" id="invalid" ng-if="error">
             <strong>Oops!</strong> Incorrect email or password.
@@ -18,9 +18,11 @@
     <div class="container col-lg-1"></div>  
 
     <div class="container col-lg-4">
-        <label class="invisible"> pas </label> <br>    <br>    
+        <label class="invisible"> pas </label> <br>  
+
         <oauth-button provider-name="Google"></oauth-button>
-        <label class="invisible"> pas </label> <br>
+        <br> <br> <br>
+
         <oauth-button provider-name="Github"></oauth-button>
     </div>
 </section>

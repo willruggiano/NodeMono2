@@ -100,6 +100,9 @@ navbar {
 #searchbar {
   margin-top: 2px; }
 
+.glyphicon-ok {
+  font-size: 1em; }
+
 #signin-container {
   width: 30%;
   top: 10vh;
@@ -198,6 +201,9 @@ navbar {
 #invalid {
   margin-top: 10px;
   margin-bottom: 0; }
+
+#glyphy {
+  font-size: .7em; }
 
 .btn-nodemono {
   font-size: 10px;

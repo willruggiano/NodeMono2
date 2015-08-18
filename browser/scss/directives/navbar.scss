@@ -1,12 +1,12 @@
-navbar {
 
-  display: block;
-  background: white;
-  border-bottom: 1px solid $nodemono-gray;
+navbar {
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  background-color: #f8f8f8;
   height: 50px;
 
   .navbar {
-
     &.navbar-static-top {
       height: inherit;
 

@@ -1,6 +1,9 @@
+.main-container{
+  padding-top: 50px;
+}
+
 #about {
 
-  margin: 0 auto;
   width: 90%;
   @include clearfix;
 
@@ -12,27 +15,4 @@
     font-weight: 300;
     float: left;
   }
-
-  .carousel {
-    float: right;
-    width: 55%;
-    overflow: hidden;
-    margin: 0 auto;
-    .carousel-inner {
-      height: 500px !important;
-    }
-    .carousel-control {
-      background: none;
-    }
-    .carousel-indicators {
-      display: none;
-    }
-    img {
-      max-width: 100%;
-      max-height: 500px;
-      display: block;
-      margin: 0 auto;
-    }
-  }
-
 }

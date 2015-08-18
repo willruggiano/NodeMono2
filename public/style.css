@@ -20,9 +20,10 @@ nodemono-logo {
     width: 100%; }
 
 navbar {
-  display: block;
-  background: white;
-  border-bottom: 1px solid #969696;
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  background-color: #f8f8f8;
   height: 50px; }
   navbar .navbar.navbar-static-top {
     height: inherit; }
@@ -85,6 +86,7 @@ navbar {
       cursor: pointer; }
 
 #signin-container {
+  width: 30%;
   top: 10vh;
   padding: 10px;
   float: none;
@@ -99,9 +101,6 @@ navbar {
 #signup-btns {
   float: none;
   text-align: center; }
-
-#main {
-  background-color: #f8f8f8; }
 
 .intro-header {
   max-width: 100%;
@@ -138,9 +137,16 @@ navbar {
 
 .content-section-b {
   padding: 50px 0; }
+  .content-section-b p {
+    width: 80%; }
+
+.content-section-c {
+  padding: 50px 0; }
+
+.main-container {
+  padding-top: 50px; }
 
 #about {
-  margin: 0 auto;
   width: 90%; }
   #about:after {
     content: "";
@@ -153,30 +159,14 @@ navbar {
     font-size: 22px;
     font-weight: 300;
     float: left; }
-  #about .carousel {
-    float: right;
-    width: 55%;
-    overflow: hidden;
-    margin: 0 auto; }
-    #about .carousel .carousel-inner {
-      height: 500px !important; }
-    #about .carousel .carousel-control {
-      background: none; }
-    #about .carousel .carousel-indicators {
-      display: none; }
-    #about .carousel img {
-      max-width: 100%;
-      max-height: 500px;
-      display: block;
-      margin: 0 auto; }
 
 #signup-container {
-  float: none;
-  margin: 0 auto;
+  margin-top: 200px;
   text-align: center; }
 
 #login-container {
-  top: 10vh;
+  width: 45%;
+  top: 25vh;
   padding: 10px;
   float: none;
   box-shadow: 5px 5px 19px #888888; }

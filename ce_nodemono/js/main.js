@@ -27,7 +27,7 @@ function getSelector(baseNode, startString) {
   if (baseNode.tagName.toLowerCase() === 'body' || baseNode.parentNode == undefined) {
     return startString;
   } else {
-    return getSelector(baseNode.parentNode, ' > ' + startString);
+    return getSelector(baseNode.parentNode, ' ' + startString);
   }
 
 }

@@ -19,6 +19,7 @@ var PORT = process.env.PORT || 1337;
 //to start HTTPS server run command: npm --server="HTTPS" run-script start
 var startServer = function() {
     if (process.env.npm_config_server === "HTTPS") {
+        PORT = 3000;
         https.createServer(secureConfig, app).listen(PORT, function() {
             console.log('HTTPS server patiently listening on port', PORT);
         })

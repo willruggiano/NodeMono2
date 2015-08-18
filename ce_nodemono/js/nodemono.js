@@ -353,7 +353,7 @@ function registerAuthService() {
 		sessionTimeout: 'auth-session-timeout',
 		notAuthenticated: 'auth-not-authenticated',
 		notAuthorized: 'auth-not-authorized',
-		serverUrl: '//localhost:1337'
+		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '3000' : '1337')
 	});
 
 	app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {

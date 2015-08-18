@@ -21,7 +21,7 @@ app.factory('Route', (DS, $state, $http) => {
       },
       getCrawlData: function() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
-          .then(res => res.data);
+          .then(res => res.data)
       }
     }
   });

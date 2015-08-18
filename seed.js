@@ -132,8 +132,7 @@ var seedDb = function() {
                     filters[2],
                     // unique
                     filters[3]
-                ],
-                outputFormat: 'default'
+                ]
             }, {
                 name: 'testPipe2',
                 user: activeUser,
@@ -148,8 +147,7 @@ var seedDb = function() {
                     filters[2],
                     // unique
                     filters[3]
-                ],
-                outputFormat: 'merge'
+                ]
             }];
 
             return Pipe.remove().then(function() {

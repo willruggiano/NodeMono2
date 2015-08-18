@@ -183,15 +183,6 @@ function getPipeData(pipe) {
 			// apply each filter to each input
 			return pipeline(inputData, populatedFilters);
 		})
-		.then(function(pipedData) {
-			// interleave or merge if necessary
-			if (pipe.outputFormat === 'interleave') {
-				return filterBank.interleave(pipedData);
-			} else if (pipe.outputFormat === 'merge') {
-				return filterBank.merge(pipedData);
-			}
-			return pipedData;
-		})
 		.catch(function(err) {
 			console.log('caught this error in generateOutput');
 			console.error(err);

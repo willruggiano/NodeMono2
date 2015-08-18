@@ -72,51 +72,6 @@ function startNodemono() {
 
 
 		})
-			.factory("Route", function($http, AUTH_EVENTS) {
-				function Route(props) {
-					angular.extend(this, props);
-					return this;
-
-				};
-
-				Route.serverUrl = '/api/routes/';
-
-				Object.defineProperty(Route.prototype, 'serverUrl', {
-					get: function() {
-						return AUTH_EVENTS.serverUrl + Route.serverUrl;
-					}
-				})
-				Route.prototype.isNew = function() {
-					return !this._id
-				};
-
-				Route.prototype.fetch = function() {
-					return $http.get(this.serverUrl)
-						.then(function(res) {
-							return res.data;
-						})
-				};
-
-				Route.prototype.save = function() {
-					var verb
-					var serverUrl
-					if (this.isNew()) {
-						verb = 'post'
-						// serverUrl = Route.serverUrl
-					} else {
-						verb = 'put'
-					}
-					serverUrl = this.serverUrl
-					return $http[verb](serverUrl, this)
-						.then(function(res) {
-							return res.data
-						})
-				}
-				Route.prototype.destroy = function() {
-					return $http.delete(this.serverUrl)
-				}
-				return Route;
-			})
 			.controller('NodemonoMainCtrl', function($scope) {
 				$scope.collection = {};
 				console.log('go here')
@@ -132,10 +87,6 @@ function startNodemono() {
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
-
-				$scope.selectCollection = function() {
-
-				}
 
 				$scope.doneClicked = function() {
 					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
@@ -259,12 +210,13 @@ function startNodemono() {
 
 				$scope.save = function() {
 					//require login to save the route
+					//save the property to this route
+					$rootScope.apiRoute.data.push($scope.currentProperty);
 					// if (!$rootScope.user) {
 					// 	$rootScope.showCollectionOverlay = true;
 					// 	return;
 					// }
-					//save the property to this route
-					$rootScope.apiRoute.data.push($scope.currentProperty);
+					console.log($scope.currentProperty);
 					//reset the DOM
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -291,6 +243,51 @@ function startNodemono() {
 
 				setUpDom($scope);
 
+			})
+			.factory("Route", function($http, $scope, $rootScope, AUTH_EVENTS) {
+				function Route(props) {
+					angular.extend(this, props);
+					return this;
+
+				};
+
+				Route.url = '/api/routes/';
+
+				Object.defineProperty(Route.prototype, 'url', {
+					get: function() {
+						return AUTH_EVENTS + Route.url;
+					}
+				})
+				Route.prototype.isNew = function() {
+					return !this._id
+				};
+
+				Route.prototype.fetch = function() {
+					return $http.get(this.url)
+						.then(function(res) {
+							return res.data;
+						})
+				};
+
+				Route.prototype.save = function() {
+					var verb
+					var url
+					if (this.isNew()) {
+						verb = 'post'
+						url = Route.url
+					} else {
+						verb = 'put'
+						url = this.url
+					}
+					return $http[verb](url, this)
+						.then(function(res) {
+							return res.data
+						})
+				}
+				Route.prototype.destroy = function() {
+					return $http.delete(this.url)
+				}
+				return Route;
 			})
 			.controller("OverlayCtrl", function($scope, $http, User, AuthService, $rootScope, AUTH_EVENTS, Route) {
 				$scope.showLogin = true;
@@ -354,24 +351,31 @@ function startNodemono() {
 				$scope.signUpNewUser = function(user) {
 					AuthService.signup(user)
 						.then(function(user) {
-							console.log(user);
+
 						})
 				}
 
-				$scope.createNewRoute = function() {
+				$scope.createNewRoute = function(route) {
 					// console.log($rootScope.user)
-					if (!$rootScope.apiRoute.data.length) {
+					if (!$rootScope.user.routes) {
 						$scope.error = "You must create some routes first";
 					} else {
 						// new Route({})
 						$scope.route.user = $rootScope.user._id;
 						$scope.route.url = document.URL;
 						$scope.route.data = $rootScope.apiRoute.data;
-						console.log($scope.route.data);
-						console.log($rootScope.apiRoute.data);
-						new Route($scope.route).save().then(function(res) {
+
+						new Route($scope.route).then(function(res) {
 							console.log(res);
 						})
+
+						// console.log(document.URL);
+						// console.log($rootScope.apiRoute);
+						// console.log($rootScope.user);
+						// $http.post(AUTH_EVENTS.serverUrl + '/api/routes', {user:$rootScope.user.})
+						// 	.then(function(res) {
+						// 		console.log(res.data);
+						// 	})
 					}
 				}
 

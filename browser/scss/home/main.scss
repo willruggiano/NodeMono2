@@ -1,21 +1,49 @@
-#home {
-  nodemono-logo {
-    padding-top: 30px;
-    width: 150px;
-    margin: 0 auto;
-  }
+#main{
+  background-color: #f8f8f8;
+}
 
-  h3, h4 {
-    margin-top: 40px;
+.intro-header {
+    max-width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
     text-align: center;
+    color: black;
+}
 
-    span {
-      color: $nodemono-red;
+.intro-message {
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+
+.intro-divider {
+    width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.chrome-invite{
+  padding-top: 10%;
+  padding-bottom: 10%;
+
+  nodemono-logo {
+      padding-top: 30px;
+      width: 150px;
+      margin: 0 auto;
+      :hover{
+        opacity: 0.2;
+      }
     }
-  }
+}
 
-  h4 {
-    color: $nodemono-gray;
-    font-weight: bolder;
-  }
+.content-section-a {
+    padding: 50px 0;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.content-section-b {
+    padding: 50px 0;
 }

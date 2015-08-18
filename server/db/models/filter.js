@@ -14,6 +14,11 @@ var schema = new mongoose.Schema({
 	// description of what the filter does
 	description: {
 		type: String
+	},
+	// how the filter expects to be applied
+	type: {
+		type: String,
+		enum: ['singleArr', 'multiArr', 'singleObj', 'multiObj', 'singleElem']
 	}
 });
 

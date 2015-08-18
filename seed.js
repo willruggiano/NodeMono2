@@ -209,25 +209,27 @@ var seedFilters = function() {
 
     // make a filter object for each filter function in the bank
     // start with single array functions
-    var singleArrFunctionKeys = Object.keys(filterBank.singleArray);
+    var singleArrFunctionKeys = Object.keys(filterBank.singleArr);
     var singleArrs = singleArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'singleArr'
         }));
         return accum;
     }, []);
 
     // then multiple array functions
-    var multiArrFunctionKeys = Object.keys(filterBank.multiArray);
+    var multiArrFunctionKeys = Object.keys(filterBank.multiArr);
     var multiArrs = multiArrFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'multiArr'
         }));
         return accum;
     }, []);
@@ -239,7 +241,8 @@ var seedFilters = function() {
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'singleObj'
         }));
         return accum;
     }, []);
@@ -251,19 +254,21 @@ var seedFilters = function() {
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'multiObj'
         }));
         return accum;
     }, []);
 
     // then single element functions
-    var singleElemFunctionKeys = Object.keys(filterBank.singleElement);
+    var singleElemFunctionKeys = Object.keys(filterBank.singleElem);
     var singleElems = singleElemFunctionKeys.reduce(function(accum, key) {
         // make new filter for the key, and add it to the accumulator
         accum.push(new Filter({
             name: key,
             parameters: filterDefaultParams[key],
-            description: filterDescriptions[key]
+            description: filterDescriptions[key],
+            type: 'singleElem'
         }));
         return accum;
     }, []);

@@ -5,7 +5,7 @@ var _ = require('lodash');
 var filterBank = {
 	// filters for single elements (those inside arrays)
 	//// each element is expected to be a string
-	singleElement: {
+	singleElem: {
 		elementSlice: function(elem, x) {
 			return elem.slice(0, x);
 		},
@@ -26,7 +26,7 @@ var filterBank = {
 		}
 	},
 	// single array functions
-	singleArray: {
+	singleArr: {
 		maxLength: function(arr, len) {
 			return arr.slice(0, len);
 		},
@@ -87,7 +87,7 @@ var filterBank = {
 	},
 	// any number of array functions
 	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)
-	multiArray: {
+	multiArr: {
 		// returns array of all unique values between the two input objects
 		union: function() {
 			var arrArgs = Array.prototype.slice.call(arguments);

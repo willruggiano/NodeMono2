@@ -10,7 +10,7 @@ var filterBank = require('./filterBank');
 //  expects first parameter in parameter array to be an array of property names (empty array means apply to all)
 function pipeSingleElement(input, filterName, props, parameters) {
 	// get associated function
-	var func = filterBank.singleElement[filterName];
+	var func = filterBank.singleElem[filterName];
 	// only apply filter to specified object property names
 	var keys = Object.keys(input);
 	if (props.length) {
@@ -33,7 +33,7 @@ function pipeSingleElement(input, filterName, props, parameters) {
 // takes a filter and applies it to the input object's arrays (expects an object of arrays)
 function pipeSingleArr(input, filterName, parameters) {
 	// get associated function
-	var func = filterBank.singleArray[filterName];
+	var func = filterBank.singleArr[filterName];
 	// apply filter to each array in the input object
 	var keys = Object.keys(input);
 	keys.forEach(function(key) {
@@ -72,7 +72,7 @@ function pipeMultiArr(inputArr, filterName, parameters) {
 	// if the function takes more params, add them to the parameter array
 	if (parameters) combinedArr = combinedArr.concat(parameters);
 	// pass combined array as parameter to associated filter function
-	var output = filterBank.multiArray[filterName].apply(null, combinedArr);
+	var output = filterBank.multiArr[filterName].apply(null, combinedArr);
 
 	// return modified input data object
 	return output;
@@ -91,7 +91,7 @@ function pipeMultiObj(inputArr, filterName, parameters) {
 function applyPipe(inputData, filter) {
 	var name = filter.name;
 	// if filter is applied to each array in each input object
-	if (_.has(filterBank.singleArray, name)) {
+	if (filter.type === 'singleArr') {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
@@ -100,7 +100,7 @@ function applyPipe(inputData, filter) {
 		});
 	}
 	// if filter expects a single input object at a time
-	else if (_.has(filterBank.singleObj, name)) {
+	else if (filter.type === 'singleObj') {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
@@ -109,7 +109,7 @@ function applyPipe(inputData, filter) {
 		});
 	}
 	// if filter applies to each element in an array
-	else if (_.has(filterBank.singleElement, name)) {
+	else if (filter.type === 'singleElem') {
 		// these filters expect an array of obj properties first, check for this
 		if (!_.isArray(filter.parameters[0])) {
 			// add an empty array if it is not there
@@ -122,7 +122,7 @@ function applyPipe(inputData, filter) {
 		});
 	}
 	// if filter is applied to an array of objects with no transformations
-	else if (_.has(filterBank.multiObj, name)) {
+	else if (filter.type === 'multiObj') {
 		return pipeMultiObj(inputData, name);
 	}
 	// if filter expects an array of input objects and is applied to transformed arrays
@@ -210,7 +210,8 @@ var filterFunc = function(elem) {
 var params = [5];
 var dummyFilter = {
 	name: 'elementSlice',
-	parameters: [1]
+	parameters: [1],
+	type: 'singleElem'
 };
 var args = [dummyData].concat(dummyFilter);
 console.log(args);

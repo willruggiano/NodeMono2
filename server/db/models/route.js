@@ -22,7 +22,12 @@ var schema = new mongoose.Schema({
 		// optionally extract certain indexes from selected elements
 		indexes: [Number]
 	}],
-	//extra information about the crawler
+	// add support for this
+	pagination: [{
+		link: String,
+		limit: Number
+	}],
+	// extra information about the crawler
 	lastTimeCrawled: {
 		type: Date,
 		default: Date.now

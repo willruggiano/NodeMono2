@@ -3,8 +3,30 @@ var _ = require('lodash');
 
 // contains all filter functions for pipes
 var filterBank = {
+	// filters for single elements (those inside arrays)
+	//// each element is expected to be a string
+	singleElem: {
+		elementSlice: function(elem, x) {
+			return elem.slice(0, x);
+		},
+		// for the numeric functions, strings are coerced to numbers
+		square: function(elem) {
+			return elem * elem;
+		},
+		multiply: function(elem, x) {
+			return elem * x;
+		},
+		// returns the part of each element that matches the regex
+		regexMatchElem: function(elem, str) {
+			// convert str to regex, with global and ignore case flags
+			var re = new RegExp(str, 'gi');
+			// return elem.match(re);
+			// match returns an array - take first elem or use toString()?
+			return elem.match(re).toString();
+		}
+	},
 	// single array functions
-	singleArray: {
+	singleArr: {
 		maxLength: function(arr, len) {
 			return arr.slice(0, len);
 		},
@@ -48,11 +70,24 @@ var filterBank = {
 		randomize: function(arr) {
 			// apply special randomizing sort function
 			return _.shuffle(arr);
+		},
+		// filters the elements in an array
+		filter: function(arr, filterName) {
+			var filterFunc = filterMap[filterName];
+			return arr.filter(filterFunc);
+		},
+		// keeps/removes elements that match the regex (defaults to keep)
+		regexFilter: function(arr, str, remove) {
+			var re = new RegExp(str, 'ig');
+			var filterFunc;
+			if (remove) filterFunc = function(elem) {return re.test(elem); };
+			else filterFunc = function(elem) {return !re.test(elem); };
+			return arr.filter(filterFunc);
 		}
 	},
 	// any number of array functions
 	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)
-	multiArray: {
+	multiArr: {
 		// returns array of all unique values between the two input objects
 		union: function() {
 			var arrArgs = Array.prototype.slice.call(arguments);
@@ -210,8 +245,23 @@ var sortMap = {
 	// put more below
 };
 
-var dummyObj = {a:1, b:2, c:3};
-console.log(filterBank.singleObj.omit(dummyObj, 'a', 'c'));
+// stores filter functions (i.e. for array.filter)
+var filterMap = {
+	// removes elements that can't be coerced to valid numbers
+	numeric: function(elem) {
+		return !_.isNaN(+elem);
+	},
+	// opposite of above
+	nonNumeric: function(elem) {
+		return _.isnNaN(+elem);
+	}
+	// put more
+};
 
+var str = 'jack';
+var re = new RegExp('ack', 'ig');
+console.log(str.match(re).toString());
+
+console.log(_.isNaN(+'5'));
 
 module.exports = filterBank;

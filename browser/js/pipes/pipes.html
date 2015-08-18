@@ -1,112 +1,86 @@
 <div class="main-container">
-	<div class="container">
+<div class="container">
+<div class="row">
+	<h1>Pipes homepage</h1>
+	<div class="col-sm-4">
 		<div class="row">
-			<h1>Pipes homepage</h1>
-			<div class="col-sm-4">
-				<div class="row">
-					<div class="col-sm-12">
-						<h2>Select Inputs (API routes or pipes)</h2>
-						<h3>API routes</h3>
-						<ul>
-							<li ng-repeat="route in routes">
-								<route route="route" select="selectRoute(route)" get="getCrawlData(route)"></route>
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-12">
-						<h3>Your pipes</h3>
-						<ul>
-							<li ng-repeat="pipe in pipes">
-								<pipe pipe="pipe" select="selectPipe(pipe)" get="getPipedData(pipe)"></pipe>
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-12">
-						<h2>Select Filters</h2>
-						<ul>
-							<li ng-repeat="filter in filters">
-								<filter filter="filter" select="selectFilter(filter)"></filter>
-							</li>
-						</ul>
-					</div>
-				</div>
+			<div class="col-sm-12">
+				<h2>Select Inputs (API routes or pipes)</h2>
+				<h3>API routes</h3>
+				<ul>
+					<li ng-repeat="route in routes">
+						<route route="route" select="selectRoute(route)" get="getCrawlData(route)"></route>
+					</li>
+				</ul>
 			</div>
-			<div class="col-sm-8">
-
-				<div class="alert alert-danger" role="alert" ng-if="error">
-					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					<span>Status: {{error.status}} -- {{error.data}}</span>
-				</div>
-
-				<div class="row">
-					<div class="col-sm-12" id="pipesCanvas">
-						<h2>Pipes Canvas</h2>
-						<h3>Select Filters</h3>
-					</div>
-					<div class="col-sm-12">
-						<h3>Pipe name: <input ng-model="pipe.name"></h3>
-						<div class="row">
-							<div class="col-sm-4">
-								<h3>Output format: </h3>
-							</div>
-							<div class="col-sm-8">
-								<div class="radio">
-								  <label>
-								    <input type="radio" ng-model="pipe.outputFormat" value="default">
-								    Array of JSON objects (default)
-								  </label>
-								</div>
-								<div class="radio">
-								  <label>
-								    <input type="radio" ng-model="pipe.outputFormat" value="merge">
-								    	Single merged JSON object
-								  </label>
-								</div>
-								<div class="radio">
-								  <label>
-								    <input type="radio" ng-model="pipe.outputFormat" value="interleave">
-								    Array of interleaved JSON objects
-								  </label>
-								</div>
-							</div>
-						</div>
-						<h3>Inputs (pipes and routes): </h3>
-						<ul>
-							<li ng-repeat="route in pipe.inputs.routes">
-								Name: {{route.name}}
-								<a class="btn btn-xs btn-danger" ng-click="deselectRoute(route)">X</a>
-							</li>
-						</ul>
-						<ul>
-							<li ng-repeat="pipe in pipe.inputs.pipes">
-								Name: {{pipe.name}}
-								<a class="btn btn-xs btn-danger" ng-click="deselectPipe(pipe)">X</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-12">
-						<h3>Filters: </h3>
-						<ul>
-							<li ng-repeat="filter in pipe.filters">
-								Name: {{filter.name}}
-								<a class="btn btn-xs btn-danger" ng-click="deselectFilter(filter)">X</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-sm-12">
-						<h3>Output: 
-							<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
-							<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
-						</h3>
-						<pre>{{pipe.output | json}}</pre>
-						<!-- <ul>
-							<li ng-repeat="output in pipe.output">
-								<pre>{{output | json}}</pre>
-							</li>
-						</ul> -->
-					</div>
-				</div>
+			<div class="col-sm-12">
+				<h3>Your pipes</h3>
+				<ul>
+					<li ng-repeat="pipe in pipes">
+						<pipe pipe="pipe" select="selectPipe(pipe)" get="getPipedData(pipe)"></pipe>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h2>Select Filters</h2>
+				<ul>
+					<li ng-repeat="filter in filters">
+						<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
+	<div class="col-sm-8">
+
+		<div class="alert alert-danger" role="alert" ng-if="error">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span>Status: {{error.status}} -- {{error.data}}</span>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12" id="pipesCanvas">
+				<h2>Pipes Canvas</h2>
+				<h3>Select Filters</h3>
+			</div>
+			<div class="col-sm-12">
+				<h3>Pipe name: <input ng-model="pipe.name"></h3>
+				<h3>Inputs (pipes and routes): </h3>
+				<ul>
+					<li ng-repeat="route in pipe.inputs.routes">
+						Name: {{route.name}}
+						<a class="btn btn-xs btn-danger" ng-click="deselectRoute(route)">X</a>
+					</li>
+				</ul>
+				<ul>
+					<li ng-repeat="pipe in pipe.inputs.pipes">
+						Name: {{pipe.name}}
+						<a class="btn btn-xs btn-danger" ng-click="deselectPipe(pipe)">X</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h3>Filters: </h3>
+				<ul>
+					<li ng-repeat="filter in pipe.filters">
+						<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
+					</li>
+				</ul>
+			</div>
+			<div class="col-sm-12">
+				<h3>Output: 
+					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
+					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
+				</h3>
+				<pre>{{pipe.output | json}}</pre>
+				<!-- <ul>
+					<li ng-repeat="output in pipe.output">
+						<pre>{{output | json}}</pre>
+					</li>
+				</ul> -->
+			</div>
+		</div>
+	</div>
+</div>
+</div>
 </div>

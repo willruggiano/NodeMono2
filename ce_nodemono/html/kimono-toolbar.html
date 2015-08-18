@@ -70,16 +70,13 @@
             <h4 style="color:white;">Enter Route details</h4>
             <form>
                 <div class="form-group">
-                    <input name="route" type="text" class="form-control" ng-model="route.name" placeholder="Route name">
+                    <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
                 </div>
-                <div class="routeFrequency form-group">
-                    <select ng-model="route.frequency" ng-options="frequency.text for frequency in Frequencies track by frequency.Id" class="selectStyle"></select>
-                </div>
-                <div class="paginationDepth form-group" ng-if="pagination">
-                    <select ng-model="route.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
+                <div class="paginationDepth form-group" ng-if="apiRoute.pagination">
+                    <select ng-model="apiRoute.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
                     </select>
                 </div>
-                    <button class="btn btn-default" ng-click="createNewRoute()" type="submit">Create Route</button>
+                    <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
                     <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>

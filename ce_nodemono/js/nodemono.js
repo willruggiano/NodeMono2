@@ -25,53 +25,7 @@ function startNodemono() {
 		window.app = angular
 			.module('myApp', []);
 		registerAuthService();
-		app.factory("User", function($http) {
-			function User(props) {
-				angular.extend(this, props)
-				return this
-			}
-
-			User.url = '/api/users/';
-
-			Object.defineProperty(User.prototype, 'url', {
-				get: function() {
-					return User.url + this._id
-				}
-			})
-			User.prototype.isNew = function() {
-				return !this._id
-			};
-
-			User.prototype.fetch = function() {
-				return $http.get(this.url)
-					.then(function(res) {
-						return res.data;
-					})
-			};
-
-			User.prototype.save = function() {
-				var verb
-				var url
-				if (this.isNew()) {
-					verb = 'post'
-					url = User.url
-				} else {
-					verb = 'put'
-					url = this.url
-				}
-				return $http[verb](url, this)
-					.then(function(res) {
-						return res.data
-					})
-			}
-			User.prototype.destroy = function() {
-				return $http.delete(this.url)
-			}
-
-			return User;
-
-
-		})
+		app
 			.factory("Route", function($http, AUTH_EVENTS) {
 				function Route(props) {
 					angular.extend(this, props);
@@ -258,11 +212,7 @@ function startNodemono() {
 				}
 
 				$scope.save = function() {
-					//require login to save the route
-					// if (!$rootScope.user) {
-					// 	$rootScope.showCollectionOverlay = true;
-					// 	return;
-					// }
+
 					//save the property to this route
 					$rootScope.apiRoute.data.push($scope.currentProperty);
 					//reset the DOM
@@ -292,29 +242,9 @@ function startNodemono() {
 				setUpDom($scope);
 
 			})
-			.controller("OverlayCtrl", function($scope, $http, User, AuthService, $rootScope, AUTH_EVENTS, Route) {
+			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route) {
 				$scope.showLogin = true;
 				$scope.error = null;
-				$scope.route = {};
-				$scope.Frequencies = [{
-					Id: "1",
-					text: "Manual Crawl"
-				}, {
-					Id: "2",
-					text: "Every 15 minutes"
-				}, {
-					Id: "3",
-					text: "Every 30 minutes"
-				}, {
-					Id: "4",
-					text: "Daily"
-				}, {
-					Id: "5",
-					text: "Weekly"
-				}, {
-					Id: "6",
-					text: "Monthly"
-				}];
 				$scope.Depths = [{
 					Id: "1",
 					text: "10 pages max"
@@ -325,11 +255,10 @@ function startNodemono() {
 					Id: "3",
 					text: "25 pages max"
 				}];
-				$scope.route.frequency = $scope.Frequencies[0];
 
-				$scope.pagination = true;
-				if ($scope.pagination) {
-					$scope.route.depth = $scope.Depths[0];
+				$rootScope.apiRoute.pagination = true;
+				if ($rootScope.apiRoute.pagination) {
+					$rootScope.apiRoute.depth = $scope.Depths[0];
 				}
 				$scope.toggleLogin = function() {
 					if ($scope.showLogin) {
@@ -341,11 +270,9 @@ function startNodemono() {
 					}
 				}
 				$scope.sendLogin = function(user) {
-					console.log(user)
 					AuthService.login(user)
 						.then(function(user) {
 							$rootScope.user = user;
-							$rootScope.user.routes = [];
 						}).
 					catch (function() {
 						$scope.error = "Invalid credentials";
@@ -353,9 +280,9 @@ function startNodemono() {
 				};
 				$scope.signUpNewUser = function(user) {
 					AuthService.signup(user)
-						.then(function(user) {
-							console.log(user);
-						})
+						.then(function() {
+							$scope.sendLogin(user);
+						});
 				}
 
 				$scope.createNewRoute = function() {
@@ -363,13 +290,9 @@ function startNodemono() {
 					if (!$rootScope.apiRoute.data.length) {
 						$scope.error = "You must create some routes first";
 					} else {
-						// new Route({})
-						$scope.route.user = $rootScope.user._id;
-						$scope.route.url = document.URL;
-						$scope.route.data = $rootScope.apiRoute.data;
-						console.log($scope.route.data);
-						console.log($rootScope.apiRoute.data);
-						new Route($scope.route).save().then(function(res) {
+						$rootScope.apiRoute.user = $rootScope.user._id;
+						$rootScope.apiRoute.url = document.URL;
+						new Route($rootScope.apiRoute).save().then(function(res) {
 							console.log(res);
 						})
 					}
@@ -457,7 +380,7 @@ function registerAuthService() {
 		delete $httpProvider.defaults.headers.common['X-Requested-With'];
 	});
 
-	app.service('AuthService', function($http, Session, $rootScope, AUTH_EVENTS, $q, User) {
+	app.service('AuthService', function($http, Session, $rootScope, AUTH_EVENTS, $q) {
 
 		function onSuccessfulLogin(response) {
 			var data = response.data;

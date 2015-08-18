@@ -4,6 +4,7 @@
 	<a class="btn btn-xs btn-warning" ng-click="toggleCustomize()">Edit</a>
 </p>
 <p>Description: {{filter.description}}</p>
+<p>Parameters: <span ng-repeat="param in filter.parameters">{{param}} </span></p>
 <form name="form" ng-if="customize" ng-submit="save({filter: filter})">
 	<p ng-if="filter.type==='singleElem'">
 		<span>Keys (CSV): <input type="text" ng-model="filter.keys"></span>

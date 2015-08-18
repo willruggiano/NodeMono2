@@ -83,7 +83,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 
 	// remove filter from pipeline
 	$scope.deselectFilter = (filter) => {
-		$scope.pipe.filters = $scope.pipe.filters.filter(pipe => pipe !== filter);
+		/// make this more robust
+		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
 	};
 
 	// run selected inputs through the pipe filters and return the output

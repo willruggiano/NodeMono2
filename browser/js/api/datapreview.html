@@ -1,8 +1,10 @@
 <table id='dataPreviewTable'>
   <tr>
+    <th>Index</th>
     <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
   <tr ng-repeat='r in rows track by $index' ng-init='rowIndex = $index'>
+    <td>{{ rowIndex }}</td>
     <td ng-repeat='header in headers'>{{ data[header][rowIndex] }}</td>
   </tr>
 </table>

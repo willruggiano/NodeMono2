@@ -9,7 +9,6 @@ app.config(($stateProvider) => {
       $scope.data = data
       $scope.editing = {}
 
-      console.log($scope.data)
       /* API HEADER */
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -36,7 +35,10 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      $scope.crawlStatus = route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
+      let getCrawlStatus = () => {
+        $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
+      }
+      if (!$scope.crawlStatus) getCrawlStatus()
 
       /* DATA PREVIEW TABLE */
       $scope.headers = Object.keys($scope.data)
@@ -52,17 +54,24 @@ app.config(($stateProvider) => {
       if (!$scope.rows) getRowCount()
 
       /* CRAWL SETUP */
-      let lastRunStatus = () => {
+      let getLastRunStatus = () => {
         let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
-        if (d === 0) $scope.lastRun = `today`
+        if (d === 0) $scope.lastRun = `Today`
         else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
       }
+      if (!$scope.lastRun) getLastRunStatus()
 
+      // called when re-crawl button is clicked
       $scope.updateCrawlData = () => {
+        $scope.editing.crawl = true
         route.getCrawlData()
           .then(newdata => {
+            console.log('received new data')
             $scope.data = newdata
             getRowCount()
+            getLastRunStatus()
+            getCrawlStatus()
+            $scope.editing.crawl = false
           })
       }
 

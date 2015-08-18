@@ -83,6 +83,11 @@ function startNodemono() {
 				$scope.currentProperty = {};
 				var propList = ['href', 'src', 'style', 'id']
 
+
+				//set up the route object for this webpage
+				$rootScope.apiRoute = {};
+				$rootScope.apiRoute.data = [];
+
 				$scope.selectCollection = function() {
 
 				}
@@ -195,7 +200,7 @@ function startNodemono() {
 				//chose desired attribute
 				$scope.selectedAttr = function(attr) {
 					//set currentProperty
-					$scope.currentProperty['attribute'] = attr;
+					$scope.currentProperty['attr'] = attr;
 
 					//hide/show toolbar elements
 					document.getElementById('saveBtn').className = 'show'
@@ -214,9 +219,8 @@ function startNodemono() {
 						return;
 					}
 					//save the property to this route
+					$rootScope.apiRoute.data.push($scope.currentProperty);
 
-					$rootScope.routes.push($scope.currentProperty);
-					// console.log($rootScope.user.routes);
 					//reset the DOM
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -297,8 +301,13 @@ function startNodemono() {
 					$scope.route.depth = $scope.Depths[0];
 				}
 				$scope.toggleLogin = function() {
-					console.log('hello0')
-					$scope.showLogin = $scope.showLogin === true ? false : true;
+					if ($scope.showLogin) {
+						$scope.showLogin = false;
+						$scope.showSignup = true;
+					} else {
+						$scope.showLogin = true;
+						$scope.showSignup = false;
+					}
 				}
 				$scope.sendLogin = function(user) {
 					console.log(user)
@@ -311,6 +320,12 @@ function startNodemono() {
 						$scope.error = "Invalid credentials";
 					});
 				};
+				$scope.signUpNewUser = function(user) {
+					AuthService.signup(user)
+						.then(function(user) {
+
+						})
+				}
 
 				$scope.createNewRoute = function() {
 					// console.log($rootScope.user)

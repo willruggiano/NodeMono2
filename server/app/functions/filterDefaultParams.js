@@ -4,6 +4,7 @@ var filterDefaultParams = {
 	elementSlice: [[], 10],
 	square: [[]],
 	multiply: [[], 2],
+	regexMatchElem: [[]],
 	// single array functions
 	maxLength: [4],
 	unique: [],
@@ -14,6 +15,8 @@ var filterDefaultParams = {
 	compact: [],
 	sort: ['alphabetic'],
 	randomize: [],
+	filter: ['numeric'],
+	regexFilter: ['hacker'],
 	// multiple array functions
 	union: [],
 	intersection: [],

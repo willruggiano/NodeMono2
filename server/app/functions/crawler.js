@@ -12,6 +12,12 @@ function getUrl(url) {
 	return deferred.promise;
 }
 
+// given html and data, return an output of all the selected elements
+// pagination - click each pagination link and add it to a queue (stack for depth first?)
+function processHtml(html, data, paginationArr) {
+	
+}
+
 // returns a promise for the crawled data
 function crawl(url, data, paginationArr) {
 	// load html

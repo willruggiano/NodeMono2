@@ -15,6 +15,14 @@ var filterBank = {
 		},
 		multiply: function(elem, x) {
 			return elem * x;
+		},
+		// returns the part of each element that matches the regex
+		regexMatchElem: function(elem, str) {
+			// convert str to regex, with global and ignore case flags
+			var re = new RegExp(str, 'gi');
+			// return elem.match(re);
+			// match returns an array - take first elem or use toString()?
+			return elem.match(re).toString();
 		}
 	},
 	// single array functions
@@ -62,6 +70,19 @@ var filterBank = {
 		randomize: function(arr) {
 			// apply special randomizing sort function
 			return _.shuffle(arr);
+		},
+		// filters the elements in an array
+		filter: function(arr, filterName) {
+			var filterFunc = filterMap[filterName];
+			return arr.filter(filterFunc);
+		},
+		// keeps/removes elements that match the regex (defaults to keep)
+		regexFilter: function(arr, str, remove) {
+			var re = new RegExp(str, 'ig');
+			var filterFunc;
+			if (remove) filterFunc = function(elem) {return re.test(elem); };
+			else filterFunc = function(elem) {return !re.test(elem); };
+			return arr.filter(filterFunc);
 		}
 	},
 	// any number of array functions
@@ -224,5 +245,23 @@ var sortMap = {
 	// put more below
 };
 
+// stores filter functions (i.e. for array.filter)
+var filterMap = {
+	// removes elements that can't be coerced to valid numbers
+	numeric: function(elem) {
+		return !_.isNaN(+elem);
+	},
+	// opposite of above
+	nonNumeric: function(elem) {
+		return _.isnNaN(+elem);
+	}
+	// put more
+};
+
+var str = 'jack';
+var re = new RegExp('ack', 'ig');
+console.log(str.match(re).toString());
+
+console.log(_.isNaN(+'5'));
 
 module.exports = filterBank;

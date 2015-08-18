@@ -22,7 +22,7 @@ var schema = new mongoose.Schema({
 		// optionally extract certain indexes from selected elements
 		indecies: [Number]
 	}],
-	// add support for this
+	// limit is the number of times to "click" the pagination link
 	pagination: [{
 		link: String,
 		limit: Number

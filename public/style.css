@@ -1,6 +1,5 @@
 * {
-  box-sizing: border-box;
-  font-family: "Lucida Console", Monaco, monospace; }
+  box-sizing: border-box; }
 
 body {
   background: #fdfdfd; }
@@ -25,26 +24,26 @@ navbar {
   width: 100%;
   background-color: #f8f8f8;
   height: 50px; }
-  navbar .navbar.navbar-static-top {
-    height: inherit; }
-    navbar .navbar.navbar-static-top .container {
-      width: 70%;
+  navbar .navbar {
+    border-radius: 0; }
+    navbar .navbar.navbar-static-top {
       height: inherit; }
-      navbar .navbar.navbar-static-top .container > * {
-        box-sizing: border-box;
-        height: 100%; }
-      navbar .navbar.navbar-static-top .container .divider {
-        background: #e3e3e3;
-        border-bottom: 1px solid #969696;
-        width: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center; }
-        navbar .navbar.navbar-static-top .container .divider span {
-          color: #7d7d7d;
-          cursor: pointer; }
-          navbar .navbar.navbar-static-top .container .divider span:hover {
-            color: #f31214; }
+      navbar .navbar.navbar-static-top .container {
+        width: 70%;
+        height: inherit; }
+        navbar .navbar.navbar-static-top .container > * {
+          box-sizing: border-box;
+          height: 100%; }
+        navbar .navbar.navbar-static-top .container .divider {
+          background: #e3e3e3;
+          border-bottom: 1px solid #969696;
+          width: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center; }
+          navbar .navbar.navbar-static-top .container .divider span {
+            color: #7d7d7d;
+            cursor: pointer; }
   navbar .nav {
     display: flex;
     justify-content: center; }
@@ -68,11 +67,12 @@ navbar {
     background: none;
     outline: none !important;
     height: 100%;
-    transition: color 0.2s; }
+    transition: color 0.2s;
+    color: white; }
     navbar .login-button.active {
       color: #c80a0c; }
     navbar .login-button:hover {
-      color: #f31214; }
+      color: #E74C3C; }
   navbar .welcome {
     float: right;
     height: 100%; }
@@ -81,9 +81,24 @@ navbar {
       navbar .welcome span span {
         cursor: pointer; }
         navbar .welcome span span:hover {
-          color: #f31214; }
+          color: #E74C3C; }
     navbar .welcome button {
       cursor: pointer; }
+
+.btn-logo {
+  font-size: 20px !important;
+  float: left;
+  background: none;
+  outline: none !important;
+  color: white;
+  cursor: initial; }
+
+.btn-login {
+  margin-top: 5px;
+  margin-left: 5px; }
+
+#searchbar {
+  margin-top: 2px; }
 
 #signin-container {
   width: 30%;

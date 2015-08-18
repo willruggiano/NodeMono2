@@ -2,11 +2,12 @@ app.config(($stateProvider) => {
   $stateProvider.state('api', {
     url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
-    controller: (DS, $scope, $rootScope, $timeout, user, route) => {
-      // 'global' information
+    controller: (DS, $scope, $timeout, user, route, data) => {
+      /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
-      $scope.data = {
+      $scope.data = data
+      $scope.testdata = {
         "headline": [
           "Export Machine\nStalling, China\nDecided to Risk\nDevaluation",
           "Jihad and Girl Power: How ISIS Lured 3 Teenagers",
@@ -50,58 +51,75 @@ app.config(($stateProvider) => {
       }
       $scope.editing = {}
 
-      // api header
+
+      // API HEADER
+      // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)
-        elem.setAttribute('contenteditable', true)
+        elem.setAttribute('contenteditable', true) // make the element (elem) editable
         if ($scope.editing[id]) {
-          elem.removeAttribute('contenteditable')
-          $scope.route.DSSave()
+          elem.removeAttribute('contenteditable') // make the element (elem) not editable
+          $scope.route.DSSave() // save the newly edited element
             .then(newroute => {
-              if (!$rootScope.alerts) $rootScope.alerts = []
-              $rootScope.alerts.push({ name: 'saving route', msg: 'successful'})
+              console.log(`successfully saved route ${newroute.name}`)
+              // if (!$rootScope.alerts) $rootScope.alerts = []
+              // $rootScope.alerts.push({ name: 'saving route', msg: 'successful'})
             })
             .catch((e) => {
-              if (!$rootScope.alerts) $rootScope.alerts = []
-              $rootScope.alerts.push({ name: 'saving route', msg: 'unsuccessful' })
+              console.log(`was not able to save route ${route.name}: ${e}`)
+              // if (!$rootScope.alerts) $rootScope.alerts = []
+              // $rootScope.alerts.push({ name: 'saving route', msg: 'unsuccessful' })
             })
         }
 
+        // make sure changes take place after any promises resolve
         $timeout(() => {
           $scope.editing[id] = !$scope.editing[id]
-          $scope.$digest()
-        }, 0, false) // false makes sure this fn doesn't get wrapped in $apply block
+        }, 0)
       }
 
       $scope.crawlStatus = route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
 
-      // data preview table
+      /* DATA PREVIEW TABLE */
       $scope.headers = Object.keys($scope.data)
-      $scope.rows = (() => {
+      let getRowCount = () => {
         // get row count for table generation
         let count = 0
         for (let key in $scope.data) {
           let r = $scope.data[key].length
           count > r ? count : count = r
         }
-        return new Array(count)
-      })()
+        $scope.rows = new Array(count)
+      }
 
-      // crawl setup
+      /* CRAWL SETUP */
+      let lastRunStatus = () => {
+        let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
+        if (d === 0) $scope.lastRun = `today`
+        else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
+      }
 
-      // crawl history
+      $scope.updateCrawlData = () => {
+        route.getCrawlData()
+          .then(newdata => {
+            $scope.data = newdata
+            getRowCount()
+          })
+      }
 
-      // modify results (pipes)
+      /* CRAWL HISTORY */
 
-      // use data
+      /* MODIFY RESULTS (PIPES) */
 
-      // api docs
+      /* USE DATA */
+
+      /* API DOCS */
 
     },
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      // $scope.data: (route) => route.getCrawl$scope.data()
+      data: (route) => route.getCrawlData()
     }
   })
 })

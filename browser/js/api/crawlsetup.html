@@ -1,1 +1,51 @@
-Crawl Setup
+<div id='crawlsetup' class='row'>
+  <div class='col-md-4'>
+    <div class='strategy-selector'>
+      <h5>API Settings</h5>
+      <div>
+        <p class='label'>CRAWL STRATEGY <span class='glyphicon glyphicon-question-sign'></span></p>
+        <select class=''>
+          <option selected='selected'>Source URL only</option>
+          <option>Manual URL list</option>
+          <option>Generated URL list</option>
+          <option>URLs from source API</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <p class='label'>AUTO-RUN FREQUENCY</p>
+        <select class=''>
+          <option selected='selected'>Manual Crawl</option>
+          <option>Hourly</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-8'>
+    <div class=''>
+      <h5>Crawl Status</h5>
+      <table id='crawlstatustable'>
+        <tr>
+          <td class='td-status-label'>LAST RUN</td>
+          <td class='td-status-info'>{{ lastRun }}</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>CRAWL STATUS</td>
+          <td class='td-status-info' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>ROWS RETURNED</td>
+          <td class='td-status-info'>{{ rows.length }} total</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>PAGES CRAWLED</td>
+          <td class='td-status-info'>1 total <span class='td-status-extra'>| 1 successful | 0 failed</span></td>
+        </tr>
+      </table>
+      <button class='btn-crawl-start btn-nodemono' ng-click='updateCrawlData()'>re-crawl</button>
+    </div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 tutorial-section-menu {
 
   display: block;
-  @include clearfix;
+  @extend %clearfix;
 
   ul {
     margin-left: 23px;

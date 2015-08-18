@@ -272,7 +272,7 @@ function startNodemono() {
 				};
 
 				$scope.createNewRoute = function() {
-					console.log($scope.route)
+					console.log($rootScope.user)
 				}
 
 			});

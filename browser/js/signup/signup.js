@@ -12,8 +12,6 @@ app.controller('SignupCtrl', function($scope, AuthService, $state){
   $scope.credentials = {};
 
   $scope.signup = function(userData){
-
-
     //we have to create a way to avoid any duplication 
     //in the creation of users still.
     AuthService.signup(userData)

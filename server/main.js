@@ -15,6 +15,7 @@ var secureConfig = {
     cert: fs.readFileSync(__dirname + '/cert.pem'),
     key: fs.readFileSync(__dirname + '/key.pem')
 };
+
 var PORT = process.env.PORT || 1337;
 //to start HTTPS server run command: npm --server="HTTPS" run-script start
 var startServer = function() {

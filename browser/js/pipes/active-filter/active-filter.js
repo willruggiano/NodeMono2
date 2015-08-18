@@ -7,7 +7,7 @@ app.directive('activeFilter', function() {
 			deselect: '&',
 			save: '&'
 		},
-		link: function(scope, elem, attrs) {
+		link: function(scope) {
 			scope.filter = angular.copy(scope.filter);
 			scope.customize = false;
 			scope.toggleCustomize = () => {

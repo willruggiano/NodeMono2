@@ -62,7 +62,7 @@ router.param('id', function(req, res, next, id) {
 });
 
 // get a apiRoute by id
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res) {
     res.status(200).json(req.apiRoute);
 });
 

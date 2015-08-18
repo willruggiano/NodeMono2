@@ -5,7 +5,7 @@
 #about {
 
   width: 90%;
-  @include clearfix;
+  @extend %clearfix;
 
   p {
     width: 40%;

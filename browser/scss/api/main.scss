@@ -17,6 +17,13 @@ $api-font-lg: 30px;
   }
 }
 
+.btn-crawl-start {
+  font-size: $api-font-sm;
+}
+
+.success { color: green; }
+.error { color: red; }
+
 table#headerTable {
   display: flex;
   align-content: center;
@@ -31,9 +38,7 @@ table#headerTable {
   }
 
   #nm-status {
-    color: green;
-
-    &+span { color: $nodemono-gray; }
+    & + span { color: $nodemono-gray; }
   }
 }
 
@@ -55,6 +60,15 @@ table#dataPreviewTable {
   }
 }
 
+.editing {
+  background: rgb(64, 157, 0);
+  color: white;
+}
+.not-editing {
+  background: inherit;
+  color: $nodemono-gray;
+}
+
 #apiHeader {
   height: 42px;
   display: flex;
@@ -66,9 +80,7 @@ table#dataPreviewTable {
     margin-right: 10px;
   }
 
-  button {
-    border-radius: 4px;
-  }
+  button { border-radius: 4px; }
 }
 
 #apiEdit {
@@ -81,5 +93,48 @@ table#dataPreviewTable {
     padding-top: 1px; padding-bottom: 1px;
     border: 1px solid darken($nodemono-gray, 10%);
     color: darken($nodemono-gray, 10%);
+  }
+}
+
+#crawlsetup {
+  margin-top: 15px;
+
+  h5 {
+    font-size: $api-font-sm;
+    font-weight: bolder;
+  }
+
+  .strategy-selector {
+    margin-left: 15px;
+
+
+    .label {
+      color: $nodemono-gray;
+      font-size: $api-font-xs;
+      font-weight: lighter;
+      padding: 0;
+      @extend %clearfix;
+    }
+
+    select {
+      background: inherit;
+      border-radius: 4px;
+      padding: 2px;
+      font-size: $api-font-sm;
+    }
+  }
+
+  table#crawlstatustable {
+    font-size: $api-font-sm;
+
+    td { padding-top: 3px; padding-bottom: 3px; }
+
+    .td-status-extra { color: lighten($nodemono-gray, 10%); }
+    td.td-status-label {
+      width: 100px;
+      font-size: $api-font-xs;
+      font-weight: lighter;
+      color: lighten($nodemono-gray, 10%);
+    }
   }
 }

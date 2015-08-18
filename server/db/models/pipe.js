@@ -63,7 +63,8 @@ schema.methods.getPipeData = function getPipeData() {
 			self.lastTimePiped = Date.now();
 			self.lastPipeSucceeded = false;
 			self.save();
-			console.log('there was an error in getPipeData method');
+			console.log('there was an error in getPipeData method', err);
+			return err;
 		});
 };
 

@@ -84,6 +84,19 @@ navbar {
     navbar .welcome button {
       cursor: pointer; }
 
+status-bar {
+  position: absolute;
+  width: 30%;
+  float: left; }
+  status-bar .success {
+    background: rgba(59, 199, 0, 0.5); }
+  status-bar .error {
+    background: rgba(255, 0, 0, 0.5); }
+  status-bar p {
+    width: 100%;
+    margin-bottom: 1px;
+    padding-left: 10px; }
+
 #signin-container {
   top: 10vh;
   border: 1px solid black;
@@ -189,10 +202,12 @@ table#headerTable {
     color: #7d7d7d; }
   table#headerTable button {
     border-radius: 4px; }
-  table#headerTable #nm-status {
+  table#headerTable #nm-status + span {
+    color: #969696; }
+  table#headerTable #nm-status.success {
     color: green; }
-    table#headerTable #nm-status + span {
-      color: #969696; }
+  table#headerTable #nm-status.error {
+    color: red; }
 
 table#dataPreviewTable {
   font-size: 10px;
@@ -203,6 +218,14 @@ table#dataPreviewTable {
     padding: 4px; }
   table#dataPreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
+
+.editing {
+  background: #409d00;
+  color: white; }
+
+.not-editing {
+  background: inherit;
+  color: #969696; }
 
 #apiHeader {
   height: 42px;

@@ -31,9 +31,9 @@ table#headerTable {
   }
 
   #nm-status {
-    color: green;
-
-    &+span { color: $nodemono-gray; }
+    & + span { color: $nodemono-gray; }
+    &.success { color: green; }
+    &.error { color: red; }
   }
 }
 
@@ -55,6 +55,15 @@ table#dataPreviewTable {
   }
 }
 
+.editing {
+  background: rgb(64, 157, 0);
+  color: white;
+}
+.not-editing {
+  background: inherit;
+  color: $nodemono-gray;
+}
+
 #apiHeader {
   height: 42px;
   display: flex;
@@ -66,9 +75,7 @@ table#dataPreviewTable {
     margin-right: 10px;
   }
 
-  button {
-    border-radius: 4px;
-  }
+  button { border-radius: 4px; }
 }
 
 #apiEdit {

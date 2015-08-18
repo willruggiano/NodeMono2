@@ -17,7 +17,6 @@ app.factory('Route', ($state, $http, DS) => {
     },
     methods: {
       go: function(userId) {
-        console.log(`going to /${userId}/apis/${this._id}`)
         $state.go('api', { userid: userId, routeid: this._id })
       },
       getCrawlData: function() {

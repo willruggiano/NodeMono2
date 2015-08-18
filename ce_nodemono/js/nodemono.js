@@ -242,9 +242,10 @@ function startNodemono() {
 				setUpDom($scope);
 
 			})
-			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route) {
+			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route, Session) {
 				$scope.showLogin = true;
 				$scope.error = null;
+				$scope.user;
 				$scope.Depths = [{
 					Id: "1",
 					text: "10 pages max"
@@ -272,7 +273,7 @@ function startNodemono() {
 				$scope.sendLogin = function(user) {
 					AuthService.login(user)
 						.then(function(user) {
-							$rootScope.user = user;
+							$scope.user = Session.user;
 						}).
 					catch (function() {
 						$scope.error = "Invalid credentials";
@@ -281,7 +282,7 @@ function startNodemono() {
 				$scope.signUpNewUser = function(user) {
 					AuthService.signup(user)
 						.then(function() {
-							$scope.sendLogin(user);
+							$scope.user = Session.user;
 						});
 				}
 
@@ -290,7 +291,8 @@ function startNodemono() {
 					if (!$rootScope.apiRoute.data.length) {
 						$scope.error = "You must create some routes first";
 					} else {
-						$rootScope.apiRoute.user = $rootScope.user._id;
+						console.log(Session.user);
+						$rootScope.apiRoute.user = Session.user._id;
 						$rootScope.apiRoute.url = document.URL;
 						new Route($rootScope.apiRoute).save().then(function(res) {
 							console.log(res);
@@ -384,7 +386,7 @@ function registerAuthService() {
 
 		function onSuccessfulLogin(response) {
 			var data = response.data;
-			Session.create(data.id, data.user);
+			Session.create(data.id, data.user || data);
 			$rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
 			return data.user;
 		}
@@ -441,7 +443,6 @@ function registerAuthService() {
 		//added function for signup process
 		//what's Q for?
 		this.signup = function(credentials) {
-			console.log(credentials)
 			return $http.post(AUTH_EVENTS.serverUrl + '/signup', credentials)
 				.then(onSuccessfulLogin)
 				.

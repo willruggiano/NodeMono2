@@ -1,6 +1,68 @@
 // dependencies
 var _ = require('lodash');
 
+// ** helper functions and objects
+
+// stores sorting comparison functions for singleArray.sort method
+var sortMap = {
+	numeric: {
+		ascending: function(a,b) {
+			return a - b;
+		},
+		descending: function(a,b) {
+			return b - a;
+		}
+	},
+	alphabetic: {
+		ascending: {}
+		// just uses the default sort, so no function is passed in
+		// descening reverses the array after (inefficient, but it should be ok)
+	}
+	// put more below
+};
+
+// stores filter functions (i.e. for array.filter)
+var filterMap = {
+	// removes elements that can't be coerced to valid numbers
+	numeric: function(elem) {
+		return !_.isNaN(+elem);
+	},
+	// opposite of above
+	nonNumeric: function(elem) {
+		return _.isnNaN(+elem);
+	}
+	// put more
+};
+
+// helper function for interleave - interleaves a single object of arrays
+function interleaveObj(obj) {
+	// find all keys in the object
+	var keys = Object.keys(obj);
+
+	// find longest stored array
+	var maxLen = keys.reduce(function(max, key) {
+		if (obj[key].length > max) return obj[key].length;
+		else return max;
+	}, 0);
+
+	var mergedData = [];
+	// defined outside the loop to satisfy the linter
+	var i = 0;
+	var reduceFunc = function(accum, key) {
+		accum[key] = obj[key][i];
+		return accum;
+	};
+	// use maxLen (length of longest array in the object)
+	for (; i < maxLen; i++) {
+		// make new obj with fields for each name
+		var mergedObj = keys.reduce(reduceFunc, {});
+		// add to the array of these objects
+		mergedData.push(mergedObj);
+	}
+
+	return mergedData;
+}
+
 // contains all filter functions for pipes
 var filterBank = {
 	// filters for single elements (those inside arrays)
@@ -40,12 +102,12 @@ var filterBank = {
 			return arr.slice(x);
 		},
 		// returns an array of the pulled values (expects values)
-		pull: function(arr) {
+		pull: function() {
 			// values to pull are passed in after the array
 			return _.pull.apply(null, arguments);
 		},
 		// returns an array of the pulled values (expects indexes)
-		pullAt: function(arr) {
+		pullAt: function() {
 			// indexes to be pulled are passed in after the array
 			return _.pullAt.apply(null, arguments);
 		},
@@ -122,7 +184,7 @@ var filterBank = {
 	// functions applied to each input object
 	singleObj: {
 		// returns the object without the specified fields
-		omit: function(obj) {
+		omit: function() {
 			return _.omit.apply(null, arguments);
 		}
 	},
@@ -143,12 +205,14 @@ var filterBank = {
 			});
 
 			var interleavedArr = [];
-			var len = arr.length;
 			// merge each object in the sub arrays at each index
-			for (var i = 0; i < maxLen; i++) {
-				interleavedArr.push(arr.reduce(function(accum, innerArr) {
-					return _.merge(accum, innerArr[i]);
-				}, {}));
+			// defined outside the loop to satisfy the linter ("don't define functions in a loop")
+			var i = 0;
+			var reduceFunc = function(accum, innerArr) {
+				return _.merge(accum, innerArr[i]);
+			};
+			for (; i < maxLen; i++) {
+				interleavedArr.push(arr.reduce(reduceFunc, {}));
 			}
 
 			return interleavedArr;
@@ -160,108 +224,8 @@ var filterBank = {
 				return _.merge(accum, obj);
 			}, {})];
 		}
-	},
-	// ** special filters - always applied last **
-	// =-=-=-= this use of them may be deprecated - also stored in filterBank.multiObj =-=-=-=
-	// takes an array of objects of arrays
-	interleave: function(arr) {
-		// interleave each object - expects each obj to have keys with arrays
-		// then merge each object at each index
-		arr = arr.reduce(function(accum, obj) {
-			accum.push(interleaveObj(obj));
-			return accum;
-		}, []);
-
-		// find longest interleaved arr
-		var maxLen = 0;
-		arr.forEach(function(elem) {
-			if (elem.length > maxLen) maxLen = elem.length;
-		});
-
-		var interleavedArr = [];
-		var len = arr.length;
-		// merge each object in the sub arrays at each index
-		for (var i = 0; i < maxLen; i++) {
-			interleavedArr.push(arr.reduce(function(accum, innerArr) {
-				return _.merge(accum, innerArr[i]);
-			}, {}));
-		}
-
-		return interleavedArr;
-	},
-	// expects array of objects, applied last
-	// merges all objects in the array into one object (returns the object, no array)
-	merge: function(arr) {
-		return arr.reduce(function(accum, obj) {
-			return _.merge(accum, obj);
-		}, {});
 	}
 };
 
-// ** helper functions below **
-
-// helper function for interleave - interleaves a single object of arrays
-function interleaveObj(obj) {
-	// find all keys in the object
-	var keys = Object.keys(obj);
-
-	// find longest stored array
-	var maxLen = keys.reduce(function(max, key) {
-		if (obj[key].length > max) return obj[key].length;
-		else return max;
-	}, 0);
-
-	var mergedData = [];
-	// use maxLen (length of longest array in the object)
-	for (var i = 0; i < maxLen; i++) {
-		// make new obj with fields for each name
-		var mergedObj = {};
-		keys.forEach(function(key, idx) {
-			// each object gets elements from a certain index (i)
-			mergedObj[key] = obj[key][i];
-		});
-		// add to the array of these objects
-		mergedData.push(mergedObj);
-	}
-
-	return mergedData;
-}
-
-// stores sorting comparison functions for singleArray.sort method
-var sortMap = {
-	numeric: {
-		ascending: function(a,b) {
-			return a - b;
-		},
-		descending: function(a,b) {
-			return b - a;
-		}
-	},
-	alphabetic: {
-		ascending: {}
-		// just uses the default sort, so no function is passed in
-		// descening reverses the array after (inefficient, but it should be ok)
-	}
-	// put more below
-};
-
-// stores filter functions (i.e. for array.filter)
-var filterMap = {
-	// removes elements that can't be coerced to valid numbers
-	numeric: function(elem) {
-		return !_.isNaN(+elem);
-	},
-	// opposite of above
-	nonNumeric: function(elem) {
-		return _.isnNaN(+elem);
-	}
-	// put more
-};
-
-var str = 'jack';
-var re = new RegExp('ack', 'ig');
-console.log(str.match(re).toString());
-
-console.log(_.isNaN(+'5'));
 
 module.exports = filterBank;

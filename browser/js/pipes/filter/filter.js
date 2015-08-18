@@ -4,7 +4,8 @@ app.directive('filter', function() {
 		templateUrl: 'js/pipes/filter/filter.html',
 		scope: {
 			filter: '=',
-			select: '&'
+			select: '&',
+			active: '='
 		},
 		link: function() {
 

@@ -23,7 +23,7 @@
 				<h2>Select Filters</h2>
 				<ul>
 					<li ng-repeat="filter in filters">
-						<filter filter="filter" select="selectFilter(filter)"></filter>
+						<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
 					</li>
 				</ul>
 			</div>
@@ -86,8 +86,7 @@
 				<h3>Filters: </h3>
 				<ul>
 					<li ng-repeat="filter in pipe.filters">
-						Name: {{filter.name}}
-						<a class="btn btn-xs btn-danger" ng-click="deselectFilter(filter)">X</a>
+						<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
 					</li>
 				</ul>
 			</div>

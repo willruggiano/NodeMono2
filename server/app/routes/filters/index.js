@@ -7,7 +7,8 @@ var _ = require('lodash');
 
 // get all filters (with optional search by query string)
 router.get('/', function(req, res, next) {
-    Filter.find(req.query)
+    // only return the default filters
+    Filter.find({defaultFilter: true})
         .populate('routes').exec()
         .then(function(filters) {
             res.json(filters);
@@ -21,7 +22,7 @@ router.post('/', function(req, res, next) {
     var newFilter = new Filter(req.body);
     newFilter.save()
         .then(function(filter) {
-            return filter;
+            res.json(filter);
         })
         .then(null, next);
 });

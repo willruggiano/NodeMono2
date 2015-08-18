@@ -216,7 +216,8 @@ var seedFilters = function() {
             name: key,
             parameters: filterDefaultParams[key],
             description: filterDescriptions[key],
-            type: 'singleArr'
+            type: 'singleArr',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -229,7 +230,8 @@ var seedFilters = function() {
             name: key,
             parameters: filterDefaultParams[key],
             description: filterDescriptions[key],
-            type: 'multiArr'
+            type: 'multiArr',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -242,7 +244,8 @@ var seedFilters = function() {
             name: key,
             parameters: filterDefaultParams[key],
             description: filterDescriptions[key],
-            type: 'singleObj'
+            type: 'singleObj',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -255,7 +258,8 @@ var seedFilters = function() {
             name: key,
             parameters: filterDefaultParams[key],
             description: filterDescriptions[key],
-            type: 'multiObj'
+            type: 'multiObj',
+            defaultFilter: true
         }));
         return accum;
     }, []);
@@ -268,7 +272,9 @@ var seedFilters = function() {
             name: key,
             parameters: filterDefaultParams[key],
             description: filterDescriptions[key],
-            type: 'singleElem'
+            type: 'singleElem',
+            keys: [],
+            defaultFilter: true
         }));
         return accum;
     }, []);

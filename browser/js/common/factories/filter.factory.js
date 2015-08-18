@@ -35,6 +35,14 @@ app.factory('Filter', (DS, $http) => {
     }
   });
 
+  // this is probably not best practices --
+  Filter.saveFilter = (filter) => {
+    console.log('saving ', _.omit(filter, '_id'));
+    return $http.post('/api/filters', _.omit(filter, '_id'))
+      .then(res => res.data);
+  };
+
   return Filter;
 })
 .run(Filter => {});
+

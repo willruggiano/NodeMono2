@@ -1,0 +1,14 @@
+status-bar {
+  position: absolute;
+  width: 30%;
+  float: left;
+
+  .success { background: rgba(59, 199, 0, 0.5); }
+  .error { background: rgba(255, 0, 0, 0.5); }
+
+  p {
+    width: 100%;
+    margin-bottom: 1px;
+    padding-left: 10px;
+  }
+}

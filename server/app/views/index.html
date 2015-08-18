@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="stylesheet" href="/bootstrap-social/bootstrap-social.css" />
+    <link rel="stylesheet" href="/flat-ui/css/flat-ui.css">
+    
     <script src="/lodash/index.js"></script>
     <script src="/angular/angular.js"></script>
     <script src="/angular-ui-router/release/angular-ui-router.js"></script>
@@ -17,7 +19,6 @@
 </head>
 <body ng-app="NodemonoApp">
     <navbar></navbar>
-    <!-- <status-bar ng-show='alerts.length > 0' ng-model='alerts'></status-bar> -->
-    <div id="main" ui-view></div>
+    <ui-view></ui-view>
 </body>
 </html>

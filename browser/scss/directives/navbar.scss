@@ -1,12 +1,13 @@
-navbar {
 
-  display: block;
-  background: white;
-  border-bottom: 1px solid $nodemono-gray;
+navbar {
+  z-index: 100;
+  position: fixed;
+  width: 100%;
+  background-color: #f8f8f8;
   height: 50px;
 
   .navbar {
-
+    border-radius: 0;
     &.navbar-static-top {
       height: inherit;
 
@@ -31,7 +32,7 @@ navbar {
             color: darken($nodemono-gray, 10%);
             cursor: pointer;
 
-            &:hover { color: $nodemono-red; }
+            // &:hover { color: $nodemono-red; }
           }
         }
       }
@@ -72,9 +73,10 @@ navbar {
     outline: none !important;
     height: 100%;
     transition: color 0.2s;
+    color: white;
 
     &.active { color: darken($nodemono-red, 10%); }
-    &:hover { color: $nodemono-red; }
+    &:hover { color: #E74C3C; }
   }
 
   .welcome {
@@ -86,8 +88,8 @@ navbar {
 
       span {
         cursor: pointer;
-
-        &:hover { color: $nodemono-red; }
+        &:hover { color: #E74C3C; }
+        // &:hover { color: $nodemono-red; }
       }
     }
     button {
@@ -95,4 +97,22 @@ navbar {
     }
   }
 
+}
+
+.btn-logo{
+    font-size: 20px !important;
+    float: left;
+    background: none;
+    outline: none !important;
+    color: white;
+    cursor: initial;
+}
+
+.btn-login{
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+#searchbar{
+  margin-top: 2px;
 }

@@ -83,6 +83,10 @@ function startNodemono() {
 				$scope.currentProperty = {};
 				var propList = ['href', 'src', 'style', 'id']
 
+				//set up the route object for this webpage
+				$rootScope.apiRoute = {};
+				$rootScope.apiRoute.data = [];
+
 				// 			$scope.buttonClicked = function() {
 				// 	$('#addProperty').before('<button class="btn btn-default btn-circle" ng-click="selectCollection()" >1</button>');
 
@@ -203,7 +207,7 @@ function startNodemono() {
 				//chose desired attribute
 				$scope.selectedAttr = function(attr) {
 					//set currentProperty
-					$scope.currentProperty['attribute'] = attr;
+					$scope.currentProperty['attr'] = attr;
 
 					//hide/show toolbar elements
 					document.getElementById('saveBtn').className = 'show'
@@ -217,7 +221,7 @@ function startNodemono() {
 
 				$scope.save = function() {
 					//save the property to this route
-
+					$rootScope.apiRoute.data.push($scope.currentProperty);
 					//reset the DOM
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -259,7 +263,22 @@ function startNodemono() {
 				return Collection;
 			})
 			.controller("OverlayCtrl", function($scope, $http, User, AuthService, $rootScope) {
-				$scope.showLogin = true;
+
+				//if logged in, show user page
+				if (AuthService.isAuthenticated) {
+					$scope.showLogin = true;
+					$scope.showSignup = false;
+				} else {
+					$scope.showLogin = false;
+					$scope.showSignup = false;
+
+				}
+				//on login
+				$rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+					$scope.showLogin = false;
+					$scope.showSignup = false;
+					$scope.show
+				})
 				$scope.error = null;
 				$scope.route = {};
 				$scope.Frequencies = [{
@@ -283,8 +302,13 @@ function startNodemono() {
 				}];
 				$scope.route.frequency = $scope.Frequencies[0];
 				$scope.toggleLogin = function() {
-					console.log('hello0')
-					$scope.showLogin = $scope.showLogin === true ? false : true;
+					if ($scope.showLogin) {
+						$scope.showLogin = false;
+						$scope.showSignup = true;
+					} else {
+						$scope.showLogin = true;
+						$scope.showSignup = false;
+					}
 				}
 				$scope.sendLogin = function(user) {
 					console.log(user)
@@ -296,6 +320,12 @@ function startNodemono() {
 							$scope.error = "Invalid credentials";
 						});
 				};
+				$scope.signUpNewUser = function(user) {
+					AuthService.signup(user)
+						.then(function(user) {
+
+						})
+				}
 
 				$scope.createNewRoute = function() {
 					console.log($scope.route)
@@ -447,12 +477,11 @@ function registerAuthService() {
 			console.log(credentials)
 			return $http.post(AUTH_EVENTS.serverUrl + '/signup', credentials)
 				.then(onSuccessfulLogin)
-				.
-			catch(function() {
-				return $q.reject({
-					message: 'Invalid login credentials.'
-				});
-			})
+				.catch(function() {
+					return $q.reject({
+						message: 'Invalid login credentials.'
+					});
+				})
 		}
 
 	});

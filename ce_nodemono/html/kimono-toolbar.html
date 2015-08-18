@@ -47,7 +47,7 @@
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
         </div>
         <!-- show login form if no user found -->
-        <div class='col-lg-12 loginForm' ng-if="!user &&showLogin">
+        <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
             <form id="login-form" name="loginForm">
                 <alert type="danger" ng-show="error">
                 {{ error }}
@@ -65,8 +65,8 @@
             </form>
             <div ng-if="error">{{error}}</div>
         </div>
-        <div class="col-lg-12 signupForm" ng-if="!user &&!showLogin">
-            <form id="signup-form" name="signupForm" ng-submit="signupNewUser()">
+        <div class="col-lg-12 signupForm" ng-if="!user && showSignup">
+            <form id="signup-form" name="signupForm">
                 <div class="form-group">
                     <label class="labelOverlay">Name</label>
                     <input name="name" type="text" class="form-control" ng-model="user.name" placeholder="Full Name" required="required">
@@ -79,12 +79,8 @@
                     <label class="labelOverlay">Password</label>
                     <input name="password" type="text" class="form-control" ng-model="user.password" placeholder="Password">
                 </div>
-                <button class="btn btn-success" ng-click="signUp()" type="submit">
-                Sign Up
-                </button> or
-                <a ng-click="toggleLogin()" type="submit" style="cursor: pointer;">
-                Login
-                </a>
+                <button class="btn btn-success" ng-click="signUpNewUser(user);" type="submit">Sign Up</button> or
+                <a ng-click="toggleLogin()" type="submit" style="cursor: pointer;">Login</a>
             </form>
         </div>
         <!-- show new routes interface after user's login -->
@@ -97,9 +93,7 @@
                 <div class="routeFrequency form-group">
                     <select ng-model="route.frequency" ng-options="frequency.text for frequency in Frequencies track by frequency.Id" class="selectStyle"></select>
                 </div>
-                <button class="btn btn-default" ng-click="createNewRoute()" type="submit">
-                Create Route
-                </button>
+                <button class="btn btn-default" ng-click="createNewRoute()" type="submit">Create Route</button>
             </form>
         </div>
     </div>

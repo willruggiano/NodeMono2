@@ -20,7 +20,7 @@ var schema = new mongoose.Schema({
 		// optionally extract the attribute from selected elements
 		attr: String,
 		// optionally extract certain indexes from selected elements
-		indexes: [Number]
+		indecies: [Number]
 	}],
 	//extra information about the crawler
 	lastTimeCrawled: {

@@ -1,4 +1,4 @@
-app.factory('Pipe', (DS, $http, $q) => {
+app.factory('Pipe', (DS, $http) => {
 
   let Pipe = DS.defineResource({
     name: 'pipe',

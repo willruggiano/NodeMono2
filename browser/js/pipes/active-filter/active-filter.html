@@ -1,0 +1,18 @@
+<p>
+	<span>Name: {{filter.name}}</span>
+	<a class="btn btn-xs btn-danger" ng-click="deselect({filter: filter})">X</a>
+	<a class="btn btn-xs btn-warning" ng-click="toggleCustomize()">Edit</a>
+</p>
+<p>Description: {{filter.description}}</p>
+<form name="form" ng-if="customize" ng-submit="save({filter: filter})">
+	<p ng-if="filter.type==='singleElem'">
+		<span>Keys (CSV): <input type="text" ng-model="filter.keys"></span>
+	</p>
+	<span>Parameters: 
+		<span ng-repeat="param in filter.parameters">
+			<!-- hacky solution to scope issue from ng-repeat -->
+			<input type="text" ng-model="filter.parameters[$index]">
+		</span>
+	</span>
+	<button ng-disabled="!form.$dirty" type="submit" class="btn btn-default btn-sm">Submit</button>
+</form>

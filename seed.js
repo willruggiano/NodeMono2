@@ -256,8 +256,20 @@ var seedFilters = function() {
         return accum;
     }, []);
 
+    // then single element functions
+    var singleElemFunctionKeys = Object.keys(filterBank.singleElement);
+    var singleElems = singleElemFunctionKeys.reduce(function(accum, key) {
+        // make new filter for the key, and add it to the accumulator
+        accum.push(new Filter({
+            name: key,
+            parameters: filterDefaultParams[key],
+            description: filterDescriptions[key]
+        }));
+        return accum;
+    }, []);
+
     // join the filters together
-    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs);
+    var filters = singleArrs.concat(multiArrs, singleObjs, multiObjs, singleElems);
 
     // save the new filters
     return Filter.createAsync(filters);

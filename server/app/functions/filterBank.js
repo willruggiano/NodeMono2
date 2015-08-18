@@ -7,7 +7,14 @@ var filterBank = {
 	//// each element is expected to be a string
 	singleElement: {
 		elementSlice: function(elem, x) {
-			return elem.slice(x);
+			return elem.slice(0, x);
+		},
+		// for the numeric functions, strings are coerced to numbers
+		square: function(elem) {
+			return elem * elem;
+		},
+		multiply: function(elem, x) {
+			return elem * x;
 		}
 	},
 	// single array functions
@@ -216,9 +223,6 @@ var sortMap = {
 	}
 	// put more below
 };
-
-var dummyObj = {a:1, b:2, c:3};
-console.log(filterBank.singleObj.omit(dummyObj, 'a', 'c'));
 
 
 module.exports = filterBank;

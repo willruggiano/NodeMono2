@@ -1,5 +1,9 @@
 // contains default parameters for filter functions for pipes (for seed file)
 var filterDefaultParams = {
+	// single element functions
+	elementSlice: [[], 10],
+	square: [[]],
+	multiply: [[], 2],
 	// single array functions
 	maxLength: [4],
 	unique: [],

@@ -6,6 +6,30 @@ var mongoose = require('mongoose');
 // load in filter functions
 var filterBank = require('./filterBank');
 
+// takes a filter and applies it to each element in the specified arrays (all is the default)
+//  expects first parameter in parameter array to be an array of property names (empty array means apply to all)
+function pipeSingleElement(input, filterName, props, parameters) {
+	// get associated function
+	var func = filterBank.singleElement[filterName];
+	// only apply filter to specified object property names
+	var keys = Object.keys(input);
+	if (props.length) {
+		keys = keys.filter(function(key) {
+			return props.indexOf(key) > -1;
+		});
+		console.log(keys);
+	}
+	// loop through the acceptable keys and apply the function to each element
+	keys.forEach(function(key) {
+		input[key] = input[key].map(function(elem) {
+			var paramsArr = [elem].concat(parameters);
+			return func.apply(null, paramsArr);
+		});
+	});
+	// return transformed input
+	return input;
+}
+
 // takes a filter and applies it to the input object's arrays (expects an object of arrays)
 function pipeSingleArr(input, filterName, parameters) {
 	// get associated function
@@ -64,7 +88,7 @@ function pipeMultiObj(inputArr, filterName, parameters) {
 }
 
 // choose how to apply filter to the input data and return the transformed data
-function applyPipe(inputData, filter, parameters) {
+function applyPipe(inputData, filter) {
 	var name = filter.name;
 	// if filter is applied to each array in each input object
 	if (_.has(filterBank.singleArray, name)) {
@@ -80,8 +104,21 @@ function applyPipe(inputData, filter, parameters) {
 		// apply the filter to each input in the input array
 		return inputData.map(function(input) {
 			// each filter can have any number of parameters, so use apply
-			var args = [input].concat(name, filter.parameters);
+			var args = [inpu].concat(name, filter.parameters);
 			return pipeSingleObj.apply(null, args);
+		});
+	}
+	// if filter applies to each element in an array
+	else if (_.has(filterBank.singleElement, name)) {
+		// these filters expect an array of obj properties first, check for this
+		if (!_.isArray(filter.parameters[0])) {
+			// add an empty array if it is not there
+			filter.parameters.unshift([]);
+		}
+		return inputData.map(function(input) {
+			// each filter can have any number of parameters, so use apply
+			var args = [input].concat(name, filter.parameters);
+			return pipeSingleElement.apply(null, args);
 		});
 	}
 	// if filter is applied to an array of objects with no transformations
@@ -161,6 +198,23 @@ function getPipeData(pipe) {
 			throw err;
 		});
 }
+
+var dummyData = [{
+	a: ['11','22','33'],
+	b: ['44','55','66'],
+	c: ['77','88','99']
+}];
+var filterFunc = function(elem) {
+	return elem * elem;
+};
+var params = [5];
+var dummyFilter = {
+	name: 'elementSlice',
+	parameters: [1]
+};
+var args = [dummyData].concat(dummyFilter);
+console.log(args);
+console.log(applyPipe.apply(null, args));
 
 // exports
 module.exports = getPipeData;

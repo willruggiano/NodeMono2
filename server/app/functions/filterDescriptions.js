@@ -1,5 +1,9 @@
 // contains descriptions for filter functions for pipes
 var filterDescriptions = {
+	// single element functions
+	elementSlice: 'returns the first X characters in each string',
+	square: 'multiplies each element by itself',
+	multiply: 'multiplies each element by X',
 	// single array functions
 	maxLength: 'limits length of all arrays to the specified value (defaults to 4)',
 	unique: 'removes all non unique values from each array (scope limited to each array)',

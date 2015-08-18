@@ -219,6 +219,9 @@ status-bar {
 #glyphy {
   font-size: .7em; }
 
+#profile {
+  padding: 50px; }
+
 .btn-nodemono {
   font-size: 10px;
   border: 1px solid #969696;

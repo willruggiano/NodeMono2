@@ -34,7 +34,8 @@
         </tr>
         <tr>
           <td class='td-status-label'>CRAWL STATUS</td>
-          <td class='td-status-info' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
+          <td ng-show='!editing.crawl' class='td-status-info' ng-model='crawlStatus' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
+          <td ng-show='editing.crawl' class='td-status-info' style='color: green;'>Updating...</td>
         </tr>
         <tr>
           <td class='td-status-label'>ROWS RETURNED</td>

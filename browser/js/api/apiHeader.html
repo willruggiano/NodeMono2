@@ -40,9 +40,12 @@
           <td>
             <span
               id='nm-status'
+              ng-show='!editing.crawl'
               ng-class="route.lastCrawlSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
             </span>
-            <span>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
+            <span ng-show='editing.crawl' class='glyphicon glyphicon-refresh loading'></span>
+            <span ng-show='!editing.crawl' ng-model='crawlStatus'>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
+            <span ng-show='editing.crawl' style='color: green;'>Updating...</span>
           </td>
         </tr>
       </tbody>

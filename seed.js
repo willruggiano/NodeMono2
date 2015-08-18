@@ -102,6 +102,29 @@ var seedDb = function() {
                     name: 'comments',
                     selector: '.subtext a~ a+ a'
                 }]
+            },
+            {
+                name: 'redditroute',
+                user: activeUser,
+                url: 'https://www.reddit.com/',
+                data: [{
+                    name: 'rd-title',
+                    selector: '.title a.title'
+                },
+                {
+                    name: 'rd-title-link',
+                    selector: '.title a.title',
+                    attr: 'href'
+                }],
+                // the "next" button at the bottom of the page
+                pagination: [{
+                    link: '.nav-buttons .nextprev a',
+                    limit: '2'
+                },
+                {
+                    link: '.selected+ li .choice',
+                    limit: '1'
+                }]
             }
             ];
 

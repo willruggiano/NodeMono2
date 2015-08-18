@@ -55,7 +55,7 @@
 .labelOverlay {
   color: white;
 }
-.routeFrequency {
+.routeFrequency, .paginationDepth {
   height:34px;
 }
 
@@ -100,33 +100,42 @@
   background-color: yellow;
   transition: all 0.5s;
 }
-#greenAttrSelector{
-  margin: 0px 0px;
-  height:50px;
-  background-color: #00ff00;
-  transition: all 0.5s;
-}
-#yellowAttrSelector{
-  margin: 0px 0px;
-  height:50px;
-  background-color: yellow;
-  transition: all 0.5s;
-}
-#nameInput{
-  height:50px;
-  transition: all 0.5s;
-}
-#saveBtn{
-  margin: 0px 0px;
-  height:50px;
-  transition: all 0.5s;
-}
 #backButton{
   margin: 0px 0px;
   border: 0px solid black;
   display:inline-block !important;
   height:50px;
   background-color: red;
+  transition: all 0.5s;
+}
+#attrSelectors{
+  display:inline-block;
+}
+.greenAttr{
+  margin: 0px 5px;
+  border: 0px solid black;
+  display: inline-block !important;
+  height:50px;
+  background-color: #00ff00;
+  transition: all 0.5s;
+}
+.yellowAttr{
+  margin: 0px 5px;
+  border: 0px solid black;
+  display: inline-block !important;
+  height:50px;
+  background-color: yellow;
+  transition: all 0.5s;
+}
+#nameInput{
+  height:50px;
+  float:left;
+  transition: all 0.5s;
+}
+#saveBtn{
+  margin: 0px 0px;
+  height:50px;
+  float:left;
   transition: all 0.5s;
 }
 #cover {
@@ -137,6 +146,8 @@
   right: 0;
   top: 0;
 }
+
+
 
 
 

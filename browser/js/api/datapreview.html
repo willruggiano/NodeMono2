@@ -1,26 +1,10 @@
 <table id='dataPreviewTable'>
   <tr>
-    <th>Row</th>
-    <th>Article Href</th>
-    <th>Article Title</th>
-    <th>Source URL</th>
-    <th>Points</th>
-    <th>User Href</th>
-    <th>Username</th>
-    <th>Comments Href</th>
-    <th>Comments #</th>
     <th>Index</th>
+    <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
-  <tr ng-repeat='result in data.results.Story'>
-    <td>{{ result.index }}</td>
-    <td><a href='{{ result.title.href }}'>{{ result.title.href }}</a></td>
-    <td>{{ result.title.text }}</td>
-    <td><a href='{{ result.url }}'>{{ result.url }}<a/></td>
-    <td>{{ result.points }}</td>
-    <td><a href='{{ result.user.href }}'>{{ result.user.href }}</a></td>
-    <td>{{ result.user.text }}</td>
-    <td><a href='{{ result.comments.href }}'>{{ result.comments.href }}</a></td>
-    <td>{{ result.comments.text }}</td>
-    <td>{{ result.index }}</td>
+  <tr ng-repeat='r in rows track by $index' ng-init='rowIndex = $index'>
+    <td>{{ rowIndex }}</td>
+    <td ng-repeat='header in headers'>{{ data[header][rowIndex] }}</td>
   </tr>
 </table>

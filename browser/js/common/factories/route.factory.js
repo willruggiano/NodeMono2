@@ -17,11 +17,11 @@ app.factory('Route', (DS, $state, $http) => {
     },
     methods: {
       go: function(userId) {
-        $state.go('api', { userid: userId, routeid: this._id });
+        $state.go('api', { userid: userId, routeid: this._id })
       },
       getCrawlData: function() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
-          .then(res => res.data);
+          .then(res => res.data)
       }
     }
   });

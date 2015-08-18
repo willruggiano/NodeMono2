@@ -1,23 +1,31 @@
-<nav class="navbar navbar-static-top">
+<nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
+
         <div class="navbar-header">
             <nodemono-logo ui-sref='home'></nodemono-logo>
         </div>
+
+        <button class='btn btn-logo'>nodemono</button>
+
         <div class='nav navbar-right'>
-          <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+          <button ng-show="!user" ui-sref="login" class="btn btn-primary btn-login">Login</button>
           <div ng-show='user' class='welcome'>
-            <span class='navbar-text'>Welcome, <span ui-sref="profile({ id: user._id })">{{ user.name }}</span>!</span>
-            <button ng-click='logout()' class='btn login-button'>Logout</button>
+            <span class='navbar-text'>Welcome  <span ui-sref="profile({ id: user._id })">{{ user.name }}</span>!</span>
+            <button ng-click='logout()' class='btn btn-primary btn-login'>Logout</button>
           </div>
         </div>
-        <div class='nav navbar-right divider'>
+
+        <div class='nav navbar-right divider' ng-show="user" >
           <span class='glyphicon glyphicon-search' ng-click='toggle()'></span>
         </div>
+
         <div class='nav navbar-right'>
-          <input ng-if='show' ng-enter='search()' class='navbar-search' type='text' placeholder='search for something...'></input>
+          <input ng-if='show' ng-enter='search()' class='navbar-form' id="searchbar" type='text' placeholder='search for something...'></input>
         </div>
+
         <div class='nav navbar-right'>
           <button
+            ng-if='!show'
             ng-repeat='item in items'
             ng-show='!item.auth || isLoggedIn()'
             ui-sref='{{ item.state }}'
@@ -25,5 +33,6 @@
             >{{ item.label }}
           </button>
         </div>
+
     </div>
 </nav>

@@ -4,14 +4,14 @@ $nodemono-width: 70%;
 
 * {
   box-sizing: border-box;
-  font-family: "Lucida Console", Monaco, monospace;
+  // font-family: "Lucida Console", Monaco, monospace;
 }
 
 body {
   background: #fdfdfd;
 }
 
-@mixin clearfix {
+%clearfix {
   &:after {
     content: "";
     display: table;

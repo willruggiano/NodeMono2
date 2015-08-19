@@ -79,7 +79,6 @@ app.config(($stateProvider) => {
       let e = document.getElementById('editor'),
           editor = ace.edit(e)
 
-      // ace.createEditSession(doc, 'javascript')
       editor.setTheme('ace/theme/terminal')
       editor.getSession().setMode('ace/mode/javascript')
 
@@ -91,34 +90,10 @@ app.config(($stateProvider) => {
 
         return data
       }
-
+      
       $scope.modifiedData = $scope.data
       $scope.updateDataPreview = () => console.log('updating data...')
-
-
-      // let testFilterFn = (data) => {
-      //   for (let key in data) {
-      //     data[key].map(item => {
-      //       if (item.length > 10) return item.slice(0,10)
-      //       else return item
-      //     })
-      //   }
-      //   return data
-      // }
-      //
-      //
-      // $scope.resetFilterFn = () => {
-      //   console.log('reset filter function to default')
-      //   // $scope.$apply(() => {
-      //     $scope.filterFn = defaultFilterFn
-      //   // })
-      // }
-      // $scope.applyFilterFn = () => {
-      //   console.log('applied test filter function')
-      //   // $scope.$apply(() => {
-      //     $scope.filterFn = testFilterFn
-      //   // })
-      // }
+      $scope.revertData = () => console.log('reverting data back to original form...')
 
       /* USE DATA */
 

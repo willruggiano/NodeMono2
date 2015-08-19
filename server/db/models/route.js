@@ -20,12 +20,13 @@ var schema = new mongoose.Schema({
 		// optionally extract the attribute from selected elements
 		attr: String,
 		// optionally extract certain indexes from selected elements
-		indecies: [Number]
+		index: Number
 	}],
 	// limit is the number of times to "click" the pagination link
 	pagination: [{
 		link: String,
-		limit: Number
+		limit: Number,
+		index: Number
 	}],
 	// extra information about the crawler
 	lastTimeCrawled: {

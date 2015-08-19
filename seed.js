@@ -151,7 +151,7 @@ var seedDb = function() {
                     pipes: []
                 },
                 filters: [
-                    // max length 3
+                    // max length 4
                     filters[2],
                     // unique
                     filters[3]
@@ -166,11 +166,34 @@ var seedDb = function() {
                     pipes: []
                 },
                 filters: [
-                    // max length 3
+                    // max length 4
                     filters[2],
                     // unique
                     filters[3]
                 ]
+            }, {
+                name: 'PipeUserFilter',
+                user: activeUser,
+                inputs: {
+                    // only second route
+                    routes: routes[1],
+                    // added later
+                    pipes: []
+                },
+                filters: [
+                    // max length 4
+                    filters[2],
+                    // unique
+                    filters[3]
+                ],
+                userFilters: [{
+                    func: 'var t = arguments[1]; elem += t; return elem;',
+                    name: 'my function!',
+                    parameters: [' *jack*'],
+                    description: 'a user made this function',
+                    keys: [],
+                    type: 'singleElem'
+                }]
             }];
 
             return Pipe.remove().then(function() {

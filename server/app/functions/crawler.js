@@ -67,6 +67,7 @@ function getSelectors(html, data, paginationArr) {
 	// return the output too
 	promiseArray.unshift(output);
 
+	// return the resolved data from each pagination
 	return Q.all(promiseArray);
 }
 
@@ -108,29 +109,6 @@ function crawl(url, data, paginationArr) {
 function getCrawlData(route) {
 	return crawl(route.url, route.data, route.pagination);
 }
-
-
-// let users make custom filter functions
-// (function() {
-// 	var obj ={};
-// 	obj.str = 'var fn = function stringFunc(str) {return str.slice(0,3); }';
-
-// 	console.log(obj.str);
-// 	// var fn = new Function(str);
-// 	eval(obj.str);
-// 	console.log(fn);
-// 	console.log(fn);
-// 	console.log(fn('i am jack'));
-// 	console.log(typeof fn);
-
-// })();
-
-// console.log(typeof fn);
-
-///// they can choose the kind of function they are writing - singleArr, multiObj, etc.
-	// they will be given a different starting point based on that
-
-
 
 // exports
 module.exports = getCrawlData;

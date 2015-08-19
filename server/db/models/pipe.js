@@ -26,6 +26,22 @@ var schema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Filter'
 	}],
+	// users can write their own filters (stored as strings) (applied last)
+	userFilters: [{
+		func: String,
+		name: String,
+		parameters: [{
+			type: mongoose.Schema.Types.Mixed
+		}],
+		type: {
+			type: String,
+			enum: ['singleArr', 'multiArr', 'singleObj', 'multiObj', 'singleElem']
+		},
+		description: String,
+		keys: [{
+			type: String
+		}]
+	}],
 	//extra information about the pipe
 	lastTimePiped: {
 		type: Date,

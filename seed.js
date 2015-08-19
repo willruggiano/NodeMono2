@@ -193,6 +193,14 @@ var seedDb = function() {
                     description: 'a user made this function',
                     keys: [],
                     type: 'singleElem'
+                },
+                {
+                     func: 'arr.push("hey from jack"); return arr;',
+                     name: 'my other function!',
+                     parameters: [],
+                     description: 'a user made this function too',
+                     keys: [],
+                     type: 'singleArr'
                 }]
             }];
 

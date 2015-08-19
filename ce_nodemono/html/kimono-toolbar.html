@@ -2,22 +2,27 @@
     <div class="navbar-header">
         <a class="navbar-brand" href="#">nodemono</a>
     </div>
-    <div class="navbar-form navbar-left">
+    <div class="navbar-form navbar-left" style="margin: 0 0;">
         <div class="form-group">
-            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='hide' ;>Back</button>
-            <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>One</button>
-            <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='hide'>All</button>
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>&#10094</button>
+            <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
+            <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">
             </div>
-            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='hide'></input>
-            <button id="saveBtn" ng-click="save();" class='hide'>Save</button>
+            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
+            <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
         </div>
     </div>
     <div class="navbar-form navbar-right">
+        <button type="submit" id="doneBtn" class="btn btn-primary" ng-click="doneClicked()">Done</button>
+    </div>
+        <div id="propButtons">
+    </div>
+<!--     <div class="navbar-form navbar-right">
 
         <button type="submit" class="paginationBtn btn btn-primary" ng-click="getPagination()">Pagination</button>
         <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
-    </div>
+    </div> -->
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
         <div class="navbar-form navbar-right">

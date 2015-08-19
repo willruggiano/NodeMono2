@@ -1,7 +1,7 @@
 function startNodemono() {
 	//import CSS library
 	importCSS(chrome.extension.getURL("css/bootstrap.min.css"))
-	// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
+		// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
 	importCSS(chrome.extension.getURL("css/style.css"));
 
 	// importJS(chrome.extension.getURL('js/main.js'));
@@ -16,8 +16,8 @@ function startNodemono() {
 		appRoot.dataset.ngController = 'NodemonoMainCtrl as ctrl';
 
 		appRoot.id = "nodemonofy"
-		// Insert elements into the DOM
-		// document.body.pre(div);
+			// Insert elements into the DOM
+			// document.body.pre(div);
 		$(div).prependTo('body')
 		div.appendChild(appRoot);
 		$(data).appendTo('#nodemonofy');
@@ -56,7 +56,7 @@ function startNodemono() {
 					var serverUrl
 					if (this.isNew()) {
 						verb = 'post'
-						// serverUrl = Route.serverUrl
+							// serverUrl = Route.serverUrl
 					} else {
 						verb = 'put'
 					}
@@ -74,13 +74,12 @@ function startNodemono() {
 			.controller('NodemonoMainCtrl', function($scope) {
 				$scope.collection = {};
 				console.log('go here')
-				// this.message = "Hello";
+					// this.message = "Hello";
 
 			})
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
-				var propList = ['href', 'src', 'style', 'id']
 
 
 				//set up the route object for this webpage
@@ -91,9 +90,9 @@ function startNodemono() {
 
 				}
 				$scope.doneClicked = function() {
-					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
-				}
-				//cancel 
+						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
+					}
+					//cancel 
 				$scope.cancel = function() {
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -104,16 +103,12 @@ function startNodemono() {
 					}
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
-					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'hide'
-					document.getElementById('oneButton').className = 'show'
-					document.getElementById('allButton').className = 'show'
-					//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelectors');
-					console.log(attrSelectors)
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
+					//hide/show toolbar
+					hideAllElms();
+					setTimeout(function() {
+						document.getElementById('oneButton').className = 'toolbarEl show';
+						document.getElementById('allButton').className = 'toolbarEl show';
+					}, 100)
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
@@ -125,33 +120,25 @@ function startNodemono() {
 
 					//set properties of the currentProperty
 					$scope.currentProperty['selector'] = $scope.selector;
-					$scope.currentProperty['indecies'] = $scope.matchList.indexOf($scope.targetElement);
+					$scope.currentProperty['indecies'] = [$scope.matchList.indexOf($scope.targetElement)];
+					console.log($scope.currentProperty['indecies']);
 
 					//change stylings on DOM
-					for (var i = 0; i < $scope.matchList.length; i++) {
-						$scope.matchList[i].style['background-color'] = '';
-					}
+					resetHighlights($scope);
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
 					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'show'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-					//show attribute buttons
-					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
-						var prop = $scope.targetElement.attributes[i].name;
-						if (propList.indexOf(prop) >= 0) {
-							var newButton = document.createElement('button');
-							newButton.innerHTML = prop;
-							newButton.addEventListener('click', function(event) {
-								var button = event.target || event.srcElement;
-								var property = button.innerHTML;
-								$scope.selectedAttr(property);
-							});
-							document.getElementById('attrSelectors').appendChild(newButton);
-							newButton.className = "greenAttr show";
+					hideAllElms();
+					generateAttrButtons('green', $scope);
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						var attrSelectors = document.getElementById('attrSelectors');
+						console.log(attrSelectors);
+						for (var i = 0; i < attrSelectors.children.length; i++) {
+							attrSelectors.children[i].className = 'greenAttr show'
+							console.log(attrSelectors[i])
 						}
-					}
+					}, 100);
 
 					//block clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -167,24 +154,15 @@ function startNodemono() {
 					$scope.targetElement.style['background-color'] = '#ffff00'
 
 					//hide/show toolbar elements
-					document.getElementById('backButton').className = 'show'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-					//show attribute buttons
-					for (var i = 0; i < $scope.targetElement.attributes.length; i++) {
-						var prop = $scope.targetElement.attributes[i].name;
-						if (propList.indexOf(prop) >= 0) {
-							var newButton = document.createElement('button');
-							newButton.innerHTML = prop;
-							newButton.addEventListener('click', function(event) {
-								var button = event.target || event.srcElement;
-								var property = button.innerHTML;
-								$scope.selectedAttr(property);
-							});
-							document.getElementById('attrSelectors').appendChild(newButton);
-							newButton.className = "greenAttr show";
+					hideAllElms();
+					generateAttrButtons('yellow', $scope);
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						var attrSelectors = document.getElementById('attrSelectors');
+						for (var i = 0; i < attrSelectors.children.length; i++) {
+							attrSelectors.children[i].className = 'yellowAttr show'
 						}
-					}
+					}, 100);
 
 					//block all clicks on webpage
 					$scope.overlay.id = 'cover';
@@ -197,41 +175,77 @@ function startNodemono() {
 					$scope.currentProperty['attr'] = attr;
 
 					//hide/show toolbar elements
-					document.getElementById('saveBtn').className = 'show'
-					document.getElementById('nameInput').className = 'show'
-					//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelectors');
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
+					hideAllElms();
+					setTimeout(function() {
+						document.getElementById('backButton').className = 'toolbarEl show'
+						document.getElementById('saveBtn').className = 'toolbarEl show'
+						document.getElementById('nameInput').className = 'toolbarEl show'
+					}, 100);
 				}
 
 				$scope.save = function() {
 
 					//save the property to this route
 					$rootScope.apiRoute.data.push($scope.currentProperty);
+					console.log($rootScope.apiRoute);
 					//reset the DOM
-					//reset currentProperty
-					$scope.currentProperty = {};
 
 					//change stylings on DOM
-					for (var i = 0; i < $scope.matchList.length; i++) {
-						$scope.matchList[i].style['background-color'] = '';
-					}
+					resetHighlights($scope);
 
-					//hide all toolbar elements
-					document.getElementById('backButton').id = 'hide'
-					document.getElementById('oneButton').className = 'hide'
-					document.getElementById('allButton').className = 'hide'
-					//remove all attrSelector buttons
-					var attrSelectors = document.getElementById('attrSelectors');
-					while (attrSelectors.firstChild) {
-						attrSelectors.removeChild(attrSelectors.firstChild)
-					}
-
+					//hide/show toolbar elements
+					hideAllElms();
 
 					//allow clicks on webpage
 					$scope.overlay.id = '';
+
+					//create a new button to show chosen properties
+					var newButton = document.createElement('button');
+					newButton.className = 'show selectorBtn'
+					newButton.dataProp = $scope.currentProperty
+					if (newButton.dataProp.indecies.length > 0) {
+						newButton.innerHTML = newButton.dataProp.indecies.length;
+					} else {
+						var list = document.querySelectorAll(newButton.dataProp.selector);
+						newButton.innerHTML = list.length;
+					}
+					newButton.addEventListener('click', function(event) {
+						var button = event.target || event.srcElement;
+						hideAllElms();
+						resetHighlights($scope);
+						$scope.matchList = document.querySelectorAll(button.dataProp.selector)
+						var indecies = button.dataProp.indecies
+						if (indecies.length > 0) {
+							for (var i = 0; i < indecies.length; i++) {
+								$scope.matchList[indecies[i]].style['background-color'] = '#00ff00';
+							}
+						} else {
+							for (var i = 0; i < $scope.matchList.length; i++) {
+								$scope.matchList[i].style['background-color'] = 'yellow';
+							}
+						}
+					})
+					var xButton = document.createElement('button');
+					xButton.id = 'xButton';
+					xButton.innerHTML = 'X'
+					newButton.appendChild(xButton);
+					xButton.addEventListener('click', function(event) {
+						newButton.parentNode.removeChild(newButton);
+						var index = $rootScope.apiRoute.data.indexOf(newButton.dataProp)
+						$rootScope.apiRoute.data.splice(index, 1);
+						event.preventDefault();
+						event.stopPropagation();
+					})
+					newButton.onmouseover = function() {
+						xButton.style.opacity = 1;
+					}
+					newButton.onmouseout = function() {
+						xButton.style.opacity = 0;
+					}
+					document.getElementById('propButtons').appendChild(newButton)
+
+					//reset currentProperty
+					$scope.currentProperty = {};
 				}
 
 				setUpDom($scope);
@@ -274,7 +288,7 @@ function startNodemono() {
 						.then(function(user) {
 							$scope.user = Session.user;
 						}).
-					catch (function() {
+					catch(function() {
 						$scope.error = "Invalid credentials";
 					});
 				};
@@ -298,7 +312,6 @@ function startNodemono() {
 						})
 					}
 				}
-
 			});
 
 		/* Manually bootstrap the Angular app */
@@ -333,7 +346,6 @@ if (!document.getElementById('nodemonofy')) {
 } else {
 	console.log('Nodemono\' already started');
 }
-
 
 
 function registerAuthService() {
@@ -414,7 +426,7 @@ function registerAuthService() {
 			// If it returns a user, call onSuccessfulLogin with the response.
 			// If it returns a 401 response, we catch it and instead resolve to null.
 			return $http.get(AUTH_EVENTS.serverUrl + '/session').then(onSuccessfulLogin).
-			catch (function() {
+			catch(function() {
 				return null;
 			});
 
@@ -424,7 +436,7 @@ function registerAuthService() {
 			return $http.post(AUTH_EVENTS.serverUrl + '/login', credentials)
 				.then(onSuccessfulLogin)
 				.
-			catch (function() {
+			catch(function() {
 				return $q.reject({
 					message: 'Invalid login credentials.'
 				});
@@ -445,13 +457,12 @@ function registerAuthService() {
 			return $http.post(AUTH_EVENTS.serverUrl + '/signup', credentials)
 				.then(onSuccessfulLogin)
 				.
-			catch (function() {
+			catch(function() {
 				return $q.reject({
 					message: 'Invalid login credentials.'
 				});
 			})
 		}
-
 	});
 
 	app.service('Session', function($rootScope, AUTH_EVENTS) {

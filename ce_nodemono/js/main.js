@@ -53,6 +53,55 @@ function giveNodeListArrayMethods() {
 
 }
 
+function hideAllElms() {
+  //hide all toolbar elements
+  document.getElementById('backButton').className = 'toolbarEl hide'
+  document.getElementById('oneButton').className = 'toolbarEl hide'
+  document.getElementById('allButton').className = 'toolbarEl hide'
+  document.getElementById('saveBtn').className = 'toolbarEl hide'
+  document.getElementById('nameInput').className = 'toolbarEl hide'
+    //remove all attrSelector buttons
+  var attrSelectors = document.getElementById('attrSelectors');
+  while (attrSelectors.firstChild) {
+    attrSelectors.removeChild(attrSelectors.firstChild)
+  }
+}
+
+function resetHighlights(scope) {
+  for (var i = 0; i < scope.matchList.length; i++) {
+    scope.matchList[i].style['background-color'] = '';
+  }
+}
+
+function generateAttrButtons(color, scope) {
+  //add text attribute button
+  var newButton = document.createElement('button');
+  newButton.innerHTML = 'text';
+  newButton.addEventListener('click', function(event) {
+    scope.selectedAttr(undefined);
+  });
+  document.getElementById('attrSelectors').appendChild(newButton);
+  newButton.className = color + "Attr hide";
+  //show attribute buttons
+  for (var i = 0; i < scope.targetElement.attributes.length; i++) {
+    var prop = scope.targetElement.attributes[i].name;
+    //check that property is good
+    var propList = ['href', 'src', 'style', 'id']
+    if (propList.indexOf(prop) >= 0) {
+      var newButton = document.createElement('button');
+      newButton.innerHTML = prop;
+      newButton.addEventListener('click', function(event) {
+        var button = event.target || event.srcElement;
+        var property = button.innerHTML;
+        scope.selectedAttr(property);
+      });
+      document.getElementById('attrSelectors').appendChild(newButton);
+      newButton.className = color + "Attr hide";
+    }
+  }
+  console.log(document.getElementById('attrSelectors'))
+}
+
 //____________________________________DOM setup______________________________
 function setUpDom(scope) {
   giveNodeListArrayMethods();
@@ -75,7 +124,6 @@ function setUpDom(scope) {
     } else {
       element.addEventListener("click", function(event) {
         //make click only be for most specific element (most likely to have text)
-        console.log('setSelected');
         event.preventDefault();
         event.stopPropagation();
         scope.targetElement = event.target || event.srcElement;
@@ -95,9 +143,9 @@ function setUpDom(scope) {
 
         //show/hide toolbar elements
         if (scope.targetElement) {
-          document.getElementById('oneButton').className = 'show';
+          document.getElementById('oneButton').className = 'toolbarEl show';
           if (scope.matchList.length > 0) {
-            document.getElementById('allButton').className = 'show';
+            document.getElementById('allButton').className = 'toolbarEl show';
           }
         }
       });
@@ -107,6 +155,10 @@ function setUpDom(scope) {
   //add the overlay element to the dom
   scope.overlay = document.createElement('div')
   scope.overlay.id = ''
+  scope.overlay.addEventListener("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  })
   document.getElementsByTagName('body')[0].appendChild(scope.overlay);
 }
 

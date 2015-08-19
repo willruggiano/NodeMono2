@@ -2,11 +2,14 @@ app.config(($stateProvider) => {
   $stateProvider.state('api', {
     url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
-    controller: (DS, $scope, $timeout, user, route, data) => {
+    resolve: {
+      user: (User, $stateParams) => User.find($stateParams.userid),
+      route: (Route, $stateParams) => Route.find($stateParams.routeid)
+    },
+    controller: (DS, $scope, $timeout, user, route) => {
       /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
-      $scope.data = data[0]
       $scope.editing = {}
 
       /* API HEADER */
@@ -39,9 +42,18 @@ app.config(($stateProvider) => {
         $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
       }
       if (!$scope.crawlStatus) getCrawlStatus()
-
-      /* DATA PREVIEW TABLE */
+    }
+  })
+  .state('api.preview', {
+    url: '/preview',
+    templateUrl: 'js/api/datapreview.html',
+    resolve: {
+      data: (route) => route.getCrawlData()
+    },
+    controller: ($scope, data) => {
+      $scope.data = data[0]
       $scope.headers = Object.keys($scope.data)
+
       let getRowCount = () => {
         // get row count for table generation
         let count = 0
@@ -51,17 +63,23 @@ app.config(($stateProvider) => {
         }
         $scope.rows = new Array(count)
       }
+
       if (!$scope.rows) getRowCount()
 
-      /* CRAWL SETUP */
+    }
+  })
+  .state('api.crawlsetup', {
+    url: '/crawl-setup',
+    templateUrl: 'js/api/crawlsetup.html',
+    controller: ($scope) => {
       let getLastRunStatus = () => {
         let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
         if (d === 0) $scope.lastRun = `Today`
         else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
       }
+
       if (!$scope.lastRun) getLastRunStatus()
 
-      // called when re-crawl button is clicked
       $scope.updateCrawlData = () => {
         $scope.editing.crawl = true
         route.getCrawlData()
@@ -72,38 +90,45 @@ app.config(($stateProvider) => {
             $scope.editing.crawl = false
           })
       }
-
-      /* CRAWL HISTORY */
-
-      /* MODIFY RESULTS (PIPES) */
-      let e = document.getElementById('editor'),
-          editor = ace.edit(e)
-
-      editor.setTheme('ace/theme/terminal')
-      editor.getSession().setMode('ace/mode/javascript')
-
-      let defaultFilterFn = (data) => {
-        // filter functions are passed the whole API response object
-        // you may manipulate or add to this data as you want
-
-        /* YOUR CODE HERE */
-
-        return data
-      }
-      
-      $scope.modifiedData = $scope.data
-      $scope.updateDataPreview = () => console.log('updating data...')
-      $scope.revertData = () => console.log('reverting data back to original form...')
-
-      /* USE DATA */
-
-      /* API DOCS */
-
-    },
-    resolve: {
-      user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      data: (route) => route.getCrawlData()
     }
   })
 })
+
+
+
+
+
+
+
+
+      // called when re-crawl button is clicked
+
+
+  //     /* CRAWL HISTORY */
+  //
+  //     /* MODIFY RESULTS (PIPES) */
+  //     let e = document.getElementById('editor'),
+  //         editor = ace.edit(e)
+  //
+  //     editor.setTheme('ace/theme/terminal')
+  //     editor.getSession().setMode('ace/mode/javascript')
+  //
+  //     let defaultFilterFn = (data) => {
+  //       // filter functions are passed the whole API response object
+  //       // you may manipulate or add to this data as you want
+  //
+  //       /* YOUR CODE HERE */
+  //
+  //       return data
+  //     }
+  //
+  //     $scope.modifiedData = $scope.data
+  //     $scope.updateDataPreview = () => console.log('updating data...')
+  //     $scope.revertData = () => console.log('reverting data back to original form...')
+  //
+  //     /* USE DATA */
+  //
+  //     /* API DOCS */
+  //
+  //   }
+  // })

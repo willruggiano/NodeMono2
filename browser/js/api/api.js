@@ -6,7 +6,7 @@ app.config(($stateProvider) => {
       /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
-      $scope.data = data
+      $scope.data = data[0]
       $scope.editing = {}
 
       /* API HEADER */
@@ -66,8 +66,7 @@ app.config(($stateProvider) => {
         $scope.editing.crawl = true
         route.getCrawlData()
           .then(newdata => {
-            console.log('received new data')
-            $scope.data = newdata
+            $scope.data = newdata[0]
             getRowCount()
             getLastRunStatus()
             getCrawlStatus()

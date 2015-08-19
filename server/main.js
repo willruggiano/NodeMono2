@@ -28,6 +28,7 @@ var startServer = function() {
         require('./io')(server); // Attach socket.io.
         server.on('request', app); // Attach the Express application.
         server.listen(PORT, function() {
+            console.log("You can use following command to start https server: npm --server=\"HTTPS\" run-script start");
             console.log(chalk.blue('Server started on port', chalk.magenta(PORT)));
         });
 

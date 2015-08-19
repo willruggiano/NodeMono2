@@ -380,3 +380,22 @@ table#dataPreviewTable {
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
   color: #00ffa3; }
+
+.result-view {
+  margin-right: 20%; }
+
+li + .active {
+  border-radius: 10%; }
+
+li + .active > a {
+  color: white !important;
+  background-color: #337ab7 !important; }
+
+.resultType {
+  float: right !important;
+  list-style-type: none; }
+
+.textareaPreview {
+  height: 50em;
+  width: 80em;
+  margin-left: 10%; }

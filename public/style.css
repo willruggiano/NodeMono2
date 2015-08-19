@@ -220,7 +220,9 @@ status-bar {
   font-size: .7em; }
 
 #profile {
-  padding: 50px; }
+  padding: 50px;
+  width: 70%;
+  margin: 0 auto; }
 
 .btn-nodemono {
   font-size: 10px;
@@ -361,3 +363,18 @@ table#dataPreviewTable {
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
   color: #00ffa3; }
+
+#modify h4 {
+  font-size: 14px; }
+#modify p {
+  font-size: 10px; }
+#modify h5 {
+  font-size: 10px; }
+#modify pre {
+  height: 40vh; }
+#modify .preview {
+  font-size: 10px;
+  background: #fcfcfc;
+  color: #636363; }
+#modify #editor {
+  height: 40vh; }

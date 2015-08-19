@@ -5,6 +5,8 @@ $api-font-lg: 30px;
 
 #profile{
   padding: 50px;
+  width: $nodemono-width;
+  margin: 0 auto;
 }
 
 .btn-nodemono {
@@ -187,4 +189,28 @@ table#dataPreviewTable {
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
   color: rgb(0, 255, 163)
+}
+
+#modify {
+
+  h4 { font-size: $api-font-sm; }
+  p { font-size: $api-font-xs; }
+  h5 { font-size: $api-font-xs; }
+  pre {
+    height: 40vh;
+
+  }
+  .preview {
+    font-size: $api-font-xs;
+    background: lighten($nodemono-gray, 40%);
+    color: darken($nodemono-gray, 20%);
+  }
+
+  #editor {
+    height: 40vh;
+    // top: 0;
+    // right: 0;
+    // bottom: 0;
+    // left: 0;
+  }
 }

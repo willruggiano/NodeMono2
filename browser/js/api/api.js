@@ -66,7 +66,6 @@ app.config(($stateProvider) => {
         $scope.editing.crawl = true
         route.getCrawlData()
           .then(newdata => {
-            console.log('received new data')
             $scope.data = newdata
             getRowCount()
             getLastRunStatus()
@@ -78,6 +77,49 @@ app.config(($stateProvider) => {
       /* CRAWL HISTORY */
 
       /* MODIFY RESULTS (PIPES) */
+      let e = document.getElementById('editor'),
+          editor = ace.edit(e)
+
+      // ace.createEditSession(doc, 'javascript')
+      editor.setTheme('ace/theme/terminal')
+      editor.getSession().setMode('ace/mode/javascript')
+
+      let defaultFilterFn = (data) => {
+        // filter functions are passed the whole API response object
+        // you may manipulate or add to this data as you want
+
+        /* YOUR CODE HERE */
+
+        return data
+      }
+
+      $scope.modifiedData = $scope.data
+      $scope.updateDataPreview = () => console.log('updating data...')
+
+
+      // let testFilterFn = (data) => {
+      //   for (let key in data) {
+      //     data[key].map(item => {
+      //       if (item.length > 10) return item.slice(0,10)
+      //       else return item
+      //     })
+      //   }
+      //   return data
+      // }
+      //
+      //
+      // $scope.resetFilterFn = () => {
+      //   console.log('reset filter function to default')
+      //   // $scope.$apply(() => {
+      //     $scope.filterFn = defaultFilterFn
+      //   // })
+      // }
+      // $scope.applyFilterFn = () => {
+      //   console.log('applied test filter function')
+      //   // $scope.$apply(() => {
+      //     $scope.filterFn = testFilterFn
+      //   // })
+      // }
 
       /* USE DATA */
 

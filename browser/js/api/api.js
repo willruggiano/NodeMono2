@@ -55,9 +55,9 @@ app.config(($stateProvider) => {
 
       /* CRAWL SETUP */
       let getLastRunStatus = () => {
-        let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
-        if (d === 0) $scope.lastRun = `Today`
-        else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
+        let dt = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
+        if (dt === 0) $scope.lastRun = `Today`
+        else $scope.lastRun = `${dt} ${dt > 1 ? 'days' : 'day'} ago`
       }
       if (!$scope.lastRun) getLastRunStatus()
 
@@ -90,10 +90,10 @@ app.config(($stateProvider) => {
 
         return data
       }
-      
+
       $scope.modifiedData = $scope.data
-      $scope.updateDataPreview = () => console.log('updating data...')
-      $scope.revertData = () => console.log('reverting data back to original form...')
+      $scope.updateDataPreview = () => console.log(editor.getValue())
+      $scope.revertData = () => editor.setValue('new text')
 
       /* USE DATA */
 

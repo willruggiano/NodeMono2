@@ -66,8 +66,7 @@ app.config(($stateProvider) => {
         $scope.editing.crawl = true
         route.getCrawlData()
           .then(newdata => {
-            console.log('received new data')
-            $scope.data = newdata
+            $scope.data = newdata[0]
             getRowCount()
             getLastRunStatus()
             getCrawlStatus()

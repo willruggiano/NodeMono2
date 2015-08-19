@@ -394,3 +394,8 @@ li + .active > a {
 .resultType {
   float: right !important;
   list-style-type: none; }
+
+.textareaPreview {
+  height: 50em;
+  width: 80em;
+  margin-left: 10%; }

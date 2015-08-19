@@ -58,7 +58,10 @@ app.config(($stateProvider) => {
        $scope.setActiveType = (type) =>{
         // console.log($scope.data);
         if(type.name==="JSON"){
-          
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
+        } else if(type.name==="RSS"){
+          $scope.dataPreview = route.parseXML(interleaveObj($scope.data));
+          console.log($scope.dataPreview)
         }
         $scope.activeResultType = type.name;
        } 
@@ -91,6 +94,35 @@ app.config(($stateProvider) => {
       /* USE DATA */
 
       /* API DOCS */
+
+      // helper function for interleave - interleaves a single object of arrays
+      function interleaveObj(obj) {
+        // find all keys in the object
+        var keys = Object.keys(obj);
+
+        // find longest stored array
+        var maxLen = keys.reduce(function(max, key) {
+          if (obj[key].length > max) return obj[key].length;
+          else return max;
+        }, 0);
+
+        var mergedData = [];
+        // defined outside the loop to satisfy the linter
+        var i = 0;
+        var reduceFunc = function(accum, key) {
+          accum[key] = obj[key][i];
+          return accum;
+        };
+        // use maxLen (length of longest array in the object)
+        for (; i < maxLen; i++) {
+          // make new obj with fields for each name
+          var mergedObj = keys.reduce(reduceFunc, {});
+          // add to the array of these objects
+          mergedData.push(mergedObj);
+        }
+
+        return mergedData;
+      }
 
     },
     resolve: {

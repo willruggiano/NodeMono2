@@ -11,8 +11,9 @@
 	</ul>
 </div>
 
-<div ng-if="activeResultType=='JSON'">
-{{dataPreview}}
+<div ng-if="activeResultType!=='CSV'">
+	<!-- {{dataPreview}} -->
+<textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
 </div>
 <table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
   <tr>

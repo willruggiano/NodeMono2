@@ -1,4 +1,4 @@
-<div id='modify' class='container'>
+<div id='modify'>
   <div class='row'>
     <div class='col-md-6'>
       <h4>Modify Results</h4>
@@ -15,8 +15,8 @@
     <div class='col-md-6'>
       <h5>Filter function</h5>
       <form ng-submit='updateDataPreview()'>
-        <div id='editor'>
-          defaultFilterFn = (data) => {
+        <pre id='editor'>
+          let defaultFilterFn = (data) => {
             // filter functions are passed the whole API response object
             // you may manipulate or add to this data as you want
 
@@ -24,7 +24,7 @@
 
             return data
           }
-        </div>
+        </pre>
         <button type='submit' class='btn-nodemono'>Apply</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
       </form>

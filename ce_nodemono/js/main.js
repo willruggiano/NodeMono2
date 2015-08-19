@@ -142,12 +142,16 @@ function setUpDom(scope) {
         scope.targetElement.style['background-color'] = '#00ff00';
 
         //show/hide toolbar elements
-        if (scope.targetElement) {
-          document.getElementById('oneButton').className = 'toolbarEl show';
-          if (scope.matchList.length > 0) {
-            document.getElementById('allButton').className = 'toolbarEl show';
+        hideAllElms();
+        setTimeout(function() {
+          if (scope.targetElement) {
+            document.getElementById('oneButton').className = 'toolbarEl show';
+            if (scope.matchList.length > 0) {
+              document.getElementById('allButton').className = 'toolbarEl show';
+            }
           }
-        }
+        }, 100)
+
       });
     }
   }

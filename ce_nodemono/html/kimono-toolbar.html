@@ -1,10 +1,12 @@
 <div class="nodemonoToolbar navbar-inverse" ng-controller="ToolbarCtrl">
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">nodemono</a>
+        <a class="navbar-brand" href="#ourwebsite">nodemono</a>
     </div>
     <div class="navbar-form navbar-left" style="margin: 0 0;">
         <div class="form-group">
-            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>&#10094</button>
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>
+                <img ng-src='{{backBtnUrl}}' id='backBtnImg' ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();"></img>
+            </button>
             <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">

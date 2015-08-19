@@ -81,6 +81,7 @@ function startNodemono() {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
 
+				$scope.backBtnUrl = chrome.extension.getURL('imgs/back.png');
 
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
@@ -364,7 +365,7 @@ function registerAuthService() {
 		sessionTimeout: 'auth-session-timeout',
 		notAuthenticated: 'auth-not-authenticated',
 		notAuthorized: 'auth-not-authorized',
-		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '3000' : '1337')
+		serverUrl: '//localhost:' + '1337'
 	});
 
 	app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
@@ -491,4 +492,15 @@ function registerAuthService() {
 		};
 
 	});
+
+	app.config([
+		'$compileProvider',
+		function($compileProvider) {
+			var currentImgSrcSanitizationWhitelist = $compileProvider.imgSrcSanitizationWhitelist();
+			var newImgSrcSanitizationWhiteList = currentImgSrcSanitizationWhitelist.toString().slice(0, -1) + '|chrome-extension:' + currentImgSrcSanitizationWhitelist.toString().slice(-1);
+
+			console.log("Changing imgSrcSanitizationWhiteList from " + currentImgSrcSanitizationWhitelist + " to " + newImgSrcSanitizationWhiteList);
+			$compileProvider.imgSrcSanitizationWhitelist(newImgSrcSanitizationWhiteList);
+		}
+	]);
 }

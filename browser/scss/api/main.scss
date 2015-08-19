@@ -188,3 +188,24 @@ table#dataPreviewTable {
   animation: rotating 2s linear infinite;
   color: rgb(0, 255, 163)
 }
+
+//class for result types
+.result-view{
+  margin-right: 20%;
+
+}
+
+li + .active{
+  border-radius:10%;
+}
+li + .active >a{
+  color:white !important;
+  background-color: #337ab7 !important;
+}
+
+.resultType{
+  float:right !important;
+  list-style-type:none;
+}
+
+

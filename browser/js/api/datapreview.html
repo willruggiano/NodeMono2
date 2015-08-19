@@ -1,4 +1,20 @@
-<table id='dataPreviewTable'>
+<div class="row result-view">
+	<ul class="nav nav-pills pull-right">
+		<li class="table-filter">
+			<label>Filter</label>
+			<input class="form-control" ng-model="dataFilter">
+		</li>
+		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type.name}" class="resultType">
+			<a ng-click="setActiveType(type)">{{type.name}}&nbsp; </a>
+		</li>
+
+	</ul>
+</div>
+
+<div ng-if="activeResultType=='JSON'">
+{{dataPreview}}
+</div>
+<table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
   <tr>
     <th>Index</th>
     <th ng-repeat='header in headers'>{{ header }}</th>

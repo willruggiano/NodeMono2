@@ -7,9 +7,10 @@ app.config(($stateProvider) => {
       $scope.user = user
       $scope.route = route
       $scope.data = data[0]
-      console.log($scope.data);
+      $scope.dataPreview;
       $scope.editing = {}
-
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
       /* API HEADER */
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -54,6 +55,13 @@ app.config(($stateProvider) => {
       }
       if (!$scope.rows) getRowCount()
 
+       $scope.setActiveType = (type) =>{
+        // console.log($scope.data);
+        if(type.name==="JSON"){
+          
+        }
+        $scope.activeResultType = type.name;
+       } 
       /* CRAWL SETUP */
       let getLastRunStatus = () => {
         let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)

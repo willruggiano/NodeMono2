@@ -6,7 +6,7 @@ app.config(($stateProvider) => {
       /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
-      $scope.data = data
+      $scope.data = data[0]
       $scope.editing = {}
 
       /* API HEADER */

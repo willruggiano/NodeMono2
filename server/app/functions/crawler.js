@@ -80,7 +80,24 @@ function crawl(url, data, paginationArr) {
 		})
 		.then(function(data) {
 			// the data comes back in a nested array form, flatten it
-			return _.flattenDeep(data);
+			data = _.flattenDeep(data);
+			// also join the data into one object (only for pagination)
+			if (!paginationArr.length) return data;
+			// get keys from one object (same for all)
+			var keys = Object.keys(data[0]);
+			// have a property for each unique key
+			var mergedPaginationObj = keys.reduce(function(accum, key) {
+				accum[key] = [];
+				return accum;
+			}, {});
+			// add each page's data for each key to the aggregated object's array for that key
+			data.forEach(function(datum) {
+				keys.forEach(function(key) {
+					mergedPaginationObj[key] = mergedPaginationObj[key].concat(datum[key]);
+				});
+			});
+			// return the merged pagination object
+			return mergedPaginationObj;
 		})
 		.catch(function(err) {
 			console.log(err);

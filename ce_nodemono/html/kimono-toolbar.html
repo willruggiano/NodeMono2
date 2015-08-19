@@ -74,7 +74,7 @@
                 <div class="form-group">
                     <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
                 </div>
-                <div class="paginationDepth form-group" ng-if="apiRoute.pagination">
+                <div class="paginationDepth form-group" ng-if="apiRoute.pagination.length">
                     <select ng-model="apiRoute.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
                     </select>
                 </div>

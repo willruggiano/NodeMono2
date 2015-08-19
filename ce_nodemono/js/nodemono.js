@@ -271,8 +271,8 @@ function startNodemono() {
 					value: 25
 				}];
 
-				$rootScope.apiRoute.pagination = null;
-				if ($rootScope.apiRoute.pagination) {
+				$rootScope.apiRoute.pagination = [];
+				if (!$rootScope.apiRoute.pagination.length) {
 					$rootScope.apiRoute.pagination.limit = $scope.Depths[0].value;
 				}
 				$scope.toggleLogin = function() {
@@ -308,6 +308,10 @@ function startNodemono() {
 						console.log(Session.user);
 						$rootScope.apiRoute.user = Session.user._id;
 						$rootScope.apiRoute.url = document.URL;
+						$rootScope.apiRoute.data = $rootScope.apiRoute.data.map(function(d){
+							d.selector = d.selector.split(/\s+/).slice(-3).join(' ');
+							return d;
+						})	
 						new Route($rootScope.apiRoute).save().then(function(res) {
 							console.log(res);
 						})

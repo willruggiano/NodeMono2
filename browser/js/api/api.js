@@ -23,12 +23,12 @@ app.config(($stateProvider) => {
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
 
       $scope.getRowCount = () => {
-        let count = 0
+        let n = 0
         for (let key in $scope.data) {
-          let r = $scope.data[key].length
-          count > r ? count : count = r
+          let l = $scope.data[key].length
+          if (l > n) n = l
         }
-        $scope.rows = new Array(count)
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i } })
       }
 
       $scope.getCrawlStatus = () => {
@@ -44,6 +44,7 @@ app.config(($stateProvider) => {
       if (!$scope.lastRun) $scope.getLastRunStatus()
       if (!$scope.crawlStatus) $scope.getCrawlStatus()
       if (!$scope.rows) $scope.getRowCount()
+      console.log($scope.rows)
 
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {

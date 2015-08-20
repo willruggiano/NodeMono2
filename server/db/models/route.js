@@ -20,12 +20,13 @@ var schema = new mongoose.Schema({
 		// optionally extract the attribute from selected elements
 		attr: String,
 		// optionally extract certain indexes from selected elements
-		indecies: [Number]
+		index: Number
 	}],
 	// limit is the number of times to "click" the pagination link
 	pagination: [{
 		link: String,
-		limit: Number
+		limit: Number,
+		index: Number
 	}],
 	// extra information about the crawler
 	lastTimeCrawled: {
@@ -42,6 +43,11 @@ var schema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	// number of pages crawled (including pagination links)
+	pagesCrawled: {
+		type: Number,
+		default: 1
+	}
 });
 
 
@@ -55,13 +61,13 @@ schema.methods.getCrawlData = function getCrawlData() {
 	var oldLimits = self.pagination.map(function(page) {
 		return page.limit;
 	});
-	console.log(oldLimits);
 	return crawl(self)
 		.then(function(crawledData) {
 			// update the last time crawled
 			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = true;
 			self.count++;
+			if (!self.pagesCrawled) self.pagesCrawled = 1 + oldLimits.reduce(function(sum, x) {return sum + x; }, 0);
 			self.save();
 			return crawledData;
 		})

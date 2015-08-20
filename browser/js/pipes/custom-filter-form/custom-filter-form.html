@@ -1,0 +1,10 @@
+<h3>Write code for your custom filter below</h3>
+<form name="form" ng-submit="submit({filter: filter})">
+	<p ng-if="filter.type==='singleElem'">
+		<span>Keys (CSV): <input type="text" ng-model="filter.keys"></span>
+	</p>
+	<span>Parameters: 
+		<input type="text" ng-model="filter.parameters">
+	</span>
+	<button ng-disabled="!form.$dirty" type="submit" class="btn btn-default btn-sm">Submit</button>
+</form>

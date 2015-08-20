@@ -1,33 +1,57 @@
 app.config(($stateProvider) => {
   $stateProvider.state('api', {
+    abstract: true,
     url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
+    resolve: {
+      user: (User, $stateParams) => User.find($stateParams.userid),
+      route: (Route, $stateParams) => Route.find($stateParams.routeid),
+      data: (route) => route.getCrawlData()
+    },
     controller: (DS, $scope, $timeout, user, route, data) => {
-      /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
       $scope.data = data[0]
       $scope.dataPreview;
       $scope.editing = {}
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
-      /* API HEADER */
+      $scope.activetab = null
+      $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
+                     { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
+                     { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
+                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
+                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
+
+      $scope.getRowCount = () => {
+        let n = 0
+        for (let key in $scope.data) {
+          let l = $scope.data[key].length
+          if (l > n) n = l
+        }
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i } })
+      }
+      // make sure row count gets initialized
+      if (!$scope.rows) $scope.getRowCount()
+
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)
         elem.setAttribute('contenteditable', true) // make the element (elem) editable
         if ($scope.editing[id]) {
           elem.removeAttribute('contenteditable') // make the element (elem) not editable
+          $scope.editing.crawl = true
           $scope.route.DSSave() // save the newly edited element
             .then(newroute => {
               console.log(`successfully saved route ${newroute.name}`)
-              // if (!$rootScope.alerts) $rootScope.alerts = []
-              // $rootScope.alerts.push({ name: 'saving route', msg: 'successful'})
+              return newroute.getCrawlData()
+            })
+            .then(newdata => {
+              $scope.data = newdata[0]
+              $scope.getRowCount()
+              $scope.editing.crawl = false
             })
             .catch((e) => {
               console.log(`was not able to save route ${route.name}: ${e}`)
-              // if (!$rootScope.alerts) $rootScope.alerts = []
-              // $rootScope.alerts.push({ name: 'saving route', msg: 'unsuccessful' })
             })
         }
 
@@ -37,25 +61,11 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      let getCrawlStatus = () => {
-        $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
-      }
-      if (!$scope.crawlStatus) getCrawlStatus()
+      
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
 
-      /* DATA PREVIEW TABLE */
-      $scope.headers = Object.keys($scope.data)
-      let getRowCount = () => {
-        // get row count for table generation
-        let count = 0
-        for (let key in $scope.data) {
-          let r = $scope.data[key].length
-          count > r ? count : count = r
-        }
-        $scope.rows = new Array(count)
-      }
-      if (!$scope.rows) getRowCount()
-
-       $scope.setActiveType = (type) =>{
+      $scope.setActiveType = (type) =>{
         // console.log($scope.data);
         if(type.name==="JSON"){
           $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
@@ -64,37 +74,9 @@ app.config(($stateProvider) => {
           console.log($scope.dataPreview)
         }
         $scope.activeResultType = type.name;
-       } 
-      /* CRAWL SETUP */
-      let getLastRunStatus = () => {
-        let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
-        if (d === 0) $scope.lastRun = `Today`
-        else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
       }
-      if (!$scope.lastRun) getLastRunStatus()
-
-      // called when re-crawl button is clicked
-      $scope.updateCrawlData = () => {
-        $scope.editing.crawl = true
-        route.getCrawlData()
-          .then(newdata => {
-            console.log('received new data')
-            $scope.data = newdata[0]
-            getRowCount()
-            getLastRunStatus()
-            getCrawlStatus()
-            $scope.editing.crawl = false
-          })
-      }
-
-      /* CRAWL HISTORY */
-
-      /* MODIFY RESULTS (PIPES) */
-
-      /* USE DATA */
-
-      /* API DOCS */
-
+      //filter by search text
+      
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {
         // find all keys in the object
@@ -123,12 +105,6 @@ app.config(($stateProvider) => {
 
         return mergedData;
       }
-
-    },
-    resolve: {
-      user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      data: (route) => route.getCrawlData()
     }
   })
 })

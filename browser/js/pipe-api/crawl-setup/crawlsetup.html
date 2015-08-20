@@ -1,0 +1,59 @@
+<div id='crawlsetup' class='row'>
+  <div class='col-md-4'>
+    <div class='strategy-selector'>
+      <h5>API Settings</h5>
+      <div>
+        <p class='label'>PIPE STRATEGY <span class='glyphicon glyphicon-question-sign'></span></p>
+        <select class=''>
+          <option selected='selected'>Source URL only</option>
+          <option>Manual URL list</option>
+          <option>Generated URL list</option>
+          <option>URLs from source API</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <p class='label'>AUTO-RUN FREQUENCY</p>
+        <select class=''>
+          <option selected='selected'>Manual Pipe</option>
+          <option>Hourly</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class='col-md-8'>
+    <div class=''>
+      <h5>Pipe Status</h5>
+      <table id='crawlstatustable'>
+        <tr>
+          <td class='td-status-label'>LAST RUN</td>
+          <td class='td-status-info'>{{ lastRun }}</td>
+          <!-- computed properties supposed to update when the field they depend on changes? -->
+          <!-- why is this not updating in real time? -->
+          <!-- what works: {{ lastRun }} -->
+        </tr>
+        <tr>
+          <td class='td-status-label'>PIPE STATUS</td>
+          <td ng-show='!editing.pipe' class='td-status-info' ng-class="pipe.lastPipeSucceeded ? 'success' : 'error'">The last pipe was {{ pipeStatus.toLowerCase() }}</td>
+          <td ng-show='editing.pipe' class='td-status-info' style='color: green;'>Updating...</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>PIPE TIMER</td>
+          <td class='td-status-info'>{{ pipeTime }}ms</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>ROWS RETURNED</td>
+          <td class='td-status-info'>{{ rows.length }} total</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>PAGES PIPED</td>
+          <td class='td-status-info'>1 total <span class='td-status-extra'>| 1 successful | 0 failed</span></td>
+        </tr>
+      </table>
+      <button class='btn-crawl-start btn-nodemono' ng-click='updatePipeData()'>re-pipe</button>
+    </div>
+  </div>
+</div>

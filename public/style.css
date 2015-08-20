@@ -298,6 +298,19 @@ status-bar {
   .btn-nodemono:hover {
     color: #f31214; }
 
+.btn-nodemono-sm {
+  font-size: 10px;
+  border: 1px solid #969696;
+  padding-bottom: 1px;
+  background: inherit;
+  color: #969696;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #c9c9c9;
+  color: #b0b0b0; }
+  .btn-nodemono-sm:hover {
+    color: #f31214; }
+
 .success {
   color: green; }
 

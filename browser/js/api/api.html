@@ -56,38 +56,13 @@
 	<br>
 	<div class='row'>
 	  <tabset justified='false'>
-	    <tab> <!-- Data Preview -->
+	    <tab ng-repeat='tab in tabs' ui-sref='api.{{ tab.url }}'>
 	      <tab-heading>
-	        <span class='glyphicon glyphicon-equalizer'> Data Preview</span>
-	      </tab-heading>
-	    </tab>
-	    <tab> <!-- Crawl Setup -->
-	      <tab-heading>
-	        <span class='glyphicon glyphicon-cog'> Crawl Setup</span>
-	      </tab-heading>
-	    </tab>
-	    <tab> <!-- Crawl History -->
-	      <tab-heading>
-	        <span class='glyphicon glyphicon-calendar'> Crawl History</span>
-	      </tab-heading>
-	    </tab>
-	    <tab> <!-- Modify Results -->
-	      <tab-heading>
-	        <span class='glyphicon glyphicon-wrench'> Modify Results</span>
-	      </tab-heading>
-	    </tab>
-	    <tab><!-- Use Data -->
-	      <tab-heading>
-	        <span class='glyphicon glyphicon-circle-arrow-down'> Use Data</span>
-	      </tab-heading>
-	    </tab>
-	    <tab> <!-- API Docs -->
-	      <tab-heading>
-	        <span class='glyphicon glyphicon-file'> API Docs</span>
+	        <span class='glyphicon glyphicon-{{ tab.glyphicon }}'> {{ tab.header }}</span>
 	      </tab-heading>
 	    </tab>
 	  </tabset>
-		<ui-view></ui-view>
+		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
 	<button class='btn btn-danger' ng-click=''>Delete Api</button>

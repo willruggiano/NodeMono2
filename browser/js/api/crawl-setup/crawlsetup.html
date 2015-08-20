@@ -30,7 +30,10 @@
       <table id='crawlstatustable'>
         <tr>
           <td class='td-status-label'>LAST RUN</td>
-          <td class='td-status-info'>{{ lastRun }}</td>
+          <td class='td-status-info' ng-model='route.lastRun'>{{ route.lastRun }}</td>
+          <!-- computed properties supposed to update when the field they depend on changes? -->
+          <!-- why is this not updating in real time? -->
+          <!-- what works: ng-model='lastRun'> {{ lastRun }} -->
         </tr>
         <tr>
           <td class='td-status-label'>CRAWL STATUS</td>

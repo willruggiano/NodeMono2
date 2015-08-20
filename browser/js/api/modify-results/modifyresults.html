@@ -16,14 +16,14 @@
       <h5>Filter function</h5>
       <form ng-submit='updateDataPreview()'>
         <pre id='editor'>
-          let defaultFilterFn = (data) => {
-            // filter functions are passed the whole API response object
-            // you may manipulate or add to this data as you want
+let defaultFilterFn = (data) => {
+  // filter functions are passed the whole API response object
+  // you may manipulate or add to this data as you want
 
-            /* YOUR CODE HERE */
+  /* YOUR CODE HERE */
 
-            return data
-          }
+  return data
+}
         </pre>
         <button type='submit' class='btn-nodemono'>Apply</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>

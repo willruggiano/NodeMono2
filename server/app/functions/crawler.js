@@ -115,7 +115,7 @@ function crawl(url, data, paginationArr) {
 				});
 			});
 			// return the merged pagination object
-			return mergedPaginationObj;
+			return [mergedPaginationObj];
 		})
 		.catch(function(err) {
 			console.log(err);

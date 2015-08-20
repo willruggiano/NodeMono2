@@ -70,6 +70,20 @@ $api-font-lg: 30px;
   }
 }
 
+.btn-nodemono-sm {
+  font-size: $api-font-xs;
+  border: 1px solid $nodemono-gray;
+  background: inherit;
+  color: $nodemono-gray;
+  margin-top: 5px; margin-bottom: 5px;
+  border: 1px solid lighten($nodemono-gray, 20%);
+  color: lighten($nodemono-gray, 10%);
+
+  &:hover {
+    color: $nodemono-red;
+  }
+}
+
 .success { color: green; }
 .error { color: red; }
 

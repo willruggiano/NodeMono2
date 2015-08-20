@@ -1,0 +1,29 @@
+app.config(($stateProvider) => {
+  $stateProvider.state('pipe.setup', {
+    url: '/setup',
+    templateUrl: 'js/pipe-api/crawl-setup/crawlsetup.html',
+    controller: ($scope) => {
+      let timer
+      let runTimer = () => {
+        if (!$scope.editing.crawl) clearInterval(timer)
+        else $scope.crawlTime++
+      }
+
+      $scope.updateCrawlData = () => {
+        $scope.crawlTime = 0
+        $scope.editing.crawl = true
+        timer = setInterval(runTimer, 1)
+        $scope.route.getCrawlData()
+          .then(newdata => {
+            $scope.data = newdata[0]
+            $scope.getRowCount()
+            $scope.getCrawlStatus()
+            // $scope.getLastRunStatus()
+            $scope.editing.crawl = false
+          })
+      }
+
+
+    }
+  })
+})

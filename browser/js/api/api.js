@@ -71,7 +71,7 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      $scope.search = {};
+      
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = "CSV";
 
@@ -86,27 +86,7 @@ app.config(($stateProvider) => {
         $scope.activeResultType = type.name;
       }
       //filter by search text
-      $scope.dataFilter = function(){
-          return function(r){
-            if(!$scope.search.text) return true;
-            var res = false;
-            var index = r.index.toString();
-            //construct regex for matching words, can separate by space or comma
-            var reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'),'gi');
-            //matching index
-            if(index.match(reg)){
-              return true;
-            }
-            //matching data in header
-            $scope.headers.forEach(function(header){
-              if ($scope.data[header][r.index].match(reg)){
-                res = true;
-              }
-            })
-            return res;
-          }
-      }
-
+      
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {
         // find all keys in the object

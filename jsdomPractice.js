@@ -21,25 +21,9 @@ getUrl(dummyUrl).then(function(html) {
 		// get the selected elements - convert to an array too
 		var selected = Array.prototype.slice.call(window.document.querySelectorAll('body div section#pane-main section#main-container div .container-wrapper .container article .headlines ul li a'));
 		selected = selected.map(function(elem) {
-			return elem.textContent;
+			return elem.getAttribute('href');
 		});
 		console.log(selected);
 	});
 
 });
-
-// dom elements don't support most array prototype methods
-// function 
-function forEachNode(nodeArr, func) {
-	var l = nodeArr.length;
-	for (var i = 0; i < l; i++) {
-		func(nodeArr);
-	}
-}
-function mapNode(nodeArr, func) {
-	var l = nodeArr.length;
-	for (var i = 0; i < l; i++) {
-		nodeArr[i] = func(nodeArr[i]);
-	}
-	return nodeArr;
-}

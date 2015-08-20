@@ -1,6 +1,6 @@
 app.factory('User', (DS, Pipe, Route, $state) => {
 
-  let User = DS.defineResource({
+  const USER = DS.defineResource({
     name: 'user',
     endpoint: 'users',
     relations: {
@@ -20,18 +20,18 @@ app.factory('User', (DS, Pipe, Route, $state) => {
       }
     },
     methods: {  // functionality added to every instance of User
-      go: function() {
+      go() {
         $state.go('profile', { id: this._id });
       },
-      getRoutes: function() {
+      getRoutes() {
         return Route.findAll({ 'user': this._id });
       },
-      getPipes: function() {
+      getPipes() {
         return Pipe.findAll({ 'user': this._id });
       }
     }
   });
 
-  return User;
+  return USER;
 })
 .run(User => {});

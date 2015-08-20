@@ -6,9 +6,11 @@ app.config(($stateProvider) => {
       /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
-      $scope.data = data
+      $scope.data = data[0]
+      $scope.dataPreview;
       $scope.editing = {}
-
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
       /* API HEADER */
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -53,6 +55,16 @@ app.config(($stateProvider) => {
       }
       if (!$scope.rows) getRowCount()
 
+       $scope.setActiveType = (type) =>{
+        // console.log($scope.data);
+        if(type.name==="JSON"){
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
+        } else if(type.name==="RSS"){
+          $scope.dataPreview = route.parseXML(interleaveObj($scope.data));
+          console.log($scope.dataPreview)
+        }
+        $scope.activeResultType = type.name;
+       } 
       /* CRAWL SETUP */
       let getLastRunStatus = () => {
         let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
@@ -67,7 +79,7 @@ app.config(($stateProvider) => {
         route.getCrawlData()
           .then(newdata => {
             console.log('received new data')
-            $scope.data = newdata
+            $scope.data = newdata[0]
             getRowCount()
             getLastRunStatus()
             getCrawlStatus()
@@ -82,6 +94,35 @@ app.config(($stateProvider) => {
       /* USE DATA */
 
       /* API DOCS */
+
+      // helper function for interleave - interleaves a single object of arrays
+      function interleaveObj(obj) {
+        // find all keys in the object
+        var keys = Object.keys(obj);
+
+        // find longest stored array
+        var maxLen = keys.reduce(function(max, key) {
+          if (obj[key].length > max) return obj[key].length;
+          else return max;
+        }, 0);
+
+        var mergedData = [];
+        // defined outside the loop to satisfy the linter
+        var i = 0;
+        var reduceFunc = function(accum, key) {
+          accum[key] = obj[key][i];
+          return accum;
+        };
+        // use maxLen (length of longest array in the object)
+        for (; i < maxLen; i++) {
+          // make new obj with fields for each name
+          var mergedObj = keys.reduce(reduceFunc, {});
+          // add to the array of these objects
+          mergedData.push(mergedObj);
+        }
+
+        return mergedData;
+      }
 
     },
     resolve: {

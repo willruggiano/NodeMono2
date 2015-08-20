@@ -13,6 +13,9 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		file: "angular.min.js"
 	});
 	chrome.tabs.executeScript(tab.id, {
+		file: "angular-animate.js"
+	});
+	chrome.tabs.executeScript(tab.id, {
 		file: "jquery.min.js"
 	});
 	chrome.tabs.executeScript(tab.id, {

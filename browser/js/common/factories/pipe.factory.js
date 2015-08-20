@@ -1,6 +1,6 @@
 app.factory('Pipe', (DS, Route, $http, $q, $state) => {
 
-  let Pipe = DS.defineResource({
+  const PIPE = DS.defineResource({
     name: 'pipe',
     endpoint: 'pipes',
     relations: {
@@ -12,24 +12,24 @@ app.factory('Pipe', (DS, Route, $http, $q, $state) => {
       }
     },
     methods: {
-      go: function(userId) {
+      go(userId) {
         $state.go('pipe.preview', { userid: userId, pipeid: this._id });
       },
-      getFilters: function() {
+      getFilters() {
         return $http.get('/api/filters')
           .then(res => res.data);
       },
-      getPipedData: function(remove) {
+      getPipedData(remove) {
         return $http.get(`/api/pipes/${this.user}/${this.name}`, {params: {remove: remove}})
           .then(res => res.data);
       },
-      generateOutput: function() {
+      generateOutput() {
         return this.getPipedData(true);
       },
-      savePipe: function() {
+      savePipe() {
         return this.getPipedData(false);
       },
-      getInputs: function() {
+      getInputs() {
         // find the input routes, then the input pipes
         var output = {};
         output.routes = this.inputs.routes.map(route => {
@@ -43,5 +43,6 @@ app.factory('Pipe', (DS, Route, $http, $q, $state) => {
     }
   });
 
-  return Pipe;
-});
+  return PIPE;
+})
+.run(Pipe => {})

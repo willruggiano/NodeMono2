@@ -7,27 +7,27 @@ app.config(($stateProvider) => {
 
       editor.setTheme('ace/theme/chrome')
       editor.getSession().setMode('ace/mode/javascript')
-      console.log(editor)
+      editor.getSession().setTabSize(2)
 
-
-
-      $scope.modifiedData = data[0]
+      $scope.modifiedData = _.clone(data[0], true)
       $scope.updateDataPreview = () => {
-        let v = editor.getValue()
-        console.log(v)
-        console.log('typeof v:',typeof v)
+        let fn = editor.getValue()
+        $scope.modifiedData = eval(`${fn}; transform($scope.modifiedData)`)
       }
-      $scope.revertData = () => console.log('reverting data back to original form...')
+      $scope.revertData = () => {
+        $scope.modifiedData = _.clone(data[0], true)
+        editor.getSession().setValue(
+`function transform(data) {
+  // filter functions are passed the whole API response object
+  // you may manipulate or add to this data as you want
+
+  /* YOUR CODE HERE */
+
+  return data
+}`
+        )
+        editor.focus()
+      }
     }
   })
 })
-
-
-// let defaultFilterFn = (data) => {
-//   // filter functions are passed the whole API response object
-//   // you may manipulate or add to this data as you want
-//
-//   /* YOUR CODE HERE */
-//
-//   return data
-// }

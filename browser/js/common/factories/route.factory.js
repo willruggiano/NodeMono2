@@ -1,6 +1,6 @@
 app.factory('Route', (DS, $state, $http) => {
 
-  let Route = DS.defineResource({
+  const ROUTE = DS.defineResource({
     name: 'route',
     endpoint: 'routes',
     relations: {
@@ -17,21 +17,24 @@ app.factory('Route', (DS, $state, $http) => {
     },
     computed: {
       lastRun: ['lastTimeCrawled', (lastTimeCrawled) => {
-        let dt = Math.round((Date.now() - Date.parse(lastTimeCrawled)) / 86400000)
-        if (dt === 0) return `Today`
-        else return `${dt} ${dt > 1 ? 'days' : 'day'} ago`
+        let t = moment(lastTimeCrawled)
+        if (moment().isSame(t, 'day')) return `Today at ${t.format('h:mm a')}`
+        else return moment().from(t)
+      }],
+      crawlStatus: ['lastCrawlSucceeded', (lastCrawlSucceeded) => {
+        return lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
       }]
     },
     methods: {
-      go: function(userId) {
+      go(userId) {
         $state.go('api.preview', { userid: userId, routeid: this._id })
       },
-      getCrawlData: function() {
+      getCrawlData() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
           .then(res => res.data)
-          .finally(() => Route.refresh(this._id))
+          .finally(() => ROUTE.refresh(this._id).then(route => route.DSCompute())) // always make sure route in store is fresh copy
       },
-      parseXML:function (o, tab) {
+      parseXML(o, tab) {
         /*  This work is licensed under Creative Commons GNU LGPL License.
 
         License: http://creativecommons.org/licenses/LGPL/2.1/
@@ -79,6 +82,6 @@ app.factory('Route', (DS, $state, $http) => {
     }
   });
 
-  return Route;
+  return ROUTE;
 })
 .run(Route => {});

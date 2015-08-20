@@ -19,25 +19,27 @@ var secureConfig = {
 var PORT = process.env.PORT || 1337;
 //to start HTTPS server run command: npm --server="HTTPS" run-script start
 var startServer = function() {
-    if (process.env.npm_config_server === "HTTPS") {
-        PORT = 3000;
-        https.createServer(secureConfig, app).listen(PORT, function() {
-            console.log('HTTPS server patiently listening on port', PORT);
+    // if (process.env.npm_config_server === "HTTPS") {
+    // PORT = 3000;
+    var secureServer = https.createServer(secureConfig);
+    secureServer.on('request', app)
+    secureServer.listen(1443, function(err, data) {
+            console.log('HTTPS server patiently listening on port', 1443);
         })
-    } else {
-        require('./io')(server); // Attach socket.io.
-        server.on('request', app); // Attach the Express application.
-        server.listen(PORT, function() {
-            console.log("You can use following command to start https server: npm --server=\"HTTPS\" run-script start");
-            console.log(chalk.blue('Server started on port', chalk.magenta(PORT)));
-        });
+        // } else {
+    require('./io')(server); // Attach socket.io.
+    server.on('request', app); // Attach the Express application.
+    server.listen(1337, function(err, data) {
+        console.log("You can use following command to start https server: npm --server=\"HTTPS\" run-script start");
+        console.log(chalk.blue('Server started on port', chalk.magenta(1337)));
+    });
 
-    }
+    // }
 
 };
 
 startDb.then(startServer).
-catch (function(err) {
+catch(function(err) {
     console.error('Initialization error:', chalk.red(err.message));
     console.error('Process terminating . . .');
     process.kill(1);

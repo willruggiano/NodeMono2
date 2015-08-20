@@ -23,7 +23,7 @@ function startNodemono() {
 		$(data).appendTo('#nodemonofy');
 
 		window.app = angular
-			.module('myApp', []);
+			.module('myApp', ['ngAnimate']);
 		registerAuthService();
 		app
 			.factory("Route", function($http, AUTH_EVENTS) {
@@ -72,27 +72,78 @@ function startNodemono() {
 				return Route;
 			})
 			.controller('NodemonoMainCtrl', function($scope) {
-				$scope.collection = {};
 				console.log('go here')
-					// this.message = "Hello";
-
 			})
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
+				$scope.currentPagination = {};
+				$scope.inPaginationMode = false;
 
+				$scope.backBtnUrl = chrome.extension.getURL('imgs/back.png');
 
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
-				$scope.getPagination = function() {
-
-				}
-				$scope.doneClicked = function() {
-						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
+				//save the pagination
+				$scope.selectedDepth = function() {
+					//get pagination depth
+					$scope.currentPagination['depth'] = document.getElementById('paginationDepthSelector').value
+						//save the pagination
+					if (!$rootScope.apiRoute.pagination) {
+						$rootScope.apiRoute.pagination = [$scope.currentPagination];
+					} else {
+						$rootScope.apiRoute.pagination.push($scope.currentPagination);
 					}
-					//cancel 
+					console.log($rootScope.apiRoute);
+					//reset dom
+					hideAllElms();
+					hideHighlights($scope);
+
+					//add button
+					var newButton = document.createElement('button');
+					newButton.className = 'show selectorBtn'
+					newButton.style['background-color'] = '#ADD8E6'
+					newButton.dataProp = $scope.currentPagination;
+					newButton.innerHTML = 'P';
+					newButton.addEventListener('click', function(event) {
+						var button = event.target || event.srcElement;
+						hideAllElms();
+						hideHighlights($scope);
+						$scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
+						$scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';
+					})
+					addXButton(newButton, $rootScope);
+					document.getElementById('pagButtons').appendChild(newButton)
+
+					$scope.currentPagination = {};
+				}
+
+				$scope.paginationMode = function() {
+					//toggles the pagination mode
+					hideHighlights($scope);
+					hideAllElms();
+					clearListeners($scope);
+					if ($scope.inPaginationMode) {
+						$scope.inPaginationMode = false
+						addListeners('property', $scope);
+					} else {
+						$scope.inPaginationMode = true
+						addListeners('pagination', $scope);
+					}
+				}
+
+				$scope.doneClicked = function() {
+					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay ? false : true;
+				}
+
+				//preview crawl data from selector user choose;
+				$scope.previewData = function() {
+					$rootScope.showPreviewData = $rootScope.showPreviewData ? false : true;
+				}
+
+				//cancel 
 				$scope.cancel = function() {
 					//reset currentProperty
 					$scope.currentProperty = {};
@@ -120,11 +171,10 @@ function startNodemono() {
 
 					//set properties of the currentProperty
 					$scope.currentProperty['selector'] = $scope.selector;
-					$scope.currentProperty['indecies'] = [$scope.matchList.indexOf($scope.targetElement)];
-					console.log($scope.currentProperty['indecies']);
+					$scope.currentProperty['index'] = $scope.matchList.indexOf($scope.targetElement);
 
 					//change stylings on DOM
-					resetHighlights($scope);
+					hideHighlights($scope);
 					$scope.targetElement.style['background-color'] = '#00ff00';
 
 					//hide/show toolbar elements
@@ -166,7 +216,6 @@ function startNodemono() {
 
 					//block all clicks on webpage
 					$scope.overlay.id = 'cover';
-
 				}
 
 				//chose desired attribute
@@ -191,7 +240,7 @@ function startNodemono() {
 					//reset the DOM
 
 					//change stylings on DOM
-					resetHighlights($scope);
+					hideHighlights($scope);
 
 					//hide/show toolbar elements
 					hideAllElms();
@@ -199,12 +248,11 @@ function startNodemono() {
 					//allow clicks on webpage
 					$scope.overlay.id = '';
 
-					//create a new button to show chosen properties
 					var newButton = document.createElement('button');
 					newButton.className = 'show selectorBtn'
 					newButton.dataProp = $scope.currentProperty
-					if (newButton.dataProp.indecies.length > 0) {
-						newButton.innerHTML = newButton.dataProp.indecies.length;
+					if (newButton.dataProp.index) {
+						newButton.innerHTML = 1;
 					} else {
 						var list = document.querySelectorAll(newButton.dataProp.selector);
 						newButton.innerHTML = list.length;
@@ -212,36 +260,18 @@ function startNodemono() {
 					newButton.addEventListener('click', function(event) {
 						var button = event.target || event.srcElement;
 						hideAllElms();
-						resetHighlights($scope);
+						hideHighlights($scope);
 						$scope.matchList = document.querySelectorAll(button.dataProp.selector)
-						var indecies = button.dataProp.indecies
-						if (indecies.length > 0) {
-							for (var i = 0; i < indecies.length; i++) {
-								$scope.matchList[indecies[i]].style['background-color'] = '#00ff00';
-							}
+						var index = button.dataProp.indecies
+						if (index) {
+							$scope.matchList[index].style['background-color'] = '#00ff00';
 						} else {
 							for (var i = 0; i < $scope.matchList.length; i++) {
 								$scope.matchList[i].style['background-color'] = 'yellow';
 							}
 						}
 					})
-					var xButton = document.createElement('button');
-					xButton.id = 'xButton';
-					xButton.innerHTML = 'X'
-					newButton.appendChild(xButton);
-					xButton.addEventListener('click', function(event) {
-						newButton.parentNode.removeChild(newButton);
-						var index = $rootScope.apiRoute.data.indexOf(newButton.dataProp)
-						$rootScope.apiRoute.data.splice(index, 1);
-						event.preventDefault();
-						event.stopPropagation();
-					})
-					newButton.onmouseover = function() {
-						xButton.style.opacity = 1;
-					}
-					newButton.onmouseout = function() {
-						xButton.style.opacity = 0;
-					}
+					addXButton(newButton, $rootScope)
 					document.getElementById('propButtons').appendChild(newButton)
 
 					//reset currentProperty
@@ -249,6 +279,43 @@ function startNodemono() {
 				}
 
 				setUpDom($scope);
+
+			})
+			.controller('previewDataCtrl', function($scope, $rootScope) {
+				$scope.showCollectionSelected = true;
+				$scope.dataPreview = {};
+				$scope.rows;
+				$scope.getRowCount = function() {
+					var n = 0
+					for (var key in $scope.dataPreview) {
+						var l = $scope.dataPreview[key].length
+						if (l > n) n = l
+					}
+					return new Array(n + 1).join('0').split('').map(function(d, i) {
+						return {
+							index: i
+						}
+					})
+				}
+
+				$scope.showCollection = function() {
+					$scope.showCollectionSelected = true;
+				}
+
+				$scope.showPreviewData = function() {
+					$scope.showCollectionSelected = false;
+					$rootScope.apiRoute.data.forEach(function(d) {
+						$scope.dataPreview[d.name] = document.querySelectorAll(d.selector).map(function(elem) {
+							if (d.attr) return elem[d.attr];
+							return elem.textContent;
+						})
+					})
+					$scope.headers = Object.keys($scope.dataPreview)
+					$scope.rows = $scope.getRowCount();
+					console.log($scope.dataPreview);
+				}
+
+
 
 			})
 			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route, Session) {
@@ -270,10 +337,6 @@ function startNodemono() {
 					value: 25
 				}];
 
-				$rootScope.apiRoute.pagination = [];
-				if (!$rootScope.apiRoute.pagination.length) {
-					$rootScope.apiRoute.pagination.limit = $scope.Depths[0].value;
-				}
 				$scope.toggleLogin = function() {
 					if ($scope.showLogin) {
 						$scope.showLogin = false;
@@ -307,14 +370,14 @@ function startNodemono() {
 						console.log(Session.user);
 						$rootScope.apiRoute.user = Session.user._id;
 						$rootScope.apiRoute.url = document.URL;
-						$rootScope.apiRoute.data = $rootScope.apiRoute.data.map(function(d){
-							d.selector = d.selector.split(/\s+/).slice(-3).join(' ');
-							return d;
-						})	
 						new Route($rootScope.apiRoute).save().then(function(res) {
 							console.log(res);
 						})
 					}
+				}
+
+				$scope.addPagination = function() {
+
 				}
 			});
 
@@ -368,7 +431,7 @@ function registerAuthService() {
 		sessionTimeout: 'auth-session-timeout',
 		notAuthenticated: 'auth-not-authenticated',
 		notAuthorized: 'auth-not-authorized',
-		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '3000' : '1337')
+		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '1443' : '1337')
 	});
 
 	app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {
@@ -495,4 +558,15 @@ function registerAuthService() {
 		};
 
 	});
+
+	app.config([
+		'$compileProvider',
+		function($compileProvider) {
+			var currentImgSrcSanitizationWhitelist = $compileProvider.imgSrcSanitizationWhitelist();
+			var newImgSrcSanitizationWhiteList = currentImgSrcSanitizationWhitelist.toString().slice(0, -1) + '|chrome-extension:' + currentImgSrcSanitizationWhitelist.toString().slice(-1);
+
+			console.log("Changing imgSrcSanitizationWhiteList from " + currentImgSrcSanitizationWhitelist + " to " + newImgSrcSanitizationWhiteList);
+			$compileProvider.imgSrcSanitizationWhitelist(newImgSrcSanitizationWhiteList);
+		}
+	]);
 }

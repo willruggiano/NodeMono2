@@ -31,13 +31,10 @@
         <tr>
           <td class='td-status-label'>LAST RUN</td>
           <td class='td-status-info'>{{ route.lastRun }}</td>
-          <!-- computed properties supposed to update when the field they depend on changes? -->
-          <!-- why is this not updating in real time? -->
-          <!-- what works: {{ lastRun }} -->
         </tr>
         <tr>
           <td class='td-status-label'>CRAWL STATUS</td>
-          <td ng-show='!editing.crawl' class='td-status-info' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
+          <td ng-show='!editing.crawl' class='td-status-info' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ route.crawlStatus.toLowerCase() }}</td>
           <td ng-show='editing.crawl' class='td-status-info' style='color: green;'>Updating...</td>
         </tr>
         <tr>
@@ -51,7 +48,8 @@
         </tr>
         <tr>
           <td class='td-status-label'>PAGES CRAWLED</td>
-          <td class='td-status-info'>1 total <span class='td-status-extra'>| 1 successful | 0 failed</span></td>
+          <td class='td-status-info'>{{ route.pagesCrawled }} total</td>
+          <!--  <span class='td-status-extra'>| 1 successful | 0 failed</span> -->
         </tr>
       </table>
       <button class='btn-crawl-start btn-nodemono' ng-click='updateCrawlData()'>re-crawl</button>

@@ -1,10 +1,22 @@
 <div class="nodemonoToolbar navbar-inverse" ng-controller="ToolbarCtrl">
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">nodemono</a>
+        <a class="navbar-brand" href="#ourwebsite">nodemono</a>
     </div>
     <div class="navbar-form navbar-left" style="margin: 0 0;">
         <div class="form-group">
-            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>&#10094</button>
+            <!-- for all forms -->
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>
+            <img ng-src='{{backBtnUrl}}' id='backBtnImg' ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();"></img>
+            </button>
+            <!-- for pagination form -->
+            <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
+                <option value='1'>1</option>
+                <option value='5'>5</option>
+                <option value='10'>10</option>
+                <option value='25'>25</option>
+                <option value='50'>50</option>
+            </select>
+            <!-- for property form -->
             <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">
@@ -13,26 +25,63 @@
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
         </div>
     </div>
-    <div class="navbar-form navbar-right">
-        <button type="submit" id="doneBtn" class="btn btn-primary" ng-click="doneClicked()">Done</button>
+    <div class="navbar-form navbar-right" id="rightNavButtons">
+        <button type="submit" id="doneBtn" class="btn btn-primary show" ng-click="doneClicked()">Done</button>
+        <button type="submit" id="previewBtn" class="btn btn-primary show" ng-click="previewData()">Preview</button>
+        <button id='paginationMode' class='btn btn-primary show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">Pagination</button>
     </div>
-        <div id="propButtons">
+    <div id="propButtons">
     </div>
-<!--     <div class="navbar-form navbar-right">
+    <div id="pagButtons">
+    </div>
 
-        <button type="submit" class="paginationBtn btn btn-primary" ng-click="getPagination()">Pagination</button>
-        <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Done</button>
-    </div> -->
-    <!-- show overlay when click done button, prompt login function or setup route UI -->
-    <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
+    <!-- show collection and preview crawl data -->
+    <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
         <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
+            <button type="submit" class="doneSelect btn btn-primary show" ng-click="previewData()">Back</button>
+        </div>
+        <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
+            <button class="btn btn-primary" ng-click="showCollection()">
+            Collection
+            </button>
+            <button class="btn btn-primary" ng-click="showPreviewData()">
+            Preview
+            </button>
+        </div>
+        <div ng-if="showCollectionSelected" class="listColectionContainer">
+            <div ng-repeat="d in apiRoute.data">
+                <h2 style="display:inline !important">Collection:<h3 style="display:inline !important">{{d.name}}</h3></h2>
+                <ul ng-repeat="(key,value) in d" ng-if="value&&value.length&&(key!=='name')">
+                    <li>{{key | uppercase}}:&nbsp "{{value}}"</li>
+                </ul>
+            </div>
+        </div>
+        <div ng-if="!showCollectionSelected">
+            <table id="dataPreviewTable" class="table">
+                <tr>
+                    <th>index</th>
+                    <th ng-repeat='header in headers'>{{ header }}</th>
+                </tr>
+                <tr ng-repeat='r in rows'>
+                    <td>{{ r.index }}</td>
+                    <td ng-repeat='header in headers'>{{ dataPreview[header][r.index] }}</td>
+                </tr>
+            </table>
+        </div>
+        <div ng-if="!apiRoute.data.length" class="previewDataNotice">
+            <h3>You have no collection, please select at least one collection</h3>
+        </div>
+    </div>
+    <!-- show overlay when click done button, prompt login function or setup route UI -->
+    <div ng-if="showCollectionOverlay&&!showPreviewData" id="collectionOverlay" ng-controller="OverlayCtrl" class="animateOverlay" >
+        <div class="navbar-form navbar-right">
+            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()" >Back</button>
         </div>
         <!-- show login form if no user found -->
         <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
             <form id="login-form" name="loginForm">
                 <alert type="danger" ng-show="error">
-                    {{ error }}
+                {{ error }}
                 </alert>
                 <div class="form-group">
                     <label for="email" class="labelOverlay">Email address</label>
@@ -72,12 +121,8 @@
                 <div class="form-group">
                     <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
                 </div>
-                <div class="paginationDepth form-group" ng-if="apiRoute.pagination.length">
-                    <select ng-model="apiRoute.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
-                    </select>
-                </div>
-                    <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
-                    <div ng-if="error" style="color:white">{{error}}</div>
+                <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
+                <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
     </div>

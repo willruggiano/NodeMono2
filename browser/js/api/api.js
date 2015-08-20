@@ -12,6 +12,7 @@ app.config(($stateProvider) => {
       $scope.user = user
       $scope.route = route
       $scope.data = data[0]
+      $scope.dataPreview;
       $scope.editing = {}
       $scope.activetab = null
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
@@ -44,6 +45,9 @@ app.config(($stateProvider) => {
       if (!$scope.crawlStatus) $scope.getCrawlStatus()
       if (!$scope.rows) $scope.getRowCount()
 
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
+
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)
@@ -67,6 +71,35 @@ app.config(($stateProvider) => {
         $timeout(() => {
           $scope.editing[id] = !$scope.editing[id]
         }, 0)
+      }
+
+      // helper function for interleave - interleaves a single object of arrays
+      function interleaveObj(obj) {
+        // find all keys in the object
+        var keys = Object.keys(obj);
+
+        // find longest stored array
+        var maxLen = keys.reduce(function(max, key) {
+          if (obj[key].length > max) return obj[key].length;
+          else return max;
+        }, 0);
+
+        var mergedData = [];
+        // defined outside the loop to satisfy the linter
+        var i = 0;
+        var reduceFunc = function(accum, key) {
+          accum[key] = obj[key][i];
+          return accum;
+        };
+        // use maxLen (length of longest array in the object)
+        for (; i < maxLen; i++) {
+          // make new obj with fields for each name
+          var mergedObj = keys.reduce(reduceFunc, {});
+          // add to the array of these objects
+          mergedData.push(mergedObj);
+        }
+
+        return mergedData;
       }
     }
   })

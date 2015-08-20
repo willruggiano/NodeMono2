@@ -206,6 +206,7 @@ li + .active >a{
 .resultType{
   float:right !important;
   list-style-type:none;
+  cursor:pointer;
 }
 
 .textareaPreview{
@@ -214,4 +215,19 @@ li + .active >a{
   margin-left: 10%;
 }
 
+.filter{
+  margin-top: 3px;
+  width: 200px;
+}
 
+.filter label{
+  display: inline;
+  // height:25px;
+  width:50%;
+}
+
+.filter input{
+  display: inline-block !important;
+  // height: 25px;
+  width:50%;
+}

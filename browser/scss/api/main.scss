@@ -73,6 +73,7 @@ $api-font-lg: 30px;
 .btn-nodemono-sm {
   font-size: $api-font-xs;
   border: 1px solid $nodemono-gray;
+  padding-bottom: 1px;
   background: inherit;
   color: $nodemono-gray;
   margin-top: 5px; margin-bottom: 5px;

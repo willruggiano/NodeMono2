@@ -301,6 +301,7 @@ status-bar {
 .btn-nodemono-sm {
   font-size: 10px;
   border: 1px solid #969696;
+  padding-bottom: 1px;
   background: inherit;
   color: #969696;
   margin-top: 5px;

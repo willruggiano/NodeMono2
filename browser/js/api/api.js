@@ -67,15 +67,20 @@ app.config(($stateProvider) => {
         $scope.activeResultType = type.name;
       }
       //filter by search text
-      // console.log( $scope.rows instanceof Array)
       $scope.dataFilter = function(){
           return function(r){  
             if(!$scope.search.text) return true;
             var res = false;
-            var reg = new RegExp($scope.search.text,'gi');
+            var index = r.index.toString();
+            //construct regex for matching words, can separate by space or comma
+            var reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'),'gi');
+            //matching index
+            if(index.match(reg)){
+              return true;
+            }
+            //matching data in header
             $scope.headers.forEach(function(header){
-              // console.log($scope.headers)
-              if ($scope.data[header][r.index].match(reg){
+              if ($scope.data[header][r.index].match(reg)){
                 res = true;
               }
             })

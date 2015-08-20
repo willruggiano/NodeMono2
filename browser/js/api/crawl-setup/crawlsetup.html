@@ -30,12 +30,20 @@
       <table id='crawlstatustable'>
         <tr>
           <td class='td-status-label'>LAST RUN</td>
-          <td class='td-status-info'>{{ lastRun }}</td>
+          <td class='td-status-info'>{{ route.lastRun }}</td>
+          <!-- computed properties supposed to update when the field they depend on changes? -->
+          <!-- why is this not updating in real time? -->
+          <!-- what works: {{ lastRun }} -->
         </tr>
         <tr>
           <td class='td-status-label'>CRAWL STATUS</td>
-          <td ng-show='!editing.crawl' class='td-status-info' ng-model='crawlStatus' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
+          <td ng-show='!editing.crawl' class='td-status-info' ng-class="route.lastCrawlSucceeded ? 'success' : 'error'">The last crawl was {{ crawlStatus.toLowerCase() }}</td>
           <td ng-show='editing.crawl' class='td-status-info' style='color: green;'>Updating...</td>
+        </tr>
+        <tr>
+          <td class='td-status-label'>CRAWL TIMER</td>
+          <td class='td-status-info'>{{ crawlTime }}ms</td>
+
         </tr>
         <tr>
           <td class='td-status-label'>ROWS RETURNED</td>

@@ -31,21 +31,14 @@ app.factory('Pipe', (DS, Route, $http, $q, $state) => {
       },
       getInputs: function() {
         // find the input routes, then the input pipes
-        var routePromises = this.inputs.routes.map(route => {
-          return Route.find(route);
-        });
-        var pipePromises = this.inputs.pipes.map(pipe => {
-          return Pipe.find(pipe);
-        });
-        // wait for them all to be found, then return promise for object with routes and pipes properties
         var output = {};
-        return $q.all(routePromises).then(routes => {
-            output.routes = routes;
-          return $q.all(pipePromises).then(pipes => {
-            output.pipes = pipes;
-            return output;
-          });
+        output.routes = this.inputs.routes.map(route => {
+          return Route.get(route);
         });
+        output.pipes = this.inputs.pipes.map(pipe => {
+          return Pipe.get(pipe);
+        });
+        return output;
       }
     }
   });

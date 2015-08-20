@@ -7,7 +7,6 @@
 		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type.name}" class="resultType">
 			<a ng-click="setActiveType(type)">{{type.name}}&nbsp; </a>
 		</li>
-
 	</ul>
 </div>
 
@@ -17,7 +16,7 @@
 </div>
 <table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
   <tr>
-    <th>Index</th>
+    <th>index</th>
     <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
   <tr ng-repeat='r in rows | filter:dataFilter()'>

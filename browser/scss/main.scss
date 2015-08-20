@@ -2,6 +2,11 @@ $nodemono-gray: rgba(150, 150, 150, 1);
 $nodemono-red: #f31214;
 $nodemono-width: 70%;
 
+// scrollbar doesn't reposition page elements
+html {
+  overflow-y: scroll;
+}
+
 * {
   box-sizing: border-box;
   // font-family: "Lucida Console", Monaco, monospace;

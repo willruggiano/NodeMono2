@@ -1,18 +1,50 @@
 app.config(($stateProvider) => {
   $stateProvider.state('api', {
+    abstract: true,
     url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
+    resolve: {
+      user: (User, $stateParams) => User.find($stateParams.userid),
+      route: (Route, $stateParams) => Route.find($stateParams.routeid),
+      data: (route) => route.getCrawlData()
+    },
     controller: (DS, $scope, $timeout, user, route, data) => {
-      /* 'GLOBAL' INFORMATION */
       $scope.user = user
       $scope.route = route
       $scope.data = data[0]
       $scope.dataPreview;
       $scope.editing = {}
-      $scope.search = {};
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
-      /* API HEADER */
+      $scope.activetab = null
+      $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
+                     { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
+                     { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
+                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
+                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
+
+      $scope.getRowCount = () => {
+        let count = 0
+        for (let key in $scope.data) {
+          let r = $scope.data[key].length
+          count > r ? count : count = r
+        }
+        $scope.rows = new Array(count)
+      }
+
+      $scope.getCrawlStatus = () => {
+        $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
+      }
+
+      $scope.getLastRunStatus = () => {
+        let dt = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
+        if (dt === 0) $scope.lastRun = `Today`
+        else $scope.lastRun = `${dt} ${dt > 1 ? 'days' : 'day'} ago`
+      }
+
+      if (!$scope.lastRun) $scope.getLastRunStatus()
+      if (!$scope.crawlStatus) $scope.getCrawlStatus()
+      if (!$scope.rows) $scope.getRowCount()
+
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)
@@ -38,23 +70,9 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      let getCrawlStatus = () => {
-        $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
-      }
-      if (!$scope.crawlStatus) getCrawlStatus()
-
-      /* DATA PREVIEW TABLE */
-      $scope.headers = Object.keys($scope.data)
-      let getRowCount = () => {
-        // get row count for table generation
-        let count = 0
-        for (let key in $scope.data) {
-          let r = $scope.data[key].length
-          count > r ? count : count = r
-        }
-        $scope.rows = new Array(count+1).join('0').split('').map(function(d,i){return {index:i}});
-      }
-      if (!$scope.rows) getRowCount()
+      $scope.search = {};
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
 
       $scope.setActiveType = (type) =>{
         // console.log($scope.data);
@@ -68,7 +86,7 @@ app.config(($stateProvider) => {
       }
       //filter by search text
       $scope.dataFilter = function(){
-          return function(r){  
+          return function(r){
             if(!$scope.search.text) return true;
             var res = false;
             var index = r.index.toString();
@@ -86,36 +104,7 @@ app.config(($stateProvider) => {
             })
             return res;
           }
-      } 
-      /* CRAWL SETUP */
-      let getLastRunStatus = () => {
-        let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
-        if (d === 0) $scope.lastRun = `Today`
-        else $scope.lastRun = `${d} ${d > 1 ? 'days' : 'day'} ago`
       }
-      if (!$scope.lastRun) getLastRunStatus()
-
-      // called when re-crawl button is clicked
-      $scope.updateCrawlData = () => {
-        $scope.editing.crawl = true
-        route.getCrawlData()
-          .then(newdata => {
-            console.log('received new data')
-            $scope.data = newdata[0]
-            getRowCount()
-            getLastRunStatus()
-            getCrawlStatus()
-            $scope.editing.crawl = false
-          })
-      }
-
-      /* CRAWL HISTORY */
-
-      /* MODIFY RESULTS (PIPES) */
-
-      /* USE DATA */
-
-      /* API DOCS */
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {
@@ -145,12 +134,6 @@ app.config(($stateProvider) => {
 
         return mergedData;
       }
-
-    },
-    resolve: {
-      user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      data: (route) => route.getCrawlData()
     }
   })
 })

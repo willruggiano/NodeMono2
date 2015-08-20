@@ -15,13 +15,21 @@ app.factory('Route', (DS, $state, $http) => {
         }
       }
     },
+    computed: {
+      lastRun: ['lastTimeCrawled', (lastTimeCrawled) => {
+        let dt = Math.round((Date.now() - Date.parse(lastTimeCrawled)) / 86400000)
+        if (dt === 0) return `Today`
+        else return `${dt} ${dt > 1 ? 'days' : 'day'} ago`
+      }]
+    },
     methods: {
       go: function(userId) {
-        $state.go('api', { userid: userId, routeid: this._id })
+        $state.go('api.preview', { userid: userId, routeid: this._id })
       },
       getCrawlData: function() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
           .then(res => res.data)
+          .finally(() => Route.refresh(this._id))
       },
       parseXML:function (o, tab) {
         /*  This work is licensed under Creative Commons GNU LGPL License.
@@ -29,7 +37,7 @@ app.factory('Route', (DS, $state, $http) => {
         License: http://creativecommons.org/licenses/LGPL/2.1/
          Version: 0.9
         Author:  Stefan Goessner/2006
-        Web:     http://goessner.net/ 
+        Web:     http://goessner.net/
         */
        var toXml = function(v, name, ind) {
           var xml = "";
@@ -67,7 +75,6 @@ app.factory('Route', (DS, $state, $http) => {
        for (var m in o)
           xml += toXml(o[m], m, "");
        return tab ? xml.replace(/\t/g, tab) : xml.replace(/\t|\n/g, "");
-
       }
     }
   });

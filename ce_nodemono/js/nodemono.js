@@ -80,6 +80,7 @@ function startNodemono() {
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
+				$scope.currentPagination = {};
 
 				$scope.backBtnUrl = chrome.extension.getURL('imgs/back.png');
 
@@ -87,11 +88,23 @@ function startNodemono() {
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
-				$scope.getPagination = function() {
+				var selctedForPagination = function(event) {
+					event.preventDefault();
+					event.stopPropagation();
+					var target = event.target || event.srcElement;
+					if (target.href) {
+						$scope.currentPagination['link'] = getSelector(scope.targetElement);
+
+
+					}
+				}
+
+				$scope.paginationMode = function() {
 
 				}
+
 				$scope.doneClicked = function() {
-						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
+						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay ? false : true;
 					}
 					//cancel 
 				$scope.cancel = function() {
@@ -271,10 +284,6 @@ function startNodemono() {
 					value: 25
 				}];
 
-				$rootScope.apiRoute.pagination = [];
-				if (!$rootScope.apiRoute.pagination.length) {
-					$rootScope.apiRoute.pagination.limit = $scope.Depths[0].value;
-				}
 				$scope.toggleLogin = function() {
 					if ($scope.showLogin) {
 						$scope.showLogin = false;
@@ -308,14 +317,14 @@ function startNodemono() {
 						console.log(Session.user);
 						$rootScope.apiRoute.user = Session.user._id;
 						$rootScope.apiRoute.url = document.URL;
-						$rootScope.apiRoute.data = $rootScope.apiRoute.data.map(function(d){
-							d.selector = d.selector.split(/\s+/).slice(-3).join(' ');
-							return d;
-						})	
 						new Route($rootScope.apiRoute).save().then(function(res) {
 							console.log(res);
 						})
 					}
+				}
+
+				$scope.addPagination = function() {
+
 				}
 			});
 
@@ -369,7 +378,7 @@ function registerAuthService() {
 		sessionTimeout: 'auth-session-timeout',
 		notAuthenticated: 'auth-not-authenticated',
 		notAuthorized: 'auth-not-authorized',
-		serverUrl: '//localhost:' + '1337'
+		serverUrl: '//localhost:' + (document.URL.indexOf('https') > -1 ? '1443' : '1337')
 	});
 
 	app.factory('AuthInterceptor', function($rootScope, $q, AUTH_EVENTS) {

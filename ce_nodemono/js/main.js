@@ -29,7 +29,6 @@ function getSelector(baseNode, startString) {
   } else {
     return getSelector(baseNode.parentNode, ' ' + startString);
   }
-
 }
 
 function isDescendant(parent, child) {
@@ -76,7 +75,7 @@ function resetHighlights(scope) {
 function generateAttrButtons(color, scope) {
   //add text attribute button
   var newButton = document.createElement('button');
-  newButton.innerHTML = 'text';
+  newButton.innerHTML = 'innerHTML';
   newButton.addEventListener('click', function(event) {
     scope.selectedAttr(undefined);
   });
@@ -86,7 +85,7 @@ function generateAttrButtons(color, scope) {
   for (var i = 0; i < scope.targetElement.attributes.length; i++) {
     var prop = scope.targetElement.attributes[i].name;
     //check that property is good
-    var propList = ['href', 'src', 'style', 'id']
+    var propList = ['href', 'src', 'id']
     if (propList.indexOf(prop) >= 0) {
       var newButton = document.createElement('button');
       newButton.innerHTML = prop;
@@ -146,7 +145,7 @@ function setUpDom(scope) {
         setTimeout(function() {
           if (scope.targetElement) {
             document.getElementById('oneButton').className = 'toolbarEl show';
-            if (scope.matchList.length > 0) {
+            if (scope.matchList.length > 1) {
               document.getElementById('allButton').className = 'toolbarEl show';
             }
           }

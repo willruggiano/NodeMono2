@@ -41,7 +41,10 @@
 		<div class="row">
 			<div class="col-sm-12" id="pipesCanvas">
 				<h2>Pipes Canvas</h2>
-				<h3>Select Filters</h3>
+				<h3>Select Filters <a class="btn btn-warning" ng-click="toggleCustomFilter()">Custom Filter</a></h3>
+				<div ng-if="customizingFilter">
+					<custom-filter-form></custom-filter-form>
+				</div>
 			</div>
 			<div class="col-sm-12">
 				<h3>Pipe name: <input ng-model="pipe.name"></h3>

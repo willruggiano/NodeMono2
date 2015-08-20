@@ -1,8 +1,8 @@
 <div class="row result-view">
 	<ul class="nav nav-pills pull-right">
-		<li class="table-filter">
+		<li class="filter" ng-if="activeResultType==='CSV'">
 			<label>Filter</label>
-			<input class="form-control" ng-model="dataFilter">
+			<input class="form-control" ng-model="search.text">
 		</li>
 		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type.name}" class="resultType">
 			<a ng-click="setActiveType(type)">{{type.name}}&nbsp; </a>
@@ -20,8 +20,9 @@
     <th>Index</th>
     <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
-  <tr ng-repeat='r in rows track by $index' ng-init='rowIndex = $index'>
-    <td>{{ rowIndex }}</td>
-    <td ng-repeat='header in headers'>{{ data[header][rowIndex] }}</td>
+  <tr ng-repeat='r in rows | filter:dataFilter()'>
+  	<pre>{{rows}}</pre>
+    <td>{{ r.index }}</td>
+    <td ng-repeat='header in headers'>{{ data[header][r.index] }}</td>
   </tr>
 </table>

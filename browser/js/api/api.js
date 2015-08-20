@@ -9,6 +9,7 @@ app.config(($stateProvider) => {
       $scope.data = data[0]
       $scope.dataPreview;
       $scope.editing = {}
+      $scope.search = {};
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = "CSV";
       /* API HEADER */
@@ -51,11 +52,11 @@ app.config(($stateProvider) => {
           let r = $scope.data[key].length
           count > r ? count : count = r
         }
-        $scope.rows = new Array(count)
+        $scope.rows = new Array(count+1).join('0').split('').map(function(d,i){return {index:i}});
       }
       if (!$scope.rows) getRowCount()
 
-       $scope.setActiveType = (type) =>{
+      $scope.setActiveType = (type) =>{
         // console.log($scope.data);
         if(type.name==="JSON"){
           $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
@@ -64,7 +65,23 @@ app.config(($stateProvider) => {
           console.log($scope.dataPreview)
         }
         $scope.activeResultType = type.name;
-       } 
+      }
+      //filter by search text
+      // console.log( $scope.rows instanceof Array)
+      $scope.dataFilter = function(){
+          return function(r){  
+            if(!$scope.search.text) return true;
+            var res = false;
+            var reg = new RegExp($scope.search.text,'gi');
+            $scope.headers.forEach(function(header){
+              // console.log($scope.headers)
+              if ($scope.data[header][r.index].match(reg){
+                res = true;
+              }
+            })
+            return res;
+          }
+      } 
       /* CRAWL SETUP */
       let getLastRunStatus = () => {
         let d = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)

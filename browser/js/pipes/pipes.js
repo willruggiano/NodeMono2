@@ -30,7 +30,7 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.customizingFilter = false;
 
 	// for displaying errors
-	$scope.error;
+	$scope.error = undefined;
 
 	// holds pipeline logic (what the user is making on this page)
 	$scope.pipe = {
@@ -46,9 +46,7 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 		// array of user custom filters
 		userFilters: [],
 		// array (for now) of the outputs from each pipe/input (for now) (for display only)
-		output: [],
-		// default output format
-		outputFormat: 'default'
+		output: []
 	};
 
 	// returns crawled data for the passed in route
@@ -97,7 +95,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 
 	// run selected inputs through the pipe filters and return the output
 	$scope.generateOutput = () => {
-		Pipe.create($scope.pipe)
+		// don't send output (can't be stored in db, just for show)
+		Pipe.create(_.omit($scope.pipe, 'output'))
 			.then(pipe => {
 				return pipe.generateOutput();
 			})
@@ -113,7 +112,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 
 	// saves this pipe to the user db, and returns its output
 	$scope.savePipe = () => {
-		Pipe.create($scope.pipe)
+		// don't send output (can't be stored in db, just for show)
+		Pipe.create(_.omit($scope.pipe, 'output'))
 			.then(pipe => {
 				return pipe.savePipe();
 			})

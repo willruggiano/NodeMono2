@@ -67,7 +67,7 @@ schema.methods.getCrawlData = function getCrawlData() {
 			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = true;
 			self.count++;
-			if (!self.pagesCrawled) self.pagesCrawled = oldLimits.reduce(function(sum, x) {return sum + x; }, 0);
+			if (!self.pagesCrawled) self.pagesCrawled = 1 + oldLimits.reduce(function(sum, x) {return sum + x; }, 0);
 			self.save();
 			return crawledData;
 		})

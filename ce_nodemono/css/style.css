@@ -119,13 +119,7 @@ ul>li{
 }
 
 .selectStyle{
-  height:100%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 50%;
-  font-size: 20px;
-  /*color: black;*/
+
 }
 
 /*toolbar buttons and fields*/
@@ -148,28 +142,25 @@ ul>li{
   border-radius:3px;
   display:inline-block !important;
   overflow: hidden;
+  outline:none;
 }
 
 /*the elements*/
 #oneButton{
   background-color: #00ff00;
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 #allButton{
   background-color: yellow;
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
-#backButton{
-  min-width:0;
-  min-height:44px;
-  height:44px;
-  padding: 0 0;
-  overflow: hidden;
-  font-size:2em;
-  background-color: red;
-  -webkit-transition: all .1s ease-out;
 
-}
 #attrSelectors{
   display:inline-block;
 }
@@ -180,7 +171,10 @@ ul>li{
   background-color: #00ff00;
   display:inline-block !important;
   overflow: hidden;
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 .yellowAttr{
   height:44px;
@@ -189,15 +183,24 @@ ul>li{
   background-color: yellow;
   display:inline-block !important;
   overflow: hidden;
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 
 #nameInput{
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 
 #saveBtn{
+  transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 
 #cover {
@@ -218,6 +221,7 @@ ul>li{
   height:44px;
   padding:0px 0px;
   display:inline-block !important;
+  outline:none;
 }
 
 #xButton{
@@ -235,7 +239,7 @@ ul>li{
   font-size:0.5em;
 }
 
-#propButtons{
+#propButtons {
   float:right;
 }
 
@@ -245,44 +249,27 @@ ul>li{
   display:inline-block;
 }
 
-/*
-@keyframes show{
-  0% {
-    min-width: 0;
-    width: 0;
-    margin: 0 0;
-    padding: 0 0;
-  }
-  1% {  
-    display:inline-block !important;
-  }
-  100% {
-    min-width: 100px;
-    max-width:40%;
-    margin: 3px 3px;
-    padding:10px 10px;
-  }
+#backBtnImg {
+  height: 23px;
 }
 
-@keyframs hide{
-  0% {
-    min-width: 100px;
-    max-width:40%;
-    margin: 3px 3px;
-    padding:10px 10px;
-  }
-  99% {
-    display: none !important;
-  }
-  100% {
-    min-width: 0;
-    width: 0;
-    margin: 0 0;
-    padding: 0 0;
-  }
-
+#backButton{
+  min-width:0;
+  min-height:44px;
+  height:44px;
+  margin-bottom:0px;
+  overflow: hidden;
+  font-size:2em;
+  background-color: red;
+  transition: all .1s ease-out;
+  -webkit-transition: all .1s ease-out;
+  -moz-transition: all .1s ease-out;
+  -ms-transition: all .1s ease-out;
 }
 
-*/
+#rightNavButtons{
+  margin:0 0;
+}
+
 
 

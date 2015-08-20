@@ -4,16 +4,19 @@
     </div>
     <div class="navbar-form navbar-left" style="margin: 0 0;">
         <div class="form-group">
+            <!-- for all forms -->
             <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>
                 <img ng-src='{{backBtnUrl}}' id='backBtnImg' ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();"></img>
             </button>
-            <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="choseDepth()">
+            <!-- for pagination form -->
+            <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
                 <option value='1'>1</option>
                 <option value='5'>5</option>
                 <option value='10'>10</option>
                 <option value='25'>25</option>
                 <option value='50'>50</option>
             </select>
+            <!-- for property form -->
             <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">
@@ -22,11 +25,15 @@
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
         </div>
     </div>
-    <div class="navbar-form navbar-right">
+    <div class="navbar-form navbar-right" id="rightNavButtons">
+        <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">Pagination</button>
         <button type="submit" id="doneBtn" class="btn btn-primary" ng-click="doneClicked()">Done</button>
     </div>
-        <div id="propButtons">
+    <div id="propButtons">
     </div>
+    <div id="pagButtons">
+    </div>
+
 <!--     <div class="navbar-form navbar-right">
 
         <button type="submit" class="paginationBtn btn btn-primary" ng-click="getPagination()">Pagination</button>
@@ -35,7 +42,6 @@
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay" id="collectionOverlay" ng-controller="OverlayCtrl">
         <div class="navbar-form navbar-right">
-            <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()">Pagination</button>
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()" >Back</button>
         </div>
         <!-- show login form if no user found -->

@@ -25,7 +25,7 @@ var schema = new mongoose.Schema({
 	// limit is the number of times to "click" the pagination link
 	pagination: [{
 		link: String,
-		limit: Number,
+		depth: Number,
 		index: Number
 	}],
 	// extra information about the crawler

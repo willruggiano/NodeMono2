@@ -19,8 +19,11 @@ function getSelectors(html, data, paginationArr) {
 
 	// jsdom provides access to the window object
 	jsdom.env(html, function(err, window) {
-		var document = window.document;
+		// handle errors
+		if (err) return deferred.reject(err);
 
+		// window.document is used frequently, save it to a variable
+		var document = window.document;
 		// loop through each data (contains selector, name, etc.
 		var output = data.reduce(function(accum, datum) {
 			var selected;
@@ -93,20 +96,20 @@ function crawl(url, data, paginationArr) {
 		.then(function(html) {
 			return getSelectors(html, data, paginationArr);
 		})
-		.then(function(data) {
-			// the data comes back in a nested array, flatten it
-			data = _.flattenDeep(data);
-			// also join the data into one object (only for pagination)
-			if (!paginationArr.length) return data;
+		.then(function(crawledData) {
+			// the crawledData comes back in a nested array, flatten it
+			crawledData = _.flattenDeep(crawledData);
+			// also join the crawledData into one object (only for pagination)
+			if (!paginationArr.length) return crawledData;
 			// get keys from one object (same for all)
-			var keys = Object.keys(data[0]);
+			var keys = Object.keys(crawledData[0]);
 			// have a property for each unique key
 			var mergedPaginationObj = keys.reduce(function(accum, key) {
 				accum[key] = [];
 				return accum;
 			}, {});
-			// add each page's data for each key to the aggregated object's array for that key
-			data.forEach(function(datum) {
+			// add each page's crawledData for each key to the aggregated object's array for that key
+			crawledData.forEach(function(datum) {
 				keys.forEach(function(key) {
 					mergedPaginationObj[key] = mergedPaginationObj[key].concat(datum[key]);
 				});

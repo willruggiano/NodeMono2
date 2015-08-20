@@ -56,7 +56,6 @@ schema.methods.getCrawlData = function getCrawlData() {
 	var oldLimits = self.pagination.map(function(page) {
 		return page.limit;
 	});
-	console.log(oldLimits);
 	return crawl(self)
 		.then(function(crawledData) {
 			// update the last time crawled

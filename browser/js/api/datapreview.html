@@ -21,7 +21,6 @@
     <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
   <tr ng-repeat='r in rows | filter:dataFilter()'>
-  	<pre>{{rows}}</pre>
     <td>{{ r.index }}</td>
     <td ng-repeat='header in headers'>{{ data[header][r.index] }}</td>
   </tr>

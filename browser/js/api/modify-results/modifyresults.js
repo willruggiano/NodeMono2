@@ -7,10 +7,16 @@ app.config(($stateProvider) => {
 
       editor.setTheme('ace/theme/chrome')
       editor.getSession().setMode('ace/mode/javascript')
+      console.log(editor)
+
 
 
       $scope.modifiedData = data[0]
-      $scope.updateDataPreview = () => console.log('updating data...')
+      $scope.updateDataPreview = () => {
+        let v = editor.getValue()
+        console.log(v)
+        console.log('typeof v:',typeof v)
+      }
       $scope.revertData = () => console.log('reverting data back to original form...')
     }
   })

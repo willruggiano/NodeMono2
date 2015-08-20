@@ -15,16 +15,17 @@
     <div class='col-md-6'>
       <h5>Filter function</h5>
       <form ng-submit='updateDataPreview()'>
-        <pre id='editor'>
-let defaultFilterFn = (data) => {
+<pre id='editor'>
+function transform(data) {
   // filter functions are passed the whole API response object
   // you may manipulate or add to this data as you want
 
   /* YOUR CODE HERE */
-
+  console.log('running filter function')
+  
   return data
 }
-        </pre>
+</pre>
         <button type='submit' class='btn-nodemono'>Apply</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
       </form>

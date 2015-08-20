@@ -45,9 +45,6 @@ app.config(($stateProvider) => {
       if (!$scope.crawlStatus) $scope.getCrawlStatus()
       if (!$scope.rows) $scope.getRowCount()
 
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
-
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id)
@@ -72,6 +69,9 @@ app.config(($stateProvider) => {
           $scope.editing[id] = !$scope.editing[id]
         }, 0)
       }
+
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = "CSV";
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

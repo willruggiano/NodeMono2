@@ -1,0 +1,84 @@
+<section id="profile">
+	<div class='row'>
+	  <div id='apiHeader' class='col-md-8'>
+	    <p id='pipename' ng-model='pipe.name' editablecontent editable='editing.pipename'>{{ pipe.name }}</p>
+	    <button
+	      class='btn-nodemono'
+	      ng-class="editing.pipename ? 'editing' : 'not-editing'"
+	      ng-click="toggleStatus('pipename')"
+	      ng-bind="editing.pipename ? 'save' : 'edit'">
+	    </button>
+	  </div>
+	  <div class='btn-group col-md-4 api-action'>
+	    <button class='btn btn-nodemono' ng-click=''>clone pipe</button>
+	    <button class='btn btn-nodemono' ng-click=''>edit pipe</button>
+	  </div>
+	</div>
+	<div class='row'>
+	  <div class='col-md-8'>
+	    <table id='headerTable'>
+	      <tbody>
+	        <tr>
+	          <td class='td-label'>Endpoints</td>
+	          <td>
+	            <a href='#'>json </a>|<a href='#'> csv </a>|<a href='#'> rss</a>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td class='td-label'>Input Pipes</td>
+	          <td>
+	          	<span ng-repeat="inputPipe in inputs.pipes">
+		            <a id="routeurl" ng-click="inputPipe.go(user._id)">{{ inputPipe.name }}</a>
+		            <button
+		              class='btn-nodemono-sm'
+		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
+		              ng-click="toggleStatus('routeurl')">X
+		            </button>
+	          	</span>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td class='td-label'>Input Routes</td>
+	          <td>
+	          	<span ng-repeat="inputRoute in inputs.routes">
+		            <a id="routeurl" ng-click="inputRoute.go(user._id)">{{ inputRoute.name }}</a>
+		            <button
+		              class='btn-nodemono-sm'
+		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
+		              ng-click="toggleStatus('routeurl')">X
+		            </button>
+	          	</span>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td class='td-label'>Crawl Status</td>
+	          <td>
+	            <span
+	              id='nm-status'
+	              ng-show='!editing.crawl'
+	              ng-class="pipe.lastPipeSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
+	            </span>
+	            <span ng-show='editing.crawl' class='glyphicon glyphicon-refresh loading'></span>
+	            <span ng-show='!editing.crawl' ng-model='pipeStatus'>{{ pipeStatus }} ({{ pipe.lastTimePiped | date : 'short' }})</span>
+	            <span ng-show='editing.crawl' style='color: green;'>Updating...</span>
+	          </td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+	<br>
+	<div class='row'>
+	  <tabset justified='false'>
+	    <tab ng-repeat='tab in tabs' ui-sref='pipe.{{ tab.url }}'>
+	      <tab-heading>
+	        <span class='glyphicon glyphicon-{{ tab.glyphicon }}'> {{ tab.header }}</span>
+	      </tab-heading>
+	    </tab>
+	  </tabset>
+		<ui-view class='tab-content'></ui-view>
+	</div>
+	<br>
+	<button class='btn btn-danger' ng-click=''>Delete Api</button>
+	<br>
+</section>

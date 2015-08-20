@@ -1,10 +1,10 @@
 app.config(($stateProvider) => {
-  $stateProvider.state('api.preview', {
+  $stateProvider.state('pipe.preview', {
     url: '/preview',
-    templateUrl: 'js/api/data-preview/datapreview.html',
+    templateUrl: 'js/pipe-api/data-preview/datapreview.html',
     controller: ($scope) => {
-      $scope.search = {}
-      $scope.headers = Object.keys($scope.data)
+      $scope.search = {};
+      $scope.headers = Object.keys($scope.data);
       $scope.dataFilter = function(){
           return function(r){
             if(!$scope.search.text) return true;
@@ -21,11 +21,11 @@ app.config(($stateProvider) => {
               if ($scope.data[header][r.index].match(reg)){
                 res = true;
               }
-            })
+            });
             return res;
-          }
-      }
+          };
+      };
 
     }
-  })
-})
+  });
+});

@@ -43,6 +43,11 @@ var schema = new mongoose.Schema({
 		type: Number,
 		default: 0
 	},
+	// number of pages crawled (including pagination links)
+	pagesCrawled: {
+		type: Number,
+		default: 1
+	}
 });
 
 
@@ -62,6 +67,7 @@ schema.methods.getCrawlData = function getCrawlData() {
 			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = true;
 			self.count++;
+			if (!self.pagesCrawled) self.pagesCrawled = 1 + oldLimits.reduce(function(sum, x) {return sum + x; }, 0);
 			self.save();
 			return crawledData;
 		})

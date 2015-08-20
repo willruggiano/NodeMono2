@@ -3,6 +3,7 @@
 	width: 100%;
 	position: fixed;
   display: inline-table;
+  background-color: #424242 !important;
 	-webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -31,17 +32,73 @@
   display: inline-block;
   float:right !important;
 }*/
+/*preview data CSS section------------------------------------------------------------------*/
 
+.previewDataNotice{
+  margin-top: 15%;
+  width: 100%;
+  text-align: center;
+}
 
+.dataPreviewContainer{
+  margin-left: 10%;
+  margin-top: 5%;
+}
 
-#collectionOverlay {
+.textareaPreview{
+  height: 50em;
+  width: 80em;
+  margin-left: 10%;
+  color: black;
+}
+/* DATA PREVIEW get from front-end web-app*/
+table#dataPreviewTable {
+  font-size: 10px;
+  width: 80%; 
+  margin-left: 10%;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+table#dataPreviewTable td, table#dataPreviewTable th {
+    word-wrap: break-word;
+    max-width: 200px;
+    padding: 4px; 
+}
+table#dataPreviewTable tr {
+    background: #e3e3e3; 
+}
+.listColectionContainer{
+  margin-left: 10%;
+  margin-top: 2%;
+}
+
+ul>li{
+  list-style-type: none;
+}
+/*------------------------------------------------------------------------------------------*/
+
+/*collection Overlay section----------------------------------------------------------------*/
+#collectionOverlay, #previewData {
   z-index: 2147483700;
   width:100%;
   height:100%;
-  background-color: black;
+  background-color: #424242;
   position: fixed;
   backface-visibility: hidden;
   color: white;
+}
+.animateOverlay{
+  -webkit-transition: 0.5s;
+  overflow: auto;
+}
+.animateOverlay.ng-enter,
+.animateOverlay.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.animateOverlay.ng-leave,
+.animateOverlay.ng-enter.ng-enter-active {
+  opacity:1;
 }
 
 .loginForm, .signupForm, .newRouteConfigureForm {
@@ -55,6 +112,8 @@
 .labelOverlay {
   color: white;
 }
+/*----------------------------------------------------------------------------------------------------*/
+
 .routeFrequency, .paginationDepth {
   height:34px;
 }
@@ -184,7 +243,8 @@
   float:right;
 }
 
-#doneBtn {
+#doneBtn,#previewBtn {
+  margin-left: 2px;
   float:right;
   display:inline-block;
 }
@@ -210,9 +270,6 @@
 #rightNavButtons{
   margin:0 0;
 }
-
-
-
 
 
 

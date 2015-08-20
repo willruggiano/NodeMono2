@@ -3,8 +3,8 @@ app.config(($stateProvider) => {
     url: '/setup',
     templateUrl: 'js/api/crawl-setup/crawlsetup.html',
     controller: ($scope) => {
-      let timer
-      let runTimer = () => {
+      let timer,
+          runTimer = () => {
         if (!$scope.editing.crawl) clearInterval(timer)
         else $scope.crawlTime++
       }
@@ -17,8 +17,6 @@ app.config(($stateProvider) => {
           .then(newdata => {
             $scope.data = newdata[0]
             $scope.getRowCount()
-            $scope.getCrawlStatus()
-            // $scope.getLastRunStatus()
             $scope.editing.crawl = false
           })
       }

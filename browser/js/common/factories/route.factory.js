@@ -17,9 +17,12 @@ app.factory('Route', (DS, $state, $http) => {
     },
     computed: {
       lastRun: ['lastTimeCrawled', (lastTimeCrawled) => {
-        let dt = Math.round((Date.now() - Date.parse(lastTimeCrawled)) / 86400000)
-        if (dt === 0) return `Today`
-        else return `${dt} ${dt > 1 ? 'days' : 'day'} ago`
+        let t = moment(lastTimeCrawled)
+        if (moment().isSame(t, 'day')) return `Today at ${t.format('h:mm a')}`
+        else return moment().from(t)
+      }],
+      crawlStatus: ['lastCrawlSucceeded', (lastCrawlSucceeded) => {
+        return lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
       }]
     },
     methods: {
@@ -27,9 +30,10 @@ app.factory('Route', (DS, $state, $http) => {
         $state.go('api.preview', { userid: userId, routeid: this._id })
       },
       getCrawlData: function() {
+        console.log(`retrieving crawl data for ${this.name}`)
         return $http.get(`/api/routes/${this.user}/${this.name}`)
           .then(res => res.data)
-          .finally(() => Route.refresh(this._id))
+          .finally(() => Route.refresh(this._id).then(route => route.DSCompute())) // re-compute computed properties
       },
       parseXML:function (o, tab) {
         /*  This work is licensed under Creative Commons GNU LGPL License.

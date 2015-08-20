@@ -23,26 +23,14 @@ app.config(($stateProvider) => {
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
 
       $scope.getRowCount = () => {
-        let count = 0
+        let n = 0
         for (let key in $scope.data) {
-          let r = $scope.data[key].length
-          count > r ? count : count = r
+          let l = $scope.data[key].length
+          if (l > n) n = l
         }
-        $scope.rows = new Array(count)
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i } })
       }
-
-      $scope.getCrawlStatus = () => {
-        $scope.crawlStatus = $scope.route.lastCrawlSucceeded ? 'Successful' : 'Unsuccessful'
-      }
-
-      $scope.getLastRunStatus = () => {
-        let dt = Math.round((Date.now() - Date.parse(route.lastTimeCrawled)) / 86400000)
-        if (dt === 0) $scope.lastRun = `Today`
-        else $scope.lastRun = `${dt} ${dt > 1 ? 'days' : 'day'} ago`
-      }
-
-      if (!$scope.lastRun) $scope.getLastRunStatus()
-      if (!$scope.crawlStatus) $scope.getCrawlStatus()
+      // make sure row count gets initialized
       if (!$scope.rows) $scope.getRowCount()
 
       // called every time 'edit' button is clicked
@@ -51,16 +39,19 @@ app.config(($stateProvider) => {
         elem.setAttribute('contenteditable', true) // make the element (elem) editable
         if ($scope.editing[id]) {
           elem.removeAttribute('contenteditable') // make the element (elem) not editable
+          $scope.editing.crawl = true
           $scope.route.DSSave() // save the newly edited element
             .then(newroute => {
               console.log(`successfully saved route ${newroute.name}`)
-              // if (!$rootScope.alerts) $rootScope.alerts = []
-              // $rootScope.alerts.push({ name: 'saving route', msg: 'successful'})
+              return newroute.getCrawlData()
+            })
+            .then(newdata => {
+              $scope.data = newdata[0]
+              $scope.getRowCount()
+              $scope.editing.crawl = false
             })
             .catch((e) => {
               console.log(`was not able to save route ${route.name}: ${e}`)
-              // if (!$rootScope.alerts) $rootScope.alerts = []
-              // $rootScope.alerts.push({ name: 'saving route', msg: 'unsuccessful' })
             })
         }
 
@@ -70,7 +61,7 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      $scope.search = {};
+      
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = "CSV";
 
@@ -85,27 +76,7 @@ app.config(($stateProvider) => {
         $scope.activeResultType = type.name;
       }
       //filter by search text
-      $scope.dataFilter = function(){
-          return function(r){
-            if(!$scope.search.text) return true;
-            var res = false;
-            var index = r.index.toString();
-            //construct regex for matching words, can separate by space or comma
-            var reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'),'gi');
-            //matching index
-            if(index.match(reg)){
-              return true;
-            }
-            //matching data in header
-            $scope.headers.forEach(function(header){
-              if ($scope.data[header][r.index].match(reg)){
-                res = true;
-              }
-            })
-            return res;
-          }
-      }
-
+      
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {
         // find all keys in the object

@@ -23,7 +23,7 @@ function startNodemono() {
 		$(data).appendTo('#nodemonofy');
 
 		window.app = angular
-			.module('myApp', []);
+			.module('myApp', ['ngAnimate']);
 		registerAuthService();
 		app
 			.factory("Route", function($http, AUTH_EVENTS) {
@@ -72,10 +72,7 @@ function startNodemono() {
 				return Route;
 			})
 			.controller('NodemonoMainCtrl', function($scope) {
-				$scope.collection = {};
 				console.log('go here')
-					// this.message = "Hello";
-
 			})
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
 				$rootScope.showCollectionOverlay = false;
@@ -91,7 +88,12 @@ function startNodemono() {
 				}
 				$scope.doneClicked = function() {
 						$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay === true ? false : true;
-					}
+				}
+
+				//preview crawl data from selector user choose;
+				$scope.previewData = function(){
+					$rootScope.showPreviewData = $rootScope.showPreviewData === true ? false : true;
+				}	
 					//cancel 
 				$scope.cancel = function() {
 					//reset currentProperty
@@ -249,6 +251,39 @@ function startNodemono() {
 				}
 
 				setUpDom($scope);
+
+			})
+			.controller('previewDataCtrl',function($scope,$rootScope){
+				$scope.showCollectionSelected = true;
+				$scope.dataPreview = {};
+				$scope.rows;
+				$scope.getRowCount = function() {
+			        var n = 0
+			        for (var key in $scope.dataPreview) {
+			          var l = $scope.dataPreview[key].length
+			          if (l > n) n = l
+			        }
+			        return new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i } })
+			     }
+
+				$scope.showCollection = function(){
+					$scope.showCollectionSelected = true;
+				}
+
+				$scope.showPreviewData = function(){	
+					$scope.showCollectionSelected = false;
+					$rootScope.apiRoute.data.forEach(function(d){
+						$scope.dataPreview[d.name] = document.querySelectorAll(d.selector).map(function(elem){
+							if(d.attr) return elem[d.attr];
+							return elem.textContent;
+						})
+					})
+					$scope.headers = Object.keys($scope.dataPreview)
+					$scope.rows = $scope.getRowCount();
+					console.log($scope.dataPreview);
+				}
+
+
 
 			})
 			.controller("OverlayCtrl", function($scope, $http, AuthService, $rootScope, AUTH_EVENTS, Route, Session) {

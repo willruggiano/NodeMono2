@@ -17,8 +17,6 @@ function getSelectors(html, data, paginationArr) {
 	// use cheerio to make dom accessor for html
 	var $ = cheerio.load(html);
 
-	var nextLinks = [];
-
 	// loop through each data (contains selector, name, etc.
 	var output = data.reduce(function(accum, datum) {
 		// if attr is specified, get that attribute from each selected element
@@ -34,22 +32,27 @@ function getSelectors(html, data, paginationArr) {
 				return $(this).text();
 			}).get();
 		}
-		// if indexes are specified, only keep those indexes
-		if (datum.indexes && datum.indexes.length) {
-			accum[datum.name] = accum[datum.name].filter(function(out, idx) {
-				return datum.indexes.indexOf(idx) > -1;
-			});
+		// if an index is specified, only keep that index
+		if (datum.index) {
+			accum[datum.name] = accum[datum.name][datum.index];
 		}
 		// pass accumulation of data to next iteration of reduce
 		return accum;
 	}, {});
 
+	var nextLinks = [];
+
 	// collect the pagination links (add them to queue)
 	paginationArr.forEach(function(paginationObj) {
 		// check to see if the limit has been reached
 		if (paginationObj.limit <= 0) return;
-		// find the pagination link by it's selector, then get it's href, and add it to the queue
-		var link = $(paginationObj.link).attr('href');
+		// find the pagination link by it's selector
+		var link = $(paginationObj.link);
+		// if an index is given, take the link from that index
+		if (typeof paginationObj.index !== 'undefined') link = link[paginationObj.index];
+		// get the links href
+		link = link.attr('href');
+		// add to queue of links
 		nextLinks.push(link);
 		// subtract one from the limit (to prevent infinite pagination)
 		paginationObj.limit -= 1;
@@ -67,6 +70,7 @@ function getSelectors(html, data, paginationArr) {
 	// return the output too
 	promiseArray.unshift(output);
 
+	// return the resolved data from each pagination
 	return Q.all(promiseArray);
 }
 
@@ -108,29 +112,6 @@ function crawl(url, data, paginationArr) {
 function getCrawlData(route) {
 	return crawl(route.url, route.data, route.pagination);
 }
-
-
-// let users make custom filter functions
-// (function() {
-// 	var obj ={};
-// 	obj.str = 'var fn = function stringFunc(str) {return str.slice(0,3); }';
-
-// 	console.log(obj.str);
-// 	// var fn = new Function(str);
-// 	eval(obj.str);
-// 	console.log(fn);
-// 	console.log(fn);
-// 	console.log(fn('i am jack'));
-// 	console.log(typeof fn);
-
-// })();
-
-// console.log(typeof fn);
-
-///// they can choose the kind of function they are writing - singleArr, multiObj, etc.
-	// they will be given a different starting point based on that
-
-
 
 // exports
 module.exports = getCrawlData;

@@ -27,6 +27,7 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.routes = routes;
 	$scope.filters = filters;
 	$scope.pipes = pipes;
+	$scope.customizingFilter = false;
 
 	// for displaying errors
 	$scope.error;
@@ -42,6 +43,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 		},
 		// array of the selected filters (and their order?)
 		filters: [],
+		// array of user custom filters
+		userFilters: [],
 		// array (for now) of the outputs from each pipe/input (for now) (for display only)
 		output: [],
 		// default output format
@@ -85,6 +88,11 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.deselectFilter = (filter) => {
 		/// make this more robust
 		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
+	};
+
+	// toggle showing custom filter form
+	$scope.toggleCustomFilter = () => {
+		$scope.customizingFilter = !$scope.customizingFilter;
 	};
 
 	// run selected inputs through the pipe filters and return the output
@@ -143,5 +151,6 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 				return err;
 			});
 	};
+
 
 });

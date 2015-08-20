@@ -1,10 +1,22 @@
 <div class="nodemonoToolbar navbar-inverse" ng-controller="ToolbarCtrl">
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">nodemono</a>
+        <a class="navbar-brand" href="#ourwebsite">nodemono</a>
     </div>
     <div class="navbar-form navbar-left" style="margin: 0 0;">
         <div class="form-group">
-            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>&#10094</button>
+            <!-- for all forms -->
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>
+                <img ng-src='{{backBtnUrl}}' id='backBtnImg' ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();"></img>
+            </button>
+            <!-- for pagination form -->
+            <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
+                <option value='1'>1</option>
+                <option value='5'>5</option>
+                <option value='10'>10</option>
+                <option value='25'>25</option>
+                <option value='50'>50</option>
+            </select>
+            <!-- for property form -->
             <button id="oneButton" ng-click="oneBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>One</button>
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">
@@ -13,12 +25,17 @@
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
         </div>
     </div>
-    <div class="navbar-form navbar-right">
+    <div class="navbar-form navbar-right" id="rightNavButtons">
+        <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">Pagination</button>
         <button type="submit" id="doneBtn" class="btn btn-primary" ng-click="doneClicked()">Done</button>
         <button type="submit" id="previewBtn" class="btn btn-primary" ng-click="previewData()">Preview</button>
     </div>
-        <div id="propButtons">
+    <div id="propButtons">
     </div>
+    <div id="pagButtons">
+    </div>
+
+<!--     <div class="navbar-form navbar-right">
     <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
         <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="previewData()">Back</button>
@@ -65,7 +82,7 @@
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay&&!showPreviewData" id="collectionOverlay" ng-controller="OverlayCtrl" class="animateOverlay" >
         <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()">Back</button>
+            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()" >Back</button>
         </div>
         <!-- show login form if no user found -->
         <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
@@ -111,12 +128,8 @@
                 <div class="form-group">
                     <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
                 </div>
-                <div class="paginationDepth form-group" ng-if="apiRoute.pagination.length">
-                    <select ng-model="apiRoute.depth" ng-options="depth.text for depth in Depths track by depth.Id" class="selectStyle">
-                    </select>
-                </div>
-                    <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
-                    <div ng-if="error" style="color:white">{{error}}</div>
+                <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
+                <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
     </div>

@@ -1,3 +1,55 @@
+//________________DOM setup ______________________________
+function setUpDom(scope) {
+  giveNodeListArrayMethods();
+  //set up document for nodemono
+  //list holds all the elements that match the general query
+  scope.matchList = [];
+  scope.pagMatchList = [];
+  scope.pagSelector = '';
+  scope.selector = '';
+
+  scope.pagClick = pagClickListener.bind(scope);
+  scope.propClick = propClickListener.bind(scope);
+  addListeners('property', scope);
+
+  //add the overlay element to the dom
+  scope.overlay = document.createElement('div')
+  scope.overlay.id = ''
+  scope.overlay.addEventListener("click", function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  })
+  document.getElementsByTagName('body')[0].appendChild(scope.overlay);
+}
+//_____________________________________________________________
+
+//__________DOM manipulation helpers__________
+function hideAllElms() {
+  //hide all toolbar elements
+  document.getElementById('backButton').className = 'toolbarEl hide'
+  document.getElementById('oneButton').className = 'toolbarEl hide'
+  document.getElementById('allButton').className = 'toolbarEl hide'
+  document.getElementById('saveBtn').className = 'toolbarEl hide'
+  document.getElementById('nameInput').className = 'toolbarEl hide'
+  document.getElementById('paginationDepthSelector').className = 'toolbarEl hide'
+    //remove all attrSelector buttons
+  var attrSelectors = document.getElementById('attrSelectors');
+  while (attrSelectors.firstChild) {
+    attrSelectors.removeChild(attrSelectors.firstChild)
+  }
+}
+
+function hideHighlights(scope) {
+  for (var i = 0; i < scope.matchList.length; i++) {
+    scope.matchList[i].style['background-color'] = '';
+  }
+  for (var i = 0; i < scope.pagMatchList.length; i++) {
+    scope.pagMatchList[i].style['background-color'] = '';
+  }
+}
+//__________________________
+
+
 function getNodeSelectorString(node) {
   //tagString
   var tagName = node.tagName;
@@ -29,7 +81,6 @@ function getSelector(baseNode, startString) {
   } else {
     return getSelector(baseNode.parentNode, ' ' + startString);
   }
-
 }
 
 function isDescendant(parent, child) {
@@ -53,30 +104,10 @@ function giveNodeListArrayMethods() {
 
 }
 
-function hideAllElms() {
-  //hide all toolbar elements
-  document.getElementById('backButton').className = 'toolbarEl hide'
-  document.getElementById('oneButton').className = 'toolbarEl hide'
-  document.getElementById('allButton').className = 'toolbarEl hide'
-  document.getElementById('saveBtn').className = 'toolbarEl hide'
-  document.getElementById('nameInput').className = 'toolbarEl hide'
-    //remove all attrSelector buttons
-  var attrSelectors = document.getElementById('attrSelectors');
-  while (attrSelectors.firstChild) {
-    attrSelectors.removeChild(attrSelectors.firstChild)
-  }
-}
-
-function resetHighlights(scope) {
-  for (var i = 0; i < scope.matchList.length; i++) {
-    scope.matchList[i].style['background-color'] = '';
-  }
-}
-
 function generateAttrButtons(color, scope) {
   //add text attribute button
   var newButton = document.createElement('button');
-  newButton.innerHTML = 'text';
+  newButton.innerHTML = 'innerHTML';
   newButton.addEventListener('click', function(event) {
     scope.selectedAttr(undefined);
   });
@@ -86,7 +117,7 @@ function generateAttrButtons(color, scope) {
   for (var i = 0; i < scope.targetElement.attributes.length; i++) {
     var prop = scope.targetElement.attributes[i].name;
     //check that property is good
-    var propList = ['href', 'src', 'style', 'id']
+    var propList = ['href', 'src', 'id']
     if (propList.indexOf(prop) >= 0) {
       var newButton = document.createElement('button');
       newButton.innerHTML = prop;
@@ -102,64 +133,126 @@ function generateAttrButtons(color, scope) {
   console.log(document.getElementById('attrSelectors'))
 }
 
-//____________________________________DOM setup______________________________
-function setUpDom(scope) {
-  giveNodeListArrayMethods();
-  //set up document for nodemono
-  var allEls = document.getElementsByTagName('*');
-  //list holds all the elements that match the general query
-  scope.matchList = [];
-  //scope.targetElement is the element in particular that was clicked
-  scope.selector = '';
-  for (var i = 0; i < allEls.length; i++) {
+function addXButton(button, rootScope) {
+  var xButton = document.createElement('button');
+  xButton.id = 'xButton';
+  xButton.innerHTML = 'X'
+  button.appendChild(xButton);
+  xButton.addEventListener('click', function(event) {
+    button.parentNode.removeChild(button);
+    var index = rootScope.apiRoute.data.indexOf(button.dataProp)
+    rootScope.apiRoute.data.splice(index, 1);
+    event.preventDefault();
+    event.stopPropagation();
+  })
+  button.onmouseover = function() {
+    xButton.style.opacity = 1;
+  }
+  button.onmouseout = function() {
+    xButton.style.opacity = 0;
+  }
+}
 
+
+//________________Event Listeners_______________
+function addListeners(typeString, scope) {
+  var allEls = document.getElementsByTagName('*');
+  for (var i = 0; i < allEls.length; i++) {
     //add onclick function for all dom elements which blocks default action
     var element = allEls[i];
     if (isDescendant(document.getElementById('nodemonofy'), element)) {
       //kill all clicks on toolbar
-      element.addEventListener("click", function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-      })
+      element.addEventListener("click", killClick)
     } else {
-      element.addEventListener("click", function(event) {
-        //make click only be for most specific element (most likely to have text)
-        event.preventDefault();
-        event.stopPropagation();
-        scope.targetElement = event.target || event.srcElement;
-        scope.selector = getSelector(scope.targetElement);
-
-        //remove stylings on old list
-        for (var i = 0; i < scope.matchList.length; i++) {
-          scope.matchList[i].style['background-color'] = '';
+      if (typeString === 'property') {
+        element.addEventListener("click", scope.propClick);
+      } else {
+        if (element.href) {
+          element.addEventListener("click", scope.pagClick);
+        } else {
+          element.addEventListener('click', killClick);
         }
-
-        //change styles for selected elements
-        scope.matchList = document.querySelectorAll(scope.selector);
-        for (var i = 0; i < scope.matchList.length; i++) {
-          scope.matchList[i].style['background-color'] = '#ffff00';
-        }
-        scope.targetElement.style['background-color'] = '#00ff00';
-
-        //show/hide toolbar elements
-        if (scope.targetElement) {
-          document.getElementById('oneButton').className = 'toolbarEl show';
-          if (scope.matchList.length > 0) {
-            document.getElementById('allButton').className = 'toolbarEl show';
-          }
-        }
-      });
+      }
     }
   }
-
-  //add the overlay element to the dom
-  scope.overlay = document.createElement('div')
-  scope.overlay.id = ''
-  scope.overlay.addEventListener("click", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-  })
-  document.getElementsByTagName('body')[0].appendChild(scope.overlay);
 }
 
-//_____________________________________________________________
+//clears event listeners on the dom
+function clearListeners(scope) {
+  var allEls = document.getElementsByTagName('*');
+  for (var i = 0; i < allEls.length; i++) {
+    var element = allEls[i];
+    if (!isDescendant(document.getElementById('nodemonofy'), element)) {
+      element.removeEventListener('click', scope.propClick);
+      element.removeEventListener('click', scope.pagClick);
+    }
+  }
+}
+
+function propClickListener(event) {
+  var scope = this;
+  //make click only be for most specific element (most likely to have text)
+  event.preventDefault();
+  event.stopPropagation();
+  scope.targetElement = event.target || event.srcElement;
+  scope.selector = getSelector(scope.targetElement);
+  console.log()
+
+  //remove stylings on old list
+  for (var i = 0; i < scope.matchList.length; i++) {
+    scope.matchList[i].style['background-color'] = '';
+  }
+
+  //change styles for selected elements
+  scope.matchList = document.querySelectorAll(scope.selector);
+  for (var i = 0; i < scope.matchList.length; i++) {
+    scope.matchList[i].style['background-color'] = '#ffff00';
+  }
+  scope.targetElement.style['background-color'] = '#00ff00';
+
+  //show/hide toolbar elements
+  hideAllElms();
+  setTimeout(function() {
+    if (scope.targetElement) {
+      document.getElementById('oneButton').className = 'toolbarEl show';
+      if (scope.matchList.length > 1) {
+        document.getElementById('allButton').className = 'toolbarEl show';
+      }
+    }
+  }, 100)
+}
+
+function pagClickListener(event) {
+  var scope = this;
+  event.preventDefault();
+  event.stopPropagation();
+  scope.pagTargetElement = event.target || event.srcElement;
+  scope.pagSelector = getSelector(scope.pagTargetElement)
+    //add the link to the pagination
+  scope.currentPagination['link'] = scope.pagSelector;
+
+  //remove stylings on old list
+  for (var i = 0; i < scope.pagMatchList.length; i++) {
+    scope.pagMatchList[i].style['background-color'] = '';
+  }
+
+  //add index to currentPagination
+  scope.pagMatchList = document.querySelectorAll(scope.pagSelector);
+  scope.currentPagination['index'] = scope.pagMatchList.indexOf(scope.pagTargetElement)
+
+  //change styles for selected elements
+  scope.pagTargetElement.style['background-color'] = '#ADD8E6'
+
+  //hide/show toolbar elements
+  hideAllElms();
+  setTimeout(function() {
+    document.getElementById('paginationDepthSelector').className = 'toolbarEl show'
+  }, 100)
+}
+
+
+function killClick(event) {
+  event.preventDefault();
+  event.stopPropagation();
+}
+//_______________________________

@@ -23,21 +23,21 @@ app.config(($stateProvider) => {
       $scope.editing = {};
       $scope.activetab = null;
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
-                     { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
-                     { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Pipe Setup', url: 'setup', glyphicon: 'cog' },
+                     { header: 'Pipe History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
 
-      // $scope.getRowCount = () => {
-      //   let n = 0;
-      //   for (let key in $scope.data) {
-      //     let l = $scope.data[key].length;
-      //     if (l > n) n = l;
-      //   }
-      //   console.log('the row count', n);
-      //   $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
-      // };
+      $scope.getRowCount = () => {
+        let n = 0;
+        for (let key in $scope.data) {
+          let l = $scope.data[key].length;
+          if (l > n) n = l;
+        }
+        console.log('the row count', n);
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
+      };
 
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
@@ -51,7 +51,7 @@ app.config(($stateProvider) => {
 
       if (!$scope.lastRun) $scope.getLastRunStatus();
       if (!$scope.pipeStatus) $scope.getPipeStatus();
-      // if (!$scope.rows) $scope.getRowCount();
+      if (!$scope.rows) $scope.getRowCount();
       // console.log($scope.rows);
 
       // called every time 'edit' button is clicked

@@ -243,12 +243,12 @@ ul>li{
   float:right;
 }
 
-#doneBtn,#previewBtn {
-  margin-left: 2px;
+#doneBtn,#previewBtn,#paginationMode {
+  margin-top: 2px;
+  margin-left: 2px !important;
   float:right;
   display:inline-block;
 }
-
 #backBtnImg {
   height: 23px;
 }

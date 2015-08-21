@@ -42,6 +42,6 @@ app.factory('Filter', (DS, $http) => {
       .then(res => res.data);
   };
 
-  return Filter;
+  return FILTER;
 })
 .run(Filter => {});

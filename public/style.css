@@ -7,7 +7,7 @@ html {
 body {
   background: #fdfdfd; }
 
-#about:after, #crawlsetup .strategy-selector .label:after {
+#crawlsetup .strategy-selector .label:after {
   content: "";
   display: table;
   clear: both; }
@@ -202,18 +202,10 @@ status-bar {
 #main-footer {
   padding-top: 10px !important; }
 
-.main-container {
-  padding-top: 50px; }
-
-#about {
-  width: 90%; }
-  #about p {
-    width: 40%;
-    margin: 0 auto;
-    text-align: justify;
-    font-size: 22px;
-    font-weight: 300;
-    float: left; }
+.about-container {
+  padding-top: 50px;
+  width: 45%;
+  padding-bottom: 250px; }
 
 #signup-container {
   margin-top: 200px;

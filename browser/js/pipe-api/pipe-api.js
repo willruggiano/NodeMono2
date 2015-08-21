@@ -6,13 +6,14 @@ app.config(($stateProvider) => {
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
       pipe: (Pipe, $stateParams) => Pipe.find($stateParams.pipeid),
-      inputs: (pipe) => pipe.getInputs()
-      // data: (pipe) => pipe.getPipedData()
+      inputs: (pipe) => pipe.getInputs(),
+      filters: (pipe) => pipe.getFilters()
     },
-    controller: (DS, $scope, $timeout, user, pipe, inputs) => {
+    controller: (DS, $scope, $timeout, user, pipe, inputs, filters) => {
       $scope.user = user;
       $scope.pipe = pipe;
       $scope.inputs = inputs;
+      $scope.filters = filters;
       $scope.dataPreview;
       $scope.editing = {};
       $scope.activetab = null;

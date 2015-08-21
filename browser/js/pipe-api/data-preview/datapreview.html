@@ -12,7 +12,7 @@
 
 <div class="data-preview">
 	<div ng-if="activeResultType!=='CSV'">
-		<pre class="pipeDataPre">{{dataPreview | json}}</pre>
+		<pre class="pipeDataPre">{{dataPreview}}</pre>
 	</div>
 	<div id="pipePreviewContainer">
 		<table id='pipePreviewTable' ng-if="activeResultType=='CSV'">

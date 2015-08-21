@@ -7,8 +7,12 @@ app.config(($stateProvider) => {
       routes: (user) => user.getRoutes(),
       pipes: (user) => user.getPipes()
     },
-    controller: ($scope, user) => {
-      $scope.user = user
+    controller: ($scope, user, routes, pipes) => {
+      $scope.user = user;
+      $scope.routes = routes;
+      $scope.pipes = pipes;
+      console.log('the user', user);
+      console.log('the routes and pipes', routes, pipes);
     }
-  })
-})
+  });
+});

@@ -1,9 +1,47 @@
-.user-jumbo{
-	padding-top: 100px;
+.api-key {
+	display: inline-block;
+	margin-bottom: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 12px;
 }
 
-.profile-tables{
-	a {
-		cursor: pointer;
-	}
+.api-light-button {
+	font-family: sans-serif;
+    font-weight: 300;
+    color: #ccc;
+    border-color: #eee;
+    line-height: 1.2;
+}
+
+.rename-api-button {
+    vertical-align: top;
+    margin-top: 13px;
+}
+
+.api-header p {
+    margin-bottom: 5px;
+}
+
+.reset-apikey-warning {
+    vertical-align: top;
+}
+.reset-apikey-warning {
+    color: #999;
+    font-weight: 300;
+    margin-left: 5px;
+}
+
+.api-delete-warning, .account-delete-warning, .reset-apikey-warning {
+    font-size: 14px;
+    font-weight: normal;
+    display: inline-block;
+    vertical-align: bottom;
+    line-height: 28px;
+    margin-left: 20px;
+}
+
+.api-header h1 small {
+	color: lighten(#34495e, 20%);
+>>>>>>> master
 }

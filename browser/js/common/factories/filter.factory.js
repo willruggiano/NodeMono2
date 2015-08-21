@@ -1,6 +1,6 @@
 app.factory('Filter', (DS, $http) => {
 
-  const Filter = DS.defineResource({
+  const FILTER = DS.defineResource({
     name: 'filter',
     endpoint: 'filters',
     // relations: {
@@ -28,19 +28,23 @@ app.factory('Filter', (DS, $http) => {
     // },
     methods: {  // functionality added to every instance of Filter
       // save the custom filter to the db
-      save: function() {
+      save() {
         return $http.post('/api/filters', this)
           .then(res => res.data);
+      },
+      saveFilter() {
+        return $http.post('/api/filters', _.omit(filter, '_id'))
+          .then(res => res.data)
       }
     }
   });
 
-  // this is probably not best practices --
-  Filter.saveFilter = (filter) => {
-    console.log('saving ', _.omit(filter, '_id'));
-    return $http.post('/api/filters', _.omit(filter, '_id'))
-      .then(res => res.data);
-  };
+  // // this is probably not best practices --
+  // Filter.saveFilter = (filter) => {
+  //   console.log('saving ', _.omit(filter, '_id'));
+  //   return $http.post('/api/filters', _.omit(filter, '_id'))
+  //     .then(res => res.data);
+  // };
 
   return FILTER;
 })

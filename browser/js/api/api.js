@@ -10,10 +10,11 @@ app.config(($stateProvider) => {
     controller: (DS, $scope, $timeout, user, route) => {
       $scope.user = user
       $scope.route = route
-      $scope.data
-      $scope.dataPreview;
+      $scope.crawlData = {}
       $scope.editing = {}
       $scope.activetab = null
+      $scope.rows
+      $scope.dataPreview
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
                      { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
                      { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
@@ -21,16 +22,8 @@ app.config(($stateProvider) => {
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
 
-      $scope.getRowCount = () => {
-        let n = 0
-        for (let key in $scope.data) {
-          let l = $scope.data[key].length
-          if (l > n) n = l
-        }
-        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i } })
-      }
-      // make sure row count gets initialized
-      if (!$scope.rows) $scope.getRowCount()
+      $scope.route.getCrawlData()
+        .then(data => $scope.crawlData.data = data)
 
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -40,17 +33,18 @@ app.config(($stateProvider) => {
           elem.removeAttribute('contenteditable') // make the element (elem) not editable
           $scope.editing.crawl = true
           $scope.route.DSSave() // save the newly edited element
-            .then(newroute => {
-              console.log(`successfully saved route ${newroute.name}`)
-              return newroute.getCrawlData()
+            .then(route => {
+              console.log(`successfully saved route ${route.name}`)
+              $scope.route = route
+              return route.getCrawlData()
             })
             .then(newdata => {
               $scope.data = newdata[0]
-              $scope.getRowCount()
               $scope.editing.crawl = false
             })
             .catch((e) => {
-              console.log(`was not able to save route ${route.name}: ${e}`)
+              console.log(`something went wrong... ${e}`)
+              $scope.editing.crawl = false
             })
         }
 

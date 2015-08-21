@@ -2,9 +2,18 @@ app.config(($stateProvider) => {
   $stateProvider.state('api.preview', {
     url: '/preview',
     templateUrl: 'js/api/data-preview/datapreview.html',
-    controller: ($scope) => {
+    controller: ($scope, $state) => {
       $scope.search = {}
-      $scope.headers = Object.keys($scope.data)
+
+      $scope.editing.crawl = true
+      $scope.$watch('crawlData.data', (d) => {
+        if (d) {
+          $scope.headers = Object.keys(d)
+          $scope.rows = $scope.route.rowCount
+          $scope.editing.crawl = false
+        }
+      })
+
       $scope.dataFilter = function(){
           return function(r){
             if(!$scope.search.text) return true;

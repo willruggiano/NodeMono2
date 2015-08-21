@@ -96,6 +96,9 @@ navbar {
     navbar .welcome button {
       cursor: pointer; }
 
+.navbar-text {
+  margin-top: 10px; }
+
 .btn-login {
   margin-top: 5px;
   margin-left: 5px; }

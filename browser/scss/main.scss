@@ -36,6 +36,10 @@ body {
   padding-top: 50px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 @import "directives/main";
 @import "signup/main";
 @import "home/main";

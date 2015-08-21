@@ -61,10 +61,10 @@ app.config(($stateProvider) => {
 
       $scope.setActiveType = (type) =>{
         if (type === "JSON") {
-          $scope.dataPreview = $scope.data;
+          $scope.dataPreview = angular.toJson($scope.data, true);
         } else if (type === "RSS") {
-          // $scope.dataPreview = pipe.parseXML($scope.data);
-          $scope.dataPreview = "sorry, we don't support RSS yet";
+          $scope.dataPreview = parseXML($scope.data);
+          // $scope.dataPreview = "sorry, we don't support RSS yet";
         }
         $scope.activeResultType = type;
       };

@@ -8,7 +8,7 @@ app.config(($stateProvider) => {
       route: (Route, $stateParams) => Route.find($stateParams.routeid),
       data: (route) => route.getCrawlData()
     },
-    controller: (DS, $scope, $timeout, user, route, data) => {
+    controller: (DS, $scope, $timeout, user, route, data, $state) => {
       $scope.user = user
       $scope.route = route
       $scope.data = data[0]
@@ -21,6 +21,9 @@ app.config(($stateProvider) => {
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = $scope.resultTypes[0].name;
+
 
       $scope.getRowCount = () => {
         let n = 0
@@ -62,8 +65,18 @@ app.config(($stateProvider) => {
       }
 
 
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
+      //delete route
+      $scope.deleteApi = () => {
+          // console.log(route);
+          route.DSDestroy().then(function(res){
+            if(res){
+              $state.go('profile', { id: user._id });
+            }
+          })
+          .catch(function(err){
+             console.log(err);
+          })
+      }
 
       $scope.setActiveType = (type) =>{
         // console.log($scope.data);
@@ -74,7 +87,7 @@ app.config(($stateProvider) => {
         }
         $scope.activeResultType = type.name;
       }
-      //filter by search text
+      //
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

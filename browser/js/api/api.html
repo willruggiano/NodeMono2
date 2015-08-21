@@ -65,6 +65,7 @@
 		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
-	<button class='btn btn-danger' ng-click=''>Delete Api</button>
+	<button class='btn btn-danger' ng-click='deleteApi()'>Delete Api</button>
+	<p ng-if="error">{{error}}</p>
 	<br>
 </section>

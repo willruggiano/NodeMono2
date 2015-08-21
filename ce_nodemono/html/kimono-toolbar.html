@@ -28,7 +28,7 @@
     <div class="navbar-form navbar-right" id="rightNavButtons">
         <button type="submit" id="doneBtn" class="btn btn-primary show" ng-click="doneClicked()">Done</button>
         <button type="submit" id="previewBtn" class="btn btn-primary show" ng-click="previewData()">Preview</button>
-        <button id='paginationMode' class='btn btn-primary show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">Pagination</button>
+        <button id='paginationMode' class='btn btn-primary show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+<img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'></button>
     </div>
     <div id="propButtons">
     </div>

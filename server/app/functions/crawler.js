@@ -27,23 +27,24 @@ function getSelectors(html, data, paginationArr) {
 		// loop through each data (contains selector, name, etc.
 		var output = data.reduce(function(accum, datum) {
 			var selected;
+			var selector = datum.selector;
 			// if attr is specified, get that attribute from each selected element
 			var attribute = datum.attr;
 			if (attribute) {
-				selected = Array.prototype.slice.call(document.querySelectorAll(datum.selector));
+				selected = Array.prototype.slice.call(document.querySelectorAll(selector));
 				accum[datum.name] = selected.map(function(elem) {
 					return elem.getAttribute(attribute);
 				});
 			}
 			// otherwise default behavior (get text)
 			else {
-				selected = Array.prototype.slice.call(document.querySelectorAll(datum.selector));
+				selected = Array.prototype.slice.call(document.querySelectorAll(selector));
 				accum[datum.name] = selected.map(function(elem) {
 					return elem.textContent;
 				});
 			}
 			// if an index is specified, only keep that index
-			if (datum.index) {
+			if (datum.index && selected.length) {
 				accum[datum.name] = accum[datum.name][datum.index];
 			}
 			// pass accumulation of data to next iteration of reduce
@@ -58,7 +59,6 @@ function getSelectors(html, data, paginationArr) {
 			if (paginationObj.depth <= 0) return;
 			// find the pagination link by it's selector
 			var link = document.querySelectorAll(paginationObj.link);
-			console.log('the link', link);
 			// if no element was selected, quit the process, and set depth to 0
 			if (!link.length) return paginationObj.depth = 0;
 			// if no index is given take the first node

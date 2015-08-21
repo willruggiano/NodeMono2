@@ -25,7 +25,6 @@ app.config(($stateProvider) => {
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = $scope.resultTypes[0].name;
 
-
       $scope.route.getCrawlData()
         .then(data => $scope.crawlData.data = data)
 

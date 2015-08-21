@@ -377,6 +377,9 @@ div#pipePreviewContainer {
   width: 100%;
   overflow: auto; }
 
+.data-preview {
+  margin-top: 15px; }
+
 /* PIPE PREVIEW */
 table#pipePreviewTable {
   font-size: 10px;

@@ -7,7 +7,7 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route) => {
+    controller: (DS, $scope, $timeout, user, route, $state) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}
@@ -20,7 +20,9 @@ app.config(($stateProvider) => {
                      { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
-                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
+                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
+      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.activeResultType = $scope.resultTypes[0].name;
 
       $scope.route.getCrawlData()
         .then(data => $scope.crawlData.data = data)
@@ -55,8 +57,19 @@ app.config(($stateProvider) => {
       }
 
 
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
+      //delete route
+      $scope.deleteApi = () => {
+          // console.log(route);
+          route.DSDestroy().then(function(res){
+            if(res){
+              $state.go('profile', { id: user._id });
+            }
+          })
+          .catch(function(err){
+             // console.log(err);
+             $scope.error = err;
+          })
+      }
 
       $scope.setActiveType = (type) =>{
         // console.log($scope.data);
@@ -67,7 +80,7 @@ app.config(($stateProvider) => {
         }
         $scope.activeResultType = type.name;
       }
-      //filter by search text
+      //
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

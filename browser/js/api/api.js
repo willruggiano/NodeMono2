@@ -20,7 +20,7 @@ app.config(($stateProvider) => {
                      { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
-                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
+                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = $scope.resultTypes[0].name;
 
@@ -74,9 +74,9 @@ app.config(($stateProvider) => {
       $scope.setActiveType = (type) =>{
         // console.log($scope.data);
         if(type.name==="JSON"){
-          $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.crawlData.data),true);
         } else if(type.name==="RSS"){
-          $scope.dataPreview = parseXML(interleaveObj($scope.data));
+          $scope.dataPreview = parseXML(interleaveObj($scope.crawlData.data));
         }
         $scope.activeResultType = type.name;
       }

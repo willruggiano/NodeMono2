@@ -4,7 +4,6 @@ app.config(($stateProvider) => {
     templateUrl: 'js/api/data-preview/datapreview.html',
     controller: ($scope, $state) => {
       $scope.search = {}
-
       $scope.editing.crawl = true
       $scope.$watch('crawlData.data', (d) => {
         if (d) {
@@ -35,7 +34,10 @@ app.config(($stateProvider) => {
             return res;
           }
       }
-
+      $scope.copyToClipBoard = () => {
+        // console.log(angular.toJson($scope.data));
+        return angular.toJson($scope.crawlData.data);
+      }
     }
   })
 })

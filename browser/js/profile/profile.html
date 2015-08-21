@@ -35,16 +35,6 @@
 						<button ng-show="showResetWarning" class="btn btn-default btn-xs api-light-button rename-api-button" ng-click="resetApikeyButtonClicked()">Confirm</button>
 						<span ng-show="showResetWarning" class="reset-apikey-warning">Are you sure? You will have to update all references to your API Key in your code.</span>
 					</div>
-
-					<div>
-						<p class="api-key-label">Your Secure Token:</p>
-						<pre ng-hide="showSecureToken" class="api-key show-token"><a ng-click="revealSecureToken()">Show token</a></pre>
-						<pre ng-show="showSecureToken" class="api-key">{{user.securetoken}}</pre>
-						<button ng-hide="showApiKeyResetWarning" class="btn btn-default btn-xs api-light-button rename-api-button" ng-click="showApiKeyResetWarning = true">Reset</button>
-						<button ng-show="showApiKeyResetWarning" class="btn btn-default btn-xs api-light-button rename-api-button" ng-click="showApiKeyResetWarning = false">Cancel</button>
-						<button ng-show="showApiKeyResetWarning" class="btn btn-default btn-xs api-light-button rename-api-button" ng-click="resetSecureToken()">Confirm</button>
-						<span ng-show="showApiKeyResetWarning" class="reset-apikey-warning">Are you sure? You will have to update all references to your Secure Token in your code.</span>
-					</div>
 				</section>
 			</div>
 
@@ -62,7 +52,7 @@
 											<tbody>
 												<tr>
 													<th>Name</th>
-													<th>Pipe Status</th>
+													<th>Last Pipe Status</th>
 													<th>Count</th>
 												</tr>
 												<tr ng-repeat="pipe in pipes">
@@ -92,7 +82,7 @@
 											<tbody>
 												<tr>
 													<th>Name</th>
-													<th>Crawl Status</th>
+													<th>Last Crawl Status</th>
 													<th>Count</th>
 												</tr>
 												<tr ng-repeat="route in routes">

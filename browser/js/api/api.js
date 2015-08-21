@@ -15,6 +15,7 @@ app.config(($stateProvider) => {
       $scope.activetab = null
       $scope.rows
       $scope.dataPreview
+
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
                      { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
                      { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },

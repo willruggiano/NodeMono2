@@ -5,10 +5,10 @@ app.config(($stateProvider) => {
     controller: ($scope) => {
       $scope.search = {};
       $scope.dataFilter = function(){
-          return function(r){
-            if(!$scope.search.text) return true;
-            var res = false;
-            var index = r.index.toString();
+        return function(r){
+          if(!$scope.search.text) return true;
+          var res = false;
+          var index = r.index.toString();
             //construct regex for matching words, can separate by space or comma
             var reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'),'gi');
             //matching index
@@ -24,7 +24,7 @@ app.config(($stateProvider) => {
             });
             return res;
           };
-      };
+        };
 
       // get the data
       $scope.data = [];
@@ -55,6 +55,19 @@ app.config(($stateProvider) => {
           });
         }
       });
+
+      $scope.resultTypes = ["CSV", "RSS", "JSON"];
+      $scope.activeResultType = "CSV";
+
+      $scope.setActiveType = (type) =>{
+        if (type === "JSON") {
+          $scope.dataPreview = $scope.data;
+        } else if (type === "RSS") {
+          // $scope.dataPreview = pipe.parseXML($scope.data);
+          $scope.dataPreview = "sorry, we don't support RSS yet";
+        }
+        $scope.activeResultType = type;
+      };
 
       function isInterleaved (data) {
         // interleaved values will be strings, not arrays

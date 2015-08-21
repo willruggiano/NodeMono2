@@ -34,8 +34,8 @@ app.config(($stateProvider) => {
       $scope.editing = {};
       $scope.activetab = null;
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
-                     { header: 'Pipe Setup', url: 'setup', glyphicon: 'cog' },
-                     { header: 'Pipe History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Setup', url: 'setup', glyphicon: 'cog' },
+                     { header: 'History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }];

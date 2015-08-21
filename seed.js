@@ -126,6 +126,23 @@ var seedDb = function() {
                     depth: '1'
                 }]
             },
+            {
+                name: 'Wyndam Championship',
+                user: activeUser,
+                url: 'http://espn.go.com/golf/leaderboard?tour=pga&tournamentId=2243',
+                data: [{
+                    name: 'player',
+                    selector: '#regular-leaderboard a'
+                },
+                {
+                    name: 'position',
+                    selector: '.sl .textcenter:nth-child(1)'
+                },
+                {
+                    name: 'start',
+                    selector: '.sl .textcenter:nth-child(2)'
+                }]
+            },
             // route from the chrome extension
             {
                "name": "espnNews",
@@ -150,7 +167,7 @@ var seedDb = function() {
                  }
                ],
              }
-            ];
+         ];
 
             return Route.remove().then(function() {
                 return Route.createAsync(newRoutes);

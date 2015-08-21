@@ -32,11 +32,17 @@ body {
   margin: 0 auto;
 }
 
-@import 'directives/main';
-@import 'signup/main';
-@import 'home/main';
-@import 'about/main';
-@import 'login/main';
-@import 'api/main';
-@import 'pipes/main';
+.main-container {
+  padding-top: 50px;
+}
+
+@import "directives/main";
+@import "signup/main";
+@import "home/main";
+@import "about/main";
+@import "login/main";
+@import "api/main";
+@import 'pipe-api/main';
+@import "pipes/main";
 @import "switch/main";
+@import "profile/main";

@@ -7,7 +7,7 @@ html {
 body {
   background: #fdfdfd; }
 
-#about:after, #crawlsetup .strategy-selector .label:after {
+#crawlsetup .strategy-selector .label:after {
   content: "";
   display: table;
   clear: both; }
@@ -18,6 +18,9 @@ body {
   padding-right: 15px;
   padding-left: 15px;
   margin: 0 auto; }
+
+.main-container {
+  padding-top: 50px; }
 
 nodemono-logo {
   display: block;
@@ -92,6 +95,9 @@ navbar {
           color: #E74C3C; }
     navbar .welcome button {
       cursor: pointer; }
+
+.navbar-text {
+  margin-top: 10px; }
 
 .btn-login {
   margin-top: 5px;
@@ -202,18 +208,10 @@ status-bar {
 #main-footer {
   padding-top: 10px !important; }
 
-.main-container {
-  padding-top: 50px; }
-
-#about {
-  width: 90%; }
-  #about p {
-    width: 40%;
-    margin: 0 auto;
-    text-align: justify;
-    font-size: 22px;
-    font-weight: 300;
-    float: left; }
+.about-container {
+  padding-top: 50px;
+  width: 45%;
+  padding-bottom: 250px; }
 
 #signup-container {
   margin-top: 200px;
@@ -375,6 +373,25 @@ table#dataPreviewTable {
   table#dataPreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
 
+div#pipePreviewContainer {
+  width: 100%;
+  overflow: auto; }
+
+/* PIPE PREVIEW */
+table#pipePreviewTable {
+  font-size: 10px;
+  width: 100%; }
+  table#pipePreviewTable td, table#pipePreviewTable th {
+    word-wrap: break-word;
+    max-width: 200px;
+    padding: 4px; }
+  table#pipePreviewTable td.data-column {
+    min-width: 100px; }
+  table#pipePreviewTable td.index-column {
+    min-width: 10px; }
+  table#pipePreviewTable tr:nth-child(even) {
+    background: #e3e3e3; }
+
 /* CRAWL SETUP */
 .btn-crawl-start {
   font-size: 14px; }
@@ -495,6 +512,8 @@ route p {
   border-radius: 0 !important;
   color: #34495e;
   padding: 19px 25px 20px; }
+  .todo-search h6 {
+    font-size: 22px; }
 
 .todo-search:before {
   position: absolute;
@@ -528,3 +547,43 @@ route p {
   position: absolute;
   background: #FFF;
   border-radius: 10px; }
+
+.api-key {
+  display: inline-block;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 12px; }
+
+.api-light-button {
+  font-family: sans-serif;
+  font-weight: 300;
+  color: #ccc;
+  border-color: #eee;
+  line-height: 1.2; }
+
+.rename-api-button {
+  vertical-align: top;
+  margin-top: 13px; }
+
+.api-header p {
+  margin-bottom: 5px; }
+
+.reset-apikey-warning {
+  vertical-align: top; }
+
+.reset-apikey-warning {
+  color: #999;
+  font-weight: 300;
+  margin-left: 5px; }
+
+.api-delete-warning, .account-delete-warning, .reset-apikey-warning {
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: 28px;
+  margin-left: 20px; }
+
+.api-header h1 small {
+  color: #587ca0; }

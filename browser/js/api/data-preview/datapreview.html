@@ -1,4 +1,4 @@
-<div class="row result-view">
+<div class="row result-view" ng-hide='!crawlData.data'>
 	<ul class="nav nav-pills pull-right">
 		<li class="filter" ng-if="activeResultType==='CSV'">
 			<label>Filter</label>
@@ -28,6 +28,6 @@
   </tr>
   <tr ng-repeat='r in rows | filter:dataFilter()'>
     <td>{{ r.index }}</td>
-    <td ng-repeat='header in headers'>{{ data[header][r.index] }}</td>
+    <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
   </tr>
 </table>

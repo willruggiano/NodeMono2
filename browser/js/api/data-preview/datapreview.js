@@ -2,11 +2,19 @@ app.config(($stateProvider) => {
   $stateProvider.state('api.preview', {
     url: '/preview',
     templateUrl: 'js/api/data-preview/datapreview.html',
-    controller: ($scope) => {
+    controller: ($scope, $state) => {
       $scope.search = {}
-      $scope.headers = Object.keys($scope.data)
-      $scope.dataFilter = () => {
-          return (r) => {
+      $scope.editing.crawl = true
+      $scope.$watch('crawlData.data', (d) => {
+        if (d) {
+          $scope.headers = Object.keys(d)
+          $scope.rows = $scope.route.rowCount
+          $scope.editing.crawl = false
+        }
+      })
+
+      $scope.dataFilter = function(){
+          return function(r){
             if(!$scope.search.text) return true;
             var res = false;
             var index = r.index.toString();
@@ -17,8 +25,9 @@ app.config(($stateProvider) => {
               return true;
             }
             //matching data in header
-            $scope.headers.forEach((header) => {
-              if ($scope.data[header][r.index].match(reg)){
+            $scope.headers.forEach(function(header){
+              var elem = $scope.crawlData.data[header][r.index];
+              if (elem && elem.match(reg)){
                 res = true;
               }
             })

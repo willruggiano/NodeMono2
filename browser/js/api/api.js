@@ -61,7 +61,7 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-      
+
       $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
       $scope.activeResultType = "CSV";
 
@@ -70,13 +70,12 @@ app.config(($stateProvider) => {
         if(type.name==="JSON"){
           $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
         } else if(type.name==="RSS"){
-          $scope.dataPreview = route.parseXML(interleaveObj($scope.data));
-          console.log($scope.dataPreview)
+          $scope.dataPreview = parseXML(interleaveObj($scope.data));
         }
         $scope.activeResultType = type.name;
       }
       //filter by search text
-      
+
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {
         // find all keys in the object

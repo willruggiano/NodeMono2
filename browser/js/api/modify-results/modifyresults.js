@@ -22,7 +22,6 @@ app.config(($stateProvider) => {
   // you may manipulate or add to this data as you want
 
   /* YOUR CODE HERE */
-  console.log('running filter function')
 
   return data
 }`

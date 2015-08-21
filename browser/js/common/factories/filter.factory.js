@@ -1,6 +1,6 @@
 app.factory('Filter', (DS, $http) => {
 
-  let Filter = DS.defineResource({
+  const Filter = DS.defineResource({
     name: 'filter',
     endpoint: 'filters',
     // relations: {
@@ -45,4 +45,3 @@ app.factory('Filter', (DS, $http) => {
   return Filter;
 })
 .run(Filter => {});
-

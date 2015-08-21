@@ -509,6 +509,8 @@ route p {
   border-radius: 0 !important;
   color: #34495e;
   padding: 19px 25px 20px; }
+  .todo-search h6 {
+    font-size: 22px; }
 
 .todo-search:before {
   position: absolute;

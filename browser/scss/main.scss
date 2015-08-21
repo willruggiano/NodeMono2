@@ -36,13 +36,13 @@ body {
   padding-top: 50px;
 }
 
-@import 'directives/main';
-@import 'signup/main';
-@import 'home/main';
-@import 'about/main';
-@import 'login/main';
-@import 'api/main';
+@import "directives/main";
+@import "signup/main";
+@import "home/main";
+@import "about/main";
+@import "login/main";
+@import "api/main";
 @import 'pipe-api/main';
-@import 'pipes/main';
-@import 'switch/main';
-@import 'profile/main';
+@import "pipes/main";
+@import "switch/main";
+@import "profile/main";

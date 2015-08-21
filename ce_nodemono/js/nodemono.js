@@ -75,45 +75,79 @@ function startNodemono() {
 				console.log('go here')
 			})
 			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
+
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
 				$scope.currentPagination = {};
 				$scope.inPaginationMode = false;
 
 				$scope.backBtnUrl = chrome.extension.getURL('imgs/back.png');
+				$scope.documentImgUrl = chrome.extension.getURL('imgs/document.png');
 
 				//set up the route object for this webpage
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
+				//data importing test
+				var newRoute = {
+					data: [{
+						attr: undefined,
+						index: 1,
+						name: 'secondTitle',
+						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+					}, {
+						attr: undefined,
+						name: 'all titles',
+						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+					}, {
+						attr: undefined,
+						name: 'subinfo',
+						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD.subtext A"
+					}],
+					pagination: [{
+						depth: '5',
+						index: 1,
+						link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD SPAN.pagetop A"
+					}, {
+						depth: 1,
+						index: 17,
+						link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+					}]
+				}
+
+				$scope.importData = function(route) {
+					$rootScope.apiRoute = route;
+					for (var i = 0; i < route.data.length; i++) {
+						var newButton = createPropButton($scope, route.data[i]);
+						addXButton(newButton, $rootScope);
+						document.getElementById('propButtons').appendChild(newButton)
+					}
+					for (var i = 0; i < route.pagination.length; i++) {
+						var newButton = createPagButton($scope, route.pagination[i]);
+						addXButton(newButton, $rootScope);
+						document.getElementById('pagButtons').appendChild(newButton)
+					}
+				}
+
+				$scope.importData(newRoute);
+
 				//save the pagination
 				$scope.selectedDepth = function() {
 					//get pagination depth
-					$scope.currentPagination['depth'] = document.getElementById('paginationDepthSelector').value
-						//save the pagination
+					$scope.currentPagination['depth'] = parseInt(document.getElementById('paginationDepthSelector').value)
+					document.getElementById('paginationDepthSelector').value = '';
+					//save the pagination
 					if (!$rootScope.apiRoute.pagination) {
 						$rootScope.apiRoute.pagination = [$scope.currentPagination];
 					} else {
 						$rootScope.apiRoute.pagination.push($scope.currentPagination);
 					}
-					console.log($rootScope.apiRoute);
 					//reset dom
 					hideAllElms();
 					hideHighlights($scope);
 
 					//add button
-					var newButton = document.createElement('button');
-					newButton.className = 'show selectorBtn'
-					newButton.style['background-color'] = '#ADD8E6'
-					newButton.dataProp = $scope.currentPagination;
-					newButton.innerHTML = 'P';
-					newButton.addEventListener('click', function(event) {
-						var button = event.target || event.srcElement;
-						hideAllElms();
-						hideHighlights($scope);
-						$scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
-						$scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';
-					})
+					var newButton = createPagButton($scope, $scope.currentPagination)
 					addXButton(newButton, $rootScope);
 					document.getElementById('pagButtons').appendChild(newButton)
 
@@ -122,6 +156,7 @@ function startNodemono() {
 
 				$scope.paginationMode = function() {
 					//toggles the pagination mode
+					document.getElementById('tempOverlay').className = ''
 					hideHighlights($scope);
 					hideAllElms();
 					clearListeners($scope);
@@ -136,6 +171,7 @@ function startNodemono() {
 
 				$scope.doneClicked = function() {
 					$rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay ? false : true;
+					console.log($rootScope.apiRoute);
 				}
 
 				//preview crawl data from selector user choose;
@@ -162,7 +198,7 @@ function startNodemono() {
 					}, 100)
 
 					//allow clicks on webpage
-					$scope.overlay.id = '';
+					$scope.overlay.className = '';
 				}
 
 
@@ -191,14 +227,13 @@ function startNodemono() {
 					}, 100);
 
 					//block clicks on webpage
-					$scope.overlay.id = 'cover';
+					$scope.overlay.className = 'cover';
 				}
 
 				//chose 'All'
 				$scope.allBtnClick = function() {
 					//set currentProperty
 					$scope.currentProperty['selector'] = $scope.selector;
-					$scope.currentProperty['indecies'] = [];
 
 					//change stylings on DOM
 					$scope.targetElement.style['background-color'] = '#ffff00'
@@ -215,7 +250,7 @@ function startNodemono() {
 					}, 100);
 
 					//block all clicks on webpage
-					$scope.overlay.id = 'cover';
+					$scope.overlay.className = 'cover';
 				}
 
 				//chose desired attribute
@@ -246,31 +281,9 @@ function startNodemono() {
 					hideAllElms();
 
 					//allow clicks on webpage
-					$scope.overlay.id = '';
+					$scope.overlay.className = '';
 
-					var newButton = document.createElement('button');
-					newButton.className = 'show selectorBtn'
-					newButton.dataProp = $scope.currentProperty
-					if (newButton.dataProp.index) {
-						newButton.innerHTML = 1;
-					} else {
-						var list = document.querySelectorAll(newButton.dataProp.selector);
-						newButton.innerHTML = list.length;
-					}
-					newButton.addEventListener('click', function(event) {
-						var button = event.target || event.srcElement;
-						hideAllElms();
-						hideHighlights($scope);
-						$scope.matchList = document.querySelectorAll(button.dataProp.selector)
-						var index = button.dataProp.indecies
-						if (index) {
-							$scope.matchList[index].style['background-color'] = '#00ff00';
-						} else {
-							for (var i = 0; i < $scope.matchList.length; i++) {
-								$scope.matchList[i].style['background-color'] = 'yellow';
-							}
-						}
-					})
+					var newButton = createPropButton(scope, data);
 					addXButton(newButton, $rootScope)
 					document.getElementById('propButtons').appendChild(newButton)
 

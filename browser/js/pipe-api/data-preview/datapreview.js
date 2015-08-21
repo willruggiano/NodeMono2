@@ -35,12 +35,18 @@ app.config(($stateProvider) => {
         $scope.data = pipedData;
         // determine its format
         $scope.isInterleaved = isInterleaved(pipedData);
-        // find the number of rows
-        var rowsAndKeys = getRowsAndKeys(pipedData);
+        // find the number of rows and the headers (different for interleaved)
+        var rowsAndKeys = {};
+        if ($scope.isInterleaved) {
+          rowsAndKeys.rows = pipedData.length;
+          rowsAndKeys.headers = pipedData.length ? Object.keys(pipedData[0]) : [];
+        } else {
+          rowsAndKeys = getRowsAndKeys(pipedData);
+        }          
         var n = rowsAndKeys.rows;
         $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
         // put headers in object with index to prevent duplicated in ng-repeat
-        console.log(rowsAndKeys.headers);
+        console.log('the headers', rowsAndKeys.headers);
         if ($scope.isInterleaved) {
           $scope.headers = pipedData && Object.keys(pipedData[0]);
         } else {

@@ -26,6 +26,58 @@ app.config(($stateProvider) => {
           };
       };
 
+      // get the data
+      $scope.data = [];
+      $scope.rows = [];
+      $scope.headers = [];
+      $scope.isInterleaved = false;
+      $scope.pipe.getPipedData().then(pipedData => {
+        $scope.data = pipedData;
+        // determine its format
+        $scope.isInterleaved = isInterleaved(pipedData);
+        // find the number of rows
+        var rowsAndKeys = getRowsAndKeys(pipedData);
+        var n = rowsAndKeys.rows;
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
+        // put headers in object with index to prevent duplicated in ng-repeat
+        console.log(rowsAndKeys.headers);
+        if ($scope.isInterleaved) {
+          $scope.headers = pipedData && Object.keys(pipedData[0]);
+        } else {
+          $scope.headers = rowsAndKeys.headers.map((header, idx) => {
+            return {index: idx, name: header.name, dataIdx: header.dataIdx};
+          });
+        }
+      });
+
+      function isInterleaved (data) {
+        // interleaved values will be strings, not arrays
+        if (data.length) {
+          var key = Object.keys(data[0])[0];
+          if (typeof data[0][key] === 'string') return true;
+        }
+        return false;
+      }
+
+      // gets the length of the longest array in any of the data objects and all property names
+      function getRowsAndKeys(data) {
+        var headers = [];
+        var longestArrInObj = (obj, index) => {
+          var keys = Object.keys(obj);
+          headers = headers.concat(keys.map(key => {return {name: key, dataIdx: index}; }));
+          return keys.reduce((max, key) => {
+            if (obj[key].length > max) return obj[key].length;
+            else return max;
+          }, 0);
+        };
+        var rows = data.reduce((max, pipedObj, idx) => {
+          var longest = longestArrInObj(pipedObj, idx);
+          if (longest > max) return longest;
+          else return max;
+        }, 0);
+        return {headers, rows};
+      }
+
     }
   });
 });

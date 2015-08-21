@@ -13,23 +13,6 @@ app.config(($stateProvider) => {
       $scope.user = user;
       $scope.pipe = pipe;
       $scope.inputs = inputs;
-      // get the data
-      $scope.data = [];
-      $scope.rows = [];
-      $scope.headers = [];
-      pipe.getPipedData().then(pipedData => {
-        $scope.data = pipedData;
-        // find the number of rows
-        var rowsAndKeys = getRowsAndKeys(pipedData);
-        var n = rowsAndKeys.rows;
-        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
-        // put headers in object with index to prevent duplicated in ng-repeat
-        console.log(rowsAndKeys.headers);
-        $scope.headers = rowsAndKeys.headers.map((header, idx) => {
-          return {index: idx, name: header.name, dataIdx: header.dataIdx};
-        });
-      });
-      console.log($scope.data);
       $scope.dataPreview;
       $scope.editing = {};
       $scope.activetab = null;
@@ -39,25 +22,6 @@ app.config(($stateProvider) => {
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
-
-      // gets the length of the longest array in any of the data objects and all property names
-      function getRowsAndKeys(data) {
-        var headers = [];
-        var longestArrInObj = (obj, index) => {
-          var keys = Object.keys(obj);
-          headers = headers.concat(keys.map(key => {return {name: key, dataIdx: index}; }));
-          return keys.reduce((max, key) => {
-            if (obj[key].length > max) return obj[key].length;
-            else return max;
-          }, 0);
-        };
-        var rows = data.reduce((max, pipedObj, idx) => {
-          var longest = longestArrInObj(pipedObj, idx);
-          if (longest > max) return longest;
-          else return max;
-        }, 0);
-        return {headers, rows};
-      }
 
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
@@ -71,8 +35,6 @@ app.config(($stateProvider) => {
 
       if (!$scope.lastRun) $scope.getLastRunStatus();
       if (!$scope.pipeStatus) $scope.getPipeStatus();
-      if (!$scope.rows) $scope.getRowCount();
-      // console.log($scope.rows);
 
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -113,7 +75,6 @@ app.config(($stateProvider) => {
         }
         $scope.activeResultType = type.name;
       };
-      //filter by search text
       
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

@@ -367,6 +367,21 @@ table#dataPreviewTable {
   table#dataPreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
 
+div#pipePreviewContainer {
+  width: 100%;
+  overflow: auto; }
+
+/* PIPE PREVIEW */
+table#pipePreviewTable {
+  font-size: 10px;
+  width: 100%; }
+  table#pipePreviewTable td, table#pipePreviewTable th {
+    word-wrap: break-word;
+    max-width: 200px;
+    padding: 4px; }
+  table#pipePreviewTable tr:nth-child(even) {
+    background: #e3e3e3; }
+
 /* CRAWL SETUP */
 .btn-crawl-start {
   font-size: 14px; }

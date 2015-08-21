@@ -382,6 +382,10 @@ table#pipePreviewTable {
     word-wrap: break-word;
     max-width: 200px;
     padding: 4px; }
+  table#pipePreviewTable td.data-column {
+    min-width: 100px; }
+  table#pipePreviewTable td.index-column {
+    min-width: 10px; }
   table#pipePreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
 

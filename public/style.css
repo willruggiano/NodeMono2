@@ -13,7 +13,7 @@ body {
   clear: both; }
 
 #main {
-  width: 70%;
+  width: 80%;
   padding-top: 40px;
   padding-right: 15px;
   padding-left: 15px;
@@ -40,7 +40,7 @@ navbar {
     navbar .navbar.navbar-static-top {
       height: inherit; }
       navbar .navbar.navbar-static-top .container {
-        width: 70%;
+        width: 80%;
         height: inherit; }
         navbar .navbar.navbar-static-top .container > * {
           box-sizing: border-box;
@@ -282,7 +282,7 @@ status-bar {
 /* GENERAL STYLING */
 #profile {
   padding: 50px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto; }
 
 .btn-nodemono {

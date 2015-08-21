@@ -5,7 +5,7 @@
 			<input class="form-control" ng-model="search.text">
 		</li>
 		<li>
-			<a href="/api/routes/{{user._id}}/{{route.name}}">Download</a>
+			<a target="_self" download="{{route.name}}.txt" href="/api/routes/{{user._id}}/{{route.name}}">Download</a>
 		</li>
 		<li ng-if="activeResultType==='CSV'" ng-class="{active:hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
 			<a clip-copy = "copyToClipBoard()" id="copyToClipBoardBtn">Copy</a>
@@ -23,10 +23,26 @@
 </div>
 <table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
   <tr>
-    <th>index</th>
-    <th ng-repeat='header in headers'>{{ header }}</th>
+    <th>
+    <a  ng-click="orderByField.name='index';reverseSort=!reverseSort" style="cursor:pointer">
+    	index
+    <span ng-if="odbf();orderByField.name==='index'">
+    		<span ng-if="!reverseSort">^</span>
+    		<span ng-if="reverseSort">v</span>
+    </span>
+    </a>
+    </th>
+    <th ng-repeat='header in headers'>
+    <a ng-click="odbf();orderByField.name=header;reverseSort=!reverseSort"style="cursor:pointer">
+    	{{ header }}
+    <span ng-if="orderByField.name===header">
+    		<span ng-if="!reverseSort">^</span>
+    		<span ng-if="reverseSort">v</span>
+    </span>
+    </a>
+    </th>
   </tr>
-  <tr ng-repeat='r in rows | filter:dataFilter()'>
+  <tr ng-repeat="r in rows | filter:dataFilter() |orderBy:sortData">
     <td>{{ r.index }}</td>
     <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
   </tr>

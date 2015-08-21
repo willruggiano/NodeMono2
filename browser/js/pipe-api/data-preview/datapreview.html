@@ -14,14 +14,15 @@
 	<!-- {{dataPreview}} -->
 <textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
 </div>
-<table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
-  <tr>
-    <th>index</th>
-    <pre>{{headers}}</pre>
-    <th ng-repeat='header in headers'>I {{ header.name }}</th>
-  </tr>
-  <tr ng-repeat='r in rows | filter:dataFilter()'>
-    <td>{{ r.index }}</td>
-    <td ng-repeat='header in headers'>{{ data[header.dataIdx][header.name][r.index] }}</td>
-  </tr>
-</table>
+<div id="pipePreviewContainer">
+	<table id='pipePreviewTable' ng-if="activeResultType=='CSV'">
+	  <tr>
+	    <th>index</th>
+	    <th ng-repeat='header in headers'>I {{ header.name }}</th>
+	  </tr>
+	  <tr ng-repeat='r in rows | filter:dataFilter()'>
+	    <td>{{ r.index }}</td>
+	    <td ng-repeat='header in headers'>{{ data[header.dataIdx][header.name][r.index] }}</td>
+	  </tr>
+	</table>
+</div>

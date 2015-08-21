@@ -203,7 +203,8 @@ ul>li{
   -ms-transition: all .1s ease-out;
 }
 
-#cover {
+
+.cover {
   background-color: rgba(1, 1, 1, .2);
   bottom: 0;
   left: 0;
@@ -271,5 +272,8 @@ ul>li{
   margin:0 0;
 }
 
+#pagButtonImg{
+  width: 23px;
+}
 
 

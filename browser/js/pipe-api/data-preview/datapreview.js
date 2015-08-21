@@ -4,7 +4,7 @@ app.config(($stateProvider) => {
     templateUrl: 'js/pipe-api/data-preview/datapreview.html',
     controller: ($scope) => {
       $scope.search = {};
-      $scope.headers = Object.keys($scope.data);
+      // $scope.headers = Object.keys($scope.data);
       $scope.dataFilter = function(){
           return function(r){
             if(!$scope.search.text) return true;

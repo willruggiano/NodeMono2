@@ -1,11 +1,11 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
+    <div class="container navbar-container">
 
         <div class="navbar-header">
-            <nodemono-logo ui-sref='home'></nodemono-logo>
+            <nodemono-logo ui-sref='home' id="navbar-logo" ></nodemono-logo>
+            <button class='btn login-button' id="org-name" ui-sref='home'>nodemono</button>
         </div>
 
-        <button class='btn btn-logo'>nodemono</button>
 
         <div class='nav navbar-right'>
           <button ng-show="!user" ui-sref="login" class="btn btn-primary btn-login">Login</button>
@@ -15,17 +15,28 @@
           </div>
         </div>
 
-        <div class='nav navbar-right divider' ng-show="user" >
+<!--         <div class='nav navbar-right divider' ng-show="user" >
           <span class='glyphicon glyphicon-search' ng-click='toggle()'></span>
-        </div>
+        </div> -->
 
         <div class='nav navbar-right'>
-          <input ng-if='show' ng-enter='search()' class='navbar-form' id="searchbar" type='text' placeholder='search for something...'></input>
+          <input ng-if='show && user' ng-enter='search()' class='form-control' id="searchbar" type='text' placeholder='search for something...'></input>
         </div>
 
         <div class='nav navbar-right'>
           <button
-            ng-if='!show'
+            ng-if='user'
+            ng-repeat='item in userItems'
+            ng-show='!item.auth || isLoggedIn()'
+            ui-sref='{{ item.state }}'
+            class='btn login-button'
+            >{{ item.label }}
+          </button>
+        </div>
+
+        <div class='nav navbar-right'>
+          <button
+            ng-if='!user'
             ng-repeat='item in items'
             ng-show='!item.auth || isLoggedIn()'
             ui-sref='{{ item.state }}'

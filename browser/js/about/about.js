@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AboutController', function ($scope) {
+app.controller('AboutController', function () {
 
     // $scope.images = _.shuffle(something);
 

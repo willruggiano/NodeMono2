@@ -119,13 +119,37 @@ var seedDb = function() {
                 // the "next" button at the bottom of the page
                 pagination: [{
                     link: '.nav-buttons .nextprev a',
-                    limit: '2'
+                    depth: '2'
                 },
                 {
                     link: '.selected+ li .choice',
-                    limit: '1'
+                    depth: '1'
                 }]
-            }
+            },
+            // route from the chrome extension
+            {
+               "name": "espnNews",
+               "user": activeUser,
+               "url": "http://espn.go.com/",
+               "pagination": [
+                 {
+                   "link": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior.has-media.no-thumb DIV.now-content.bloom-content P A",
+                   "index": 0,
+                   "limit": 25,
+                 }
+               ],
+               "data": [
+                 {
+                   "selector": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior.has-media.no-thumb DIV.now-content.bloom-content P",
+                   "name": "['side Story']",
+                 },
+                 {
+                   "selector": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related.no-thumb DIV.text-container DIV.item-info-wrap P",
+                   "index": 2,
+                   "name": "title",
+                 }
+               ],
+             }
             ];
 
             return Route.remove().then(function() {

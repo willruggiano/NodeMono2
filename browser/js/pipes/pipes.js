@@ -29,6 +29,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.pipes = pipes;
 	$scope.customizingFilter = false;
 
+	$scope.right = "right";
+
 	// for displaying errors
 	$scope.error = undefined;
 
@@ -67,6 +69,15 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 		$scope.pipe.inputs.routes = $scope.pipe.inputs.routes.filter(input => input !== route);
 	};
 
+	//add or remove from pipe input
+	$scope.toggleRoute = (route) => {
+		if ($scope.pipe.inputs.routes.indexOf(route) === -1){
+			$scope.selectRoute(route)
+		} else {
+			$scope.deselectRoute(route)
+		}
+	}
+
 	// add route to pipe input
 	$scope.selectPipe = (pipe) => {
 		$scope.pipe.inputs.pipes.push(pipe);
@@ -76,6 +87,15 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.deselectPipe = (pipe) => {
 		$scope.pipe.inputs.pipes = $scope.pipe.inputs.pipes.filter(input => input !== pipe);
 	};
+
+	//add or remove from pipe input
+	$scope.togglePipe = (pipe) => {
+		if ($scope.pipe.inputs.routes.indexOf(pipe) === -1){
+			$scope.selectRoute(pipe)
+		} else {
+			$scope.deselectRoute(pipe)
+		}
+	}
 
 	// add filter to pipeline
 	$scope.selectFilter = (filter) => {
@@ -151,6 +171,4 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 				return err;
 			});
 	};
-
-
 });

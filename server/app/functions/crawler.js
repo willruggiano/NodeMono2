@@ -28,16 +28,9 @@ function getSelectors(html, data, paginationArr) {
 		var output = data.reduce(function(accum, datum) {
 			var selected;
 
-			var selector = datum.selector.split(' ');
-			console.log('=-=-= datum.name', datum.name, 'old length', selector.length);
-			var cutoffLength = 3;
-			if (selector.length > cutoffLength) {
-				selector = selector.slice(selector.length - cutoffLength).join(' ');
-				console.log('=-=-=-= after slice', selector.split(' ').length, selector);
-			} else {
-				console.log('=-=-=-= after slice', selector.length, selector);
-				selector = selector.join(' ');
-			}
+			var selector = datum.selector;
+			// var selector = datum.selector.split(' ');
+			// selector = selector.slice(selector.length - 6).join(' ');
 
 			// console.log('the datum', datum);
 			// if (datum.name === '[\'side Story\']') {

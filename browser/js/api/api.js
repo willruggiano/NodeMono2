@@ -63,8 +63,7 @@ app.config(($stateProvider) => {
         if(type.name==="JSON"){
           $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
         } else if(type.name==="RSS"){
-          $scope.dataPreview = route.parseXML(interleaveObj($scope.data));
-          console.log($scope.dataPreview)
+          $scope.dataPreview = parseXML(interleaveObj($scope.data));
         }
         $scope.activeResultType = type.name;
       }

@@ -5,10 +5,19 @@ app.directive('route', function() {
 		scope: {
 			route: '=',
 			get: '&',
-			select: '&'
+			toggle: '&'
 		},
-		link: function() {
-			
+		link: function(scope) {
+			scope.route.minimized = scope.route.url.slice(8);
+
+			scope.class = "todo";
+
+			scope.changeClass = function(){
+				if (scope.class === "todo")
+					scope.class = "todo-done";
+				else
+					scope.class = "todo";
+				};
 		}
 	};
 });

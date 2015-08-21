@@ -14,7 +14,7 @@ function setUpDom(scope) {
 
   //add the overlay element to the dom
   scope.overlay = document.createElement('div')
-  scope.overlay.id = ''
+  scope.overlay.id = 'tempOverlay'
   scope.overlay.addEventListener("click", function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -63,7 +63,9 @@ function getNodeSelectorString(node) {
   if (node.className) {
     var classes = node.className.split(/\s+/);
     classes.forEach(function(classStr) {
-      classString = classString + '.' + classStr;
+      if (classStr != '') {
+        classString = classString + '.' + classStr;
+      }
     })
   }
 
@@ -133,17 +135,68 @@ function generateAttrButtons(color, scope) {
   console.log(document.getElementById('attrSelectors'))
 }
 
+//_______button generator_______
+function createPropButton(scope, data) {
+  var newButton = document.createElement('button');
+  newButton.className = 'show selectorBtn'
+  newButton.dataProp = data
+  if (newButton.dataProp.index) {
+    newButton.innerHTML = 1;
+  } else {
+    var list = document.querySelectorAll(newButton.dataProp.selector);
+    newButton.innerHTML = list.length;
+  }
+  newButton.addEventListener('click', function(event) {
+    var button = event.target || event.srcElement;
+    hideAllElms();
+    hideHighlights(scope);
+    scope.matchList = document.querySelectorAll(button.dataProp.selector)
+    var index = button.dataProp.index
+    if (index) {
+      scope.matchList[index].style['background-color'] = '#00ff00';
+    } else {
+      for (var i = 0; i < scope.matchList.length; i++) {
+        scope.matchList[i].style['background-color'] = 'yellow';
+      }
+    }
+  })
+  return newButton;
+}
+
+function createPagButton(scope, data) {
+  var newButton = document.createElement('button');
+  newButton.className = 'show selectorBtn'
+  newButton.style['background-color'] = '#ADD8E6'
+  newButton.dataProp = data;
+  newButton.innerHTML = 'P';
+  newButton.addEventListener('click', function(event) {
+    var button = event.target || event.srcElement;
+    hideAllElms();
+    hideHighlights(scope);
+    scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
+    scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';
+  })
+  return newButton;
+}
+
 function addXButton(button, rootScope) {
   var xButton = document.createElement('button');
   xButton.id = 'xButton';
   xButton.innerHTML = 'X'
   button.appendChild(xButton);
   xButton.addEventListener('click', function(event) {
-    button.parentNode.removeChild(button);
-    var index = rootScope.apiRoute.data.indexOf(button.dataProp)
-    rootScope.apiRoute.data.splice(index, 1);
     event.preventDefault();
     event.stopPropagation();
+    button.parentNode.removeChild(button);
+    console.log(rootScope);
+    var index = rootScope.apiRoute.data.indexOf(button.dataProp)
+    if (index != -1) {
+      rootScope.apiRoute.data.splice(index, 1);
+    } else {
+      index = rootScope.apiRoute.pagination.indexOf(button.dataProp)
+      rootScope.apiRoute.pagination.splice(index, 1);
+    }
+
   })
   button.onmouseover = function() {
     xButton.style.opacity = 1;
@@ -160,7 +213,7 @@ function addListeners(typeString, scope) {
   for (var i = 0; i < allEls.length; i++) {
     //add onclick function for all dom elements which blocks default action
     var element = allEls[i];
-    if (isDescendant(document.getElementById('nodemonofy'), element)) {
+    if (isDescendant(document.getElementById('nodemonofy'), element) || element.id === 'tempOverlay') {
       //kill all clicks on toolbar
       element.addEventListener("click", killClick)
     } else {

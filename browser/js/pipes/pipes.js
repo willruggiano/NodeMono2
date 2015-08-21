@@ -29,6 +29,8 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	$scope.pipes = pipes;
 	$scope.customizingFilter = false;
 
+	$scope.right = "right";
+
 	// for displaying errors
 	$scope.error = undefined;
 
@@ -169,6 +171,4 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 				return err;
 			});
 	};
-
-
 });

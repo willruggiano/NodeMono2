@@ -464,6 +464,7 @@ table#dataPreviewTable {
     list-style-type: none; }
 
 #filter-sidebar {
+  float: left;
   border-right: 2px solid #34495E;
   overflow: scroll;
   height: 100vh;
@@ -505,3 +506,25 @@ route p {
   top: 50%;
   left: 92%;
   margin: -0.5em 0 0 -1em; }
+
+.switch {
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background: #bdbdbd;
+  border-radius: 30px;
+  transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -webkit-transition: background-color 0.4s; }
+
+.switch-after {
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  content: '';
+  position: absolute;
+  background: #FFF;
+  border-radius: 10px; }

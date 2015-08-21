@@ -1,0 +1,38 @@
+
+// #checkbox {
+//   display: block;
+//   opacity: 0;
+// }
+.switch {
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  background: rgb(189, 189, 189);
+  border-radius: 30px;
+  
+  transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -webkit-transition: background-color 0.4s;
+}
+
+.switch-after {
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  content: '';
+  position: absolute;
+  background: #FFF;
+  border-radius: 10px;
+}
+
+// input:checked + label {
+//   background: #1abc9c;
+// }
+
+// input:checked + label:after {
+//   left: auto;
+//   right: 0;
+// }

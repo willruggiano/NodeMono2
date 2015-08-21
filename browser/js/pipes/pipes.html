@@ -1,25 +1,26 @@
 <div class="main-container">
 
  	<div class="col-lg-2" id="pipes-sidebar">
-		<div class="todo">
-            <div class="todo-search">
-              <h6> Your API Routes</h6>
-            </div>
+	    <div class="todo">
 
-            <ul ng-repeat="route in routes">
-				<route route="route" toggle="toggleRoute(route)"></route>
-            </ul>
+	        <div class="todo-search">
+	          	<h6> <span class="fui-arrow-right">
+	            </span> Your API Routes</h6>
+	        </div>
 
-            <div class="todo-search">
-              <h6>Your Pipes</h6>
-            </div>
+	        <ul class="ul-disactive" ng-repeat="route in routes">
+	    		<route route="route" toggle="toggleRoute(route)"></route>
+	        </ul>
 
-            <ul ng-repeat="pipe in pipes">
-				<pipe pipe="pipe" toggle="togglePipe(pipe)" get="getPipedData(pipe)"></pipe>
-            </ul>
-        </div>
+	        <div class="todo-search">
+	            <h6> <span class="fui-arrow-right"> Your Pipes</h6>     
+	        </div>
+
+	        <ul ng-repeat="pipe in pipes">
+	    		<pipe pipe="pipe" toggle="togglePipe(pipe)" get="getPipedData(pipe)"></pipe>
+	        </ul>
+	    </div>
 	</div>
-
 
 	<div class="col-lg-8" id="pipes-content">
 		<div class="alert alert-danger" role="alert" ng-if="error">
@@ -34,8 +35,6 @@
 					<p class="lead">"Pipes is a powerful composition tool to aggregate, manipulate, and mashup content from around the web" -Yahoo </p>
 
 					<p>Like Unix pipes, simple commands can be combined together to create output that meets your needs: 1) combine many feeds into one, then sort, filter and translate it.geocode your favorite feeds and browse the items on an interactive map 2) power widgets/badges on your web site 3) grab the output of any Pipes as RSS, JSON, KML, and other formats.
-				
-
 
 					<h3> Pipe Filters</h3>
 					
@@ -76,28 +75,15 @@
 					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
 				</h3>
 				<pre>{{pipe.output | json}}</pre>
-				<!-- <ul>
-					<li ng-repeat="output in pipe.output">
-						<pre>{{output | json}}</pre>
-					</li>
-				</ul> -->
+
 			</div>
 		</div>
 	</div>
 
-	<div class="col-lg-2" id="filter-sidebar">
+	<div class="container col-lg-2" id="filter-sidebar">
 		<h4>Select Filters</h4>
 			<span ng-repeat="filter in filters">
 				<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
 			</span>
 	</div>
-
-
-
-
-
-
-
-
-
-<!-- </div>
+</div>

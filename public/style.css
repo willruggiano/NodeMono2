@@ -539,6 +539,13 @@ route p {
   background: #FFF;
   border-radius: 10px; }
 
+<<<<<<< HEAD
+.user-jumbo {
+  padding-top: 100px; }
+
+.profile-tables a {
+  cursor: pointer; }
+=======
 .api-key {
   display: inline-block;
   margin-bottom: 0px;
@@ -578,3 +585,4 @@ route p {
 
 .api-header h1 small {
   color: #587ca0; }
+>>>>>>> master

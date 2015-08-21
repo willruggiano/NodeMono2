@@ -4,7 +4,6 @@ app.config(($stateProvider) => {
     templateUrl: 'js/pipe-api/data-preview/datapreview.html',
     controller: ($scope) => {
       $scope.search = {};
-      // $scope.headers = Object.keys($scope.data);
       $scope.dataFilter = function(){
           return function(r){
             if(!$scope.search.text) return true;
@@ -18,7 +17,7 @@ app.config(($stateProvider) => {
             }
             //matching data in header
             $scope.headers.forEach(function(header){
-              if ($scope.data[header][r.index].match(reg)){
+              if ($scope.data[header.dataIdx][header.name][r.index].match(reg)){
                 res = true;
               }
             });

@@ -1,7 +1,7 @@
 'use strict';
 window.app = angular.module('NodemonoApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'js-data']);
 
-app.config(function ($urlRouterProvider, $locationProvider, DSProvider, DSHttpAdapterProvider) {
+app.config(function ($urlRouterProvider, $locationProvider, DSProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
@@ -15,7 +15,7 @@ app.config(function ($urlRouterProvider, $locationProvider, DSProvider, DSHttpAd
     // a method to the DSProvider defaults object that automatically
     // checks if there is any data in the cache for a given service before
     // pinging the database
-    DSProvider.defaults.getOrFind = function(service){
+    DSProvider.defaults.getOrFind = function(){
       var data = this.getAll()
       if (data.length) return Promise.resolve(angular.copy(data))
       else return this.findAll().then(data => angular.copy(data))

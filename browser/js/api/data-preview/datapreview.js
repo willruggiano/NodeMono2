@@ -5,8 +5,8 @@ app.config(($stateProvider) => {
     controller: ($scope) => {
       $scope.search = {}
       $scope.headers = Object.keys($scope.data)
-      $scope.dataFilter = function(){
-          return function(r){
+      $scope.dataFilter = () => {
+          return (r) => {
             if(!$scope.search.text) return true;
             var res = false;
             var index = r.index.toString();
@@ -17,7 +17,7 @@ app.config(($stateProvider) => {
               return true;
             }
             //matching data in header
-            $scope.headers.forEach(function(header){
+            $scope.headers.forEach((header) => {
               if ($scope.data[header][r.index].match(reg)){
                 res = true;
               }
@@ -25,7 +25,10 @@ app.config(($stateProvider) => {
             return res;
           }
       }
-
+      $scope.copyToClipBoard = () => {
+        // console.log(angular.toJson($scope.data));
+        return angular.toJson($scope.data);
+      }
     }
   })
 })

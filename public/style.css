@@ -93,20 +93,21 @@ navbar {
     navbar .welcome button {
       cursor: pointer; }
 
-.btn-logo {
-  font-size: 20px !important;
-  float: left;
-  background: none;
-  outline: none !important;
-  color: white;
-  cursor: initial; }
-
 .btn-login {
   margin-top: 5px;
   margin-left: 5px; }
 
 #searchbar {
   margin-top: 4px; }
+
+#org-name {
+  font-size: 20px; }
+
+#navbar-logo {
+  float: left; }
+
+navbar .navbar.navbar-static-top .container {
+  width: 80%; }
 
 .glyphicon-ok {
   font-size: 1em; }

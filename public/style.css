@@ -22,6 +22,9 @@ body {
 .main-container {
   padding-top: 50px; }
 
+.pointer {
+  cursor: pointer; }
+
 nodemono-logo {
   display: block;
   cursor: pointer; }

@@ -57,9 +57,9 @@ var crawl = require('../../app/functions/crawler');
 // returns a promise for the crawled data, also updates crawling statistics
 schema.methods.getCrawlData = function getCrawlData() {
 	var self = this;
-	// remember old pagination limits (weird mongo stuff happening here)
-	var oldLimits = self.pagination.map(function(page) {
-		return page.limit;
+	// remember old pagination depths (weird mongo stuff happening here)
+	var oldDepths = self.pagination.map(function(page) {
+		return page.depth;
 	});
 	return crawl(self)
 		.then(function(crawledData) {
@@ -67,7 +67,7 @@ schema.methods.getCrawlData = function getCrawlData() {
 			self.lastTimeCrawled = Date.now();
 			self.lastCrawlSucceeded = true;
 			self.count++;
-			if (!self.pagesCrawled) self.pagesCrawled = 1 + oldLimits.reduce(function(sum, x) {return sum + x; }, 0);
+			if (!self.pagesCrawled) self.pagesCrawled = 1 + oldDepths.reduce(function(sum, x) {return sum + x; }, 0);
 			self.save();
 			return crawledData;
 		})
@@ -80,9 +80,9 @@ schema.methods.getCrawlData = function getCrawlData() {
 			return err;
 		})
 		.finally(function() {
-			// reset limits to original values - get overwritten through pagination
+			// reset depths to original values - get overwritten through pagination
 			self.pagination.forEach(function(page, idx) {
-				page.limit = oldLimits[idx];
+				page.depth = oldDepths[idx];
 			});
 		});
 };

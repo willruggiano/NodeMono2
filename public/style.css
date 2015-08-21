@@ -520,3 +520,9 @@ route p {
   position: absolute;
   background: #FFF;
   border-radius: 10px; }
+
+.user-jumbo {
+  padding-top: 100px; }
+
+.profile-tables a {
+  cursor: pointer; }

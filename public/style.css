@@ -505,6 +505,8 @@ route p {
   border-radius: 0 !important;
   color: #34495e;
   padding: 19px 25px 20px; }
+  .todo-search h6 {
+    font-size: 22px; }
 
 .todo-search:before {
   position: absolute;
@@ -539,13 +541,6 @@ route p {
   background: #FFF;
   border-radius: 10px; }
 
-<<<<<<< HEAD
-.user-jumbo {
-  padding-top: 100px; }
-
-.profile-tables a {
-  cursor: pointer; }
-=======
 .api-key {
   display: inline-block;
   margin-bottom: 0px;
@@ -585,4 +580,3 @@ route p {
 
 .api-header h1 small {
   color: #587ca0; }
->>>>>>> master

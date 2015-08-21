@@ -36,17 +36,12 @@ body {
   padding-top: 50px
 }
 
-@import 'directives/main';
-@import 'signup/main';
-@import 'home/main';
-@import 'about/main';
-@import 'login/main';
-@import 'api/main';
-@import 'pipes/main';
-<<<<<<< HEAD
+@import "directives/main";
+@import "signup/main";
+@import "home/main";
+@import "about/main";
+@import "login/main";
+@import "api/main";
+@import "pipes/main";
 @import "switch/main";
 @import "profile/main";
-=======
-@import 'switch/main';
-@import 'profile/main';
->>>>>>> master

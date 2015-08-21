@@ -7,7 +7,7 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, data, $state) => {
+    controller: (DS, $scope, $timeout, user, route, $state) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}
@@ -75,9 +75,9 @@ app.config(($stateProvider) => {
       $scope.setActiveType = (type) =>{
         // console.log($scope.data);
         if(type.name==="JSON"){
-          $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.crawlData.data),true);
         } else if(type.name==="RSS"){
-          $scope.dataPreview = parseXML(interleaveObj($scope.data));
+          $scope.dataPreview = parseXML(interleaveObj($scope.crawlData.data));
         }
         $scope.activeResultType = type.name;
       }

@@ -36,7 +36,7 @@ app.config(($stateProvider) => {
       }
       $scope.copyToClipBoard = () => {
         // console.log(angular.toJson($scope.data));
-        return angular.toJson($scope.data);
+        return angular.toJson($scope.crawlData.data);
       }
     }
   })

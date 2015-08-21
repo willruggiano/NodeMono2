@@ -5,13 +5,12 @@ app.config(($stateProvider) => {
     templateUrl: 'js/api/api.html',
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      data: (route) => route.getCrawlData()
+      route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, data) => {
+    controller: (DS, $scope, $timeout, user, route) => {
       $scope.user = user
       $scope.route = route
-      $scope.data = data[0]
+      $scope.data
       $scope.dataPreview;
       $scope.editing = {}
       $scope.activetab = null

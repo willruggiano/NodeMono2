@@ -54,10 +54,12 @@ function getSelectors(html, data, paginationArr) {
 		var nextLinks = [];
 		// collect the pagination links (add them to queue)
 		paginationArr.forEach(function(paginationObj) {
-			// check to see if the limit has been reached
-			if (paginationObj.limit <= 0) return;
+			// check to see if the depth has been reached
+			if (paginationObj.depth <= 0) return;
 			// find the pagination link by it's selector
 			var link = document.querySelectorAll(paginationObj.link);
+			// if no link is found, quit the process, and set depth to 0
+			if (!link.length) return paginationObj.depth = 0;
 			// if no index is given take the first node
 			if (typeof paginationObj.index === 'undefined') link = link[0];
 			else link = link[paginationObj.index];
@@ -65,8 +67,8 @@ function getSelectors(html, data, paginationArr) {
 			link = link.getAttribute('href');
 			// add to queue of links
 			nextLinks.push(link);
-			// subtract one from the limit (to prevent infinite pagination)
-			paginationObj.limit -= 1;
+			// subtract one from the depth (to prevent infinite pagination)
+			paginationObj.depth -= 1;
 		});
 
 		var promiseArray = [];

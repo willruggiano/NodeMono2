@@ -1,5 +1,0 @@
-// app.directive('copyclipboard',()=>{
-// 	return {
-		
-// 	}
-// })

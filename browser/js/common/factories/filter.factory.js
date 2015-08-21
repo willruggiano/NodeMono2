@@ -1,6 +1,6 @@
 app.factory('Filter', (DS, $http) => {
 
-  const Filter = DS.defineResource({
+  const FILTER = DS.defineResource({
     name: 'filter',
     endpoint: 'filters',
     // relations: {
@@ -36,7 +36,7 @@ app.factory('Filter', (DS, $http) => {
   });
 
   // this is probably not best practices --
-  Filter.saveFilter = (filter) => {
+  FILTER.saveFilter = (filter) => {
     console.log('saving ', _.omit(filter, '_id'));
     return $http.post('/api/filters', _.omit(filter, '_id'))
       .then(res => res.data);

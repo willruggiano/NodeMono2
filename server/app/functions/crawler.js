@@ -58,8 +58,8 @@ function getSelectors(html, data, paginationArr) {
 			if (paginationObj.limit <= 0) return;
 			// find the pagination link by it's selector
 			var link = document.querySelectorAll(paginationObj.link);
-			// if no link is found, quit the process
-			if (!link) return;
+			// if no link is found, quit the process, and set limit to 0
+			if (!link.length) return paginationObj.limit = 0;
 			// if no index is given take the first node
 			if (typeof paginationObj.index === 'undefined') link = link[0];
 			else link = link[paginationObj.index];

@@ -184,6 +184,14 @@ table#pipePreviewTable {
     padding: 4px;
   }
 
+  td.data-column {
+    min-width: 100px;
+  }
+
+  td.index-column {
+    min-width: 10px;
+  }
+
   tr {
     
     &:nth-child(even) {

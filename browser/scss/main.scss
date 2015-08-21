@@ -33,7 +33,7 @@ body {
 }
 
 .main-container {
-  padding-top: 50px
+  padding-top: 50px;
 }
 
 @import 'directives/main';
@@ -42,11 +42,7 @@ body {
 @import 'about/main';
 @import 'login/main';
 @import 'api/main';
+@import 'pipe-api/main';
 @import 'pipes/main';
-<<<<<<< HEAD
-@import "switch/main";
-@import "profile/main";
-=======
 @import 'switch/main';
 @import 'profile/main';
->>>>>>> master

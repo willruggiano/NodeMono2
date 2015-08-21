@@ -435,8 +435,7 @@ table#dataPreviewTable {
 
 .textareaPreview {
   height: 50em;
-  width: 80em;
-  margin-left: 10%; }
+  width: 100%; }
 
 .filter {
   margin-top: 3px;

@@ -90,10 +90,10 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 
 	//add or remove from pipe input
 	$scope.togglePipe = (pipe) => {
-		if ($scope.pipe.inputs.routes.indexOf(pipe) === -1){
-			$scope.selectRoute(pipe)
+		if ($scope.pipe.inputs.pipes.indexOf(pipe) === -1){
+			$scope.selectPipe(pipe)
 		} else {
-			$scope.deselectRoute(pipe)
+			$scope.deselectPipe(pipe)
 		}
 	}
 

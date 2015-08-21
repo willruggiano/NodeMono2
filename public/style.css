@@ -460,6 +460,16 @@ table#pipePreviewTable {
   display: inline-block !important;
   width: 50%; }
 
+.bootstrap-tagsinput {
+  float: left; }
+
+.tagsinput-primary {
+  margin-bottom: 18px; }
+
+.tag {
+  color: #fff;
+  background-color: #1abc9c; }
+
 #pipes-sidebar {
   padding-top: 60px;
   padding-left: 0;

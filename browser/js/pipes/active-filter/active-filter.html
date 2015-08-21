@@ -1,6 +1,8 @@
 <p>
-	<span>Name: {{filter.name}}</span>
-	<a class="btn btn-xs btn-danger" ng-click="deselect({filter: filter})">X</a>
+	<span class="tag label label-info">
+		{{filter.name}}
+	</span> 
+	<!-- <a class="btn btn-xs btn-danger" ng-click="deselect({filter: filter})">X</a> -->
 	<a class="btn btn-xs btn-warning" ng-click="toggleCustomize()">Edit</a>
 </p>
 <p>Description: {{filter.description}}</p>

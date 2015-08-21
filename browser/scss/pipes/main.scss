@@ -1,3 +1,17 @@
+.bootstrap-tagsinput{
+	float: left;
+}
+
+.tagsinput-primary {
+    margin-bottom: 18px;
+}
+
+.tag {
+	color: #fff;
+    background-color: #1abc9c;
+
+}
+
 #pipes-sidebar{
 	padding-top: 60px;
 	padding-left: 0;
@@ -33,6 +47,7 @@
 	overflow: scroll;
 	height: 100vh;
 }
+
 
 route{
 	#name{

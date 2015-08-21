@@ -25,48 +25,68 @@
 	<div class="col-lg-8" id="pipes-content">
 		<div class="alert alert-danger" role="alert" ng-if="error">
 			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-			<span>Status: {{error.status}} -- {{error.data}}</span>
+			<span> Don't forget to name your pipe! </span>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-12" id="pipesCanvas">
-					
 				<h2>Pipes Canvas</h2>
-				<h3>Select Filters <a class="btn btn-warning" ng-click="toggleCustomFilter()">Custom Filter</a></h3>
-				<div ng-if="customizingFilter">
-					<custom-filter-form></custom-filter-form>
-				</div>
+				<hr>
+			</div>
+
+			<div class="col-sm-12">
+				<h5>1) Name your new pipe: </h5>
+				<input type="text" placeholder="Write name..." class="form-control input-hg flat" ng-model="pipe.name" />
+
+				<!-- should be showing the pipes -->
+				<h5>2) Select your Routes: </h5>
+
+					<div class="tagsinput-primary">
+						<div class="bootstrap-tagsinput" ng-repeat="route in pipe.inputs.routes">
+							<span class="tag label label-info">
+								{{route.name}}
+							</span> 
+						</div>
+	          		</div>
+
+          		<br>
+
+				<!-- should be showing the routes -->
+          		<h5>3) Select your routes: </h5>
+	          		<div class="tagsinput-primary">
+						<div class="bootstrap-tagsinput" ng-repeat="pipe in pipe.inputs.pipes">
+							<span class="tag label label-info">
+								{{pipe.name}}
+							</span> 
+						</div>
+	          		</div>
+	          	<br>
 
 			</div>
+			
 			<div class="col-sm-12">
-				<h3>Pipe name: <input ng-model="pipe.name"></h3>
-				<h3>Inputs (pipes and routes): </h3>
-				<ul>
-					<li ng-repeat="route in pipe.inputs.routes">
-						Name: {{route.name}}
-						<a class="btn btn-xs btn-danger" ng-click="deselectRoute(route)">X</a>
-					</li>
-				</ul>
-				<ul>
-					<li ng-repeat="pipe in pipe.inputs.pipes">
-						Name: {{pipe.name}}
-						<a class="btn btn-xs btn-danger" ng-click="deselectPipe(pipe)">X</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-sm-12">
-				<h3>Filters: </h3>
+				<h5>4) Filters: </h5>
+	          		<div class="tagsinput-primary">
+						<div class="bootstrap-tagsinput" ng-repeat="filter in pipe.filters">
+							<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
+						</div>
+	          		</div>
+	          	<br>
+
+<!-- 
+
 				<ul>
 					<li ng-repeat="filter in pipe.filters">
 						<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
 					</li>
-				</ul>
+				</ul> -->
 			</div>
+
 			<div class="col-sm-12">
-				<h3>Output: 
+				<h5>5) Profit: 
 					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
 					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
-				</h3>
+				</h5>
 				<pre>{{pipe.output | json}}</pre>
 
 			</div>
@@ -75,6 +95,10 @@
 
 	<div class="container col-lg-2" id="filter-sidebar">
 		<h4>Select Filters</h4>
+			<a class="btn btn-warning" ng-click="toggleCustomFilter()"><span class="fui-plus"> Custom Filter</a>
+			<div ng-if="customizingFilter">
+				<custom-filter-form></custom-filter-form>
+			</div>
 			<span ng-repeat="filter in filters">
 				<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
 			</span>

@@ -5,7 +5,7 @@
 			<input class="form-control" ng-model="search.text">
 		</li>
 		<li>
-			<a href="/api/routes/{{user._id}}/{{route.name}}">Download</a>
+			<a target="_self" download="{{route.name}}.txt" href="/api/routes/{{user._id}}/{{route.name}}">Download</a>
 		</li>
 		<li ng-if="activeResultType==='CSV'" ng-class="{active:hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
 			<a clip-copy = "copyToClipBoard()" id="copyToClipBoardBtn">Copy</a>

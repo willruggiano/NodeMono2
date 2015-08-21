@@ -32,6 +32,10 @@ body {
   margin: 0 auto;
 }
 
+.main-container {
+  padding-top: 50px
+}
+
 @import 'directives/main';
 @import 'signup/main';
 @import 'home/main';
@@ -39,4 +43,10 @@ body {
 @import 'login/main';
 @import 'api/main';
 @import 'pipes/main';
+<<<<<<< HEAD
 @import "switch/main";
+@import "profile/main";
+=======
+@import 'switch/main';
+@import 'profile/main';
+>>>>>>> master

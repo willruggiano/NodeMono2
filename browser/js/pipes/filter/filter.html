@@ -1,7 +1,5 @@
 <div>
-	<span>Name: {{filter.name}}</span>
-	<a class="btn btn-default" ng-click="select({filter: filter})">Select filter</a>
-	<p>Url: {{filter.url}}</p>
-	<p>Parameters: <span ng-repeat="param in filter.parameters">{{param}} </span></p>
-	<!-- <pre>{{filter | json}}</pre> -->
+	<input type="checkbox" ng-click="select({filter: filter})" name="default-switch" id="switch-01" />
+
+	<span col-lg-6>{{filter.name}}</span>
 </div>

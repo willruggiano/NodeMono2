@@ -5,10 +5,17 @@ app.directive('pipe', function() {
 		scope: {
 			pipe: '=',
 			get: '&',
-			select: '&'
+			toggle: '&'
 		},
-		link: function() {
-			
+		link: function(scope) {
+			scope.class = "todo";
+
+			scope.changeClass = function(){
+				if (scope.class === "todo")
+					scope.class = "todo-done";
+				else
+					scope.class = "todo";
+				};
 		}
 	};
 });

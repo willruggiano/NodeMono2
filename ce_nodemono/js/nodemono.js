@@ -74,7 +74,7 @@ function startNodemono() {
 			.controller('NodemonoMainCtrl', function($scope) {
 				console.log('go here')
 			})
-			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope) {
+			.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope, Session, AuthService, AUTH_EVENTS, $http) {
 
 				$rootScope.showCollectionOverlay = false;
 				$scope.currentProperty = {};
@@ -88,33 +88,71 @@ function startNodemono() {
 				$rootScope.apiRoute = {};
 				$rootScope.apiRoute.data = [];
 
-				//data importing test
-				var newRoute = {
-					data: [{
-						attr: undefined,
-						index: 1,
-						name: 'secondTitle',
-						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-					}, {
-						attr: undefined,
-						name: 'all titles',
-						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-					}, {
-						attr: undefined,
-						name: 'subinfo',
-						selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD.subtext A"
-					}],
-					pagination: [{
-						depth: '5',
-						index: 1,
-						link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD SPAN.pagetop A"
-					}, {
-						depth: 1,
-						index: 17,
-						link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-					}]
-				}
+				//see if user has this
+				AuthService.getLoggedInUser()
+				$rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+					$http({
+							url: '/api/routes/',
+							method: "GET",
+							params: {
+								user: Session.user._id
+							}
+						})
+						.then(function(res) {
+							var routes = res.data;
+							routes = routes.filter(function(route) {
+									return window.location.href == route.url
 
+								})
+								//user has a route at this page
+							if (routes.length > 0) {
+								var routeList = routes.reduce(function(prev, route) {
+									return prev + '\n' + route.name
+								}, '')
+								var choice = prompt('Choose a route to load, or press cancel to make a new route for this page.' + routeList, '');
+								if (choice != null) {
+									var singleRouteArr = routes.filter(function(route) {
+										return route.name === choice;
+									})
+									if (singleRouteArr.length > 0) {
+										$scope.importData(singleRouteArr[0])
+									} else {
+										alert('You misspelled the route name. Go to "load route" to try again.')
+									}
+								}
+
+							}
+
+						})
+				});
+
+
+				// //data importing test
+				// var newRoute = {
+				// 	data: [{
+				// 		attr: undefined,
+				// 		index: 1,
+				// 		name: 'secondTitle',
+				// 		selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+				// 	}, {
+				// 		attr: undefined,
+				// 		name: 'all titles',
+				// 		selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+				// 	}, {
+				// 		attr: undefined,
+				// 		name: 'subinfo',
+				// 		selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD.subtext A"
+				// 	}],
+				// 	pagination: [{
+				// 		depth: '5',
+				// 		index: 1,
+				// 		link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD SPAN.pagetop A"
+				// 	}, {
+				// 		depth: 1,
+				// 		index: 17,
+				// 		link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
+				// 	}]
+				// }
 				$scope.importData = function(route) {
 					$rootScope.apiRoute = route;
 					for (var i = 0; i < route.data.length; i++) {
@@ -128,8 +166,6 @@ function startNodemono() {
 						document.getElementById('pagButtons').appendChild(newButton)
 					}
 				}
-
-				$scope.importData(newRoute);
 
 				//save the pagination
 				$scope.selectedDepth = function() {
@@ -271,7 +307,7 @@ function startNodemono() {
 
 					//save the property to this route
 					$rootScope.apiRoute.data.push($scope.currentProperty);
-					console.log($rootScope.apiRoute);
+
 					//reset the DOM
 
 					//change stylings on DOM
@@ -283,7 +319,7 @@ function startNodemono() {
 					//allow clicks on webpage
 					$scope.overlay.className = '';
 
-					var newButton = createPropButton(scope, data);
+					var newButton = createPropButton($scope, $scope.currentProperty);
 					addXButton(newButton, $rootScope)
 					document.getElementById('propButtons').appendChild(newButton)
 

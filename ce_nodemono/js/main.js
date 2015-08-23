@@ -149,6 +149,7 @@ function createPropButton(scope, data) {
   newButton.addEventListener('click', function(event) {
     var button = event.target || event.srcElement;
     hideAllElms();
+    scope.overlay.className = ''
     hideHighlights(scope);
     scope.matchList = document.querySelectorAll(button.dataProp.selector)
     var index = button.dataProp.index
@@ -172,6 +173,7 @@ function createPagButton(scope, data) {
   newButton.addEventListener('click', function(event) {
     var button = event.target || event.srcElement;
     hideAllElms();
+    scope.overlay.className = ''
     hideHighlights(scope);
     scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
     scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';

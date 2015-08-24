@@ -35,54 +35,115 @@
 			</div>
 
 			<div class="col-sm-12">
-				<h5>1) Name your new pipe: </h5>
+
+				<h5> Name your pipe: </h5>
 				<input type="text" placeholder="Write name..." class="form-control input-hg flat" ng-model="pipe.name" />
+				<hr>
 
-				<!-- should be showing the pipes -->
-				<h5>2) Select your Routes: </h5>
+			<!-- table for Routes -->
+					<p class="lead">Routes</p>
+					<table class="table table-striped table-condensed">
+						<tbody>
+							<tr>
+								<th>Name</th>
+								<th>Last Crawl Status</th>
+								<th>Count</th>
+							</tr>
 
-					<div class="tagsinput-primary">
-						<div class="bootstrap-tagsinput" ng-repeat="route in pipe.inputs.routes">
-							<span class="tag label label-info">
-								{{route.name}}
-							</span> 
-						</div>
-	          		</div>
+							<tr ng-if="pipe.inputs.routes.length > 0">
+								<td>example route...</td>
+								<td>Last Crawl Status</td>
+								<td>Count</td>
+							</tr>
+
+							<tr ng-repeat="route in pipe.inputs.routes">
+								<td>
+									<a ng-click="route.go(user._id)">{{route.name}}</a></td>
+								<td>
+						            <span
+						              id='nm-status'
+						              ng-show='!editing.crawl'
+						              ng-class="route.lastCrawlSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
+						            </span>
+						            <span ng-model='crawlStatus'>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
+					          </td>
+					          <td>{{route.count}}</td>
+							</tr>
+						</tbody>
+					</table>
 
           		<br>
 
-				<!-- should be showing the routes -->
-          		<h5>3) Select your routes: </h5>
-	          		<div class="tagsinput-primary">
-						<div class="bootstrap-tagsinput" ng-repeat="pipe in pipe.inputs.pipes">
-							<span class="tag label label-info">
-								{{pipe.name}}
-							</span> 
-						</div>
-	          		</div>
+		 	<!-- table for Pipes -->
+          		<h5>3) Select your pipes: </h5>
+	          		<table class="table table-striped table-condensed">
+						<tbody>
+							<tr ng-if="pipe.inputs.pipes.length > 0">
+								<th>Name</th>
+								<th>Last time Piped</th>
+								<th>Count</th>
+							</tr>
+							<tr ng-repeat="pipe in pipe.inputs.pipes">
+								<td>
+									<a ng-click="pipe.go(user._id)">{{pipe.name}}</a>
+								</td>
+								<td>
+						            <span
+						              id='nm-status'
+						              ng-show='!editing.crawl'
+						              ng-class="pipe.lastPipeSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
+						            </span>
+						            <span ng-model='pipeStatus'>{{ pipeStatus }} ({{ pipe.lastTimePiped | date : 'short' }})</span>
+					          </td>
+					          <td>{{pipe.count}}</td>
+							</tr>
+						</tbody>
+					</table>
 	          	<br>
 
-			</div>
-			
-			<div class="col-sm-12">
+			<!-- table for filters -->
+				
 				<h5>4) Filters: </h5>
-	          		<div class="tagsinput-primary">
-						<div class="bootstrap-tagsinput" ng-repeat="filter in pipe.filters">
-							<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
-						</div>
-	          		</div>
-	          	<br>
+					<table class="table table-striped table-condensed">
+						<tbody>
+							<tr>
+								<th>Name of filter</th>
+								<th>Description</th>
+								<th>Parameters</th>
+								<th>Edit Filter</th>
+							</tr>
+							<tr ng-repeat="filter in pipe.filters">
+								<td>
+									{{filter.name}}
+								</td>
+								<td>
+									{{filter.description}}
+					          	</td>
+					          	<td>
+					          		<span ng-repeat="param in filter.parameters">{{param}}</span> 
+					          	</td>
+					          	<td>
+					          		
+					          	</td>
+							</tr>
+						</tbody>
+					</table>
+				<br>
+				
+			</div>
 
-<!-- 
-
+<!-- 			<div class="col-sm-12">
+				<h3>Filters: </h3>
 				<ul>
 					<li ng-repeat="filter in pipe.filters">
 						<active-filter filter="filter" deselect="deselectFilter(filter)" save="saveFilter(filter)"></active-filter>
 					</li>
-				</ul> -->
-			</div>
-
+				</ul>
+			</div>  -->
+		
+			<br>
 			<div class="col-sm-12">
+
 				<h5>5) Profit: 
 					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
 					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
@@ -95,12 +156,8 @@
 
 	<div class="container col-lg-2" id="filter-sidebar">
 		<h4>Select Filters</h4>
-			<a class="btn btn-warning" ng-click="toggleCustomFilter()"><span class="fui-plus"> Custom Filter</a>
-			<div ng-if="customizingFilter">
-				<custom-filter-form></custom-filter-form>
-			</div>
 			<span ng-repeat="filter in filters">
-				<filter filter="filter" select="selectFilter(filter)" active="false"></filter>
+				<filter filter="filter" select="toggleFilter(filter)" active="false"></filter>
 			</span>
 	</div>
 </div>

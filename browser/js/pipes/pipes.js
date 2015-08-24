@@ -108,6 +108,15 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
 	};
 
+	$scope.toggleFilter = (filter) => {
+		if ($scope.pipe.filters.indexOf(filter) === -1){
+			$scope.selectFilter(filter)
+		} else {
+			$scope.deselectFilter(filter)
+		}
+	};
+
+
 	// toggle showing custom filter form
 	$scope.toggleCustomFilter = () => {
 		$scope.customizingFilter = !$scope.customizingFilter;

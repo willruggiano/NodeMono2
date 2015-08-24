@@ -7,52 +7,12 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $http) => {
+    controller: (DS, $scope, $timeout, user, route, $state, Route, $http) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}
       $scope.editing = {}
       $scope.activetab = null
-      $scope.tabs = [{
-        header: 'Data Preview',
-        url: 'preview',
-        glyphicon: 'equalizer'
-      }, {
-        header: 'Crawl Setup',
-        url: 'setup',
-        glyphicon: 'cog'
-      }, {
-        header: 'Crawl History',
-        url: 'history',
-        glyphicon: 'calendar'
-      }, {
-        header: 'Modify Results',
-        url: 'modify',
-        glyphicon: 'wrench'
-      }, {
-        header: 'Use Data',
-        url: 'use',
-        glyphicon: 'circle-arrow-down'
-      }, {
-        header: 'API Docs',
-        url: 'docs',
-        glyphicon: 'file'
-      }]
-
-      $scope.getRowCount = () => {
-          let n = 0
-          for (let key in $scope.data) {
-            let l = $scope.data[key].length
-            if (l > n) n = l
-          }
-          $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) {
-            return {
-              index: i
-            }
-          })
-        }
-        // make sure row count gets initialized
-      if (!$scope.rows) $scope.getRowCount()
       $scope.rows
       $scope.dataPreview
 
@@ -91,6 +51,21 @@ app.config(($stateProvider) => {
         index: 3,
         name: "JSON"
       }];
+      
+      $scope.getRowCount = () => {
+          let n = 0
+          for (let key in $scope.data) {
+            let l = $scope.data[key].length
+            if (l > n) n = l
+          }
+          $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) {
+            return {
+              index: i
+            }
+          })
+        }
+        // make sure row count gets initialized
+      if (!$scope.rows) $scope.getRowCount()
       $scope.activeResultType = $scope.resultTypes[0].name;
 
       $scope.route.getCrawlData()
@@ -124,7 +99,20 @@ app.config(($stateProvider) => {
           $scope.editing[id] = !$scope.editing[id]
         }, 0)
       }
-
+      //clone route
+      $scope.cloneRoute = () => {
+        var cloneRoute = _.omit($scope.route,'_id')
+        var num = Number(cloneRoute.name[cloneRoute.name.length-1]);
+        cloneRoute.name = cloneRoute.name + '_clone' + (Math.floor(Math.random()*10000));
+        Route.create(cloneRoute)
+             .then(route => {
+                $scope.route = route;
+                // $state.go('profile', { id: route.user });
+             })
+             .catch((e) => {
+                console.log(`something wrong ${e}`);
+             })
+      }
       $scope.editRoute = function() {
         if (typeof chrome != 'undefined') {
           var extensionId = 'kiemjmljpgjkgkpnkbhoilbmickfeckk'
@@ -143,30 +131,6 @@ app.config(($stateProvider) => {
           //err: not using chrome
         }
       }
-
-
-      $scope.resultTypes = [{
-        index: 1,
-        name: "CSV"
-      }, {
-        index: 2,
-        name: "RSS"
-      }, {
-        index: 3,
-        name: "JSON"
-      }];
-      $scope.activeResultType = "CSV";
-
-      $scope.setActiveType = (type) => {
-          // console.log($scope.data);
-          if (type.name === "JSON") {
-            $scope.dataPreview = angular.toJson(interleaveObj($scope.data), true);
-          } else if (type.name === "RSS") {
-            $scope.dataPreview = parseXML(interleaveObj($scope.data));
-          }
-          $scope.activeResultType = type.name;
-        }
-        //filter by search text
         //delete route
       $scope.deleteApi = () => {
         // console.log(route);
@@ -178,7 +142,6 @@ app.config(($stateProvider) => {
             }
           })
           .catch(function(err) {
-            // console.log(err);
             $scope.error = err;
           })
       }

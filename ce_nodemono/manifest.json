@@ -24,7 +24,8 @@
     "template/*",
     "css/style.css",
     "selectorgadget/*",
-    "*"
+    "*",
+    "imgs/back.png"
   ],
   "permissions": [
     "tabs",

@@ -7,22 +7,90 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $state) => {
+    controller: (DS, $scope, $timeout, user, route, data, $http) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}
       $scope.editing = {}
       $scope.activetab = null
+      $scope.tabs = [{
+        header: 'Data Preview',
+        url: 'preview',
+        glyphicon: 'equalizer'
+      }, {
+        header: 'Crawl Setup',
+        url: 'setup',
+        glyphicon: 'cog'
+      }, {
+        header: 'Crawl History',
+        url: 'history',
+        glyphicon: 'calendar'
+      }, {
+        header: 'Modify Results',
+        url: 'modify',
+        glyphicon: 'wrench'
+      }, {
+        header: 'Use Data',
+        url: 'use',
+        glyphicon: 'circle-arrow-down'
+      }, {
+        header: 'API Docs',
+        url: 'docs',
+        glyphicon: 'file'
+      }]
+
+      $scope.getRowCount = () => {
+          let n = 0
+          for (let key in $scope.data) {
+            let l = $scope.data[key].length
+            if (l > n) n = l
+          }
+          $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) {
+            return {
+              index: i
+            }
+          })
+        }
+        // make sure row count gets initialized
+      if (!$scope.rows) $scope.getRowCount()
       $scope.rows
       $scope.dataPreview
 
-      $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
-                     { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
-                     { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
-                     { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
-                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
-                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
+      $scope.tabs = [{
+        header: 'Data Preview',
+        url: 'preview',
+        glyphicon: 'equalizer'
+      }, {
+        header: 'Crawl Setup',
+        url: 'setup',
+        glyphicon: 'cog'
+      }, {
+        header: 'Crawl History',
+        url: 'history',
+        glyphicon: 'calendar'
+      }, {
+        header: 'Modify Results',
+        url: 'modify',
+        glyphicon: 'wrench'
+      }, {
+        header: 'Use Data',
+        url: 'use',
+        glyphicon: 'circle-arrow-down'
+      }, {
+        header: 'API Docs',
+        url: 'docs',
+        glyphicon: 'file'
+      }]
+      $scope.resultTypes = [{
+        index: 1,
+        name: "CSV"
+      }, {
+        index: 2,
+        name: "RSS"
+      }, {
+        index: 3,
+        name: "JSON"
+      }];
       $scope.activeResultType = $scope.resultTypes[0].name;
 
       $scope.route.getCrawlData()
@@ -57,31 +125,73 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
+      $scope.editRoute = function() {
+        if (typeof chrome != 'undefined') {
+          var extensionId = 'kiemjmljpgjkgkpnkbhoilbmickfeckk'
+          var testUrl = 'chrome-extension://' + extensionId + '/imgs/back.png';
+          $http.get(testUrl)
+            .then(function(res) {
+              //go to desired website
+              window.location.href = route.url;
+              console.log('worked')
+            }, function(err) {
+              console.log('err no extension');
+              //err: havent installed extension
+            });
+        } else {
+          console.log('err no chrome');
+          //err: not using chrome
+        }
+      }
 
-      //delete route
+
+      $scope.resultTypes = [{
+        index: 1,
+        name: "CSV"
+      }, {
+        index: 2,
+        name: "RSS"
+      }, {
+        index: 3,
+        name: "JSON"
+      }];
+      $scope.activeResultType = "CSV";
+
+      $scope.setActiveType = (type) => {
+          // console.log($scope.data);
+          if (type.name === "JSON") {
+            $scope.dataPreview = angular.toJson(interleaveObj($scope.data), true);
+          } else if (type.name === "RSS") {
+            $scope.dataPreview = parseXML(interleaveObj($scope.data));
+          }
+          $scope.activeResultType = type.name;
+        }
+        //filter by search text
+        //delete route
       $scope.deleteApi = () => {
-          // console.log(route);
-          route.DSDestroy().then(function(res){
-            if(res){
-              $state.go('profile', { id: user._id });
+        // console.log(route);
+        route.DSDestroy().then(function(res) {
+            if (res) {
+              $state.go('profile', {
+                id: user._id
+              });
             }
           })
-          .catch(function(err){
-             // console.log(err);
-             $scope.error = err;
+          .catch(function(err) {
+            // console.log(err);
+            $scope.error = err;
           })
       }
 
-      $scope.setActiveType = (type) =>{
+      $scope.setActiveType = (type) => {
         // console.log($scope.data);
-        if(type.name==="JSON"){
-          $scope.dataPreview = angular.toJson(interleaveObj($scope.crawlData.data),true);
-        } else if(type.name==="RSS"){
+        if (type.name === "JSON") {
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.crawlData.data), true);
+        } else if (type.name === "RSS") {
           $scope.dataPreview = parseXML(interleaveObj($scope.crawlData.data));
         }
         $scope.activeResultType = type.name;
       }
-      //
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

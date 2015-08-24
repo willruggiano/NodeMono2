@@ -1,13 +1,18 @@
-<div class="nodemonoToolbar navbar-inverse" ng-controller="ToolbarCtrl">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="#ourwebsite">nodemono</a>
+<div class="nodemonoToolbar" ng-controller="ToolbarCtrl">
+    
+<!-- navbar logo and title -->
+    <div id="title-navbar">
+        <a id="header-navbar" href="#ourwebsite">nodemono</a>
     </div>
-    <div class="navbar-form navbar-left" style="margin: 0 0;">
-        <div class="form-group">
+
+
+<!-- navbar -->
+    <div class="btn-container">
             <!-- for all forms -->
-            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>
+            <button id="backButton" ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();" class="toolbarEl hide">
             <img ng-src='{{backBtnUrl}}' id='backBtnImg' ng-click="cancel(); $event.preventDefault(); $event.stopPropagation();"></img>
             </button>
+
             <!-- for pagination form -->
             <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
                 <option value='1'>1</option>
@@ -23,17 +28,22 @@
             </div>
             <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
-        </div>
+    
+            <!--  -->
+            <button type="submit" id="doneBtn" class="toolbarEl show toolbarEl " ng-click="doneClicked()">Done</button>
+            <button type="submit" id="previewBtn" class="toolbarEl show" ng-click="previewData()">Preview</button>
+            <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+
+            <img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'>
+            </button>
+            
+            <div id="propButtons">
+            </div>
+            <div id="pagButtons">
+            </div>
     </div>
-    <div class="navbar-form navbar-right" id="rightNavButtons">
-        <button type="submit" id="doneBtn" class="btn btn-primary show" ng-click="doneClicked()">Done</button>
-        <button type="submit" id="previewBtn" class="btn btn-primary show" ng-click="previewData()">Preview</button>
-        <button id='paginationMode' class='btn btn-primary show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+<img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'></button>
-    </div>
-    <div id="propButtons">
-    </div>
-    <div id="pagButtons">
-    </div>
+
+
+
 
     <!-- show collection and preview crawl data -->
     <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">

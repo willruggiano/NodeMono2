@@ -1,28 +1,120 @@
 <div class="main-container">
+	<div class = "container" id="accordion"> 
+		<h2 class="lead">Create your own pipe</h2>
 
- 	<div class="col-lg-2" id="pipes-sidebar">
-	    <div class="todo">
+		<v-accordion class="vAccordion--default" multiple>
+			<v-pane>
+				<v-pane-header expanded>
+					What are pipes?
+				</v-pane-header>
 
-	        <div class="todo-search">
-	          	<h6> <span class="fui-arrow-right">
-	            </span> Your API Routes</h6>
-	        </div>
+				<v-pane-content>
+					<p> 
+						Pipes are an application for building data mashups to aggregate feeds, pages, or other services from the web, creating applicable content from various sources.
 
-	        <ul class="ul-disactive" ng-repeat="route in routes">
-	    		<route route="route" toggle="toggleRoute(route)"></route>
-	        </ul>
+						To begin, follow the panes below to build your new pipe! Create a name for your new pipes and select the sources of data you're interested in converging. Use some of our custom filters to help you parse through your data.
+					</p>
+				</v-pane-content>
+			</v-pane>
 
-	        <div class="todo-search">
-	            <h6> <span class="fui-arrow-right"> Your Pipes</h6>     
-	        </div>
 
-	        <ul ng-repeat="pipe in pipes">
-	    		<pipe pipe="pipe" toggle="togglePipe(pipe)" get="getPipedData(pipe)"></pipe>
-	        </ul>
-	    </div>
+ 			<v-pane>
+				<v-pane-header>
+					Name your pipe:
+				</v-pane-header>
+
+				<v-pane-content>
+					<input type="text" placeholder="Write name..." class="form-control input-hg flat" ng-model="pipe.name" />
+				</v-pane-content>
+			</v-pane>
+
+			<v-pane>
+				<v-pane-header>
+					Your API Routes
+				</v-pane-header>
+
+				<v-pane-content>
+			  		<ul ng-repeat="route in routes">
+		    			<route route="route" toggle="toggleRoute(route)"></route>
+		        	</ul>
+				</v-pane-content>
+			</v-pane>
+
+			<v-pane>
+				<v-pane-header>
+					Your Pipes
+				</v-pane-header>
+
+				<v-pane-content>    
+			        <ul ng-repeat="pipe in pipes">
+			    		<pipe pipe="pipe" toggle="togglePipe(pipe)" get="getPipedData(pipe)"></pipe>
+			        </ul>
+				</v-pane-content>
+			</v-pane>
+
+			<v-pane>
+				<v-pane-header>
+					Apply filters
+				</v-pane-header>
+
+				<v-pane-content>    
+					<ul ng-repeat="filter in filters">
+						<filter filter="filter" select="selectFilter(filter)"></filter>	
+					</ul>
+				</v-pane-content>
+			</v-pane>		 
+		</v-accordion>
+
+
+		<p class="lead">Routes</p>
+			<table class="table table-striped table-condensed">
+				<tbody>
+					<tr ng-if="pipe.inputs.routes.length > 0">
+						<th>Name</th>
+						<th>Last Crawl Status</th>
+						<th>Count</th>
+					</tr>
+
+					<tr ng-if="pipe.inputs.routes.length > 0">
+						<td>example route...</td>
+						<td>Last Crawl Status</td>
+						<td>Count</td>
+					</tr>
+
+					<tr ng-repeat="route in pipe.inputs.routes">
+						<td>
+							<a ng-click="route.go(user._id)">{{route.name}}</a></td>
+						<td>
+				            <span
+				              id='nm-status'
+				              ng-show='!editing.crawl'
+				              ng-class="route.lastCrawlSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
+				            </span>
+				            <span ng-model='crawlStatus'>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
+			          </td>
+			          <td>{{route.count}}</td>
+					</tr>
+				</tbody>
+			</table>
+  		<br>
+
+		<h5 class="lead">Your new pipe: 
+			<p><a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
+			<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
+		</h5>
+		<pre>{{pipe.output | json}}</pre>
 	</div>
+</div>
 
-	<div class="col-lg-8" id="pipes-content">
+
+
+
+
+
+
+
+
+<!-- 	<div class="col-lg-8" id="pipes-content">
 		<div class="alert alert-danger" role="alert" ng-if="error">
 			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 			<span> Don't forget to name your pipe! </span>
@@ -40,99 +132,7 @@
 				<input type="text" placeholder="Write name..." class="form-control input-hg flat" ng-model="pipe.name" />
 				<hr>
 
-			<!-- table for Routes -->
-					<p class="lead">Routes</p>
-					<table class="table table-striped table-condensed">
-						<tbody>
-							<tr>
-								<th>Name</th>
-								<th>Last Crawl Status</th>
-								<th>Count</th>
-							</tr>
-
-							<tr ng-if="pipe.inputs.routes.length > 0">
-								<td>example route...</td>
-								<td>Last Crawl Status</td>
-								<td>Count</td>
-							</tr>
-
-							<tr ng-repeat="route in pipe.inputs.routes">
-								<td>
-									<a ng-click="route.go(user._id)">{{route.name}}</a></td>
-								<td>
-						            <span
-						              id='nm-status'
-						              ng-show='!editing.crawl'
-						              ng-class="route.lastCrawlSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
-						            </span>
-						            <span ng-model='crawlStatus'>{{ crawlStatus }} ({{ route.lastTimeCrawled | date : 'short' }})</span>
-					          </td>
-					          <td>{{route.count}}</td>
-							</tr>
-						</tbody>
-					</table>
-
-          		<br>
-
-		 	<!-- table for Pipes -->
-          		<h5>3) Select your pipes: </h5>
-	          		<table class="table table-striped table-condensed">
-						<tbody>
-							<tr ng-if="pipe.inputs.pipes.length > 0">
-								<th>Name</th>
-								<th>Last time Piped</th>
-								<th>Count</th>
-							</tr>
-							<tr ng-repeat="pipe in pipe.inputs.pipes">
-								<td>
-									<a ng-click="pipe.go(user._id)">{{pipe.name}}</a>
-								</td>
-								<td>
-						            <span
-						              id='nm-status'
-						              ng-show='!editing.crawl'
-						              ng-class="pipe.lastPipeSucceeded ? ['glyphicon glyphicon-ok-circle', 'success'] : ['glyphicon glyphicon-remove-circle', 'error']">
-						            </span>
-						            <span ng-model='pipeStatus'>{{ pipeStatus }} ({{ pipe.lastTimePiped | date : 'short' }})</span>
-					          </td>
-					          <td>{{pipe.count}}</td>
-							</tr>
-						</tbody>
-					</table>
-	          	<br>
-
-			<!-- table for filters -->
-				
-				<h5>4) Filters: </h5>
-					<table class="table table-striped table-condensed">
-						<tbody>
-							<tr>
-								<th>Name of filter</th>
-								<th>Description</th>
-								<th>Parameters</th>
-								<th>Edit Filter</th>
-							</tr>
-							<tr ng-repeat="filter in pipe.filters">
-								<td>
-									{{filter.name}}
-								</td>
-								<td>
-									{{filter.description}}
-					          	</td>
-					          	<td>
-					          		<span ng-repeat="param in filter.parameters">{{param}}</span> 
-					          	</td>
-					          	<td>
-					          		
-					          	</td>
-							</tr>
-						</tbody>
-					</table>
-				<br>
-				
-			</div>
-
-<!-- 			<div class="col-sm-12">
+<!			<div class="col-sm-12">
 				<h3>Filters: </h3>
 				<ul>
 					<li ng-repeat="filter in pipe.filters">
@@ -140,24 +140,3 @@
 					</li>
 				</ul>
 			</div>  -->
-		
-			<br>
-			<div class="col-sm-12">
-
-				<h5>5) Profit: 
-					<a class="btn btn-info" ng-click="generateOutput()">Generate Output</a> 
-					<a class="btn btn-primary" ng-click="savePipe()">Save Pipe</a>
-				</h5>
-				<pre>{{pipe.output | json}}</pre>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="container col-lg-2" id="filter-sidebar">
-		<h4>Select Filters</h4>
-			<span ng-repeat="filter in filters">
-				<filter filter="filter" select="toggleFilter(filter)" active="false"></filter>
-			</span>
-	</div>
-</div>

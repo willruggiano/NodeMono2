@@ -7,8 +7,15 @@ app.directive('filter', function() {
 			select: '&',
 			active: '='
 		},
-		link: function() {
+		link: function(scope) {
+			scope.class = "todo";
 
+			scope.changeClass = function(){
+				if (scope.class === "todo")
+					scope.class = "todo-done";
+				else
+					scope.class = "todo";
+				};
 		}
 	};
 });

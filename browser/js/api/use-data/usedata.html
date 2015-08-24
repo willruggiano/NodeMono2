@@ -1,1 +1,10 @@
-Export Data
+<div id='use'>
+  <div class='exportCard' ng-repeat='option in exportOptions'>
+    <div class='row export-name'>
+      <h4>{{ option.name.toUpperCase() }}</h4>
+    </div>
+    <div class='row export-details'>
+      <img src='images/{{ option.endpoint }}.png'></img>
+    </div>
+  </div>
+</div>

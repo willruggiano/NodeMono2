@@ -1,121 +1,94 @@
 var jsdom = require('node-jsdom');
-var request = require('request');
 var Q = require('q');
 var _ = require('lodash');
 
-// return promise for a url's html
-function getUrl(url) {
-	var deferred = Q.defer();
-	request(url, function(err, res, body) {
-		if (err) deferred.reject(err);
-		else deferred.resolve(body);
-	});
-	return deferred.promise;
-}
-
-function getSelectors(html, data, paginationArr) {
+// go to the url, get the what matches the data's selectors, and paginate as necessary
+function getSelectors(url, data, paginationArr) {
 	// return a promise for the jsdom data - it's asynchronous
 	var deferred = Q.defer();
 
 	// jsdom provides access to the window object
-	jsdom.env(html, function(err, window) {
-		// handle errors
-		if (err) return deferred.reject(err);
+	jsdom.env({
+		url: url,
+		done: function(err, window) {
+				// handle errors
+				if (err) return deferred.reject(err);
 
-		// window.document is used frequently, save it to a variable
-		var document = window.document;
-		// loop through each data (contains selector, name, etc.
-		var output = data.reduce(function(accum, datum) {
-			var selected;
+				// window.document is used frequently, save it to a variable
+				var document = window.document;
+				// loop through each data (contains selector, name, etc.
+				var output = data.reduce(function(accum, datum) {
+					var selected;
 
-			var selector = datum.selector;
-			// var selector = datum.selector.split(' ');
-			// selector = selector.slice(selector.length - 6).join(' ');
+					// if attr is specified, get that attribute from each selected element
+					var attribute = datum.attr;
+					if (attribute) {
+						selected = Array.prototype.slice.call(document.querySelectorAll(datum.selector));
+						accum[datum.name] = selected.map(function(elem) {
+							return elem.getAttribute(attribute);
+						});
+					}
+					// otherwise default behavior (get text)
+					else {
+						selected = Array.prototype.slice.call(document.querySelectorAll(datum.selector));
+						accum[datum.name] = selected.map(function(elem) {
+							return elem.textContent;
+						});
+					}		 
+					// if an index is specified, only keep that index
+					if (datum.index && selected.length) {
+						accum[datum.name] = accum[datum.name][datum.index];
+					}
+					// pass accumulation of data to next iteration of reduce
+					return accum;
+				}, {});
 
-			// console.log('the datum', datum);
-			// if (datum.name === '[\'side Story\']') {
-			// 	// datum.selector = "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior DIV.now-content.bloom-content P";
-			// 	datum.selector = "SECTION#now-feed.col-c DIV.now-feed-content .has-media DIV.now-content.bloom-content P";
-			// } else if (datum.name === 'title') {
-			// 	// datum.selector = "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related.no-thumb DIV.text-container DIV.item-info-wrap P";
-			// 	datum.selector = "DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related DIV.text-container DIV.item-info-wrap P";
-			// }
-
-			// if attr is specified, get that attribute from each selected element
-			var attribute = datum.attr;
-			if (attribute) {
-				selected = Array.prototype.slice.call(document.querySelectorAll(selector));
-				accum[datum.name] = selected.map(function(elem) {
-					return elem.getAttribute(attribute);
+				// pagination
+				var nextLinks = [];
+				// collect the pagination links (add them to queue)
+				paginationArr.forEach(function(paginationObj) {
+					// check to see if the depth has been reached
+					if (paginationObj.depth <= 0) return;
+					// find the pagination link by it's selector
+					var link = document.querySelectorAll(paginationObj.link);
+					// if no element was selected, quit the process, and set depth to 0
+					if (!link.length) return paginationObj.depth = 0;
+					// if no index is given take the first node
+					if (typeof paginationObj.index === 'undefined') link = link[0];
+					else link = link[paginationObj.index];
+					// get the links href
+					link = link.getAttribute('href');
+					// add to queue of links
+					nextLinks.push(link);
+					// subtract one from the depth (to prevent infinite pagination)
+					paginationObj.depth -= 1;
 				});
-			}
-			// otherwise default behavior (get text)
-			else {
-				selected = Array.prototype.slice.call(document.querySelectorAll(selector));
-				accum[datum.name] = selected.map(function(elem) {
-					return elem.textContent;
-				});
-			}
 
-			console.log('the selected', selected.length);
- 
-			// if an index is specified, only keep that index
-			if (datum.index && selected.length) {
-				accum[datum.name] = accum[datum.name][datum.index];
-			}
-			// pass accumulation of data to next iteration of reduce
-			return accum;
-		}, {});
+				var promiseArray = [];
+				// see if there are more links
+				if (nextLinks.length) {
+					promiseArray = nextLinks.map(function(link, idx) {
+						return getSelectors(link, data, [paginationArr[idx]]);
+					});
+				}
+				// return the output too
+				promiseArray.unshift(output);
 
-		// pagination
-		var nextLinks = [];
-		// collect the pagination links (add them to queue)
-		paginationArr.forEach(function(paginationObj) {
-			// check to see if the depth has been reached
-			if (paginationObj.depth <= 0) return;
-			// find the pagination link by it's selector
-			var link = document.querySelectorAll(paginationObj.link);
-			// if no element was selected, quit the process, and set depth to 0
-			if (!link.length) return paginationObj.depth = 0;
-			// if no index is given take the first node
-			if (typeof paginationObj.index === 'undefined') link = link[0];
-			else link = link[paginationObj.index];
-			// get the links href
-			link = link.getAttribute('href');
-			// add to queue of links
-			nextLinks.push(link);
-			// subtract one from the depth (to prevent infinite pagination)
-			paginationObj.depth -= 1;
+				// return the resolved data from each pagination
+				deferred.resolve(Q.all(promiseArray));
+			}
 		});
-
-		var promiseArray = [];
-		// see if there are more links
-		if (nextLinks.length) {
-			promiseArray = nextLinks.map(function(link, idx) {
-				return getUrl(link).then(function(nextHtml) {
-					return getSelectors(nextHtml, data, [paginationArr[idx]]);
-				});
-			});
-		}
-		// return the output too
-		promiseArray.unshift(output);
-
-		// return the resolved data from each pagination
-		deferred.resolve(Q.all(promiseArray));
-	});
 
 	return deferred.promise;
 }
 
 // given html and data, return an output of all the selected elements
-// pagination - click each pagination link and add it to a queue (stack for depth first?)
+// pagination - click each pagination link and add it to a queue
 function crawl(url, data, paginationArr) {
 	// fire off the first promise - starts a pagination chain
-	return getUrl(url)
-		.then(function(html) {
-			return getSelectors(html, data, paginationArr);
-		})
+	return getSelectors(url, data, paginationArr)
 		.then(function(crawledData) {
+			console.log('the crawled data', crawledData.length);
 			// the crawledData comes back in a nested array, flatten it
 			crawledData = _.flattenDeep(crawledData);
 			// also join the crawledData into one object (only for pagination)
@@ -137,7 +110,8 @@ function crawl(url, data, paginationArr) {
 			return [mergedPaginationObj];
 		})
 		.catch(function(err) {
-			console.log(err);
+			console.log('there was an error', err.message);
+			// console.log(err);
 			return err;
 		});
 }

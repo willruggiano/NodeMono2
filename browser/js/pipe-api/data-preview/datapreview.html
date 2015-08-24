@@ -12,10 +12,19 @@
 
 <div class="data-preview">
 	<div ng-if="activeResultType!=='CSV'">
-		<pre class="pipeDataPre">{{dataPreview}}</pre>
+		<!-- <pre class="pipeDataPre">{{dataPreview}}</pre> -->
+		<textarea class="textareaPreview">{{dataPreview}}</textarea>
 	</div>
 	<div id="pipePreviewContainer">
-		<table id='pipePreviewTable' ng-if="activeResultType=='CSV'">
+		<div ng-if="waiting" class="alert alert-info" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  Waiting for the data ...
+		</div>
+		<div ng-if="noData" class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  No data was returned
+		</div>
+		<table ng-hide="noData || waiting" id='pipePreviewTable' ng-if="activeResultType=='CSV'">
 		  <tr>
 		    <th>index</th>
 		    <th ng-repeat='header in headers'>

@@ -12,7 +12,8 @@
 
 <div class="data-preview">
 	<div ng-if="activeResultType!=='CSV'">
-		<pre class="pipeDataPre">{{dataPreview}}</pre>
+		<!-- <pre class="pipeDataPre">{{dataPreview}}</pre> -->
+		<textarea class="textareaPreview">{{dataPreview}}</textarea>
 	</div>
 	<div id="pipePreviewContainer">
 		<div ng-if="waiting" class="alert alert-info" role="alert">

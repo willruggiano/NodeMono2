@@ -4,6 +4,12 @@
 			<label>Filter</label>
 			<input class="form-control" ng-model="search.text">
 		</li>
+		<li>
+			<a target="_self" download="{{pipe.name}}.txt" href="/api/pipes/{{user._id}}/{{pipe.name}}">Download</a>
+		</li>
+		<li ng-if="activeResultType==='CSV'" ng-class="{active:hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
+			<a clip-copy="copyToClipBoard()" id="copyToClipBoardBtn">Copy</a>
+		</li>
 		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type}" class="resultType">
 			<a ng-click="setActiveType(type)">{{type}}&nbsp; </a>
 		</li>

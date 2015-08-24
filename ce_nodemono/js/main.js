@@ -49,40 +49,38 @@ function hideHighlights(scope) {
 }
 //__________________________
 
-
-function getNodeSelectorString(node) {
-  //tagString
+function getNodeSelectorString(node, index) {
+  // tagString
   var tagName = node.tagName;
-  //idString
-  var id = '';
-  if (node.id) {
-    id = '#' + node.id;
-  }
-  //classString
-  var classString = '';
-  if (node.className) {
+
+  // classString
+  var classString = [];
+  // get classes from every other parent node (and from the clicked node)
+  if (index % 2 === 0 && node.className) {
+    classString.push('');
     var classes = node.className.split(/\s+/);
-    classes.forEach(function(classStr) {
-      if (classStr != '') {
-        classString = classString + '.' + classStr;
+    classes.forEach(function(classStr, idx) {
+      // take the first class (if there is one)
+      if (classStr && idx === 0) {
+        classString.push(classStr);
       }
-    })
+    });
   }
 
-  return tagName + id + classString;
+  return tagName + classString.join('.');
 }
 
-function getSelector(baseNode, startString) {
-  if (!startString) {
-    startString = ''
+function getSelector(baseNode) {
+  var startStringArr = [];
+  var node = baseNode;
+  var index = 0;
+  while (node.tagName.toLowerCase() !== 'html') {
+    startStringArr.unshift(getNodeSelectorString(node, index));
+    node = node.parentNode;
+    index += 1;
   }
-  startString = getNodeSelectorString(baseNode) + startString;
-
-  if (baseNode.tagName.toLowerCase() === 'body' || baseNode.parentNode == undefined) {
-    return startString;
-  } else {
-    return getSelector(baseNode.parentNode, ' ' + startString);
-  }
+  if (startStringArr.length > 10) startStringArr = startStringArr.slice(startStringArr.length - 10);
+  return startStringArr.join(' > ');
 }
 
 function isDescendant(parent, child) {
@@ -149,6 +147,7 @@ function createPropButton(scope, data) {
   newButton.addEventListener('click', function(event) {
     var button = event.target || event.srcElement;
     hideAllElms();
+    scope.overlay.className = ''
     hideHighlights(scope);
     scope.matchList = document.querySelectorAll(button.dataProp.selector)
     var index = button.dataProp.index
@@ -172,6 +171,7 @@ function createPagButton(scope, data) {
   newButton.addEventListener('click', function(event) {
     var button = event.target || event.srcElement;
     hideAllElms();
+    scope.overlay.className = ''
     hideHighlights(scope);
     scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
     scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';

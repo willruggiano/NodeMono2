@@ -31,7 +31,18 @@ app.config(($stateProvider) => {
       $scope.rows = [];
       $scope.headers = [];
       $scope.isInterleaved = false;
+      $scope.waiting = true;
       $scope.pipe.getPipedData().then(pipedData => {
+        $scope.waiting = false;
+
+        if (!pipedData.length) {
+          // no data came back
+          console.log('you got no data');
+          $scope.noData = true;
+          return;
+        }
+        $scope.noData = false;
+
         $scope.data = pipedData;
         // determine its format
         $scope.isInterleaved = isInterleaved(pipedData);

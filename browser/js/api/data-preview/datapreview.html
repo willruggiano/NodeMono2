@@ -9,7 +9,6 @@
 		</li>
 		<li ng-if="activeResultType==='CSV'" ng-class="{active:hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
 			<a clip-copy = "copyToClipBoard()" id="copyToClipBoardBtn">Copy</a>
-
 		</li>
 		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type.name}" class="resultType">
 			<a ng-click="setActiveType(type)">{{type.name}}&nbsp; </a>
@@ -22,28 +21,29 @@
 <table id='dataPreviewTable' ng-if="activeResultType == 'CSV'">
   <tr>
     <th>
-    <a  ng-click="orderByField.name='index';reverseSort=!reverseSort" style="cursor:pointer">
-    	index
-    <span ng-if="odbf();orderByField.name==='index'">
-    		<span ng-if="!reverseSort">^</span>
-    		<span ng-if="reverseSort">v</span>
-    </span>
-    </a>
+	    <a
+				ng-click="orderByField.name='index';reverseSort=!reverseSort"
+				style="cursor:pointer"
+				ng-hide='!crawlData.data'>index
+		    <span ng-if="odbf();orderByField.name==='index'">
+	    		<span ng-if="!reverseSort">^</span>
+	    		<span ng-if="reverseSort">v</span>
+		    </span>
+	    </a>
     </th>
     <th ng-repeat='header in headers'>
-    <a ng-click="odbf();orderByField.name=header;reverseSort=!reverseSort"style="cursor:pointer">
-    	{{ header }}
-    <span ng-if="orderByField.name===header">
-    		<span ng-if="!reverseSort">^</span>
-    		<span ng-if="reverseSort">v</span>
-    </span>
-    </a>
+	    <a
+				ng-click="odbf();orderByField.name=header;reverseSort=!reverseSort"
+				style="cursor:pointer">{{ header }}
+		    <span ng-if="orderByField.name===header">
+	    		<span ng-if="!reverseSort">^</span>
+	    		<span ng-if="reverseSort">v</span>
+		    </span>
+    	</a>
     </th>
   </tr>
-	<span ng-hide='!crawlData.data'>
 	  <tr ng-repeat='r in rows | filter:dataFilter() | orderBy:sortData'>
 	    <td>{{ r.index }}</td>
 	    <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
 	  </tr>
-	</span>
 </table>

@@ -460,14 +460,18 @@ table#pipePreviewTable {
     align-content: center; }
     #use .exportCard div.export-name {
       height: 30%; }
-      #use .exportCard div.export-name h4 {
-        color: #f31214;
-        text-align: center;
+      #use .exportCard div.export-name a {
         height: 20%; }
+        #use .exportCard div.export-name a h4 {
+          color: #f31214;
+          text-align: center;
+          height: inherit; }
     #use .exportCard div.export-details {
       height: 70%; }
-      #use .exportCard div.export-details img {
+      #use .exportCard div.export-details a {
         height: 90%; }
+        #use .exportCard div.export-details a img {
+          height: inherit; }
 
 .result-view {
   margin-right: 20%; }

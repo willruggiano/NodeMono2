@@ -18,6 +18,7 @@ app.service('Utils', function() {
     _.times(maxLen, () => {
       let mergedObj = keys.reduce(reduceFunc, {})
       mergedData.push(mergedObj)
+      i++
     })
 
     return mergedData

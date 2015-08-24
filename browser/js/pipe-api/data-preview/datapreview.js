@@ -53,7 +53,7 @@ app.config(($stateProvider) => {
           rowsAndKeys.headers = pipedData.length ? Object.keys(pipedData[0]) : [];
         } else {
           rowsAndKeys = getRowsAndKeys(pipedData);
-        }          
+        }
         var n = rowsAndKeys.rows;
         $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
         // put headers in object with index to prevent duplicated in ng-repeat

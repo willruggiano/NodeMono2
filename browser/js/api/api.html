@@ -30,7 +30,6 @@
 							<span ng-repeat='endpoint in endpoints'>
 								<a
 									href='/api/{{ route._id }}/{{ endpoint }}'
-									method='post'
 									target='_blank'
 									download='{{ route.name }}.{{ endpoint }}'>{{ endpoint }}
 								</a>
@@ -79,6 +78,6 @@
 		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
-	<button class='btn btn-danger' ng-click='deleteApi()'>Delete Api</button>
+	<button class='btn btn-danger' ng-click='deleteApi()' ng-hide='!crawlData.data'>Delete Api</button>
 	<p ng-if="error">{{error}}</p>
 </section>

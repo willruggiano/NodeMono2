@@ -172,6 +172,10 @@ div#pipePreviewContainer {
   overflow: auto;
 }
 
+.data-preview {
+  margin-top: 15px;
+}
+
 /* PIPE PREVIEW */
 table#pipePreviewTable {
   font-size: $api-font-xs;

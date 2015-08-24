@@ -22,6 +22,9 @@ body {
 .main-container {
   padding-top: 50px; }
 
+.pointer {
+  cursor: pointer; }
+
 nodemono-logo {
   display: block;
   cursor: pointer; }
@@ -376,6 +379,9 @@ table#dataPreviewTable {
 div#pipePreviewContainer {
   width: 100%;
   overflow: auto; }
+
+.data-preview {
+  margin-top: 15px; }
 
 /* PIPE PREVIEW */
 table#pipePreviewTable {

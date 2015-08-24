@@ -6,30 +6,14 @@ app.config(($stateProvider) => {
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
       pipe: (Pipe, $stateParams) => Pipe.find($stateParams.pipeid),
-      inputs: (pipe) => pipe.getInputs()
-      // data: (pipe) => pipe.getPipedData()
+      inputs: (pipe) => pipe.getInputs(),
+      filters: (pipe) => pipe.getFilters()
     },
-    controller: (DS, $scope, $timeout, user, pipe, inputs) => {
+    controller: (DS, Pipe, $scope, $timeout, $state, user, pipe, inputs, filters) => {
       $scope.user = user;
       $scope.pipe = pipe;
       $scope.inputs = inputs;
-      // get the data
-      $scope.data = [];
-      $scope.rows = [];
-      $scope.headers = [];
-      pipe.getPipedData().then(pipedData => {
-        $scope.data = pipedData;
-        // find the number of rows
-        var rowsAndKeys = getRowsAndKeys(pipedData);
-        var n = rowsAndKeys.rows;
-        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
-        // put headers in object with index to prevent duplicated in ng-repeat
-        console.log(rowsAndKeys.headers);
-        $scope.headers = rowsAndKeys.headers.map((header, idx) => {
-          return {index: idx, name: header.name, dataIdx: header.dataIdx};
-        });
-      });
-      console.log($scope.data);
+      $scope.filters = filters;
       $scope.dataPreview;
       $scope.editing = {};
       $scope.activetab = null;
@@ -39,25 +23,6 @@ app.config(($stateProvider) => {
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
-
-      // gets the length of the longest array in any of the data objects and all property names
-      function getRowsAndKeys(data) {
-        var headers = [];
-        var longestArrInObj = (obj, index) => {
-          var keys = Object.keys(obj);
-          headers = headers.concat(keys.map(key => {return {name: key, dataIdx: index}; }));
-          return keys.reduce((max, key) => {
-            if (obj[key].length > max) return obj[key].length;
-            else return max;
-          }, 0);
-        };
-        var rows = data.reduce((max, pipedObj, idx) => {
-          var longest = longestArrInObj(pipedObj, idx);
-          if (longest > max) return longest;
-          else return max;
-        }, 0);
-        return {headers, rows};
-      }
 
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
@@ -71,15 +36,13 @@ app.config(($stateProvider) => {
 
       if (!$scope.lastRun) $scope.getLastRunStatus();
       if (!$scope.pipeStatus) $scope.getPipeStatus();
-      if (!$scope.rows) $scope.getRowCount();
-      // console.log($scope.rows);
 
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id);
-        elem.setAttribute('contenteditable', true); // make the element (elem) editable
+        if (elem) elem.setAttribute('contenteditable', true); // make the element (elem) editable
         if ($scope.editing[id]) {
-          elem.removeAttribute('contenteditable'); // make the element (elem) not editable
+          if (elem) elem.removeAttribute('contenteditable'); // make the element (elem) not editable
           $scope.pipe.DSSave() // save the newly edited element
             .then(newpipe => {
               console.log(`successfully saved pipe ${newpipe.name}`)
@@ -99,50 +62,33 @@ app.config(($stateProvider) => {
         }, 0);
       }
 
-      
-      $scope.resultTypes = [{index:1,name:"CSV"},{index:2,name:"RSS"},{index:3,name:"JSON"}];
-      $scope.activeResultType = "CSV";
-
-      $scope.setActiveType = (type) =>{
-        // console.log($scope.data);
-        if(type.name==="JSON"){
-          $scope.dataPreview = angular.toJson(interleaveObj($scope.data),true);
-        } else if(type.name==="RSS"){
-          $scope.dataPreview = pipe.parseXML(interleaveObj($scope.data));
-          console.log($scope.dataPreview);
+      // for removing items from the pipe's arrays
+      $scope.removeFromPipe = (id, type) => {
+        // determine which array should be modified
+        if (type === 'filters') {
+          $scope.pipe.filters = $scope.pipe.filters.filter(filt => filt !== id);
+          // remove from the view too
+          $scope.filters = $scope.filters.filter(filt => filt._id !== id);
+        } else {
+          $scope.pipe.inputs[type] = $scope.pipe.inputs[type].filter(input => input !== id);
+          // remove from the view too
+          $scope.inputs[type] = $scope.inputs[type].filter(input => input._id !== id);
         }
-        $scope.activeResultType = type.name;
       };
-      //filter by search text
-      
-      // helper function for interleave - interleaves a single object of arrays
-      function interleaveObj(obj) {
-        // find all keys in the object
-        var keys = Object.keys(obj);
 
-        // find longest stored array
-        var maxLen = keys.reduce(function(max, key) {
-          if (obj[key].length > max) return obj[key].length;
-          else return max;
-        }, 0);
+      // delete the pipe (with JS data), and go to profile state
+      $scope.deletePipe = () => {
+        Pipe.destroy($scope.pipe._id).then(() => $state.go('profile', {id: user._id}));
+      };
 
-        var mergedData = [];
-        // defined outside the loop to satisfy the linter
-        var i = 0;
-        var reduceFunc = function(accum, key) {
-          accum[key] = obj[key][i];
-          return accum;
-        };
-        // use maxLen (length of longest array in the object)
-        for (; i < maxLen; i++) {
-          // make new obj with fields for each name
-          var mergedObj = keys.reduce(reduceFunc, {});
-          // add to the array of these objects
-          mergedData.push(mergedObj);
-        }
+      // clone the pipe (with JS data), and go to the new pipe's profile
+      $scope.clonePipe = () => {
+        var oldName = $scope.pipe.name;
+        var newPipe = _.pick($scope.pipe, ['userFilters', 'filters', 'inputs', 'user']);
+        newPipe.name = oldName + '_clone';
+        Pipe.create(newPipe).then(savedPipe => savedPipe.go(user._id));
+      };
 
-        return mergedData;
-      }
     }
   });
 });

@@ -1,6 +1,8 @@
 'use strict';
-window.app = angular.module('NodemonoApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'js-data']);
-
+window.app = angular.module('NodemonoApp', ['ui.router', 'ui.bootstrap', 'fsaPreBuilt', 'js-data','ngClipboard']);
+app.config(['ngClipProvider', function(ngClipProvider) {
+    ngClipProvider.setPath("//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.swf");
+  }]);
 app.config(function ($urlRouterProvider, $locationProvider, DSProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);

@@ -42,8 +42,7 @@ app.factory('Route', (DS, $state, $http) => {
           .finally(() => ROUTE.refresh(this._id).then(route => route.DSCompute())) // always make sure route in store is fresh copy
           .catch((e) => console.log(`there seems to have been an error: ${e.toString()}`))
       }
-    },
-    afterDestroy(resource, data, cb) { data._user.go() }
+    }
   });
 
   return ROUTE;

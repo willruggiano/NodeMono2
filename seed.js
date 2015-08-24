@@ -126,6 +126,23 @@ var seedDb = function() {
                     depth: '1'
                 }]
             },
+            {
+                name: 'Wyndam Championship',
+                user: activeUser,
+                url: 'http://espn.go.com/golf/leaderboard?tour=pga&tournamentId=2243',
+                data: [{
+                    name: 'player',
+                    selector: '#regular-leaderboard a'
+                },
+                {
+                    name: 'position',
+                    selector: '.sl .textcenter:nth-child(1)'
+                },
+                {
+                    name: 'start',
+                    selector: '.sl .textcenter:nth-child(2)'
+                }]
+            },
             // route from the chrome extension
             {
                "name": "espnNews",
@@ -135,22 +152,56 @@ var seedDb = function() {
                  {
                    "link": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior.has-media.no-thumb DIV.now-content.bloom-content P A",
                    "index": 0,
-                   "limit": 25,
+                   "limit": 2,
                  }
                ],
                "data": [
                  {
-                   "selector": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior.has-media.no-thumb DIV.now-content.bloom-content P",
-                   "name": "['side Story']",
+                   "selector": "BODY > DIV.scrolled > SECTION > SECTION > DIV > SECTION.col-c > DIV > ARTICLE.now-feed-item > DIV > H1",
+                   "name": "Side Story",
                  },
                  {
-                   "selector": "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related.no-thumb DIV.text-container DIV.item-info-wrap P",
+                    "selector": "BODY > DIV > SECTION > SECTION > DIV > SECTION.col-c > DIV > ARTICLE.now-feed-item > DIV > P",
+                    "name": "Side Description"
+                 },
+                 {
+                   "selector": "DIV > SECTION.col-b > DIV > DIV.container-wrapper > DIV > ARTICLE.news-feed-item > DIV > UL > LI > A",
                    "index": 2,
                    "name": "title",
                  }
                ],
+             },
+             // route from my chrome extension
+            {
+               "name": "espnNewsShorter",
+               "user": activeUser,
+               "url": "http://espn.go.com/",
+               "pagination": [],
+               "data": [
+                 {
+                   "selector": "DIV.layout-abc > SECTION > DIV > DIV > DIV > ARTICLE.top.has-related > DIV > UL > LI > A",
+                   "name": "side story",
+                 }
+               ],
+             },
+              // route from my chrome extension
+            {
+               "name": "nytimesShorter",
+               "user": activeUser,
+               "url": "http://nytimes.com",
+               "pagination": [],
+               "data": [
+                 {
+                   "selector": "DIV > DIV.first-column-region > DIV > ARTICLE.story > H2 > A",
+                   "name": "side stuff",
+                 },
+                 {
+                    selector: 'SECTION > DIV.layout > DIV > DIV.region > DIV > UL.theme-news-headlines > LI > ARTICLE.story > H2 > A',
+                    name: 'opinion'
+                 }
+               ],
              }
-            ];
+         ];
 
             return Route.remove().then(function() {
                 return Route.createAsync(newRoutes);

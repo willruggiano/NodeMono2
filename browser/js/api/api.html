@@ -10,14 +10,20 @@
 	    </button>
 	  </div>
 	  <div class='btn-group col-md-4 api-action'>
-	    <button class='btn btn-nodemono' ng-click=''>clone api</button>
-	    <button class='btn btn-nodemono' ng-click=''>edit api</button>
+	    <button class='btn btn-nodemono' ng-click='cloneRoute()'>clone api</button>
+	    <button class='btn btn-nodemono' ng-click='editRoute()'>edit api</button>
 	  </div>
 	</div>
 	<div class='row'>
 	  <div class='col-md-8'>
 	    <table id='headerTable'>
 	      <tbody>
+	      	<tr>
+	          <td class='td-label'>Route URL</td>
+	          <td>
+	            <a href="">nodemono.com/api/routes/{{user._id}}/{{route.name}}</a>
+	          </td>
+	        </tr>
 	        <tr>
 	          <td class='td-label'>Endpoints</td>
 	          <td>
@@ -73,6 +79,7 @@
 		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
-	<button class='btn btn-danger btn-nodemono' ng-click='route.DSDestroy()' ng-hide='!crawlData.data'>Delete Api</button>
-	<br>
+	<button class='btn btn-danger' ng-click='deleteApi()'>Delete Api</button>
+	<p ng-if="error">{{error}}</p>
+>>>>>>> master
 </section>

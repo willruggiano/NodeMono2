@@ -14,15 +14,17 @@ var parseXML = function(o, tab) {
             var hasChild = false;
             xml += ind + "<" + name;
             for (var m in v) {
-                if (m.charAt(0) == "@") xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
+                if ((m.charAt(0) == "@") && v[m]) xml += " " + m.substr(1) + "=\"" + v[m].toString() + "\"";
                 else hasChild = true;
             }
             xml += hasChild ? ">" : "/>";
             if (hasChild) {
                 for (var m in v) {
-                    if (m == "#text") xml += v[m];
-                    else if (m == "#cdata") xml += "<![CDATA[" + v[m] + "]]>";
-                    else if (m.charAt(0) != "@") xml += toXml(v[m], m, ind + "\t");
+                    if(v[m]){
+                        if (m == "#text") xml += v[m];
+                        else if (m == "#cdata") xml += "<![CDATA[" + v[m] + "]]>";
+                        else if (m.charAt(0) != "@") xml += toXml(v[m], m, ind + "\t");
+                    }
                 }
                 xml += (xml.charAt(xml.length - 1) == "\n" ? ind : "") + "</" + name + ">";
             }

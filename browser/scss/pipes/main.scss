@@ -13,18 +13,6 @@
 	}
 }
 
-// .search-active{
-// 	.fui-arrow-right{
-// 		transform: rotate(90deg);
-// 	}	
-// }
-
-// .ul-disactive{
-// 	li {
-		
-// 	}
-// }
-
 
 #filter-sidebar{
 	// padding-top: 60px;
@@ -67,6 +55,9 @@ route{
     border-radius: 0 !important; 
     color: #34495e;
     padding: 19px 25px 20px;
+    h6 { 
+    	font-size: 22px;
+    }
 }
 
 

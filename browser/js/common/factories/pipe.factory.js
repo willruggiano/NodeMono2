@@ -31,9 +31,12 @@ app.factory('Pipe', (DS, Route, Filter, $http, $q, $state) => {
           return Route.get(route);
         });
         output.pipes = this.inputs.pipes.map(pipe => {
-          return Pipe.get(pipe);
+          return PIPE.get(pipe);
         });
         return output;
+      },
+      getFilters() {
+        return $q.all(this.filters.map(filterId => Filter.find(filterId)));
       }
     }
   });

@@ -23,7 +23,7 @@ app.config(function ($stateProvider) {
     });
 });
 
-app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipes, user) {
+app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user) {
 	$scope.routes = routes;
 	$scope.filters = filters;
 	$scope.pipes = pipes;
@@ -72,11 +72,11 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	//add or remove from pipe input
 	$scope.toggleRoute = (route) => {
 		if ($scope.pipe.inputs.routes.indexOf(route) === -1){
-			$scope.selectRoute(route)
+			$scope.selectRoute(route);
 		} else {
-			$scope.deselectRoute(route)
+			$scope.deselectRoute(route);
 		}
-	}
+	};
 
 	// add route to pipe input
 	$scope.selectPipe = (pipe) => {
@@ -91,11 +91,11 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 	//add or remove from pipe input
 	$scope.togglePipe = (pipe) => {
 		if ($scope.pipe.inputs.routes.indexOf(pipe) === -1){
-			$scope.selectRoute(pipe)
+			$scope.selectRoute(pipe);
 		} else {
-			$scope.deselectRoute(pipe)
+			$scope.deselectRoute(pipe);
 		}
-	}
+	};
 
 	// add filter to pipeline
 	$scope.selectFilter = (filter) => {
@@ -152,10 +152,10 @@ app.controller('PipesCtrl', function($scope, Pipe, Filter, routes, filters, pipe
 		if (filter.type === 'singleElem' && !_.isArray(filter.keys)) {
 			filter.keys = filter.keys.split(/\s*,\s*/);
 		}
-		// filter is
+		// filter is new, not a default
 		filter.defaultFilter = false;
 		// save this filter to the db
-		Filter.saveFilter(filter)
+		filter.save()
 			.then(savedFilter => {
 				// replace this filter in the pipe mockup with the id of the newly created filter
 				var oldId = filter._id;

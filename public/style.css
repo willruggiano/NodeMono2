@@ -13,7 +13,7 @@ body {
   clear: both; }
 
 #main {
-  width: 70%;
+  width: 80%;
   padding-top: 40px;
   padding-right: 15px;
   padding-left: 15px;
@@ -21,6 +21,9 @@ body {
 
 .main-container {
   padding-top: 50px; }
+
+.pointer {
+  cursor: pointer; }
 
 nodemono-logo {
   display: block;
@@ -40,7 +43,7 @@ navbar {
     navbar .navbar.navbar-static-top {
       height: inherit; }
       navbar .navbar.navbar-static-top .container {
-        width: 70%;
+        width: 80%;
         height: inherit; }
         navbar .navbar.navbar-static-top .container > * {
           box-sizing: border-box;
@@ -95,6 +98,9 @@ navbar {
           color: #E74C3C; }
     navbar .welcome button {
       cursor: pointer; }
+
+.navbar-text {
+  margin-top: 10px; }
 
 .btn-login {
   margin-top: 5px;
@@ -279,7 +285,7 @@ status-bar {
 /* GENERAL STYLING */
 #profile {
   padding: 50px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto; }
 
 .btn-nodemono {
@@ -374,6 +380,9 @@ div#pipePreviewContainer {
   width: 100%;
   overflow: auto; }
 
+.data-preview {
+  margin-top: 15px; }
+
 /* PIPE PREVIEW */
 table#pipePreviewTable {
   font-size: 10px;
@@ -382,6 +391,10 @@ table#pipePreviewTable {
     word-wrap: break-word;
     max-width: 200px;
     padding: 4px; }
+  table#pipePreviewTable td.data-column {
+    min-width: 100px; }
+  table#pipePreviewTable td.index-column {
+    min-width: 10px; }
   table#pipePreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
 
@@ -525,6 +538,8 @@ route p {
   border-radius: 0 !important;
   color: #34495e;
   padding: 19px 25px 20px; }
+  .todo-search h6 {
+    font-size: 22px; }
 
 .todo-search:before {
   position: absolute;

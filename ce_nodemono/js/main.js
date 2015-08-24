@@ -22,6 +22,11 @@ function setUpDom(scope) {
   document.getElementsByTagName('body')[0].appendChild(scope.overlay);
 }
 //_____________________________________________________________
+var yellow = "#f1c40f";
+var green = "#1abc9c"
+
+//
+
 
 //__________DOM manipulation helpers__________
 function hideAllElms() {
@@ -152,10 +157,10 @@ function createPropButton(scope, data) {
     scope.matchList = document.querySelectorAll(button.dataProp.selector)
     var index = button.dataProp.index
     if (index) {
-      scope.matchList[index].style['background-color'] = '#00ff00';
+      scope.matchList[index].style['background-color'] = green;
     } else {
       for (var i = 0; i < scope.matchList.length; i++) {
-        scope.matchList[i].style['background-color'] = 'yellow';
+        scope.matchList[i].style['background-color'] = yellow;
       }
     }
   })
@@ -165,7 +170,7 @@ function createPropButton(scope, data) {
 function createPagButton(scope, data) {
   var newButton = document.createElement('button');
   newButton.className = 'show selectorBtn'
-  newButton.style['background-color'] = '#ADD8E6'
+  newButton.style['background-color'] = '#27ad60'
   newButton.dataProp = data;
   newButton.innerHTML = 'P';
   newButton.addEventListener('click', function(event) {
@@ -174,7 +179,7 @@ function createPagButton(scope, data) {
     scope.overlay.className = ''
     hideHighlights(scope);
     scope.pagMatchList = document.querySelectorAll(button.dataProp.link)
-    scope.pagMatchList[button.dataProp.index].style['background-color'] = '#ADD8E6';
+    scope.pagMatchList[button.dataProp.index].style['background-color'] = '#27ad60';
   })
   return newButton;
 }
@@ -259,9 +264,9 @@ function propClickListener(event) {
   //change styles for selected elements
   scope.matchList = document.querySelectorAll(scope.selector);
   for (var i = 0; i < scope.matchList.length; i++) {
-    scope.matchList[i].style['background-color'] = '#ffff00';
+    scope.matchList[i].style['background-color'] = yellow;
   }
-  scope.targetElement.style['background-color'] = '#00ff00';
+  scope.targetElement.style['background-color'] = green;
 
   //show/hide toolbar elements
   hideAllElms();
@@ -294,7 +299,7 @@ function pagClickListener(event) {
   scope.currentPagination['index'] = scope.pagMatchList.indexOf(scope.pagTargetElement)
 
   //change styles for selected elements
-  scope.pagTargetElement.style['background-color'] = '#ADD8E6'
+  scope.pagTargetElement.style['background-color'] = '#1abc9c'
 
   //hide/show toolbar elements
   hideAllElms();

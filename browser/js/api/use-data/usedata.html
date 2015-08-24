@@ -1,1 +1,22 @@
-Export Data
+<div id='use'>
+  <div class='exportCard' ng-repeat='option in exportOptions'>
+    <div class='row export-name'>
+      <h4>{{ option.name.toUpperCase() }}</h4>
+    </div>
+    <div class='row export-details'>
+      <a href='/api/routes/{{ route._id }}/endpoints/{{ option.endpoint }}' target='_blank' download='{{ route.name }}.{{ option.endpoint }}'>
+        <img src='images/{{ option.endpoint }}.png'></img>
+      </a>
+    </div>
+  </div>
+  <div class='exportCard' ng-repeat='mod in mods'>
+    <div class='row export-name'>
+      <h4>{{ mod.name.toUpperCase() }}</h4>
+    </div>
+    <div class='row export-details'>
+      <a href='/api/routes/{{ route._id }}/mods/{{ mod.name }}' target='_blank' download='{{ route.name }}_{{ mod.name }}.{{ mod.endpoint }}'>
+        <img src='images/{{ mod.endpoint }}.png'></img>
+      </a>
+    </div>
+  </div>
+</div>

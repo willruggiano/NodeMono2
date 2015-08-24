@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "background": {
     "persistent": false,
-    "scripts": ["jquery.min.js", "background.js", "js/nodemono.js"]
+    "scripts": ["jquery.min.js", "background.js"]
   },
   "name": "Nodemono",
   "description": "Extension tool transform webpage to crawlify states",
@@ -16,7 +16,7 @@
     "default_title": "Nodemono"
   },
   "content_scripts": [{
-    "js": ["jquery.min.js", "detector.js"],
+    "js": ["jquery.min.js"],
     "matches": ["http://*/*", "https://*/*"]
   }],
 

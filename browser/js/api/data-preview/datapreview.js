@@ -7,6 +7,7 @@ app.config(($stateProvider) => {
       $scope.editing.crawl = true
       $scope.reverseSort=false;
       $scope.orderByField = {name:'index'};
+
       $scope.$watch('crawlData.data', (d) => {
         if (d) {
           $scope.headers = Object.keys(d)

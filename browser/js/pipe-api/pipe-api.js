@@ -18,12 +18,10 @@ app.config(($stateProvider) => {
       $scope.editing = {};
       $scope.activetab = null;
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
-                     { header: 'Setup', url: 'setup', glyphicon: 'cog' },
-                     { header: 'History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Pipe Setup', url: 'setup', glyphicon: 'cog' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
-                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
-                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
-
+                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' }];
+      $scope.endpoints = ['json', 'csv', 'rss'];
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
       };
@@ -85,7 +83,7 @@ app.config(($stateProvider) => {
       $scope.clonePipe = () => {
         var oldName = $scope.pipe.name;
         var newPipe = _.pick($scope.pipe, ['userFilters', 'filters', 'inputs', 'user']);
-        newPipe.name = oldName + '_clone';
+        newPipe.name = oldName + '_clone' + (Math.floor(Math.random() * 10000));
         Pipe.create(newPipe).then(savedPipe => savedPipe.go(user._id));
       };
 

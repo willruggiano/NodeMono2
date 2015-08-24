@@ -108,6 +108,10 @@ app.config(($stateProvider) => {
         return {headers, rows};
       }
 
+      $scope.copyToClipBoard = () => {
+        return angular.toJson($scope.data);
+      };
+
     }
   });
 });

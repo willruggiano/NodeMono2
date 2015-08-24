@@ -402,6 +402,9 @@ table#pipePreviewTable {
 .btn-crawl-start {
   font-size: 14px; }
 
+.listUrl {
+  height: 40vh; }
+
 #crawlsetup h5 {
   font-size: 14px;
   font-weight: bolder;

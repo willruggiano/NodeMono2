@@ -4,22 +4,22 @@
       <h5>API Settings</h5>
       <div>
         <p class='label'>CRAWL STRATEGY <span class='glyphicon glyphicon-question-sign' popover="Crawl strategies to scrape: original URL source, enter URL manually, generate URL list or get URL from another source API" popover-trigger="mouseenter"></span></p>
-        <select class=''>
-          <option selected='selected'>Source URL only</option>
-          <option>Manual URL list</option>
-          <option>Generated URL list</option>
-          <option>URLs from source API</option>
+        <select id="crawlStrategy" ng-model="crawlStrategy" ng-change="crawlStrategyChange()">
+          <option value='1'>Source URL only</option>
+          <option value='2'>Manual URL list</option>
+          <option value='3'>Generated URL list</option>
+          <option value='4'>URLs from source API</option>
         </select>
       </div>
       <br>
       <div>
         <p class='label'>AUTO-RUN FREQUENCY<span class='glyphicon glyphicon-question-sign' popover="Specify how often this API run, you should better donate us if you want to run this API frequently" popover-trigger="mouseenter"></span></p>
-        <select class=''>
-          <option selected='selected'>Manual Crawl</option>
-          <option>Hourly</option>
-          <option>Daily</option>
-          <option>Weekly</option>
-          <option>Monthly</option>
+        <select ng-model="runFrequency">
+          <option value='1'>Manual Crawl</option>
+          <option value='2'>Hourly</option>
+          <option value='3'>Daily</option>
+          <option value='4'>Weekly</option>
+          <option value='5'>Monthly</option>
         </select>
       </div>
     </div>
@@ -54,5 +54,13 @@
       </table>
       <button class='btn-crawl-start btn-nodemono' ng-click='updateCrawlData()'>re-crawl</button>
     </div>
+    <div ng-if="crawlStrategy==='2'">
+      <form ng-submit="">
+        <p>URL to crawl(one link per line)</p>
+        <textarea ng-model="ta.listUrl" id="listUrl" class="form-control listUrl"></textarea>
+      </form>
+    </div>
   </div>
+  <!-- <div class='col-md-8'>
+  </div> -->
 </div>

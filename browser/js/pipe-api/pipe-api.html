@@ -28,8 +28,8 @@
 	          <td class='td-label'>Input Pipes</td>
 	          <td>
 	          	<span ng-repeat="inputPipe in inputs.pipes">
-		            <a id="routeurl" ng-click="inputPipe.go(user._id)">{{ inputPipe.name }}</a>
-		            <button
+		            <a id="routeurl" class="pointer" ng-click="inputPipe.go(user._id)">{{ inputPipe.name }}</a> {{$last ? '' : '|'}}
+		            <button ng-show="edit"
 		              class='btn-nodemono-sm'
 		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
 		              ng-click="toggleStatus('routeurl')">X
@@ -41,8 +41,21 @@
 	          <td class='td-label'>Input Routes</td>
 	          <td>
 	          	<span ng-repeat="inputRoute in inputs.routes">
-		            <a id="routeurl" ng-click="inputRoute.go(user._id)">{{ inputRoute.name }}</a>
-		            <button
+		            <a id="routeurl" class="pointer" ng-click="inputRoute.go(user._id)">{{ inputRoute.name }}</a> {{$last ? '' : '|'}}
+		            <button ng-show="edit"
+		              class='btn-nodemono-sm'
+		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
+		              ng-click="toggleStatus('routeurl')">X
+		            </button>
+	          	</span>
+	          </td>
+	        </tr>
+	        <tr>
+	          <td class='td-label'>Filters</td>
+	          <td>
+	          	<span ng-repeat="filter in filters">
+		            <a id="routeurl"> {{ filter.name }} </a>{{$last ? '' : '|'}}
+		            <button ng-show="edit"
 		              class='btn-nodemono-sm'
 		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
 		              ng-click="toggleStatus('routeurl')">X

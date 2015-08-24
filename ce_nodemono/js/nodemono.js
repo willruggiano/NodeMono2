@@ -1,10 +1,8 @@
 function startNodemono() {
 	//import CSS library
-	importCSS(chrome.extension.getURL("css/bootstrap.min.css"))
-		// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
+	// importCSS(chrome.extension.getURL("css/bootstrap.min.css"))
+	// importCSS(chrome.extension.getURL("sgadget/selectorgadget_combined.css"))
 	importCSS(chrome.extension.getURL("css/style.css"));
-
-	// importJS(chrome.extension.getURL('js/main.js'));
 
 	$.get(chrome.extension.getURL('html/kimono-toolbar.html'), function(data) {
 
@@ -92,7 +90,7 @@ function startNodemono() {
 				AuthService.getLoggedInUser()
 				$rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
 					$http({
-							url: '/api/routes/',
+							url: AUTH_EVENTS.serverUrl + '/api/routes/',
 							method: "GET",
 							params: {
 								user: Session.user._id

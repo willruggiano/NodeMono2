@@ -27,7 +27,20 @@ function getSelectors(html, data, paginationArr) {
 		// loop through each data (contains selector, name, etc.
 		var output = data.reduce(function(accum, datum) {
 			var selected;
+
 			var selector = datum.selector;
+			// var selector = datum.selector.split(' ');
+			// selector = selector.slice(selector.length - 6).join(' ');
+
+			// console.log('the datum', datum);
+			// if (datum.name === '[\'side Story\']') {
+			// 	// datum.selector = "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#now-feed.col-c DIV.now-feed-content ARTICLE.now-feed-item.module_bloom_behavior DIV.now-content.bloom-content P";
+			// 	datum.selector = "SECTION#now-feed.col-c DIV.now-feed-content .has-media DIV.now-content.bloom-content P";
+			// } else if (datum.name === 'title') {
+			// 	// datum.selector = "BODY.index.desktop.page-context-top.logged-out DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related.no-thumb DIV.text-container DIV.item-info-wrap P";
+			// 	datum.selector = "DIV#global-viewport.scrolled.global-nav-collapse SECTION#pane-main SECTION#main-container DIV.main-content.layout-abc SECTION#news-feed.col-b DIV#news-feed-content DIV.container-wrapper DIV.container ARTICLE.news-feed-item.news-feed-story-package.has-related DIV.text-container DIV.item-info-wrap P";
+			// }
+
 			// if attr is specified, get that attribute from each selected element
 			var attribute = datum.attr;
 			if (attribute) {
@@ -43,6 +56,9 @@ function getSelectors(html, data, paginationArr) {
 					return elem.textContent;
 				});
 			}
+
+			console.log('the selected', selected.length);
+ 
 			// if an index is specified, only keep that index
 			if (datum.index && selected.length) {
 				accum[datum.name] = accum[datum.name][datum.index];

@@ -1,4 +1,4 @@
-app.factory('Pipe', (DS, Route, $http, $q, $state) => {
+app.factory('Pipe', (DS, Route, Filter, $http, $q, $state) => {
 
   const PIPE = DS.defineResource({
     name: 'pipe',
@@ -39,6 +39,9 @@ app.factory('Pipe', (DS, Route, $http, $q, $state) => {
           return Pipe.get(pipe);
         });
         return output;
+      },
+      getFilters() {
+        return $q.all(this.filters.map(filterId => Filter.find(filterId)));
       }
     }
   });

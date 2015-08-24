@@ -5,14 +5,12 @@ app.config(($stateProvider) => {
     templateUrl: 'js/api/api.html',
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid),
-      data: (route) => route.getCrawlData()
+      route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
     controller: (DS, $scope, $timeout, user, route, data, $http) => {
       $scope.user = user
       $scope.route = route
-      $scope.data = data[0]
-      $scope.dataPreview;
+      $scope.crawlData = {}
       $scope.editing = {}
       $scope.activetab = null
       $scope.tabs = [{
@@ -55,6 +53,48 @@ app.config(($stateProvider) => {
         }
         // make sure row count gets initialized
       if (!$scope.rows) $scope.getRowCount()
+      $scope.rows
+      $scope.dataPreview
+
+      $scope.tabs = [{
+        header: 'Data Preview',
+        url: 'preview',
+        glyphicon: 'equalizer'
+      }, {
+        header: 'Crawl Setup',
+        url: 'setup',
+        glyphicon: 'cog'
+      }, {
+        header: 'Crawl History',
+        url: 'history',
+        glyphicon: 'calendar'
+      }, {
+        header: 'Modify Results',
+        url: 'modify',
+        glyphicon: 'wrench'
+      }, {
+        header: 'Use Data',
+        url: 'use',
+        glyphicon: 'circle-arrow-down'
+      }, {
+        header: 'API Docs',
+        url: 'docs',
+        glyphicon: 'file'
+      }]
+      $scope.resultTypes = [{
+        index: 1,
+        name: "CSV"
+      }, {
+        index: 2,
+        name: "RSS"
+      }, {
+        index: 3,
+        name: "JSON"
+      }];
+      $scope.activeResultType = $scope.resultTypes[0].name;
+
+      $scope.route.getCrawlData()
+        .then(data => $scope.crawlData.data = data)
 
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
@@ -64,17 +104,18 @@ app.config(($stateProvider) => {
           elem.removeAttribute('contenteditable') // make the element (elem) not editable
           $scope.editing.crawl = true
           $scope.route.DSSave() // save the newly edited element
-            .then(newroute => {
-              console.log(`successfully saved route ${newroute.name}`)
-              return newroute.getCrawlData()
+            .then(route => {
+              console.log(`successfully saved route ${route.name}`)
+              $scope.route = route
+              return route.getCrawlData()
             })
             .then(newdata => {
               $scope.data = newdata[0]
-              $scope.getRowCount()
               $scope.editing.crawl = false
             })
             .catch((e) => {
-              console.log(`was not able to save route ${route.name}: ${e}`)
+              console.log(`something went wrong... ${e}`)
+              $scope.editing.crawl = false
             })
         }
 
@@ -104,7 +145,6 @@ app.config(($stateProvider) => {
       }
 
 
-
       $scope.resultTypes = [{
         index: 1,
         name: "CSV"
@@ -127,6 +167,31 @@ app.config(($stateProvider) => {
           $scope.activeResultType = type.name;
         }
         //filter by search text
+        //delete route
+      $scope.deleteApi = () => {
+        // console.log(route);
+        route.DSDestroy().then(function(res) {
+            if (res) {
+              $state.go('profile', {
+                id: user._id
+              });
+            }
+          })
+          .catch(function(err) {
+            // console.log(err);
+            $scope.error = err;
+          })
+      }
+
+      $scope.setActiveType = (type) => {
+        // console.log($scope.data);
+        if (type.name === "JSON") {
+          $scope.dataPreview = angular.toJson(interleaveObj($scope.crawlData.data), true);
+        } else if (type.name === "RSS") {
+          $scope.dataPreview = parseXML(interleaveObj($scope.crawlData.data));
+        }
+        $scope.activeResultType = type.name;
+      }
 
       // helper function for interleave - interleaves a single object of arrays
       function interleaveObj(obj) {

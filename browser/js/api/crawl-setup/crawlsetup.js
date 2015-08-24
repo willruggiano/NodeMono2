@@ -15,8 +15,7 @@ app.config(($stateProvider) => {
         timer = setInterval(runTimer, 1)
         $scope.route.getCrawlData()
           .then(newdata => {
-            $scope.data = newdata[0]
-            $scope.getRowCount()
+            $scope.crawlData.data = newdata
             $scope.editing.crawl = false
           })
       }

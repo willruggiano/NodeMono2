@@ -4,24 +4,30 @@
 			<label>Filter</label>
 			<input class="form-control" ng-model="search.text">
 		</li>
-		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type.name}" class="resultType">
-			<a ng-click="setActiveType(type)">{{type.name}}&nbsp; </a>
+		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type}" class="resultType">
+			<a ng-click="setActiveType(type)">{{type}}&nbsp; </a>
 		</li>
 	</ul>
 </div>
 
-<div ng-if="activeResultType!=='CSV'">
-	<!-- {{dataPreview}} -->
-<textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
+<div class="data-preview">
+	<div ng-if="activeResultType!=='CSV'">
+		<pre class="pipeDataPre">{{dataPreview}}</pre>
+	</div>
+	<div id="pipePreviewContainer">
+		<table id='pipePreviewTable' ng-if="activeResultType=='CSV'">
+		  <tr>
+		    <th>index</th>
+		    <th ng-repeat='header in headers'>
+		    	{{ isInterleaved ? header : header.name }}
+		    </th>
+		  </tr>
+		  <tr ng-repeat='r in rows | filter:dataFilter()'>
+		    <td class="index-column">{{ r.index }}</td>
+		    <td ng-repeat='header in headers' class="data-column">
+		    	{{ isInterleaved ? data[r.index][header] : data[header.dataIdx][header.name][r.index] }}
+		    </td>
+		  </tr>
+		</table>
+	</div>
 </div>
-<table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
-  <tr>
-    <th>index</th>
-    <pre>{{headers}}</pre>
-    <th ng-repeat='header in headers'>I {{ header.name }}</th>
-  </tr>
-  <tr ng-repeat='r in rows | filter:dataFilter()'>
-    <td>{{ r.index }}</td>
-    <td ng-repeat='header in headers'>{{ data[header.dataIdx][header.name][r.index] }}</td>
-  </tr>
-</table>

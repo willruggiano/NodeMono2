@@ -13,11 +13,17 @@ body {
   clear: both; }
 
 #main {
-  width: 70%;
+  width: 80%;
   padding-top: 40px;
   padding-right: 15px;
   padding-left: 15px;
   margin: 0 auto; }
+
+.main-container {
+  padding-top: 50px; }
+
+.pointer {
+  cursor: pointer; }
 
 nodemono-logo {
   display: block;
@@ -37,7 +43,7 @@ navbar {
     navbar .navbar.navbar-static-top {
       height: inherit; }
       navbar .navbar.navbar-static-top .container {
-        width: 70%;
+        width: 80%;
         height: inherit; }
         navbar .navbar.navbar-static-top .container > * {
           box-sizing: border-box;
@@ -92,6 +98,9 @@ navbar {
           color: #E74C3C; }
     navbar .welcome button {
       cursor: pointer; }
+
+.navbar-text {
+  margin-top: 10px; }
 
 .btn-login {
   margin-top: 5px;
@@ -276,7 +285,7 @@ status-bar {
 /* GENERAL STYLING */
 #profile {
   padding: 50px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto; }
 
 .btn-nodemono {
@@ -365,6 +374,28 @@ table#dataPreviewTable {
     max-width: 200px;
     padding: 4px; }
   table#dataPreviewTable tr:nth-child(even) {
+    background: #e3e3e3; }
+
+div#pipePreviewContainer {
+  width: 100%;
+  overflow: auto; }
+
+.data-preview {
+  margin-top: 15px; }
+
+/* PIPE PREVIEW */
+table#pipePreviewTable {
+  font-size: 10px;
+  width: 100%; }
+  table#pipePreviewTable td, table#pipePreviewTable th {
+    word-wrap: break-word;
+    max-width: 200px;
+    padding: 4px; }
+  table#pipePreviewTable td.data-column {
+    min-width: 100px; }
+  table#pipePreviewTable td.index-column {
+    min-width: 10px; }
+  table#pipePreviewTable tr:nth-child(even) {
     background: #e3e3e3; }
 
 /* CRAWL SETUP */
@@ -487,6 +518,8 @@ route p {
   border-radius: 0 !important;
   color: #34495e;
   padding: 19px 25px 20px; }
+  .todo-search h6 {
+    font-size: 22px; }
 
 .todo-search:before {
   position: absolute;
@@ -520,3 +553,43 @@ route p {
   position: absolute;
   background: #FFF;
   border-radius: 10px; }
+
+.api-key {
+  display: inline-block;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 12px; }
+
+.api-light-button {
+  font-family: sans-serif;
+  font-weight: 300;
+  color: #ccc;
+  border-color: #eee;
+  line-height: 1.2; }
+
+.rename-api-button {
+  vertical-align: top;
+  margin-top: 13px; }
+
+.api-header p {
+  margin-bottom: 5px; }
+
+.reset-apikey-warning {
+  vertical-align: top; }
+
+.reset-apikey-warning {
+  color: #999;
+  font-weight: 300;
+  margin-left: 5px; }
+
+.api-delete-warning, .account-delete-warning, .reset-apikey-warning {
+  font-size: 14px;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: bottom;
+  line-height: 28px;
+  margin-left: 20px; }
+
+.api-header h1 small {
+  color: #587ca0; }

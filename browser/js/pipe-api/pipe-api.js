@@ -85,7 +85,7 @@ app.config(($stateProvider) => {
       $scope.clonePipe = () => {
         var oldName = $scope.pipe.name;
         var newPipe = _.pick($scope.pipe, ['userFilters', 'filters', 'inputs', 'user']);
-        newPipe.name = oldName + '_clone';
+        newPipe.name = oldName + '_clone' + (Math.floor(Math.random() * 10000));
         Pipe.create(newPipe).then(savedPipe => savedPipe.go(user._id));
       };
 

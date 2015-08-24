@@ -10,8 +10,8 @@
 	    </button>
 	  </div>
 	  <div class='btn-group col-md-4 api-action'>
-	    <button class='btn btn-nodemono' ng-click=''>clone pipe</button>
-	    <button class='btn btn-nodemono' ng-click=''>edit pipe</button>
+	    <button class='btn btn-nodemono' ng-click='clonePipe()'>clone pipe</button>
+	    <button class='btn btn-nodemono' ng-click='deletePipe()'>delete pipe</button>
 	  </div>
 	</div>
 	<div class='row'>
@@ -34,39 +34,57 @@
 	          <td class='td-label'>Input Pipes</td>
 	          <td>
 	          	<span ng-repeat="inputPipe in inputs.pipes">
-		            <a id="routeurl" class="pointer" ng-click="inputPipe.go(user._id)">{{ inputPipe.name }}</a> {{$last ? '' : '|'}}
-		            <button ng-show="edit"
+		            <a id="pipes" class="pointer" ng-click="inputPipe.go(user._id)">{{ inputPipe.name }}</a>
+		            <button ng-show="editing.pipes"
 		              class='btn-nodemono-sm'
-		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
-		              ng-click="toggleStatus('routeurl')">X
+		              ng-click="removeFromPipe(inputPipe._id, 'pipe')">X
 		            </button>
+		             {{$last ? '' : '|'}}
 	          	</span>
+	          	<button
+			      class='btn-nodemono'
+			      ng-class="editing.pipes ? 'editing' : 'not-editing'"
+			      ng-click="toggleStatus('pipes')"
+			      ng-bind="editing.pipes ? 'save' : 'edit'">
+			    </button>
 	          </td>
 	        </tr>
 	        <tr>
 	          <td class='td-label'>Input Routes</td>
 	          <td>
-	          	<span ng-repeat="inputRoute in inputs.routes">
-		            <a id="routeurl" class="pointer" ng-click="inputRoute.go(user._id)">{{ inputRoute.name }}</a> {{$last ? '' : '|'}}
-		            <button ng-show="edit"
+	          	<span id="routes" ng-repeat="inputRoute in inputs.routes">
+		            <a class="pointer" ng-click="inputRoute.go(user._id)">{{ inputRoute.name }}</a>
+		            <button ng-show="editing.routes"
 		              class='btn-nodemono-sm'
-		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
-		              ng-click="toggleStatus('routeurl')">X
+		              ng-click="removeFromPipe(inputRoute._id, 'routes')">X
 		            </button>
+		             {{$last ? '' : '|'}}
 	          	</span>
+	          	<button
+			      class='btn-nodemono'
+			      ng-class="editing.routes ? 'editing' : 'not-editing'"
+			      ng-click="toggleStatus('routes')"
+			      ng-bind="editing.routes ? 'save' : 'edit'">
+			    </button>
 	          </td>
 	        </tr>
 	        <tr>
 	          <td class='td-label'>Filters</td>
 	          <td>
-	          	<span ng-repeat="filter in filters">
-		            <a id="routeurl"> {{ filter.name }} </a>{{$last ? '' : '|'}}
-		            <button ng-show="edit"
+	          	<span id="filters" ng-repeat="filter in filters">
+		            <a> {{ filter.name }} </a>
+		            <button ng-show="editing.filters"
 		              class='btn-nodemono-sm'
-		              ng-class="editing.routeurl ? 'editing' : 'not-editing'"
-		              ng-click="toggleStatus('routeurl')">X
+		              ng-click="removeFromPipe(filter._id, 'filters')">X
 		            </button>
+		             {{$last ? '' : '|'}}
 	          	</span>
+	          	<button
+			      class='btn-nodemono'
+			      ng-class="editing.filters ? 'editing' : 'not-editing'"
+			      ng-click="toggleStatus('filters')"
+			      ng-bind="editing.filters ? 'save' : 'edit'">
+			    </button>
 	          </td>
 	        </tr>
 	        <tr>

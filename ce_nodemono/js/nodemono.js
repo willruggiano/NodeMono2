@@ -220,9 +220,9 @@ function startNodemono() {
 
 					//change stylings on DOM
 					for (var i = 0; i < $scope.matchList.length; i++) {
-						$scope.matchList[i].style['background-color'] = 'yellow';
+						$scope.matchList[i].style['background-color'] = '#f1c40f';
 					}
-					$scope.targetElement.style['background-color'] = '#00ff00';
+					$scope.targetElement.style['background-color'] = green;
 
 					//hide/show toolbar
 					hideAllElms();
@@ -245,7 +245,7 @@ function startNodemono() {
 
 					//change stylings on DOM
 					hideHighlights($scope);
-					$scope.targetElement.style['background-color'] = '#00ff00';
+					$scope.targetElement.style['background-color'] = green;
 
 					//hide/show toolbar elements
 					hideAllElms();
@@ -270,16 +270,16 @@ function startNodemono() {
 					$scope.currentProperty['selector'] = $scope.selector;
 
 					//change stylings on DOM
-					$scope.targetElement.style['background-color'] = '#ffff00'
+					$scope.targetElement.style['background-color'] = green
 
 					//hide/show toolbar elements
 					hideAllElms();
-					generateAttrButtons('yellow', $scope);
+					generateAttrButtons('green', $scope);
 					setTimeout(function() {
 						document.getElementById('backButton').className = 'toolbarEl show'
 						var attrSelectors = document.getElementById('attrSelectors');
 						for (var i = 0; i < attrSelectors.children.length; i++) {
-							attrSelectors.children[i].className = 'yellowAttr show'
+							attrSelectors.children[i].className = 'greenAttr show'
 						}
 					}, 100);
 

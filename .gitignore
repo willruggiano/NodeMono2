@@ -7,3 +7,5 @@ public/main.js
 coverage
 zepto.min.js
 jquery.min.js
+
+!node_modules/angular-bootstrap/template/tabs/.

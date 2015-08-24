@@ -7,7 +7,7 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $state, Route, $http) => {
+    controller: (DS, $scope, $timeout, user, route, $state, Route, $http, Utils) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}

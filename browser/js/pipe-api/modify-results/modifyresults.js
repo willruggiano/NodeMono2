@@ -2,7 +2,7 @@ app.config(($stateProvider) => {
   $stateProvider.state('pipe.modify', {
     url: '/modify',
     templateUrl: 'js/pipe-api/modify-results/modifyresults.html',
-    controller: ($scope, data) => {
+    controller: ($scope) => {
       let editor = ace.edit('editor')
 
       editor.setTheme('ace/theme/chrome')

@@ -40,8 +40,10 @@
     </a>
     </th>
   </tr>
-  <tr ng-repeat='r in rows | filter:dataFilter() | orderBy:sortData' ng-hide='!crawlData.data'>
-    <td>{{ r.index }}</td>
-    <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
-  </tr>
+	<span ng-hide='!crawlData.data'>
+	  <tr ng-repeat='r in rows | filter:dataFilter() | orderBy:sortData'>
+	    <td>{{ r.index }}</td>
+	    <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
+	  </tr>
+	</span>
 </table>

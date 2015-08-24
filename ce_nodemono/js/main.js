@@ -23,7 +23,7 @@ function setUpDom(scope) {
 }
 //_____________________________________________________________
 var yellow = "#f1c40f";
-var green = "#1abc9c"
+var green = "#2de52d"
 
 //
 

@@ -270,7 +270,7 @@ function startNodemono() {
 					$scope.currentProperty['selector'] = $scope.selector;
 
 					//change stylings on DOM
-					$scope.targetElement.style['background-color'] = green
+					$scope.targetElement.style['background-color'] = yellow
 
 					//hide/show toolbar elements
 					hideAllElms();

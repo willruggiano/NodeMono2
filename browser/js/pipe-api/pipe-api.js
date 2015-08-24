@@ -9,7 +9,7 @@ app.config(($stateProvider) => {
       inputs: (pipe) => pipe.getInputs(),
       filters: (pipe) => pipe.getFilters()
     },
-    controller: (DS, $scope, $timeout, user, pipe, inputs, filters) => {
+    controller: (DS, Pipe, $scope, $timeout, $state, user, pipe, inputs, filters) => {
       $scope.user = user;
       $scope.pipe = pipe;
       $scope.inputs = inputs;
@@ -40,9 +40,9 @@ app.config(($stateProvider) => {
       // called every time 'edit' button is clicked
       $scope.toggleStatus = (id) => {
         let elem = document.getElementById(id);
-        elem.setAttribute('contenteditable', true); // make the element (elem) editable
+        if (elem) elem.setAttribute('contenteditable', true); // make the element (elem) editable
         if ($scope.editing[id]) {
-          elem.removeAttribute('contenteditable'); // make the element (elem) not editable
+          if (elem) elem.removeAttribute('contenteditable'); // make the element (elem) not editable
           $scope.pipe.DSSave() // save the newly edited element
             .then(newpipe => {
               console.log(`successfully saved pipe ${newpipe.name}`)
@@ -61,6 +61,33 @@ app.config(($stateProvider) => {
           $scope.editing[id] = !$scope.editing[id];
         }, 0);
       }
+
+      // for removing items from the pipe's arrays
+      $scope.removeFromPipe = (id, type) => {
+        // determine which array should be modified
+        if (type === 'filters') {
+          $scope.pipe.filters = $scope.pipe.filters.filter(filt => filt !== id);
+          // remove from the view too
+          $scope.filters = $scope.filters.filter(filt => filt._id !== id);
+        } else {
+          $scope.pipe.inputs[type] = $scope.pipe.inputs[type].filter(input => input !== id);
+          // remove from the view too
+          $scope.inputs[type] = $scope.inputs[type].filter(input => input._id !== id);
+        }
+      };
+
+      // delete the pipe (with JS data), and go to profile state
+      $scope.deletePipe = () => {
+        Pipe.destroy($scope.pipe._id).then(() => $state.go('profile', {id: user._id}));
+      };
+
+      // clone the pipe (with JS data), and go to the new pipe's profile
+      $scope.clonePipe = () => {
+        var oldName = $scope.pipe.name;
+        var newPipe = _.pick($scope.pipe, ['userFilters', 'filters', 'inputs', 'user']);
+        newPipe.name = oldName + '_clone';
+        Pipe.create(newPipe).then(savedPipe => savedPipe.go(user._id));
+      };
 
     }
   });

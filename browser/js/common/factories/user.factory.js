@@ -20,15 +20,9 @@ app.factory('User', (DS, Pipe, Route, $state) => {
       }
     },
     methods: {  // functionality added to every instance of User
-      go() {
-        $state.go('profile', { id: this._id });
-      },
-      getRoutes() {
-        return Route.findAll({ 'user': this._id });
-      },
-      getPipes() {
-        return Pipe.findAll({ 'user': this._id });
-      }
+      go() { $state.go('profile', { id: this._id }) },
+      getRoutes() { return Route.findAll({ 'user': this._id }) },
+      getPipes() { return Pipe.findAll({ 'user': this._id }) }
     }
   });
 

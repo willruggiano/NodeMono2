@@ -16,10 +16,10 @@ function createPropButton(scope, data) {
     scope.matchList = document.querySelectorAll(button.dataProp.selector)
     var index = button.dataProp.index
     if (index) {
-      scope.matchList[index].style['background-color'] = '#00ff00';
+      scope.matchList[index].style['background-color'] = green;
     } else {
       for (var i = 0; i < scope.matchList.length; i++) {
-        scope.matchList[i].style['background-color'] = 'yellow';
+        scope.matchList[i].style['background-color'] = yellow;
       }
     }
   })

@@ -49,9 +49,9 @@ function propClickListener(event) {
   //change styles for selected elements
   scope.matchList = document.querySelectorAll(scope.selector);
   for (var i = 0; i < scope.matchList.length; i++) {
-    scope.matchList[i].style['background-color'] = 'yellow';
+    scope.matchList[i].style['background-color'] = yellow;
   }
-  scope.targetElement.style['background-color'] = '#00ff00';
+  scope.targetElement.style['background-color'] = green;
 
   //show/hide toolbar elements
   hideAllElms();

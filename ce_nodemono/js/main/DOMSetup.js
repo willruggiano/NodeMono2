@@ -1,3 +1,6 @@
+var yellow = "#f1c40f";
+var green = "#1abc9c"
+
 function setUpDom(scope) {
   giveNodeListArrayMethods();
   //set up document for nodemono

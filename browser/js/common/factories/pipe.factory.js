@@ -12,13 +12,8 @@ app.factory('Pipe', (DS, Route, Filter, $http, $q, $state) => {
       }
     },
     methods: {
-      go(userId) {
-        $state.go('pipe.preview', { userid: userId, pipeid: this._id });
-      },
-      getFilters() {
-        return $http.get('/api/filters')
-          .then(res => res.data);
-      },
+      go(userId) { $state.go('pipe.preview', { userid: userId, pipeid: this._id }) },
+      getFilters() { return Filter.findAll() },
       getPipedData(remove) {
         return $http.get(`/api/pipes/${this.user}/${this.name}`, {params: {remove: remove}})
           .then(res => res.data);
@@ -36,7 +31,7 @@ app.factory('Pipe', (DS, Route, Filter, $http, $q, $state) => {
           return Route.get(route);
         });
         output.pipes = this.inputs.pipes.map(pipe => {
-          return Pipe.get(pipe);
+          return PIPE.get(pipe);
         });
         return output;
       },

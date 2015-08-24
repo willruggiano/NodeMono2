@@ -7,7 +7,7 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $state) => {
+    controller: (DS, $scope, $timeout, user, route, $state, Route) => {
       $scope.user = user
       $scope.route = route
       $scope.crawlData = {}
@@ -57,7 +57,21 @@ app.config(($stateProvider) => {
         }, 0)
       }
 
-
+      //clone route
+      $scope.cloneRoute = () => {
+        var cloneRoute = _.omit($scope.route,'_id')
+        var num = Number(cloneRoute.name[cloneRoute.name.length-1]);
+        cloneRoute.name = cloneRoute.name + '_clone' + (Math.floor(Math.random()*10000));
+        Route.create(cloneRoute)
+             .then(route => {
+                $scope.route = route;
+                // $state.go('profile', { id: route.user });
+                // $state.go('api.preview', { userid: route.user, routeid: route._id })
+             })
+             .catch((e) => {
+                console.log(`something wrong ${e}`);
+             })
+      }
       //delete route
       $scope.deleteApi = () => {
           // console.log(route);

@@ -18,7 +18,6 @@ module.exports = {
     "callbackURL": keys.google.callbackURL
   },
   "GITHUB": {
-    //token on github: 362522a7bd83012f4fd45a6a9b0605ef39f4dd03//
     "clientID": keys.github.clientID,
     "clientSecret": keys.github.clientSecret,
     "callbackURL": keys.github.callbackURL

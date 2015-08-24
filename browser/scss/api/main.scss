@@ -185,7 +185,7 @@ table#pipePreviewTable {
   }
 
   tr {
-    
+
     &:nth-child(even) {
       background: lighten($nodemono-gray, 30%);
     }
@@ -238,8 +238,6 @@ table#pipePreviewTable {
   }
 }
 
-/* CRAWL HISTORY */
-
 /* MODIFY RESULTS */
 #modify {
 
@@ -264,8 +262,40 @@ table#pipePreviewTable {
 }
 
 /* USE DATA */
+#use {
+  .exportCard {
+    background: lighten($nodemono-gray, 35%);
+    width: 29%;
+    height: 20vh;
+    margin: 2%;
+    float: left;
+    border: 1px solid $nodemono-gray;
 
-/* API DOCS */
+    div {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+
+      &.export-name {
+        height: 30%;
+
+          h4 {
+          color: $nodemono-red;
+          text-align: center;
+          height: 20%;
+        }
+      }
+
+      &.export-details {
+        height: 70%;
+
+        img {
+          height: 90%;
+        }
+      }
+    }
+  }
+}
 
 //class for result types
 .result-view{

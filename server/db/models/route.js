@@ -48,8 +48,9 @@ var schema = new mongoose.Schema({
 		type: Number,
 		default: 1
 	},
-	transformFn: {
-		type: String
+	modifications: {
+		type: Array,
+		default: []
 	}
 });
 

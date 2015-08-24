@@ -14,12 +14,11 @@
   <div class='row'>
     <div class='col-md-6'>
       <h5>Filter function</h5>
-      <form ng-submit='updateDataPreview()' ng-model='route.transformFn'>
+      <form>
         <pre id='editor'></pre>
-        <button ng-show='!editing.transformFn' type='submit' class='btn-nodemono'>Apply</button>
-        <!-- <button ng-show='editing.transformFn' class='btn-nodemono' style='background: green;' ng-click='saveModifiedData()'>Save</button> -->
+        <button ng-show='!editing.transform' ng-click=updateDataPreview() class='btn-nodemono'>Apply</button>
+        <input ng-model='modName' ng-show='editing.modName'></input><button ng-show='editing.transform' ng-click='export()' class='btn-nodemono' style='background: green;'>Export</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
-        <!-- <span ng-show='editing.transformFn' class='td-status-info' style='color: green;'>Applying transformation...</span> -->
       </form>
     </div>
     <div class='col-md-6'>

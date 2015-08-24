@@ -14,27 +14,26 @@ app.config(($stateProvider) => {
         }
       })
 
-      $scope.dataFilter = function(){
-          return function(r){
-            if(!$scope.search.text) return true;
-            var res = false;
-            var index = r.index.toString();
+      $scope.dataFilter = () => {
+          return r => {
+            if (!$scope.search.text) return true
+            let res = false,
+                index = r.index.toString()
+
             //construct regex for matching words, can separate by space or comma
-            var reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'),'gi');
+            let reg = new RegExp($scope.search.text.split(/[\s+,]/).join('|'), 'gi')
+
             //matching index
-            if(index.match(reg)){
-              return true;
-            }
+            if (index.match(reg)) return true
+
             //matching data in header
-            $scope.headers.forEach(function(header){
-              if ($scope.data[header][r.index].match(reg)){
-                res = true;
-              }
+            $scope.headers.forEach(header => {
+              if ($scope.data[header][r.index].match(reg)) res = true
             })
-            return res;
+
+            return res
           }
       }
-
     }
   })
 })

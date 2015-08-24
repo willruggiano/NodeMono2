@@ -9,17 +9,15 @@
 		</li>
 	</ul>
 </div>
-
-<div ng-if="activeResultType!=='CSV'">
-	<!-- {{dataPreview}} -->
-<textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
+<div ng-if="activeResultType !== 'CSV'">
+	<textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
 </div>
-<table id='dataPreviewTable' ng-if="activeResultType=='CSV'">
+<table id='dataPreviewTable' ng-if="activeResultType == 'CSV'">
   <tr>
     <th>index</th>
     <th ng-repeat='header in headers'>{{ header }}</th>
   </tr>
-  <tr ng-repeat='r in rows | filter:dataFilter()'>
+  <tr ng-repeat='r in rows | filter:dataFilter()' ng-hide='!crawlData.data'>
     <td>{{ r.index }}</td>
     <td ng-repeat='header in headers'>{{ crawlData.data[header][r.index] }}</td>
   </tr>

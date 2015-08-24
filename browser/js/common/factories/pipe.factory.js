@@ -1,4 +1,4 @@
-app.factory('Pipe', (DS, Route, $http, $q, $state) => {
+app.factory('Pipe', (DS, Route, Filter, $http, $q, $state) => {
 
   const PIPE = DS.defineResource({
     name: 'pipe',
@@ -12,13 +12,8 @@ app.factory('Pipe', (DS, Route, $http, $q, $state) => {
       }
     },
     methods: {
-      go(userId) {
-        $state.go('pipe.preview', { userid: userId, pipeid: this._id });
-      },
-      getFilters() {
-        return $http.get('/api/filters')
-          .then(res => res.data);
-      },
+      go(userId) { $state.go('pipe.preview', { userid: userId, pipeid: this._id }) },
+      getFilters() { return Filter.findAll() },
       getPipedData(remove) {
         return $http.get(`/api/pipes/${this.user}/${this.name}`, {params: {remove: remove}})
           .then(res => res.data);

@@ -21,7 +21,15 @@
 	        <tr>
 	          <td class='td-label'>Endpoints</td>
 	          <td>
-	            <a href='#'>json </a>|<a href='#'> csv </a>|<a href='#'> rss</a>
+							<span ng-repeat='endpoint in endpoints'>
+								<a
+									href='/api/{{ route._id }}/{{ endpoint }}'
+									method='post'
+									target='_blank'
+									download='{{ route.name }}.{{ endpoint }}'>{{ endpoint }}
+								</a>
+								<span ng-if='(endpoints.indexOf(endpoint) < endpoints.length - 1)'>| </span>
+							</span>
 	          </td>
 	        </tr>
 	        <tr>
@@ -55,7 +63,7 @@
 	</div>
 	<br>
 	<div class='row'>
-	  <tabset justified='false'>
+	  <tabset justified='true'>
 	    <tab ng-repeat='tab in tabs' ui-sref='api.{{ tab.url }}'>
 	      <tab-heading>
 	        <span class='glyphicon glyphicon-{{ tab.glyphicon }}'> {{ tab.header }}</span>
@@ -65,6 +73,6 @@
 		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
-	<button class='btn btn-danger' ng-click='' ng-hide='!crawlData.data'>Delete Api</button>
+	<button class='btn btn-danger btn-nodemono' ng-click='route.DSDestroy()' ng-hide='!crawlData.data'>Delete Api</button>
 	<br>
 </section>

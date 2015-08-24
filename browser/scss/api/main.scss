@@ -293,18 +293,25 @@ table#pipePreviewTable {
       &.export-name {
         height: 30%;
 
-          h4 {
-          color: $nodemono-red;
-          text-align: center;
-          height: 20%;
-        }
+          a {
+            height: 20%;
+
+            h4 {
+              color: $nodemono-red;
+              text-align: center;
+              height: inherit;
+            }
+          }
       }
 
       &.export-details {
         height: 70%;
 
-        img {
+        a {
           height: 90%;
+          img {
+            height: inherit;
+          }
         }
       }
     }

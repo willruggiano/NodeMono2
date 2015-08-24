@@ -45,13 +45,17 @@ app.config(($stateProvider) => {
       $scope.revertData = () => {
         session.setValue(TRANSFORM.toString()) // set editor to default transform function
         $scope.modifiedData = getOriginalData() // set data to original data
-        $scope.editing.transform = false // end edit cycle
+        $scope.editing.transform = false
+        $scope.editing.modName = false // end edit cycle
+        $scope.modName = '' // reset modname (if any)
       }
 
       $scope.export = () => {
         $scope.editing.modName = !$scope.editing.modName
         if (!$scope.editing.modName && $scope.modName) {
-          $scope.route.modifications.push({ name: $scope.modName.split(' ').join(''), endpoint: 'json', data: $scope.modifiedData })
+          if (!$scope.route.modifications) $scope.route.modifications = {}
+          let modName = $scope.modName.split(' ').join('').toLowerCase()
+          $scope.route.modifications[modName] = { name: $scope.modName, endpoint: 'json', data: $scope.modifiedData }
           $scope.route.DSSave()
             .then(route => $scope.revertData())
         }

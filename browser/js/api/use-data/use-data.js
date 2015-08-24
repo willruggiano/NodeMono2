@@ -4,10 +4,11 @@ app.config(($stateProvider) => {
     templateUrl: 'js/api/use-data/usedata.html',
     controller: ($scope) => {
       $scope.exportOptions = [
-        { name: 'JSON', endpoint:'json' },
+        { name: 'JSON', endpoint: 'json' },
         { name: 'CSV', endpoint: 'csv' },
         { name: 'RSS', endpoint: 'rss' }
-      ].concat($scope.route.modifications)
+      ]
+      $scope.mods = $scope.route.modifications
     }
   })
 })

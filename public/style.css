@@ -429,7 +429,6 @@ table#pipePreviewTable {
     font-weight: lighter;
     color: #b0b0b0; }
 
-/* CRAWL HISTORY */
 /* MODIFY RESULTS */
 #modify h4 {
   font-size: 14px;
@@ -448,7 +447,28 @@ table#pipePreviewTable {
   height: 40vh; }
 
 /* USE DATA */
-/* API DOCS */
+#use .exportCard {
+  background: #efefef;
+  width: 29%;
+  height: 20vh;
+  margin: 2%;
+  float: left;
+  border: 1px solid #969696; }
+  #use .exportCard div {
+    display: flex;
+    justify-content: center;
+    align-content: center; }
+    #use .exportCard div.export-name {
+      height: 30%; }
+      #use .exportCard div.export-name h4 {
+        color: #f31214;
+        text-align: center;
+        height: 20%; }
+    #use .exportCard div.export-details {
+      height: 70%; }
+      #use .exportCard div.export-details img {
+        height: 90%; }
+
 .result-view {
   margin-right: 20%; }
 

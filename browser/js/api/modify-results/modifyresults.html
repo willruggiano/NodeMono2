@@ -14,18 +14,10 @@
   <div class='row'>
     <div class='col-md-6'>
       <h5>Filter function</h5>
-      <form ng-submit='updateDataPreview()'>
-<pre id='editor'>
-function transform(data) {
-  // filter functions are passed the whole API response object
-  // you may manipulate or add to this data as you want
-
-  /* YOUR CODE HERE */
-
-  return data
-}
-</pre>
-        <button type='submit' class='btn-nodemono'>Apply</button>
+      <form>
+        <pre id='editor'></pre>
+        <button ng-show='!editing.transform' ng-click=updateDataPreview() class='btn-nodemono'>Apply</button>
+        <input ng-model='modName' ng-show='editing.modName'></input><button ng-show='editing.transform' ng-click='export()' class='btn-nodemono' style='background: green;'>Export</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
       </form>
     </div>

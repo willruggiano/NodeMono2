@@ -47,6 +47,10 @@ var schema = new mongoose.Schema({
 	pagesCrawled: {
 		type: Number,
 		default: 1
+	},
+	modifications: {
+		type: Array,
+		default: []
 	}
 });
 

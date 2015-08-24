@@ -14,19 +14,12 @@
   <div class='row'>
     <div class='col-md-6'>
       <h5>Filter function</h5>
-      <form ng-submit='updateDataPreview()'>
-<pre id='editor'>
-function transform(data) {
-  // filter functions are passed the whole API response object
-  // you may manipulate or add to this data as you want
-
-  /* YOUR CODE HERE */
-
-  return data
-}
-</pre>
-        <button type='submit' class='btn-nodemono'>Apply</button>
+      <form ng-submit='updateDataPreview()' ng-model='route.transformFn'>
+        <pre id='editor'></pre>
+        <button ng-show='!editing.transformFn' type='submit' class='btn-nodemono'>Apply</button>
+        <!-- <button ng-show='editing.transformFn' class='btn-nodemono' style='background: green;' ng-click='saveModifiedData()'>Save</button> -->
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
+        <!-- <span ng-show='editing.transformFn' class='td-status-info' style='color: green;'>Applying transformation...</span> -->
       </form>
     </div>
     <div class='col-md-6'>

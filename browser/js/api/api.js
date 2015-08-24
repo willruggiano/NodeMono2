@@ -5,7 +5,10 @@ app.config(($stateProvider) => {
     templateUrl: 'js/api/api.html',
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),
-      route: (Route, $stateParams) => Route.find($stateParams.routeid)
+      route: (Route, $stateParams) => {
+        console.log(`getting route ${$stateParams.routeid}`)
+        return Route.find($stateParams.routeid)
+      }
     },
     controller: (DS, $scope, $timeout, user, route) => {
       $scope.user = user
@@ -22,6 +25,7 @@ app.config(($stateProvider) => {
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
                      { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
 
+      // attach data to crawlData when it resolves
       $scope.route.getCrawlData()
         .then(data => $scope.crawlData.data = data)
 
@@ -39,7 +43,7 @@ app.config(($stateProvider) => {
               return route.getCrawlData()
             })
             .then(newdata => {
-              $scope.data = newdata[0]
+              $scope.crawlData.data = newdata[0]
               $scope.editing.crawl = false
             })
             .catch((e) => {

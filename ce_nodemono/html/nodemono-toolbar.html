@@ -29,7 +29,7 @@
             <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
     
-            <!--  -->
+            <!-- button Done/Preview/LoadRoute -->
             <button type="submit" id="doneBtn" class="toolbarEl show toolbarEl " ng-click="doneClicked()">Done</button>
             <button type="submit" id="previewBtn" class="toolbarEl show" ng-click="previewData()">Preview</button>
             <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+
@@ -47,10 +47,7 @@
 
     <!-- show collection and preview crawl data -->
     <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
-        <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary show" ng-click="previewData()">Back</button>
-        </div>
-        <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
+           <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
             <button class="btn btn-primary" ng-click="showCollection()">
             Collection
             </button>
@@ -81,12 +78,12 @@
         <div ng-if="!apiRoute.data.length" class="previewDataNotice">
             <h3>You have no collection, please select at least one collection</h3>
         </div>
-    </div>
+    </div> <!-- end of previewData  -->
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay&&!showPreviewData" id="collectionOverlay" ng-controller="OverlayCtrl" class="animateOverlay" >
-        <div class="navbar-form navbar-right">
+        <!-- <div class="navbar-form navbar-right">
             <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()" >Back</button>
-        </div>
+        </div> -->
         <!-- show login form if no user found -->
         <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
             <form id="login-form" name="loginForm">
@@ -135,5 +132,5 @@
                 <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
-    </div>
+    </div> <!-- end of collectionOverlay  -->
 </div>

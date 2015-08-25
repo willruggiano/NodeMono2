@@ -30,7 +30,6 @@ function registerPreviewCtrl(app) {
       })
       $scope.headers = Object.keys($scope.dataPreview)
       $scope.rows = $scope.getRowCount();
-      console.log($scope.dataPreview);
     }
 
   })

@@ -5,7 +5,6 @@ app.directive('filter', function() {
 		scope: {
 			filter: '=',
 			toggle: '&',
-			save: '&',
 			active: '='
 		},
 		link: function(scope) {
@@ -24,12 +23,15 @@ app.directive('filter', function() {
 			scope.changeClass = function (){
 				if (scope.class === "item-inactive")
 					scope.class = "item-active";
-				else
+				else {
 					scope.class = "item-inactive";
-				};
+				}
+			};
 
 			// ask for parameters if the filter expects them
-			scope.toggleParams = function() {
+			scope.toggleParams = function(save) {
+				// if changed, remember that
+				if (save) scope.filter.default = false;
 				// check if filter expects parameters				
 				if (scope.filter.parameters.length && !scope.settingParameters && scope.class === "item-inactive") {
 					scope.settingParameters = true;
@@ -37,7 +39,7 @@ app.directive('filter', function() {
 					// if it doesn't, or they are already set, add filter to the pipe
 					scope.settingParameters = false;
 					scope.changeClass();
-					scope.toggle(scope.filter);
+					scope.toggle({filter: scope.filter, save: save});
 				}
 			};
 

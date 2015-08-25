@@ -38,7 +38,7 @@ function toCSV(d) {
     fields.forEach(function(field) {
       datum[field] = datum[field].replace(/\n/gi);
       // row.push(`"${datum[field]}"` || "")
-      row.push(''+datum[field] || '');
+      row.push(!!datum[field] ? datum[field] : '');
       // console.log(i,'=',row) =====> row is right?
     });
     csv.push(row.join(','));

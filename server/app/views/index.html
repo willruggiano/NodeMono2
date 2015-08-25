@@ -7,17 +7,21 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="stylesheet" href="/bootstrap-social/bootstrap-social.css" />
     <link rel="stylesheet" href="/flat-ui/css/flat-ui.css">
-
+    <link href="/v-accordion/dist/v-accordion.css" rel="stylesheet" />
+    
     <script src="/lodash/index.js"></script>
     <script src="/xmljson.js"></script>
     <script src="/angular/angular.js"></script>
     <script src="/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/v-accordion/dist/v-accordion.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.min.js"></script>
     <script src="/ng-clip/src/ngClip.js"></script>
+    <script src="/angular-animate/angular-animate.js"></script>
     <script src="/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="/socket.io-client/socket.io.js"></script>
     <script src="/js-data/dist/js-data.min.js"></script>
     <script src="/js-data-angular/dist/js-data-angular.min.js"></script>
+    <script src="/lodash/index.js"></script>
     <!-- <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
@@ -27,5 +31,32 @@
 <body ng-app="NodemonoApp">
     <navbar></navbar>
     <ui-view></ui-view>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright © Nodemono 2015. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

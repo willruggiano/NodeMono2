@@ -4,6 +4,7 @@ function getNodeSelectorString(node, index) {
 
   // classString
   var classString = [];
+  // take classes from every other node
   if (index % 2 === 0 && node.className) {
     classString.push('');
     var classes = node.className.split(/\s+/);
@@ -28,6 +29,5 @@ function getSelector(baseNode) {
     index += 1;
   }
   if (startStringArr.length > 10) startStringArr = startStringArr.slice(startStringArr.length - 10);
-  console.log(startStringArr.join(' > '));
   return startStringArr.join(' > ');
 }

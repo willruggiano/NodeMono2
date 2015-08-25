@@ -44,7 +44,7 @@ function registerOverlayCtrl(app) {
         });
     }
 
-    $scope.createNewRoute = function() {
+    $scope.createRoute = function() {
       // console.log($rootScope.user)
       if (!$rootScope.apiRoute.data.length) {
         $scope.error = "You must create some routes first";
@@ -52,11 +52,13 @@ function registerOverlayCtrl(app) {
         console.log(Session.user);
         $rootScope.apiRoute.user = Session.user._id;
         $rootScope.apiRoute.url = document.URL;
-        new Route($rootScope.apiRoute).save().then(function(res) {
+        new Route($rootScope.apiRoute).save(true).then(function(res) {
           console.log(res);
+          // $rootScope.prevRoutes.push(res.data);
         })
       }
     }
+
 
     $scope.addPagination = function() {
 

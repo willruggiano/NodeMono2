@@ -131,7 +131,7 @@ ul>li{
   margin-top: 15%%;
   width: 400px !important;
   margin-left: 33%;
-  color: black;
+  color: white;
   
 }
 
@@ -283,6 +283,7 @@ ul>li{
 }
 
 #propButtons {
+  display: inline-block;
   float:right;
 }
 
@@ -321,4 +322,31 @@ ul>li{
   width: 23px;
 }
 
+#pagButtons{
+  display:inline-block;
+  float:right;
+}
+
+#goBack {
+  color: white;
+  background-color: #3498db;
+  float:right;
+  display:inline-block;
+}
+
+#popOver {
+  transition: all 0.2s;
+  padding: 20px;
+  border-radius: 3px;
+  background-color: #33495E;
+  position: absolute;
+  display: block;
+  z-index: 2;
+  color: white;
+  font-size: 0em;
+}
+
+#popList {
+  overflow:hidden;
+}
 

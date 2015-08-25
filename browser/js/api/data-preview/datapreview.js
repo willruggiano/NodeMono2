@@ -47,7 +47,7 @@ app.config(($stateProvider) => {
 
           //matching data in header
           $scope.headers.forEach(header => {
-            if ($scope.crawlData.data[header][r.index].match(reg)) res = true
+            if (($scope.crawlData.data[header][r.index])&&($scope.crawlData.data[header][r.index].match(reg))) res = true
           })
 
           return res

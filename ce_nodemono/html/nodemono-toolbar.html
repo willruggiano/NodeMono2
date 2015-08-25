@@ -137,8 +137,8 @@
                 <div>
                     <input name="route" type="text" class="toolbarEl show" ng-model="apiRoute.name" placeholder="Route name" ng-change='checkName()'>
                 </div>
-                <button class="toolbarEl show" ng-click="updateRoute(route)" type="submit">Create/Update Route</button>
-                <button class="toolbarEl show" ng-click="createRoute(route)" type="submit">Create/Update Route</button>
+                <button class="toolbarEl show" ng-click="updateRoute(route)" type="submit" ng-if="!apiRoute._id">Create Route</button>
+                <button class="toolbarEl show" ng-click="createRoute(route)" type="submit" ng-if="apiRoute._id">Update Route</button>
                 <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>

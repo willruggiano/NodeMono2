@@ -32,13 +32,17 @@ $ npm install && bower install
 $ gulp
 ```
 
-### Browser
-
-- open up your browser to localhost and the specified port
+- npm start (keep gulp running)
 
 ```shell
+$ npm start
 HTTPS server patiently listening on port (some port number)
 ```
+
+### Browser
+
+- load the chrome extension from Google Chrome menu > more tools > extensions > load unpacked extension (only in developer mode)
+- open up your browser to localhost and the specified port
 
 ---
 
@@ -73,7 +77,7 @@ HTTPS server patiently listening on port (some port number)
 
 | <a href="github.com/jsmulrow" target="_blank">**Jack Mulrow**</a> | <a href="github.com/willruggiano" target="_blank">**Will Ruggiano**</a> |
 | :---: |:---:| :---:|
-[![jsmulrow](https://avatars0.githubusercontent.com/u/11140174?v=3&s=200)](github.com/jsmulrow)    | [![willruggiano](https://avatars1.githubusercontent.com/u/11872440?v=3&s=260)](github.com/willruggiano)    |
+[![jsmulrow](https://avatars0.githubusercontent.com/u/11140174?v=3&s=200)](github.com/jsmulrow)    | [![willruggiano](https://avatars1.githubusercontent.com/u/11872440?v=3&s=200)](github.com/willruggiano)    |
 | <a href="http://github.com/jsmulrow" target="_blank">`github.com/jsmulrow`</a> | <a href="http://github.com/willruggiano" target="_blank">`github.com/willruggiano`</a> |
 
 ---
@@ -93,4 +97,4 @@ Reach out to us by:
 
 ---
 
-> Readme template from a fellow fullstack ninja @<a href="http://fvcproductions.com" target="_blank">FVCproductions</a>.
+> Readme template from fellow fullstack ninja @<a href="http://fvcproductions.com" target="_blank">FVCproductions</a>.

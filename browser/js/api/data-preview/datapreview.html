@@ -2,11 +2,11 @@
 	<table>
 		<tr>
 			<th>filter</th>
+			<th>preview format</th>
+			<th>copy to clipboard</th>
 		</tr>
 		<tr>
 			<td><input ng-model="search.text"></td>
-			<td><a target="_self" download="{{route.name}}.txt" href="/api/routes/{{user._id}}/{{route.name}}">Download</a></td>
-			<td><a clip-copy="copyToClipBoard()" id="copyToClipBoardBtn">Copy</a></td>
 			<td>
 				<span ng-repeat="type in resultTypes">
 					<a
@@ -17,6 +17,7 @@
 					<span ng-if='(resultTypes.indexOf(type) < resultTypes.length - 1)'> | </span>
 				</span>
 			</td>
+			<td><a clip-copy="copyToClipBoard()" id="copyToClipBoardBtn">Copy</a></td>
 		</tr>
 	</table>
 </div>

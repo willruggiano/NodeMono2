@@ -33,6 +33,14 @@ router.get('/:userId/:apiRouteName', function(req, res, next) {
         .then(null, next);
 });
 
+router.post('/:userId/getCrawlDataByConfig',function (req, res, next) {
+    new Route(req.body).getCrawlData()
+        .then(function(crawledData){
+            res.status(200).json(crawledData);
+        })
+        .then(null,next);
+})
+
 // create a new apiRoute (userId and apiRouteName in the body)
 router.post('/', function(req, res, next) {
     // req.body should have name, userId, url, data, and config

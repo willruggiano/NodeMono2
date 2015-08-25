@@ -16,6 +16,10 @@ app.config(($stateProvider) => {
       $scope.ta.listUrl = $scope.route.url
 
       $scope.crawlData = shareData.crawlData
+      //this is for option 4 in crawl strategy
+      $scope.routes = shareData.routes;
+      $scope.url = {};
+
       $scope.updateCrawlData = () => {
         $scope.crawlTime = 0
         $scope.editing.crawl = true
@@ -68,7 +72,25 @@ app.config(($stateProvider) => {
           
           
         }//end if
+        else if ($scope.crawlStrategy==='3'){
+          console.log('no idea')
+        }
+        else if ($scope.crawlStrategy==='4'){
+          //crawl data with another url from source API
+          $scope.route.getCrawlDataByRouteConfig($scope.url.select)
+                .then(function(data){
+                  $scope.crawlData.data = data;
+                  $scope.editing.crawl = false
+                })
+                .catch(console.log)
+        }
       }//end updateCrawlData
+
+      $scope.crawlStrategyChange = () => {
+        if($scope.crawlStrategy==='4'){
+          
+        }
+      }
     }
   })
 })

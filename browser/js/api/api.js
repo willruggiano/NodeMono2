@@ -17,10 +17,8 @@ app.config(($stateProvider) => {
       $scope.dataPreview
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
                      { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
-                    //  { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' }]
-                    //  { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
       $scope.endpoints = ['json', 'csv', 'rss']
 
       $scope.resultTypes = [{

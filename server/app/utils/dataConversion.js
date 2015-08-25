@@ -36,7 +36,7 @@ function toCSV(d) {
     ++i
     let row = []
     fields.forEach(field => {
-      datum[field] = datum[field].replace(/\n/gi)
+      if (datum[field]) datum[field] = datum[field].replace(/\n/gi)
       row.push(`"${datum[field]}"` || "")
       // console.log(i,'=',row) =====> row is right?
     })

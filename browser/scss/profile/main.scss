@@ -1,3 +1,7 @@
+.profile-container{
+    height: 88vh;
+}
+
 .api-key {
 	display: inline-block;
 	margin-bottom: 0px;
@@ -30,6 +34,9 @@
     color: #999;
     font-weight: 300;
     margin-left: 5px;
+}
+tr > td >a {
+    cursor: pointer;
 }
 
 .api-delete-warning, .account-delete-warning, .reset-apikey-warning {

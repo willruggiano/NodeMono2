@@ -2,6 +2,8 @@ function registerToolbarCtrl(app) {
   app.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope, Session, AuthService, AUTH_EVENTS, $http, Route) {
 
     $rootScope.showCollectionOverlay = false;
+    $rootScope.showPreviewData = false;
+    $rootScope.route = null;
     $scope.currentProperty = {};
     $scope.currentPagination = {};
     $scope.inPaginationMode = false;
@@ -86,12 +88,13 @@ function registerToolbarCtrl(app) {
 
     $scope.doneClicked = function() {
       $rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay ? false : true;
-      console.log($rootScope.apiRoute);
+      if($rootScope.showCollectionOverlay) $rootScope.showPreviewData = false
     }
 
     //preview crawl data from selector user choose;
     $scope.previewData = function() {
       $rootScope.showPreviewData = $rootScope.showPreviewData ? false : true;
+      if($rootScope.showPreviewData) $rootScope.showCollectionOverlay = false
     }
 
     //cancel 

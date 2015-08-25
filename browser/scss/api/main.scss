@@ -3,6 +3,7 @@ $api-font-xs: 10px;
 $api-font-sm: 14px;
 $api-font-med: 20px;
 $api-font-lg: 30px;
+$nodemono-dark-blue: #34495e;
 // safari and chrome
 @-webkit-keyframes rotating {
   from {
@@ -58,7 +59,6 @@ $api-font-lg: 30px;
 
 .btn-nodemono {
   font-size: $api-font-xs;
-  border: 1px solid $nodemono-gray;
   background: inherit;
   color: $nodemono-gray;
   margin-top: 10px; margin-bottom: 10px;
@@ -152,6 +152,7 @@ table#headerTable {
 table#dataPreviewTable {
   font-size: $api-font-xs;
   width: 100%;
+  margin-top: 15px;
 
   td, th {
     word-wrap: break-word;
@@ -164,6 +165,8 @@ table#dataPreviewTable {
     &:nth-child(even) {
       background: lighten($nodemono-gray, 30%);
     }
+
+    &:hover { background: lighten($nodemono-red, 40%); }
   }
 }
 
@@ -173,8 +176,63 @@ div#pipePreviewContainer {
 }
 
 .data-preview {
-  margin-top: 15px;
+  margin-top: 20px;
 }
+
+//class for result types
+.result-view {
+  margin: 0 auto !important;
+  height: 42px;
+
+  table {
+    margin: 0;
+    padding: 0;
+
+    td, th { padding-left: 4px; padding-right: 4px; }
+
+    th {
+      font-size: $api-font-xs;
+      color: $nodemono-gray;
+    }
+
+    td {
+      max-width: 300px;
+      font-size: $api-font-sm;
+
+      input {
+        border: 1px solid lighten($nodemono-gray, 20%);
+        border-radius: 4px;
+        padding: 4px;
+        color: $nodemono-gray;
+
+        &:focus { border: 1px solid lighten($nodemono-red, 30%); }
+      }
+
+      a {
+        cursor: pointer;
+        &#copyToClipBoardBtn {
+          color: #16a085;
+
+          &.zeroclipboard-is-hover { color: lighten($nodemono-dark-blue, 20%) !important; }
+        }
+
+        &.active { color: lighten($nodemono-dark-blue, 20%); }
+        &:hover { color: lighten($nodemono-dark-blue, 20%); }
+      }
+    }
+  }
+}
+
+.textareaPreview {
+  font-size: $api-font-xs;
+  background: lighten($nodemono-gray, 40%);
+  margin-top: 15px;
+  width: 100%;
+  height: 50em;
+  border: none;
+  padding: 4px;
+}
+
 
 /* PIPE PREVIEW */
 table#pipePreviewTable {
@@ -208,7 +266,9 @@ table#pipePreviewTable {
 .btn-crawl-start {
   font-size: $api-font-sm;
 }
-
+.listUrl{
+  height: 40vh;
+}
 #crawlsetup {
 
   h5 {
@@ -260,6 +320,13 @@ table#pipePreviewTable {
   p { font-size: $api-font-xs; }
   h5 { font-size: $api-font-xs; }
   pre { height: 40vh; }
+  input {
+    font-size: $api-font-xs;
+    border: 1px solid lighten($nodemono-gray, 20%);
+    height: 21px;
+    padding: 2px;
+    color: lighten($nodemono-red, 10%);
+  }
 
   .preview {
     font-size: $api-font-xs;
@@ -275,14 +342,17 @@ table#pipePreviewTable {
 
 /* USE DATA */
 #use {
-  .exportCard {
-    background: lighten($nodemono-gray, 35%);
-    width: 29%;
-    height: 20vh;
-    margin: 2%;
-    float: left;
-    border: 1px solid $nodemono-gray;
+  text-align: center;
 
+  .exportCard {
+    // background: lighten($nodemono-gray, 35%);
+    width: 250px;
+    height: 250px;
+    margin-left: 40px;
+    margin-right: 40px;
+    // border: 1px solid $nodemono-gray;
+    display: inline-block;
+    transition: 0.2s ease-in-out;
     div {
       display: flex;
       justify-content: center;
@@ -291,62 +361,32 @@ table#pipePreviewTable {
       &.export-name {
         height: 30%;
 
-          h4 {
-          color: $nodemono-red;
-          text-align: center;
-          height: 20%;
-        }
+          a {
+            height: 20%;
+
+            h4 {
+              color: $nodemono-red;
+              text-align: center;
+              height: inherit;
+            }
+          }
       }
 
       &.export-details {
         height: 70%;
 
-        img {
+        a {
           height: 90%;
+          img {
+            height: inherit;
+          }
         }
       }
     }
   }
 }
 
-//class for result types
-.result-view{
-  margin-right: 20%;
-
-}
-
-// li + .active{
-//   border-radius:10%;
-// }
-// li + .active >a{
-//   color:white !important;
-//   background-color: #337ab7 !important;
-// }
-
-.resultType{
-  float:right !important;
-  list-style-type:none;
-  cursor:pointer;
-}
-
-.textareaPreview{
-  height: 50em;
-  width: 100%;
-}
-
-.filter{
-  margin-top: 3px;
-  width: 200px;
-}
-
-.filter label{
-  display: inline;
-  // height:25px;
-  width:50%;
-}
-
-.filter input{
-  display: inline-block !important;
-  // height: 25px;
-  width:50%;
+.exportCard:hover {
+  color: #3498DB;
+  opacity: 0.8;
 }

@@ -6,8 +6,8 @@ function createPopOver(routes) {
     var list = document.getElementById('popList');
     for (var i = 0; i < routes.length; i++) {
       //new list item
-      list.innerHTML = list.innerHTML + '<imput type="radio" name="routeName" value="' + routes[i].name +
-        var radioButton = document.createElement('input')
+      // list.innerHTML = list.innerHTML + '<imput type="radio" name="routeName" value="' + routes[i].name +
+      var radioButton = document.createElement('input')
       radioButton.type = 'radio'
       radioButton.name = 'routeName'
       radioButton.value = routes[i].name

@@ -2,17 +2,18 @@ app.config(($stateProvider) => {
   $stateProvider.state('api.preview', {
     url: '/preview',
     templateUrl: 'js/api/data-preview/datapreview.html',
-    controller: ($scope, $state) => {
+    controller: ($scope, $state, Route, shareData) => {
       $scope.search = {}
       $scope.editing.crawl = true
       $scope.reverseSort=false;
       $scope.orderByField = {name:'index'};
-
+      $scope.crawlData = shareData.crawlData;
       $scope.$watch('crawlData.data', (d) => {
         if (d) {
           $scope.headers = Object.keys(d)
-          $scope.rows = $scope.route.rowCount
+          $scope.rows = $scope.route.getRowCount(d);
           $scope.editing.crawl = false
+          console.log($scope.headers, $scope.rows)
         }
       })
 
@@ -46,7 +47,7 @@ app.config(($stateProvider) => {
 
           //matching data in header
           $scope.headers.forEach(header => {
-            if ($scope.data[header][r.index].match(reg)) res = true
+            if ($scope.crawlData.data[header][r.index].match(reg)) res = true
           })
 
           return res
@@ -54,7 +55,6 @@ app.config(($stateProvider) => {
       }
 
       $scope.copyToClipBoard = () => {
-        // console.log(angular.toJson($scope.data));
         return angular.toJson($scope.crawlData.data);
       }
     }

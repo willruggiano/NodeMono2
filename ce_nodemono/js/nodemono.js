@@ -2,7 +2,7 @@ function startNodemono() {
 	//import CSS library
 	importCSS(chrome.extension.getURL("css/style.css"));
 
-	$.get(chrome.extension.getURL('html/kimono-toolbar.html'), function(data) {
+	$.get(chrome.extension.getURL('html/nodemono-toolbar.html'), function(data) {
 
 		//create a div with ngNonBindable property to prevent automatically bootstrap angular;
 		var div = document.createElement('div');
@@ -38,13 +38,6 @@ function startNodemono() {
 	})
 }
 
-if (!document.getElementById('nodemonofy')) {
-	startNodemono();
-	// console.log(!$("#nodemonofy"));
-} else {
-	console.log('Nodemono\' already started');
-}
-
 
 function setupAuthService() {
 	app.factory('Socket', function() {
@@ -75,4 +68,11 @@ function setupAuthService() {
 			$compileProvider.imgSrcSanitizationWhitelist(newImgSrcSanitizationWhiteList);
 		}
 	]);
+}
+
+if (!document.getElementById('nodemonofy')) {
+	startNodemono();
+	// console.log(!$("#nodemonofy"));
+} else {
+	console.log('Nodemono\' already started');
 }

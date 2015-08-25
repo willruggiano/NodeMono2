@@ -7,20 +7,18 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $state, Route, $http, Utils) => {
+    controller: (DS, $scope, $timeout, user, route, $state, Route, $http, Utils, shareData) => {
       $scope.user = user
       $scope.route = route
-      $scope.crawlData = {}
+      $scope.crawlData = shareData.crawlData
       $scope.editing = {}
       $scope.activetab = null
       $scope.rows
       $scope.dataPreview
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
                      { header: 'Crawl Setup', url: 'setup', glyphicon: 'cog' },
-                    //  { header: 'Crawl History', url: 'history', glyphicon: 'calendar' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' }]
-                    //  { header: 'API Docs', url: 'docs', glyphicon: 'file' }]
       $scope.endpoints = ['json', 'csv', 'rss']
 
       $scope.resultTypes = [{

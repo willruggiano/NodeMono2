@@ -5,5 +5,6 @@ public/style.css
 public/main.js
 .DS_Store
 coverage
-zepto.min.js
-jquery.min.js
+
+!node_modules/angular-bootstrap/template/tabs/tabset.html
+!node_modules/angular-bootstrap/template/tabs/tab.html

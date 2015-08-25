@@ -18,12 +18,10 @@ app.config(($stateProvider) => {
       $scope.editing = {};
       $scope.activetab = null;
       $scope.tabs = [{ header: 'Data Preview', url: 'preview', glyphicon: 'equalizer' },
-                     { header: 'Setup', url: 'setup', glyphicon: 'cog' },
-                     { header: 'History', url: 'history', glyphicon: 'calendar' },
+                     { header: 'Pipe Setup', url: 'setup', glyphicon: 'cog' },
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
-                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' },
-                     { header: 'API Docs', url: 'docs', glyphicon: 'file' }];
-
+                     { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' }];
+      $scope.endpoints = ['json', 'csv', 'rss'];
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
       };
@@ -85,10 +83,82 @@ app.config(($stateProvider) => {
       $scope.clonePipe = () => {
         var oldName = $scope.pipe.name;
         var newPipe = _.pick($scope.pipe, ['userFilters', 'filters', 'inputs', 'user']);
-        newPipe.name = oldName + '_clone';
+        newPipe.name = oldName + '_clone' + (Math.floor(Math.random() * 10000));
         Pipe.create(newPipe).then(savedPipe => savedPipe.go(user._id));
       };
 
+      // get the data
+      $scope.data = [];
+      $scope.rows = [];
+      $scope.headers = [];
+      $scope.isInterleaved = false;
+      $scope.waiting = true;
+      $scope.pipe.getPipedData().then(pipedData => {
+        $scope.waiting = false;
+
+        if (!pipedData.length) {
+          // no data came back
+          console.log('you got no data');
+          $scope.noData = true;
+          return;
+        }
+        $scope.noData = false;
+
+        $scope.data = pipedData;
+        // determine its format
+        $scope.isInterleaved = isInterleaved(pipedData);
+        // find the number of rows and the headers (different for interleaved)
+        var rowsAndKeys = {};
+        if ($scope.isInterleaved) {
+          rowsAndKeys.rows = pipedData.length;
+          rowsAndKeys.headers = pipedData.length ? Object.keys(pipedData[0]) : [];
+        } else {
+          rowsAndKeys = getRowsAndKeys(pipedData);
+        }
+        var n = rowsAndKeys.rows;
+        $scope.rows = new Array(n + 1).join('0').split('').map(function(d, i) { return { index: i }; });
+        // put headers in object with index to prevent duplicated in ng-repeat
+        console.log('the headers', rowsAndKeys.headers);
+        if ($scope.isInterleaved) {
+          $scope.headers = pipedData && Object.keys(pipedData[0]);
+        } else {
+          $scope.headers = rowsAndKeys.headers.map((header, idx) => {
+            return {index: idx, name: header.name, dataIdx: header.dataIdx};
+          });
+        }
+      });
+
+      function isInterleaved (data) {
+        // interleaved values will be strings, not arrays
+        if (data.length) {
+          var key = Object.keys(data[0])[0];
+          if (typeof data[0][key] === 'string') return true;
+        }
+        return false;
+      }
+
+      // gets the length of the longest array in any of the data objects and all property names
+      function getRowsAndKeys(data) {
+        var headers = [];
+        var longestArrInObj = (obj, index) => {
+          var keys = Object.keys(obj);
+          headers = headers.concat(keys.map(key => {return {name: key, dataIdx: index}; }));
+          return keys.reduce((max, key) => {
+            if (obj[key].length > max) return obj[key].length;
+            else return max;
+          }, 0);
+        };
+        var rows = data.reduce((max, pipedObj, idx) => {
+          var longest = longestArrInObj(pipedObj, idx);
+          if (longest > max) return longest;
+          else return max;
+        }, 0);
+        return {headers, rows};
+      }
+
+      $scope.copyToClipBoard = () => {
+        return angular.toJson($scope.data);
+      };
     }
   });
 });

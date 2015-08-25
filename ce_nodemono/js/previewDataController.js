@@ -19,7 +19,9 @@ function registerPreviewCtrl(app) {
     $scope.showCollection = function() {
       $scope.showCollectionSelected = true;
     }
-
+    $scope.backClicked = function() {
+      $rootScope.showPreviewData = false;
+    }
     $scope.showPreviewData = function() {
       $scope.showCollectionSelected = false;
       $rootScope.apiRoute.data.forEach(function(d) {
@@ -30,7 +32,6 @@ function registerPreviewCtrl(app) {
       })
       $scope.headers = Object.keys($scope.dataPreview)
       $scope.rows = $scope.getRowCount();
-      console.log($scope.dataPreview);
     }
 
   })

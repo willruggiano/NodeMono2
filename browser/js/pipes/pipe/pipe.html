@@ -1,7 +1,7 @@
-<li ng-class="class" ng-click="toggle(pipe); changeClass()">
-	<div class="todo-icon fui-list"></div>
-		<div class="todo-content">
-		<h4 class="todo-name"><strong>Name:</strong> {{pipe.name}}</h4>
-		Last Time Used: {{pipe.lastTimePiped}}
-	</div>
+<li ng-class="class" ng-click="toggle(pipe); changeClass()" >
+	<p>
+		<strong>Name: {{pipe.name}}</strong>
+		<span class="fui-check-inverted-2"></span>
+	</p>
+	<small>Last Time Used: {{pipe.lastTimePiped | date : 'short'}}<small>
 </li>

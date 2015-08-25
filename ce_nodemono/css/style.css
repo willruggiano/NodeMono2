@@ -112,6 +112,7 @@ ul>li{
   position: fixed;
   backface-visibility: hidden;
   color: white;
+  top:0;
 }
 .animateOverlay{
   -webkit-transition: 0.5s;
@@ -180,20 +181,20 @@ ul>li{
 
 #oneButton{
   color: white;
-  background-color: #1abc9c;
+  background-color: #2ecc71;
 }
 
 #oneButton:hover{
-  background-color: #48c9b0;
+  background-color: #57d68d;
 }
 
 #allButton{
   color: white;
-  background-color: #2980B9;
+  background-color: #F39C12;
 }
 
 #allButton:hover{
-  background-color: #3498DB;
+  background-color: #f4d313;
 }
 
 #attrSelectors{
@@ -206,13 +207,17 @@ ul>li{
   height:44px;
   border: 0px solid black;
   border-radius:3px;
-  background-color: #1abc9c;
+  background-color: #2980B9;
   display:inline-block !important;
   overflow: hidden;
   transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
   -moz-transition: all .1s ease-out;
   -ms-transition: all .1s ease-out;
+}
+
+.greenAttr:hover{
+  background-color: #3498DB;
 }
 
 .yellowAttr{
@@ -237,7 +242,7 @@ ul>li{
 
 #saveBtn{
   color: white;
-  background-color: #1abc9c;
+  background-color: #2ECC71;
   transition: all .1s ease-out;
   -webkit-transition: all .1s ease-out;
   -moz-transition: all .1s ease-out;
@@ -255,6 +260,7 @@ ul>li{
 }
 
 .selectorBtn{
+  background-color: white;
   position:relative;
   float: right;
   border: 0px solid black;
@@ -287,18 +293,35 @@ ul>li{
   float:right;
 }
 
-#doneBtn,#previewBtn,#paginationMode {
+#doneBtn,#previewBtn,#paginationMode, .backBtn {
   /*margin-top: 10px;*/
   color: white;
-  background-color: #3498db;
+  background-color: #1abc9c;
   float:right;
   display:inline-block;
 }
+
+#doneBtn:hover {
+  /*margin-top: 10px;*/
+  background-color: #48c9b0;
+}
+
+#previewBtn:hover {
+  /*margin-top: 10px;*/
+  background-color: #48c9b0;
+}
+
+#paginationMode:hover {
+  /*margin-top: 10px;*/
+  background-color: #48c9b0;
+}
+
 #backBtnImg {
   height: 23px;
 }
 
 #backButton{
+  margin-left: 20px;
   background-color: #e74c3c;
   float: left;
   min-width:0;

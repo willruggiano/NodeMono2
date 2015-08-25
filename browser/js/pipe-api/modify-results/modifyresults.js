@@ -2,16 +2,13 @@ app.config(($stateProvider) => {
   $stateProvider.state('pipe.modify', {
     url: '/modify',
     templateUrl: 'js/pipe-api/modify-results/modifyresults.html',
-    controller: ($scope, data) => {
+    controller: ($scope) => {
       let editor = ace.edit('editor')
 
       editor.setTheme('ace/theme/chrome')
       editor.getSession().setMode('ace/mode/javascript')
       console.log(editor)
 
-
-
-      $scope.modifiedData = data[0]
       $scope.updateDataPreview = () => {
         let v = editor.getValue()
         console.log(v)

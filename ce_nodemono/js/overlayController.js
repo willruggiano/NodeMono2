@@ -18,7 +18,9 @@ function registerOverlayCtrl(app) {
       text: "25 pages max",
       value: 25
     }];
-
+    $scope.backClicked = function() {
+      $rootScope.showCollectionOverlay = false;
+    }
     $scope.toggleLogin = function() {
       if ($scope.showLogin) {
         $scope.showLogin = false;

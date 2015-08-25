@@ -9,9 +9,6 @@ app.config(($stateProvider) => {
       editor.getSession().setMode('ace/mode/javascript')
       console.log(editor)
 
-
-
-      $scope.modifiedData = data[0]
       $scope.updateDataPreview = () => {
         let v = editor.getValue()
         console.log(v)

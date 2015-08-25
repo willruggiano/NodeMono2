@@ -1,10 +1,13 @@
-<div id='use'>
+ <div id='use'>
   <div class='exportCard' ng-repeat='option in exportOptions'>
     <div class='row export-name'>
-      <h4>{{ option.name.toUpperCase() }}</h4>
+      <h4 style="font-family: courier;">
+      {{ option.name.toLowerCase() }}</h4>
     </div>
     <div class='row export-details'>
-      <img src='images/{{ option.endpoint }}.png'></img>
+      <a href='/api/pipes/{{ pipe._id }}/endpoints/{{ option.endpoint }}' target='_blank' download='{{ pipe.name }}.{{ option.endpoint }}'>
+        <img src='images/{{ option.endpoint }}.png'></img>
+      </a>
     </div>
   </div>
 </div>

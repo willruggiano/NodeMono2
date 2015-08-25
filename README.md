@@ -66,8 +66,6 @@ HTTPS server patiently listening on port (some port number)
 
 ## Team
 
-> Or Contributors/People
-
 | <a href="github.com/thang239" target="_blank">**Thang Nguyen**</a> | <a href="github.com/alfsonsosn" target="_blank">**Alfonso Enriquez**</a> | <a href="github.com/coayscue" target="_blank">**Christian Ayscue**</a> 
 | :---: |:---:| :---:|
 | [![thang239](https://avatars1.githubusercontent.com/u/11095933?v=3&s=200)](github.com/thang239)    | [![alfonsosn](https://avatars1.githubusercontent.com/u/7824950?v=3&s=200)](github.com/alfsonsosn) | [![coayscue](https://avatars2.githubusercontent.com/u/11601141?v=3&s=200)](github.com/coayscue)  | 

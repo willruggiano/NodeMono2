@@ -32,7 +32,7 @@ $ npm install && bower install
 $ gulp
 ```
 
-- npm start
+- npm start (keep gulp running)
 
 ```shell
 $ npm start

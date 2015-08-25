@@ -22,7 +22,7 @@ router.post('/', function(req, res, next) {
     var newFilter = new Filter(req.body);
     newFilter.save()
         .then(function(filter) {
-            res.json(filter);
+            res.status(201).json(filter);
         })
         .then(null, next);
 });
@@ -40,7 +40,7 @@ router.param('id', function(req, res, next, id) {
             // invalid ids sometimes throw cast error
             if (e.name === "CastError" || e.message === "Not Found") e.status = 404;
             next(e);
-        })
+        });
 });
 
 // get a filter by id

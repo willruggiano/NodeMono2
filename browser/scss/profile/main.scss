@@ -35,6 +35,9 @@
     font-weight: 300;
     margin-left: 5px;
 }
+tr > td >a {
+    cursor: pointer;
+}
 
 .api-delete-warning, .account-delete-warning, .reset-apikey-warning {
     font-size: 14px;

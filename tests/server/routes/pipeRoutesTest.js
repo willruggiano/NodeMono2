@@ -135,7 +135,11 @@ describe('Pipes Route', function () {
 				expect(res.body.name).to.equal('newPipe');
 				expect(res.body.inputs.routes.length).to.equal(1);
 				expect(res.body.inputs.routes[0]).to.equal('' + route2._id);
-				done();
+				// find in the db
+				Pipe.findById(res.body._id).exec().then(function(foundPipe) {
+					expect(foundPipe.name).to.equal('newPipe');
+					done();
+				}).then(null, done);
 			});
 	});
 

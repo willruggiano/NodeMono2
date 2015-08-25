@@ -6,7 +6,6 @@
   "scripts": {
     "start": "nodemon --watch server -e js,html server/start.js",
     "postinstall": "gulp build",
-    "test": "mocha tests/server/**/*.js",
     "test-server": "mocha tests/server/**/*.js",
     "test-browser": "karma start tests/browser/karma.conf.js"
   },

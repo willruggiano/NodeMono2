@@ -8,13 +8,13 @@ app.directive('pipe', function() {
 			toggle: '&'
 		},
 		link: function(scope) {
-			scope.class = "todo";
+			scope.class = "item-inactive";
 
 			scope.changeClass = function(){
-				if (scope.class === "todo")
-					scope.class = "todo-done";
+				if (scope.class === "item-inactive")
+					scope.class = "item-active";
 				else
-					scope.class = "todo";
+					scope.class = "item-inactive";
 				};
 		}
 	};

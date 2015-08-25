@@ -97,4 +97,4 @@ Reach out to us by:
 
 ---
 
-> Readme template from a fellow fullstack ninja @<a href="http://fvcproductions.com" target="_blank">FVCproductions</a>.
+> Readme template from fellow fullstack ninja @<a href="http://fvcproductions.com" target="_blank">FVCproductions</a>.

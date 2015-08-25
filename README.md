@@ -77,7 +77,7 @@ HTTPS server patiently listening on port (some port number)
 
 | <a href="github.com/jsmulrow" target="_blank">**Jack Mulrow**</a> | <a href="github.com/willruggiano" target="_blank">**Will Ruggiano**</a> |
 | :---: |:---:| :---:|
-[![jsmulrow](https://avatars0.githubusercontent.com/u/11140174?v=3&s=200)](github.com/jsmulrow)    | [![willruggiano](https://avatars1.githubusercontent.com/u/11872440?v=3&s=260)](github.com/willruggiano)    |
+[![jsmulrow](https://avatars0.githubusercontent.com/u/11140174?v=3&s=200)](github.com/jsmulrow)    | [![willruggiano](https://avatars1.githubusercontent.com/u/11872440?v=3&s=200)](github.com/willruggiano)    |
 | <a href="http://github.com/jsmulrow" target="_blank">`github.com/jsmulrow`</a> | <a href="http://github.com/willruggiano" target="_blank">`github.com/willruggiano`</a> |
 
 ---

@@ -1,13 +1,7 @@
 <li ng-class="class" ng-click="select(filter); changeClass()">
-	<div class="todo-icon fui-new"></div>
-	<div class="todo-content">
-		<h4 class="todo-name"><strong>Name:</strong> {{filter.name}}</h4>
-	</div>
+	<p>
+		<strong>Name: {{filter.name}}</strong>
+		<span class="fui-check-inverted-2"></span>
+	</p>
+	<small>Description: {{filter.description}}<small>
 </li>
-
-
-<!-- <div>
-	<input type="checkbox" ng-click="select({filter: filter})" name="default-switch" id="switch-01" />
-
-	<span col-lg-6>{{filter.name}}</span>
-</div> -->

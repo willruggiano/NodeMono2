@@ -1,126 +1,59 @@
+.mock-mash{
+	color: #bdc3c7;
+}
+
+#pipe-name{
+	font-size: 24px;
+}
+
 #accordion{
 	width: 830px;
 }
 
-.todo{
-	li {
-		background-color: white !important;
-		display: none;
-	}
-	input {
-		display: none;
-	}
+.pane-list{
+	padding-left: 15px;
 }
 
-.todo-search{
-	height: 100% !important;
-	border-bottom: 1px solid black;
-	&:hover{
-		.fui-arrow-right{
-			transform: rotate(90deg);
-		}
-		li {
-			display: block;
-		}
-		input {
-			display: block;
-		}
-	}
-}
-
-
-
-.todo-content{
-	h4 {
-		color: #34495e;
-	}
-}
-
-
-
-.bootstrap-tagsinput{
-	float: left;
-}
-
-.tagsinput-primary {
-    margin-bottom: 18px;
-}
-
-.tag {
-	color: #fff;
-    background-color: #1abc9c;
-
-}
-
-#pipes-sidebar{
-	padding-top: 60px;
-	padding-left: 0;
-	overflow: scroll;
-	padding-right: 0;
-	padding-left: 0;
-	padding-top: 0;
-	ul{
-		list-style-type: none;
-	}
-}
-
-
-#filter-sidebar{
-	// padding-top: 60px;
-	float: left;
-	border-right: 2px solid #34495E;
-	overflow: scroll;
-	height: 100vh;
-	padding-right: 0;
-	padding-left: 0;
-	padding-top: 0;
-	background-color: #fff !important;
-	ul{
-		list-style-type: none;
-	}
-}
-
-#pipes-content{
-	overflow: scroll;
-	height: 100vh;
-}
-
-
-route{
-	#name{
-		margin-top: 5px;
-	}
+.item-inactive{
+	cursor: pointer;
+	list-style-type: none;
+	font-size: 17px;
+	transition: 0.2s ease-in-out;
 	p {
-		margin: 0;
+		margin: 0 0 -5px;
+		span {
+			color: white;
+		}
+	}
+	small{
+		color: #798795;
+	}
+	a {
+		color: #1ABC9C;
 	}
 }
 
-.todo{
-	background-color: white;
-}
+// .checkmark {
+// 	float: left;
+// }
 
-.todo-search {
-	height: 80px;
-    position: relative;
-    background: white !important;
-    background-size: 16px 16px;
-    border-radius: 0 !important; 
-    color: #34495e;
-    padding: 19px 25px 20px;
-    h6 { 
-    	font-size: 22px;
-    }
-}
-
-
-.todo-search:before {
-  position: absolute;
-  font-family: 'Flat-UI-Icons';
-  content: "" !important;
-  font-size: 16px;
-  line-height: 17px;
-  display: inline-block;
-  top: 50%;
-  left: 92%;
-  margin: -0.5em 0 0 -1em;
+.item-active{
+	cursor: pointer;
+	list-style-type: none;
+	font-size: 17px;
+	transition: 0.2s ease-in-out;
+	p {
+		margin: 0 0 -5px;
+		span {
+			transition: 0.25s ease-in-out;
+			color: #3498DB;
+		}
+	}
+	small{
+		color: #3498DB;
+	}
+	a {
+		color: #3498DB;
+	}
+	color: #3498DB;
 }

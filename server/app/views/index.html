@@ -21,6 +21,7 @@
     <script src="/socket.io-client/socket.io.js"></script>
     <script src="/js-data/dist/js-data.min.js"></script>
     <script src="/js-data-angular/dist/js-data-angular.min.js"></script>
+    <script src="/lodash/index.js"></script>
     <!-- <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
@@ -30,5 +31,32 @@
 <body ng-app="NodemonoApp">
     <navbar></navbar>
     <ui-view></ui-view>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#">Home</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#services">Services</a>
+                        </li>
+                        <li class="footer-menu-divider">⋅</li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted small">Copyright © Nodemono 2015. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -170,7 +170,7 @@ describe('Pipes Route', function () {
 			});
 	});
 
-	xit('PUT one that doesn\'t exist', function(done) {
+	it('PUT one that doesn\'t exist', function(done) {
 		agent.put('/api/pipes/notarealidabcd345431')
 			.send({name: 'this shouldn\'t work'})
 			.expect(404)
@@ -190,7 +190,7 @@ describe('Pipes Route', function () {
 			});
 	});
 
-	xit('DELETE one that doesn\'t exist', function (done) {
+	it('DELETE one that doesn\'t exist', function (done) {
 		agent.delete('/api/pipes/123abcnotamongoid')
 			.expect(404)
 			.end(done);

@@ -111,7 +111,7 @@ describe('Filters Route', function () {
 			});
 	});
 
-	xit('PUT one that doesn\'t exist', function(done) {
+	it('PUT one that doesn\'t exist', function(done) {
 		agent.put('/api/filters/notarealidabcd345431')
 			.send({name: 'this shouldn\'t work'})
 			.expect(404)
@@ -131,7 +131,7 @@ describe('Filters Route', function () {
 			});
 	});
 
-	xit('DELETE one that doesn\'t exist', function (done) {
+	it('DELETE one that doesn\'t exist', function (done) {
 		agent.delete('/api/filters/123abcnotamongoid')
 			.expect(404)
 			.end(done);

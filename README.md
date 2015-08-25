@@ -20,13 +20,13 @@
 
 ### Setup
 
-> install npm and bower packages
+- install npm and bower packages
 
 ```shell
 $ npm install && bower install
 ```
 
-> gulp to build
+- gulp to build
 
 ```shell
 $ gulp
@@ -34,7 +34,7 @@ $ gulp
 
 ### Browser
 
-> open up your browser to localhost and the specified port
+- open up your browser to localhost and the specified port
 
 ```shell
 HTTPS server patiently listening on port (some port number)

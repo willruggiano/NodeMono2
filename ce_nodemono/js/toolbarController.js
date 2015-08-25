@@ -15,6 +15,25 @@ function registerToolbarCtrl(app) {
     $rootScope.apiRoute = {};
     $rootScope.apiRoute.data = [];
 
+    $scope.showStyle = {
+      'top': window.innerHeight / 2 - 75 + 'px',
+      'left': window.innerWidth / 2 - 150 + 'px',
+      'width': '300px',
+      'height': '150px',
+      'font-size': '1em',
+      'padding': '20px'
+    }
+    $scope.hideStyle = {
+      'top': window.innerHeight / 2 + 'px',
+      'left': window.innerWidth / 2 + 'px',
+      'width': '0',
+      'height': '0',
+      'font-size': '0em',
+      'padding': '0'
+    }
+    $scope.showPopOver = true;
+    console.log($scope.showStyle);
+
     //see if user has routes on this webpage
     AuthService.getLoggedInUser()
     $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
@@ -27,10 +46,29 @@ function registerToolbarCtrl(app) {
         })
         .then(function(res) {
           var routes = res.data;
-          $scope.urlRoutes = routes.filter(function(route) {
+          routes = routes.filter(function(route) {
             return window.location.href == route.url
+
           });
-          createPopOver($scope.urlRoutes);
+          //user has a route at this page
+          if (routes.length > 0) {
+            var routeList = routes.reduce(function(prev, route) {
+              return prev + '\n- ' + route.name
+            }, '')
+            var choice = prompt('Choose a route to edit:\n' + routeList, '');
+            if (choice != null) {
+              var singleRouteArr = routes.filter(function(route) {
+                return route.name === choice;
+              })
+              if (singleRouteArr.length > 0) {
+                $scope.importData(singleRouteArr[0])
+              } else {
+                alert('You misspelled the route name. Refresh page to try again;')
+              }
+            }
+
+          }
+
         })
     });
 
@@ -88,13 +126,13 @@ function registerToolbarCtrl(app) {
 
     $scope.doneClicked = function() {
       $rootScope.showCollectionOverlay = $rootScope.showCollectionOverlay ? false : true;
-      if($rootScope.showCollectionOverlay) $rootScope.showPreviewData = false
+      if ($rootScope.showCollectionOverlay) $rootScope.showPreviewData = false
     }
 
     //preview crawl data from selector user choose;
     $scope.previewData = function() {
       $rootScope.showPreviewData = $rootScope.showPreviewData ? false : true;
-      if($rootScope.showPreviewData) $rootScope.showCollectionOverlay = false
+      if ($rootScope.showPreviewData) $rootScope.showCollectionOverlay = false
     }
 
     //cancel 
@@ -211,7 +249,9 @@ function registerToolbarCtrl(app) {
     }
 
     $scope.noEdit = function() {
-      closePopOver();
+      console.log('noEdit');
+      console.log(document.getElementById('popOver'))
+      $scope.showPopOver = false
     }
 
     $scope.edit = function() {
@@ -220,7 +260,7 @@ function registerToolbarCtrl(app) {
       var list = document.getElementById('popList');
       for (var i = 0; i < list.children.length; i++) {
         if (list.children[i].checked) {
-          chosenRoute = document.getElementById('r1').value;
+          chosenRoute = list.children[i];
         }
       }
       if (choice) {
@@ -229,7 +269,7 @@ function registerToolbarCtrl(app) {
         })
         if (singleRouteArr.length > 0) {
           $scope.importData(singleRouteArr[0])
-          closePopOver();
+          $scope.showPopOver = false
         }
       }
     }

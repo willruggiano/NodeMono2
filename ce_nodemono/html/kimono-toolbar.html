@@ -27,9 +27,9 @@
             </div>
             <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
-                <!--  -->
+    
+            <!--  -->
             <button type="submit" id="doneBtn" class="toolbarEl show" ng-click="doneClicked()">Done</button>
-
             <button type="submit" id="previewBtn" class="toolbarEl show" ng-click="previewData()">Preview</button>
             <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+
             <img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'>
@@ -41,12 +41,12 @@
             </div>
     </div>
     <!-- show collection and preview crawl data -->
-    <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
-        <div class="navbar-form navbar-right">
-            <button type="submit" class="toolbarEl show backBtn" ng-click="backClicked()" >Back</button>
+    <div ng-if="showPreviewData && !showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
+        <div>
+            <button type="submit" class="toolbarEl show" ng-click="previewData()">Back</button>
         </div>
         <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
-            <button class="btn btn-primary" ng-click="showCollection()">
+            <button class='toolbarEl show' ng-click="showCollection()">
             Collection
             </button>
             <button class="toolbarEl show" ng-click="showPreviewData()">
@@ -76,12 +76,11 @@
         <div ng-if="!apiRoute.data.length" class="previewDataNotice">
             <h3>You have no collection, please select at least one collection</h3>
         </div>
-    </div> <!-- end of previewData  -->
+    </div>
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay&&!showPreviewData" id="collectionOverlay" ng-controller="OverlayCtrl" class="animateOverlay" >
-
-        <div class="navbar-form navbar-right">
-            <button type="submit" class="toolbarEl show backBtn" ng-click="backClicked()" >Back</button>
+        <div>
+            <button type="submit" class="toolbarEl show" id="goBack" ng-click="doneClicked()" >Back</button>
         </div>
         <!-- show login form if no user found -->
         <div class='loginForm' ng-if="!user && showLogin">
@@ -132,6 +131,5 @@
                 <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
-
-    </div> <!-- end of collectionOverlay  -->
+    </div>
 </div>

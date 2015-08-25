@@ -81,12 +81,11 @@ router.get('/:id/endpoints/:endpoint', function(req, res, next) {
     .then(function(pipedData) {
       if (endpoint === 'json') res.status(200).json(pipedData);
       else if (endpoint === 'csv') {
-        console.log('about to start csving', pipedData);
-        var csv = pipedData.reduce(function(accum, data) {
-            return accum.concat(JSONtoCSV(data));
-        }, []);
-        console.log('this is the csv', csv);
-        res.status(200).send(csv);
+        var csv = pipedData.map(function(datum) {
+            JSONtoCSV(pipedData[0]);
+        });
+        // res.status(200).send(csv);
+        res.status(404).send("pipe csv is not supported");
       } else if (endpoint === 'rss') {
         var rss = JSONtoRSS(pipedData[0]);
         res.status(200).send(rss);

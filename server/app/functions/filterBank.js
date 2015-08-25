@@ -71,21 +71,21 @@ var filterBank = {
 		elementSlice: function(elem, x) {
 			return elem.slice(0, x);
 		},
-		// for the numeric functions, strings are coerced to numbers
-		square: function(elem) {
-			return elem * elem;
-		},
-		multiply: function(elem, x) {
-			return elem * x;
-		},
+		// // for the numeric functions, strings are coerced to numbers
+		// square: function(elem) {
+		// 	return elem * elem;
+		// },
+		// multiply: function(elem, x) {
+		// 	return elem * x;
+		// },
 		// returns the part of each element that matches the regex
-		regexMatchElem: function(elem, str) {
-			// convert str to regex, with global and ignore case flags
-			var re = new RegExp(str, 'gi');
-			// return elem.match(re);
-			// match returns an array - take first elem or use toString()?
-			return elem.match(re).toString();
-		}
+		// regexMatchElem: function(elem, str) {
+		// 	// convert str to regex, with global and ignore case flags
+		// 	var re = new RegExp(str, 'gi');
+		// 	// return elem.match(re);
+		// 	// match returns an array - take first elem or use toString()?
+		// 	return elem.match(re).toString();
+		// }
 	},
 	// single array functions
 	singleArr: {
@@ -95,12 +95,12 @@ var filterBank = {
 		unique: function(arr) {
 			return _.uniq(arr);
 		},
-		firstXElements: function(arr, x) {
-			return arr.slice(0, x);
-		},
-		slice: function(arr, x) {
-			return arr.slice(x);
-		},
+		// firstXElements: function(arr, x) {
+		// 	return arr.slice(0, x);
+		// },
+		// slice: function(arr, x) {
+		// 	return arr.slice(x);
+		// },
 		// returns an array of the pulled values (expects values)
 		pull: function() {
 			// values to pull are passed in after the array
@@ -138,14 +138,14 @@ var filterBank = {
 			var filterFunc = filterMap[filterName];
 			return arr.filter(filterFunc);
 		},
-		// keeps/removes elements that match the regex (defaults to keep)
-		regexFilter: function(arr, str, remove) {
-			var re = new RegExp(str, 'ig');
-			var filterFunc;
-			if (remove) filterFunc = function(elem) {return re.test(elem); };
-			else filterFunc = function(elem) {return !re.test(elem); };
-			return arr.filter(filterFunc);
-		}
+		// // keeps/removes elements that match the regex (defaults to keep)
+		// regexFilter: function(arr, str, remove) {
+		// 	var re = new RegExp(str, 'ig');
+		// 	var filterFunc;
+		// 	if (remove) filterFunc = function(elem) {return re.test(elem); };
+		// 	else filterFunc = function(elem) {return !re.test(elem); };
+		// 	return arr.filter(filterFunc);
+		// }
 	},
 	// any number of array functions
 	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)
@@ -167,19 +167,19 @@ var filterBank = {
 			}];
 		},
 		// not entirely sure what this does (from lodash, sort of like intersection)
-		xor: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				xor: _.xor.apply(null, arrArgs)
-			}];
-		},
-		// another strange lodash function (easy to add, so why not?)
-		zip: function() {
-			var arrArgs = Array.prototype.slice.call(arguments);
-			return [{
-				zip: _.xor.apply(null, arrArgs)
-			}];
-		}
+		// xor: function() {
+		// 	var arrArgs = Array.prototype.slice.call(arguments);
+		// 	return [{
+		// 		xor: _.xor.apply(null, arrArgs)
+		// 	}];
+		// },
+		// // another strange lodash function (easy to add, so why not?)
+		// zip: function() {
+		// 	var arrArgs = Array.prototype.slice.call(arguments);
+		// 	return [{
+		// 		zip: _.xor.apply(null, arrArgs)
+		// 	}];
+		// }
 	},
 	// functions applied to each input object
 	singleObj: {

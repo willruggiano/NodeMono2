@@ -450,31 +450,37 @@ table#pipePreviewTable {
   height: 40vh; }
 
 /* USE DATA */
-#use .exportCard {
-  background: #efefef;
-  width: 29%;
-  height: 20vh;
-  margin: 2%;
-  float: left;
-  border: 1px solid #969696; }
-  #use .exportCard div {
-    display: flex;
-    justify-content: center;
-    align-content: center; }
-    #use .exportCard div.export-name {
-      height: 30%; }
-      #use .exportCard div.export-name a {
-        height: 20%; }
-        #use .exportCard div.export-name a h4 {
-          color: #f31214;
-          text-align: center;
-          height: inherit; }
-    #use .exportCard div.export-details {
-      height: 70%; }
-      #use .exportCard div.export-details a {
-        height: 90%; }
-        #use .exportCard div.export-details a img {
-          height: inherit; }
+#use {
+  text-align: center; }
+  #use .exportCard {
+    width: 250px;
+    height: 250px;
+    margin-left: 40px;
+    margin-right: 40px;
+    display: inline-block;
+    transition: 0.2s ease-in-out; }
+    #use .exportCard div {
+      display: flex;
+      justify-content: center;
+      align-content: center; }
+      #use .exportCard div.export-name {
+        height: 30%; }
+        #use .exportCard div.export-name a {
+          height: 20%; }
+          #use .exportCard div.export-name a h4 {
+            color: #f31214;
+            text-align: center;
+            height: inherit; }
+      #use .exportCard div.export-details {
+        height: 70%; }
+        #use .exportCard div.export-details a {
+          height: 90%; }
+          #use .exportCard div.export-details a img {
+            height: inherit; }
+
+.exportCard:hover {
+  color: #3498DB;
+  opacity: 0.8; }
 
 .result-view {
   margin-right: 20%; }

@@ -59,7 +59,7 @@
 
 				<v-pane-content>    
 					<ul class="pane-list" ng-repeat="filter in filters">
-						<filter filter="filter" select="selectFilter(filter)"></filter>	
+						<filter filter="filter" toggle="toggleFilter(filter)"></filter>	
 					</ul>
 				</v-pane-content>
 			</v-pane>		 
@@ -140,7 +140,7 @@
 					<th>Parameters</th>
 				</tr>
 
-				<tr ng-show="!pipe.inputs.routes.length" class="mock-mash">
+				<tr ng-show="!pipe.filters.length" class="mock-mash">
 					<td>Example Filter</td>
 					<td>Filters two things...</td>
 					<td>2</td>

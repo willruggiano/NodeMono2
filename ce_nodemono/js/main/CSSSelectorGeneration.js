@@ -1,34 +1,33 @@
-function getNodeSelectorString(node) {
-  //tagString
+function getNodeSelectorString(node, index) {
+  // tagString
   var tagName = node.tagName;
-  //idString
-  var id = '';
-  if (node.id) {
-    id = '#' + node.id;
-  }
-  //classString
-  var classString = '';
-  if (node.className) {
+
+  // classString
+  var classString = [];
+  if (index % 2 === 0 && node.className) {
+    classString.push('');
     var classes = node.className.split(/\s+/);
-    classes.forEach(function(classStr) {
-      if (classStr != '') {
-        classString = classString + '.' + classStr;
+    classes.forEach(function(classStr, idx) {
+      // take the first class (if there is one)
+      if (classStr && idx === 0) {
+        classString.push(classStr);
       }
-    })
+    });
   }
 
-  return tagName + id + classString;
+  return tagName + classString.join('.');
 }
 
-function getSelector(baseNode, startString) {
-  if (!startString) {
-    startString = ''
+function getSelector(baseNode) {
+  var startStringArr = [];
+  var node = baseNode;
+  var index = 0;
+  while (node.tagName.toLowerCase() !== 'html') {
+    startStringArr.unshift(getNodeSelectorString(node, index));
+    node = node.parentNode;
+    index += 1;
   }
-  startString = getNodeSelectorString(baseNode) + startString;
-
-  if (baseNode.tagName.toLowerCase() === 'body' || baseNode.parentNode == undefined) {
-    return startString;
-  } else {
-    return getSelector(baseNode.parentNode, ' ' + startString);
-  }
+  if (startStringArr.length > 10) startStringArr = startStringArr.slice(startStringArr.length - 10);
+  console.log(startStringArr.join(' > '));
+  return startStringArr.join(' > ');
 }

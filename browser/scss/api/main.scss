@@ -277,14 +277,17 @@ table#pipePreviewTable {
 
 /* USE DATA */
 #use {
-  .exportCard {
-    background: lighten($nodemono-gray, 35%);
-    width: 29%;
-    height: 20vh;
-    margin: 2%;
-    float: left;
-    border: 1px solid $nodemono-gray;
+  text-align: center;
 
+  .exportCard {
+    // background: lighten($nodemono-gray, 35%);
+    width: 250px;
+    height: 250px;
+    margin-left: 40px;
+    margin-right: 40px;
+    // border: 1px solid $nodemono-gray;
+    display: inline-block;
+    transition: 0.2s ease-in-out;
     div {
       display: flex;
       justify-content: center;
@@ -316,6 +319,11 @@ table#pipePreviewTable {
       }
     }
   }
+}
+
+.exportCard:hover {
+  color: #3498DB;
+  opacity: 0.8;
 }
 
 //class for result types

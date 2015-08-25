@@ -39,15 +39,8 @@ router.post('/', function(req, res, next) {
     var newRoute = new Route(req.body);
     newRoute.save()
         .then(function(apiRoute) {
-            // return the crawled data
-            //it should not return crawl data when the route is created, it should return the route itself?
-            // return apiRoute.getCrawlData();
-            console.log(apiRoute)
-            res.status(200).send(apiRoute);
+            res.status(201).send(apiRoute);
         })
-        // .then(function(data) {
-        //     res.status(201).json(data);
-        // })
         .then(null, next);
 });
 

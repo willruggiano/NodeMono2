@@ -11,9 +11,8 @@ app.config(($stateProvider) => {
       $scope.$watch('crawlData.data', (d) => {
         if (d) {
           $scope.headers = Object.keys(d)
-          $scope.rows = $scope.route.getRowCount(d);
+          $scope.rows = $scope.route.getRowCount(d)
           $scope.editing.crawl = false
-          console.log($scope.headers, $scope.rows)
         }
       })
 
@@ -47,7 +46,7 @@ app.config(($stateProvider) => {
 
           //matching data in header
           $scope.headers.forEach(header => {
-            if ($scope.crawlData.data[header][r.index].match(reg)) res = true
+            if (($scope.crawlData.data[header][r.index])&&($scope.crawlData.data[header][r.index].match(reg))) res = true
           })
 
           return res

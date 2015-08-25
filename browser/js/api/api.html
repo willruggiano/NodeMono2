@@ -15,25 +15,25 @@
 	  </div>
 	</div>
 	<div class='row'>
-	  <div class='col-md-8'>
+	  <div class='col-md-9'>
 	    <table id='headerTable'>
 	      <tbody>
 	      	<tr>
 	          <td class='td-label'>Route URL</td>
-	          <td style="max-width:200px">
+	          <td>
 	            <a href="">nodemono.herokuapp.com/api/routes/{{user._id}}/{{route.name}}</a>
 	          </td>
 	        </tr>
 	        <tr>
 	          <td class='td-label'>Endpoints</td>
 	          <td>
-							<span ng-repeat='endpoint in endpoints'>
+							<span ng-repeat='result in resultTypes'>
 								<a
-									href='/api/{{ route._id }}/{{ endpoint }}'
+									href='/api/routes/{{ route._id }}/endpoints/{{ result.name.toLowerCase() }}'
 									target='_blank'
-									download='{{ route.name }}.{{ endpoint }}'>{{ endpoint }}
+									download='{{ route.name }}.{{ result.name.toLowerCase() }}'>{{ result.name.toLowerCase() }}
 								</a>
-								<span ng-if='(endpoints.indexOf(endpoint) < endpoints.length - 1)'>| </span>
+								<span ng-if='(resultTypes.indexOf(result) < resultTypes.length - 1)'>| </span>
 							</span>
 	          </td>
 	        </tr>
@@ -75,7 +75,7 @@
 	      </tab-heading>
 	    </tab>
 	  </tabset>
-		<ui-view class='tab-content'></ui-view>
+		<ui-view></ui-view>
 	</div>
 	<br>
 	<button class='btn btn-danger' ng-click='deleteApi()' ng-hide='!crawlData.data'>Delete Api</button>

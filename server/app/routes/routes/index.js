@@ -59,16 +59,18 @@ router.param('id', function(req, res, next, id) {
         });
 });
 
-// get a apiRoute by id
+// get an apiRoute by id
 router.get('/:id', function(req, res) {
     res.status(200).json(req.apiRoute);
 });
 
+// get an apiRoute's modified data
 router.get('/:id/mods/:modName', function(req, res) {
   var modName = req.params.modName.toLowerCase();
   res.status(200).json(req.apiRoute.modifications[modName].data);
 });
 
+// get an apiRoute in a specific format
 router.get('/:id/endpoints/:endpoint', function(req, res, next) {
   var endpoint = req.params.endpoint.toLowerCase(),
       api = req.apiRoute;

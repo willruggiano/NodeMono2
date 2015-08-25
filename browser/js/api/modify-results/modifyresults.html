@@ -6,8 +6,8 @@
         You can write a javascript function to transform your results to your liking.
         The function you write takes in the data argument, a javascript object representation of your APIs JSON endpoint.
         The modified version of your JSON endpoint will consist of whatever your functions returns.
-        You can access this modified version of your data by adding the kimmodify=1 parameter to your API call.
-        When retrieving modified results, the only available output format is JSON. See examples below.
+        You can access this modified version of your data in the 'Use Data' tab.
+        When retrieving modified results, the only available output format is JSON.
       </p>
     </div>
   </div>
@@ -17,7 +17,8 @@
       <form>
         <pre id='editor'></pre>
         <button ng-show='!editing.transform' ng-click=updateDataPreview() class='btn-nodemono'>Apply</button>
-        <input ng-model='modName' ng-show='editing.modName'></input><button ng-show='editing.transform' ng-click='export()' class='btn-nodemono' style='background: green;'>Export</button>
+        <input ng-model='modName' ng-show='editing.modName' placeholder='modification name...'></input>
+        <button ng-show='editing.transform' ng-click='export()' class='btn-nodemono' style='background: green;'>Export</button>
         <button type='reset' class='btn-nodemono' ng-click='revertData()'>Clear function</button>
       </form>
     </div>

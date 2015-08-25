@@ -26,27 +26,23 @@ function interleave(obj) {
 }
 
 function toCSV(d) {
-  var fields = Object.keys(d),
+  let fields = Object.keys(d),
       data = interleave(d),
       csv = [],
       i = 0;
 
-  // console.log(data) =====> data is right
-  data.forEach(function(datum) { // =====> datum is right
-    ++i;
-    var row = [];
-    fields.forEach(function(field) {
-      datum[field] = datum[field].replace(/\n/gi);
-      // row.push(`"${datum[field]}"` || "")
-      row.push(!!datum[field] ? datum[field] : '');
-      // console.log(i,'=',row) =====> row is right?
-    });
+  data.forEach(datum => {
+    ++i
+    let row = []
+    fields.forEach(field => {
+      if (datum[field]) datum[field] = datum[field].replace(/\n/gi)
+      row.push(!!datum[field] ? `"${datum[field]}"` : "")
+    })
     csv.push(row.join(','));
-  });
+  })
 
-  csv.unshift(fields);
-  csv.unshift();
-  return csv.join('\n');
+  csv.unshift(fields) // add headers
+  return csv.join('\n')
 }
 
 function toRSS(o, tab) {

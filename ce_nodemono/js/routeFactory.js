@@ -1,5 +1,5 @@
 function registerRouteFactory(app) {
-  app.factory("Route", function($http, AUTH_EVENTS) {
+  app.factory("Route", function($http, AUTH_EVENTS, Session) {
     function Route(props) {
       angular.extend(this, props);
       return this;
@@ -13,6 +13,7 @@ function registerRouteFactory(app) {
         return AUTH_EVENTS.serverUrl + Route.serverUrl;
       }
     })
+
     Route.prototype.isNew = function() {
       return !this._id
     };
@@ -24,10 +25,10 @@ function registerRouteFactory(app) {
         })
     };
 
-    Route.prototype.save = function() {
+    Route.prototype.save = function(isNew) {
       var verb
       var serverUrl
-      if (this.isNew()) {
+      if (isNew) {
         verb = 'post'
           // serverUrl = Route.serverUrl
       } else {
@@ -39,6 +40,7 @@ function registerRouteFactory(app) {
           return res.data
         })
     }
+
     Route.prototype.destroy = function() {
       return $http.delete(this.serverUrl)
     }

@@ -5,7 +5,6 @@
         <a id="header-navbar" href="#ourwebsite">nodemono</a>
     </div>
 
-
 <!-- navbar -->
     <div class="btn-container">
             <!-- for all forms -->
@@ -28,30 +27,39 @@
             </div>
             <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
-    
-            <!-- button Done/Preview/LoadRoute -->
-            <button type="submit" id="doneBtn" class="toolbarEl show toolbarEl " ng-click="doneClicked()">Done</button>
+                <!--  -->
+            <button type="submit" id="doneBtn" class="toolbarEl show" ng-click="doneClicked()">Done</button>
+
             <button type="submit" id="previewBtn" class="toolbarEl show" ng-click="previewData()">Preview</button>
             <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+
             <img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'>
             </button>
-            
+           
+            <div id="pagButtons">
+            </div> 
             <div id="propButtons">
             </div>
-            <div id="pagButtons">
-            </div>
     </div>
-
-
-
-
+    <!-- popover to load a route -->
+    <div id='popOver'>
+        <span>Select a route to edit:</span>
+        <br><br>
+        <form id='popList' action="">
+        </form>
+        <br>
+        <button class="toolbarEl show" ng-click="noEdit()">New</button>
+        <button class="toolbarEl show" ng-click="edit()">Edit</button>
+    </div>
     <!-- show collection and preview crawl data -->
     <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
-           <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
+        <div class="navbar-form navbar-right">
+            <button type="submit" class="toolbarEl show backBtn" ng-click="backClicked()" >Back</button>
+        </div>
+        <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
             <button class="btn btn-primary" ng-click="showCollection()">
             Collection
             </button>
-            <button class="btn btn-primary" ng-click="showPreviewData()">
+            <button class="toolbarEl show" ng-click="showPreviewData()">
             Preview
             </button>
         </div>
@@ -64,7 +72,7 @@
             </div>
         </div>
         <div ng-if="!showCollectionSelected">
-            <table id="dataPreviewTable" class="table">
+            <table id="dataPreviewTable" class="table" style='overflow: none'>
                 <tr>
                     <th>index</th>
                     <th ng-repeat='header in headers'>{{ header }}</th>
@@ -81,56 +89,59 @@
     </div> <!-- end of previewData  -->
     <!-- show overlay when click done button, prompt login function or setup route UI -->
     <div ng-if="showCollectionOverlay&&!showPreviewData" id="collectionOverlay" ng-controller="OverlayCtrl" class="animateOverlay" >
-        <!-- <div class="navbar-form navbar-right">
-            <button type="submit" class="doneSelect btn btn-primary" ng-click="doneClicked()" >Back</button>
-        </div> -->
+
+        <div class="navbar-form navbar-right">
+            <button type="submit" class="toolbarEl show backBtn" ng-click="backClicked()" >Back</button>
+        </div>
         <!-- show login form if no user found -->
-        <div class='col-lg-12 loginForm' ng-if="!user && showLogin">
+        <div class='loginForm' ng-if="!user && showLogin">
             <form id="login-form" name="loginForm">
                 <alert type="danger" ng-show="error">
                 {{ error }}
                 </alert>
-                <div class="form-group">
+                <div>
                     <label for="email" class="labelOverlay">Email address</label>
-                    <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+                    <input type="text" ng-model="login.email" class="toolbarEl show" id="email" placeholder="Enter email">
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="login-password" class="labelOverlay">Password</label>
-                    <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+                    <input type="password" ng-model="login.password" class="toolbarEl show" id="login-password" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-success" ng-click='loginForm.$valid && sendLogin(login)'>Log In</button> or
+                <button type="submit" class="toolbarEl show" ng-click='loginForm.$valid && sendLogin(login)'>Log In</button> or
                 <a type="submit" ng-click="toggleLogin()" style="cursor: pointer;">Sign Up</a>
             </form>
             <div ng-if="error">{{error}}</div>
         </div>
-        <div class="col-lg-12 signupForm" ng-if="!user && showSignup">
+        <div class="signupForm" ng-if="!user && showSignup">
             <form id="signup-form" name="signupForm">
-                <div class="form-group">
+                <div>
                     <label class="labelOverlay">Name</label>
-                    <input name="name" type="text" class="form-control" ng-model="user.name" placeholder="Full Name" required="required">
+                    <input name="name" type="text" class="toolbarEl show" ng-model="user.name" placeholder="Full Name" required="required">
                 </div>
-                <div class="form-group">
+                <div>
                     <label class="labelOverlay">Email</label>
-                    <input name="email" type="text" class="form-control" ng-model="user.email" placeholder="E-mail" required="required">
+                    <input name="email" type="text" class="toolbarEl show" ng-model="user.email" placeholder="E-mail" required="required">
                 </div>
-                <div class="form-group">
+                <div>
                     <label class="labelOverlay">Password</label>
-                    <input name="password" type="text" class="form-control" ng-model="user.password" placeholder="Password">
+                    <input name="password" type="text" class="toolbarEl show" ng-model="user.password" placeholder="Password">
                 </div>
-                <button class="btn btn-success" ng-click="signUpNewUser(user);" type="submit">Sign Up</button> or
+                <button class="toolbarEl show" ng-click="signUpNewUser(user);" type="submit">Sign Up</button> or
                 <a ng-click="toggleLogin()" type="submit" style="cursor: pointer;">Login</a>
             </form>
         </div>
         <!-- show new routes interface after user's login -->
-        <div ng-if="user" class="col-lg-12 newRouteConfigureForm">
+        <div ng-if="user" class="newRouteConfigureForm">
             <h4 style="color:white;">Enter Route details</h4>
             <form>
-                <div class="form-group">
-                    <input name="route" type="text" class="form-control" ng-model="apiRoute.name" placeholder="Route name">
+                <div>
+                    <input name="route" type="text" class="toolbarEl show" ng-model="apiRoute.name" placeholder="Route name" ng-change='checkName()'>
                 </div>
-                <button class="btn btn-default" ng-click="createNewRoute(route)" type="submit">Create Route</button>
+                <button class="toolbarEl show" ng-click="updateRoute(route)" type="submit">Create/Update Route</button>
+                <button class="toolbarEl show" ng-click="createRoute(route)" type="submit">Create/Update Route</button>
                 <div ng-if="error" style="color:white">{{error}}</div>
             </form>
         </div>
+
     </div> <!-- end of collectionOverlay  -->
 </div>

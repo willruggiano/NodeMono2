@@ -1,5 +1,5 @@
 function registerToolbarCtrl(app) {
-  app.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope, Session, AuthService, AUTH_EVENTS, $http) {
+  app.controller('ToolbarCtrl', function MyCtrl($scope, $rootScope, Session, AuthService, AUTH_EVENTS, $http, Route) {
 
     $rootScope.showCollectionOverlay = false;
     $rootScope.showPreviewData = false;
@@ -15,10 +15,10 @@ function registerToolbarCtrl(app) {
     $rootScope.apiRoute = {};
     $rootScope.apiRoute.data = [];
 
-    //see if user has this
+    //see if user has routes on this webpage
     AuthService.getLoggedInUser()
     $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
-      $http({
+      return $http({
           url: AUTH_EVENTS.serverUrl + '/api/routes/',
           method: "GET",
           params: {
@@ -27,59 +27,13 @@ function registerToolbarCtrl(app) {
         })
         .then(function(res) {
           var routes = res.data;
-          routes = routes.filter(function(route) {
-              return window.location.href == route.url
-
-            })
-            //user has a route at this page
-          if (routes.length > 0) {
-            var routeList = routes.reduce(function(prev, route) {
-              return prev + '\n' + route.name
-            }, '')
-            var choice = prompt('Choose a route to load, or press cancel to make a new route for this page.' + routeList, '');
-            if (choice != null) {
-              var singleRouteArr = routes.filter(function(route) {
-                return route.name === choice;
-              })
-              if (singleRouteArr.length > 0) {
-                $scope.importData(singleRouteArr[0])
-              } else {
-                alert('You misspelled the route name. Go to "load route" to try again.')
-              }
-            }
-
-          }
-
+          $scope.urlRoutes = routes.filter(function(route) {
+            return window.location.href == route.url
+          });
+          createPopOver($scope.urlRoutes);
         })
     });
 
-
-    // //data importing test
-    // var newRoute = {
-    //  data: [{
-    //    attr: undefined,
-    //    index: 1,
-    //    name: 'secondTitle',
-    //    selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-    //  }, {
-    //    attr: undefined,
-    //    name: 'all titles',
-    //    selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-    //  }, {
-    //    attr: undefined,
-    //    name: 'subinfo',
-    //    selector: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD.subtext A"
-    //  }],
-    //  pagination: [{
-    //    depth: '5',
-    //    index: 1,
-    //    link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR TD SPAN.pagetop A"
-    //  }, {
-    //    depth: 1,
-    //    index: 17,
-    //    link: "BODY CENTER TABLE#hnmain TBODY TR TD TABLE TBODY TR.athing TD.title A"
-    //  }]
-    // }
     $scope.importData = function(route) {
       $rootScope.apiRoute = route;
       for (var i = 0; i < route.data.length; i++) {
@@ -231,6 +185,7 @@ function registerToolbarCtrl(app) {
       }, 100);
     }
 
+
     $scope.save = function() {
 
       //save the property to this route
@@ -255,7 +210,32 @@ function registerToolbarCtrl(app) {
       $scope.currentProperty = {};
     }
 
-    setUpDom($scope);
+    $scope.noEdit = function() {
+      closePopOver();
+    }
 
+    $scope.edit = function() {
+      //get chosen route
+      var choice = '';
+      var list = document.getElementById('popList');
+      for (var i = 0; i < list.children.length; i++) {
+        if (list.children[i].checked) {
+          chosenRoute = document.getElementById('r1').value;
+        }
+      }
+      if (choice) {
+        var singleRouteArr = $scope.urlRoutes.filter(function(route) {
+          return route.name === choice;
+        })
+        if (singleRouteArr.length > 0) {
+          $scope.importData(singleRouteArr[0])
+          closePopOver();
+        }
+      }
+    }
+
+    setUpDom($scope);
   })
+
+
 };

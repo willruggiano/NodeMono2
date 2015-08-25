@@ -28,7 +28,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		"js/main/DOMSetup.js",
 		"js/main/eventListeners.js",
 		"js/main/fileImporters.js",
-		"js/main/helpers.js"
+		"js/main/helpers.js",
+		"js/main/popover.js"
 	]
 
 	var filesToLoad = libFiles.concat(appFiles, mainFiles, ["js/nodemono.js"])

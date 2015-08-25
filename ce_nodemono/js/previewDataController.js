@@ -19,7 +19,9 @@ function registerPreviewCtrl(app) {
     $scope.showCollection = function() {
       $scope.showCollectionSelected = true;
     }
-
+    $scope.backClicked = function() {
+      $rootScope.showPreviewData = false;
+    }
     $scope.showPreviewData = function() {
       $scope.showCollectionSelected = false;
       $rootScope.apiRoute.data.forEach(function(d) {

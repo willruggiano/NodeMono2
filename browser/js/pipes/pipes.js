@@ -90,10 +90,10 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 
 	//add or remove from pipe input
 	$scope.togglePipe = (pipe) => {
-		if ($scope.pipe.inputs.routes.indexOf(pipe) === -1){
-			$scope.selectRoute(pipe);
+		if ($scope.pipe.inputs.pipes.indexOf(pipe) === -1){
+			$scope.selectPipe(pipe)
 		} else {
-			$scope.deselectRoute(pipe);
+			$scope.deselectPipe(pipe)
 		}
 	};
 
@@ -107,6 +107,15 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 		/// make this more robust
 		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
 	};
+
+	$scope.toggleFilter = (filter) => {
+		if ($scope.pipe.filters.indexOf(filter) === -1){
+			$scope.selectFilter(filter)
+		} else {
+			$scope.deselectFilter(filter)
+		}
+	};
+
 
 	// toggle showing custom filter form
 	$scope.toggleCustomFilter = () => {

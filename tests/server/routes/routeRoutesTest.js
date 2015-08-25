@@ -40,7 +40,7 @@ describe('Routes CRUD routes', function() {
     config: {
       returnObj: true
     }
-  }
+  };
 
   beforeEach('create user agent', function(done) {
     userAgent = supertest.agent(app);
@@ -48,25 +48,25 @@ describe('Routes CRUD routes', function() {
       name: 'Christian Ayscue',
       password: 'christian',
       email: 'coayscue@gmail.com'
-    })
+    });
     tempUser.save()
       .then(function(user) {
         tempUser = user;
         desiredRoute.userId = tempUser._id;
-        done()
+        done();
       }, function(err) {
         done();
-      })
-  })
+      });
+  });
 
   afterEach('remove users', function(done) {
     User.remove({}).then(function() {
       done();
-    })
-  })
+    });
+  });
 
   describe('CREATES new routes', function() {
-    it('and does not return the created object', function(done) {
+    it('and returns the new route', function(done) {
       userAgent.post('/api/routes')
         .send({
           userId: desiredRoute.userId,
@@ -74,39 +74,15 @@ describe('Routes CRUD routes', function() {
           url: desiredRoute.url
         })
         .expect(200).end(function(err, res) {
-          expect(res.body.name).to.be.undefined;
-          expect(res.body.url).to.be.undefined;
-          done();
-        })
-    })
-
-    it('with no selector data and returns the crawl', function(done) {
-      userAgent.post('/api/routes')
-        .send({
-          userId: desiredRoute.userId,
-          name: desiredRoute.name,
-          url: desiredRoute.url,
-          config: {
-            returnObj: true
-          }
-        })
-        .expect(200).end(function(err, res) {
-          expect(res.body).to.be.an('array');
-          expect(res.body.length).to.be.equal(0);
-          done()
-        })
-    })
-
-    it('with data with attributes and indexes', function(done) {
-      userAgent.post('/api/routes')
-        .send(desiredRoute)
-        .expect(200).end(function(err, res) {
-          expect(res.body).to.be.an('array');
-          expect(res.body.length).to.equal(16);
-          done()
-        })
-    })
-  })
+          expect(res.body.name).to.equal('nyTimes');
+          expect(res.body.url).to.equal('https://nytimes.com');
+          Route.findById(res.body._id).exec().then(function(foundUser) {
+            expect(foundUser.name).to.equal('nyTimes');
+            done();
+          });
+        });
+    });
+  });
 
   describe('READS data', function() {
 
@@ -117,16 +93,16 @@ describe('Routes CRUD routes', function() {
           routeId = route._id;
           done();
         }, function(err) {
-          console.log('errrr', err)
+          console.log('errrr', err);
         });
-    })
+    });
 
     afterEach('remove route from db', function(done) {
       Route.findByIdAndRemove(routeId)
         .then(function() {
           done();
-        })
-    })
+        });
+    });
 
     it('with all fields filled', function(done) {
       userAgent.get('/api/routes/' + routeId)
@@ -136,18 +112,18 @@ describe('Routes CRUD routes', function() {
           expect(res.body.name).to.be.equal('nyTimes');
           expect(res.body.data).to.be.an('array');
           done();
-        })
-    })
+        });
+    });
 
     it('not if an incorrect id is given', function(done) {
       userAgent.get('/api/routes/' + 12344513)
         .expect(200)
         .end(function(err, res) {
           expect(res.body.data).to.be.undefined;
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('UPDATES data', function() {
 
@@ -158,13 +134,13 @@ describe('Routes CRUD routes', function() {
           routeId = route._id;
           done();
         });
-    })
+    });
     afterEach('remove route from db', function(done) {
       Route.findByIdAndRemove(routeId)
         .then(function() {
           done();
-        })
-    })
+        });
+    });
 
     it('if all fields are filled', function(done) {
       userAgent.put('/api/routes/' + routeId)
@@ -188,10 +164,10 @@ describe('Routes CRUD routes', function() {
         .end(function(err, res) {
           expect(res.body).to.be.defined;
           expect(res.body.name).to.equal('nyNotTimes');
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('DELETES data', function() {
     var routeId;
@@ -201,15 +177,15 @@ describe('Routes CRUD routes', function() {
           routeId = route._id;
           done();
         });
-    })
+    });
     afterEach('remove route from db', function(done) {
       Route.findByIdAndRemove(routeId)
         .then(function() {
           done();
         }, function() {
           done();
-        })
-    })
+        });
+    });
 
 
     it('', function(done) {
@@ -224,11 +200,11 @@ describe('Routes CRUD routes', function() {
             }, function(err) {
               expect(err).to.be.defined;
               done();
-            })
-        })
-    })
-  })
-})
+            });
+        });
+    });
+  });
+});
 
 describe('Route to crawl', function() {
 
@@ -245,11 +221,8 @@ describe('Route to crawl', function() {
       name: 'link',
       selector: '.theme-summary .story-heading a',
       attr: 'href'
-    }],
-    config: {
-      returnObj: true
-    }
-  }
+    }]
+  };
 
   beforeEach('create user agent and route', function(done) {
     userAgent = supertest.agent(app);
@@ -257,25 +230,28 @@ describe('Route to crawl', function() {
       name: 'Christian Ayscue',
       password: 'christian',
       email: 'coayscue@gmail.com'
-    })
+    });
     tempUser.save()
       .then(function(user) {
         tempUser = user;
-        desiredRoute.userId = tempUser._id;
-        return Route.create(desiredRoute)
+        desiredRoute.user = tempUser._id;
+        return Route.create(desiredRoute);
       })
       .then(function(route) {
         done();
-      })
-  })
+      });
+  });
 
   it('returns desired data', function(done) {
     userAgent.get('/api/routes/' + tempUser._id + '/nyTimes')
       .expect(200)
       .end(function(err, res) {
         expect(res.body).to.be.an('array');
-        expect(res.body[0].link).to.be.a('string');
-        done()
-      })
-  })
-})
+        expect(res.body.length).to.equal(1);
+        expect(res.body[0]).to.be.an('object');
+        expect(res.body[0].headline).to.be.an('array');
+        expect(res.body[0].headline[0]).to.be.a('string');
+        done();
+      });
+  });
+});

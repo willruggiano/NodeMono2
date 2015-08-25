@@ -110,9 +110,9 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 
 	$scope.toggleFilter = (filter) => {
 		if ($scope.pipe.filters.indexOf(filter) === -1){
-			$scope.selectFilter(filter)
+			$scope.selectFilter(filter);
 		} else {
-			$scope.deselectFilter(filter)
+			$scope.deselectFilter(filter);
 		}
 	};
 

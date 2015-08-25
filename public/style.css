@@ -574,6 +574,11 @@ table#pipePreviewTable {
   .item-active a {
     color: #3498DB; }
 
+.parameter-form * {
+  color: black; }
+.parameter-form input {
+  margin-left: 10px; }
+
 .switch {
   width: 60px;
   height: 30px;

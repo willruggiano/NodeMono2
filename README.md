@@ -32,13 +32,17 @@ $ npm install && bower install
 $ gulp
 ```
 
-### Browser
-
-- open up your browser to localhost and the specified port
+- npm start
 
 ```shell
+$ npm start
 HTTPS server patiently listening on port (some port number)
 ```
+
+### Browser
+
+- load the chrome extension from Google Chrome menu > more tools > extensions > load unpacked extension (only in developer mode)
+- open up your browser to localhost and the specified port
 
 ---
 

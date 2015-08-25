@@ -4,6 +4,8 @@ var router = require('express').Router();
 var mongoose = require('mongoose');
 var Pipe = mongoose.model('Pipe');
 var _ = require('lodash');
+var JSONtoCSV = require('../../utils/dataConversion').toCSV,
+    JSONtoRSS = require('../../utils/dataConversion').toRSS;
 
 // get all pipes (with optional search by query string)
 router.get('/', function(req, res, next) {
@@ -68,6 +70,29 @@ router.param('id', function(req, res, next, id) {
 // get a pipe by id
 router.get('/:id', function(req, res) {
     res.json(req.pipe);
+});
+
+// return piped data in a certain format (csv doesn't work yet)
+router.get('/:id/endpoints/:endpoint', function(req, res, next) {
+  var endpoint = req.params.endpoint.toLowerCase(),
+      pipe = req.pipe;
+
+  pipe.getPipeData()
+    .then(function(pipedData) {
+      if (endpoint === 'json') res.status(200).json(pipedData);
+      else if (endpoint === 'csv') {
+        console.log('about to start csving', pipedData);
+        var csv = pipedData.reduce(function(accum, data) {
+            return accum.concat(JSONtoCSV(data));
+        }, []);
+        console.log('this is the csv', csv);
+        res.status(200).send(csv);
+      } else if (endpoint === 'rss') {
+        var rss = JSONtoRSS(pipedData[0]);
+        res.status(200).send(rss);
+      } else return next('no endpoint found');
+    })
+    .then(null, next);
 });
 
 // update a pipe by id

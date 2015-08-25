@@ -45,7 +45,7 @@ router.post('/', function(req, res, next) {
     newPipe.save()
         .then(function(pipe) {
             // return the new pipe
-            res.json(pipe);
+            res.status(201).json(pipe);
         })
         .then(null, next);
 });

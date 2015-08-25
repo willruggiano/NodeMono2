@@ -1,5 +1,7 @@
-<div>
-	<input type="checkbox" ng-click="select({filter: filter})" name="default-switch" id="switch-01" />
-
-	<span col-lg-6>{{filter.name}}</span>
-</div>
+<li ng-class="class" ng-click="toggle(filter); changeClass()">
+	<p>
+		<strong>Name: {{filter.name}}</strong>
+		<span class="fui-check-inverted-2"></span>
+	</p>
+	<small>Description: {{filter.description}}<small>
+</li>

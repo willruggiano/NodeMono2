@@ -7,10 +7,10 @@ app.config(($stateProvider) => {
       user: (User, $stateParams) => User.find($stateParams.userid),
       route: (Route, $stateParams) => Route.find($stateParams.routeid)
     },
-    controller: (DS, $scope, $timeout, user, route, $state, Route, $http, Utils) => {
+    controller: (DS, $scope, $timeout, user, route, $state, Route, $http, Utils, shareData) => {
       $scope.user = user
       $scope.route = route
-      $scope.crawlData = {}
+      $scope.crawlData = shareData.crawlData
       $scope.editing = {}
       $scope.activetab = null
       $scope.rows

@@ -32,15 +32,24 @@ app.factory('Route', (DS, $state, $http) => {
       getCrawlData() {
         return $http.get(`/api/routes/${this.user}/${this.name}`)
           .then(res => {
-            this.rowCount = 0
-            _.forOwn(res.data[0], (val, key) => {
-              if (val.length > this.rowCount) this.rowCount = val.length
-            })
-            this.rowCount = new Array(this.rowCount + 1).join('0').split('').map(function(d, i) { return { index: i } })
+            // this.rowCount = 0
+            // _.forOwn(res.data[0], (val, key) => {
+            //   if (val.length > this.rowCount) this.rowCount = val.length
+            // })
+            // this.rowCount = new Array(this.rowCount + 1).join('0').split('').map(function(d, i) { return { index: i } })
+            // this.rowCount = this.getRowCount(res.data[0])();
             return res.data[0]
           })
           .finally(() => ROUTE.refresh(this._id).then(route => route.DSCompute())) // always make sure route in store is fresh copy
           .catch((e) => console.log(`there seems to have been an error: ${e.toString()}`))
+      },
+      getRowCount(data) {
+          let rowCount = 0
+            _.forOwn(data, (val, key) => {
+              if (val.length > rowCount) rowCount = val.length
+            })
+          rowCount = new Array(rowCount + 1).join('0').split('').map(function(d, i) { return { index: i } })
+          return rowCount;
       }
     }
   });

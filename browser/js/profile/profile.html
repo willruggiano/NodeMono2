@@ -1,52 +1,7 @@
-<!-- <div class="main-container">
-	<div class="container">
-
-		<div class="user-jumbo">
-			<h1>Welcome {{user.name}}</h1>
-			<hr>
-		</div>
-
-		<h4>Your API Routes:</h4>
-		<hr>
-
-		<table style="width:100%" class="profile-tables">
-			<tr>
-				<th>Name</th>
-				<th>Source</th>
-				<th>Crawl Status</th>
-				<th>Last Time Crawled</th>
-			</tr>
-			<tr ng-repeat='route in user.routes'>
-				<th><a ng-click='route.go(user._id)'>{{ route.name }}</a></th>
-				<th>{{route.url}}</th>
-				<th>{{route.lastCrawlSucceeded}}</th>
-				<th>{{route.lastTimeCrawled}}</th>
-			</tr>
-		</table>
-		
-		<hr>
-		<h4>Your Pipes:</h4>
-		<hr>
-
-		<table style="width:100%" class="profile-tables">
-			<tr>
-				<th>Name</th>
-				<th>Pipe Status</th>
-				<th>Last Time Piped</th>
-			</tr>
-			<tr ng-repeat='pipe in user.pipes'>
-				<th><a ng-click='pipe.go(user._id)'>{{ pipe.name }}</a></th>
-				<th>{{pipe.lastPipeSucceeded}}</th>
-				<th>{{pipe.lastTimePiped}}</th>
-			</tr>
-		</table>
-	</div>
-</div> -->
-
 <!-- from kimono -->
 
 <div class="main-container">
-	<div class="container">
+	<div class="container profile-container">
 		<div class="row">
 			<div class="col-md-12">
 				<section class="api-header">

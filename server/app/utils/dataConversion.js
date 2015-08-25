@@ -1,55 +1,52 @@
-var _ = require('lodash')
+var _ = require('lodash');
 
 function interleave(obj) {
-  let keys = Object.keys(obj)
+  var keys = Object.keys(obj);
 
-  let maxLen = keys.reduce((max, key) => {
-    if (obj[key].length > max) return obj[key].length
-    else return max
-  }, 0)
+  var maxLen = keys.reduce(function(max, key) {
+    if (obj[key].length > max) return obj[key].length;
+    else return max;
+  }, 0);
 
-  let mergedData = [],
-      i = 0
+  var mergedData = [],
+      i = 0;
 
-  let reduceFunc = (accum, key) => {
-    accum[key] = obj[key][i]
-    return accum
-  }
+  var reduceFunc = function(accum, key) {
+    accum[key] = obj[key][i];
+    return accum;
+  };
 
-  _.times(maxLen, () => {
-    let mergedObj = keys.reduce(reduceFunc, {})
-    mergedData.push(mergedObj)
-    i++
-  })
+  _.times(maxLen, function() {
+    var mergedObj = keys.reduce(reduceFunc, {});
+    mergedData.push(mergedObj);
+    i++;
+  });
 
-  return mergedData
+  return mergedData;
 }
 
 function toCSV(d) {
   let fields = Object.keys(d),
       data = interleave(d),
       csv = [],
-      i = 0
+      i = 0;
 
-  // console.log(data) =====> data is right
-  data.forEach(datum => { // =====> datum is right
+  data.forEach(datum => {
     ++i
     let row = []
     fields.forEach(field => {
       if (datum[field]) datum[field] = datum[field].replace(/\n/gi)
-      row.push(`"${datum[field]}"` || "")
-      // console.log(i,'=',row) =====> row is right?
+      row.push(!!datum[field] ? `"${datum[field]}"` : "")
     })
-    csv.push(row.join(','))
+    csv.push(row.join(','));
   })
 
-  csv.unshift(fields)
-  csv.unshift()
+  csv.unshift(fields) // add headers
   return csv.join('\n')
 }
 
 function toRSS(o, tab) {
-  o = interleave(o)
+  o = interleave(o);
   var toXml = function(v, name, ind) {
       var xml = "";
       if (v instanceof Array) {
@@ -84,4 +81,4 @@ function toRSS(o, tab) {
 module.exports = {
   toCSV: toCSV,
   toRSS: toRSS
-}
+};

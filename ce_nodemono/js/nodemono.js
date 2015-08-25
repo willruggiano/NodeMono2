@@ -75,4 +75,3 @@ function setupAuthService() {
 			$compileProvider.imgSrcSanitizationWhitelist(newImgSrcSanitizationWhiteList);
 		}
 	]);
-}

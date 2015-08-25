@@ -2,16 +2,20 @@ app.config(($stateProvider) => {
   $stateProvider.state('api.setup', {
     url: '/setup',
     templateUrl: 'js/api/crawl-setup/crawlsetup.html',
-    controller: ($scope,Route, $q) => {
+    controller: ($scope,Route, $q, shareData) => {
       let timer,
           runTimer = () => {
-        if (!$scope.editing.crawl) clearInterval(timer)
-        else $scope.crawlTime++
-      }
+            if (!$scope.editing.crawl) clearInterval(timer)
+            else $scope.crawlTime++
+          }
       $scope.crawlStrategy = '1'
       $scope.runFrequency = '1'
+      //contain list of URL in case user want to specify list of URLs to crawl data
       $scope.ta = {}
-      $scope.ta.listUrl = $scope.route.url;
+      //initiate list URL with current route's URL
+      $scope.ta.listUrl = $scope.route.url
+
+      $scope.crawlData = shareData.crawlData
       $scope.updateCrawlData = () => {
         $scope.crawlTime = 0
         $scope.editing.crawl = true
@@ -38,9 +42,7 @@ app.config(($stateProvider) => {
               //create temp route to crawl data, this is bad way, looking for better way
               promises.push(Route.create(_.omit(tempRoute,'_id'))
                               .then(route => {
-                                // tempRoute = route
-                                destroys.push(route.DSDestroy)
-                                // console.log(route.DSDestroy())
+                                destroys.push(route)
                                 return route.getCrawlData()
                               }))
             })
@@ -53,22 +55,20 @@ app.config(($stateProvider) => {
                   $scope.crawlData.data[key] = $scope.crawlData.data[key].concat(d[key]);
                 }
               }
+
             })
-            console.log($scope.crawlData.data);
-            console.log(destroys);
-            return $q.all(destroys)
+            // Route.crawlData.data = $scope.crawlData.data;
+            $scope.editing.crawl = false
+            return $q.all(destroys.map(function(d){
+              d.DSDestroy();
+            }))
           }).then(function(){
             console.log('ok');
-          });
+          }).catch(console.log);
           
           
-        }
-      }
-      // $scope.crawlStrategyChange = () => {
-      //   console.log($scope.crawlStrategy)
-      // }
-
-
+        }//end if
+      }//end updateCrawlData
     }
   })
 })

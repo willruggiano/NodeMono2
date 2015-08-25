@@ -31,11 +31,11 @@ describe('Users CRUD routes', function() {
     email: 'coayscue@gmail.com',
     password: 'letMeIn',
     routes: []
-  }
+  };
 
   beforeEach('create user agent', function() {
     userAgent = supertest.agent(app);
-  })
+  });
 
   describe('CREATES new users', function() {
     it('and returns the user with a generated userKey and no password or salt', function(done) {
@@ -46,25 +46,25 @@ describe('Users CRUD routes', function() {
           expect(res.body.password).to.be.undefined;
           expect(res.body.salt).to.be.undefined;
           done();
-        })
-    })
+        });
+    });
 
     it('and signs in the new user', function(done) {
       userAgent.post('/api/users')
         .send(desiredUser)
         .expect(200).end(function(err, res) {
           //check if session was created
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('READS data', function() {
 
     var userId;
     var testUser;
     beforeEach('seed database', function(done) {
-      testUser = new User(desiredUser)
+      testUser = new User(desiredUser);
       testUser.save()
         .then(function(user) {
           userId = user._id;
@@ -72,7 +72,7 @@ describe('Users CRUD routes', function() {
         }, function(err) {
           done();
         });
-    })
+    });
 
     beforeEach('create user agent and filler apiRoute', function(done) {
       userAgent = supertest.agent(app);
@@ -88,38 +88,29 @@ describe('Users CRUD routes', function() {
           selector: '.theme-summary .story-heading a',
           attr: 'href'
         }],
-        config: {
-          returnObj: true
-        },
-        userId: userId
-      })
+        user: userId
+      });
       tempRoute.save()
         .then(function(apiRoute) {
           tempRoute = apiRoute;
-          testUser.routes.push(tempRoute);
-          return testUser.save()
-        }, function(err) {
-          console.log(err);
-          done();
+          return testUser.save();
         })
         .then(function(testU) {
-          console.log(testU)
-          done()
-        });
-    })
-
-    afterEach('remove filler apiRoute', function(done) {
-      Route.remove({}).then(function() {
-        done();
-      })
-    })
-
-    afterEach('remove route from db', function(done) {
-      User.findByIdAndRemove(userId)
-        .then(function() {
+          console.log(testU);
           done();
         })
-    })
+        .then(null, done);
+    });
+
+    afterEach('remove filler data', function(done) {
+      Route.remove({}).then(function() {
+        return User.remove({});
+      })
+      .then(function() {
+        done();
+      })
+      .then(null, done);
+    });
 
     it('with all fields filled', function(done) {
       userAgent.get('/api/users/' + userId)
@@ -128,41 +119,30 @@ describe('Users CRUD routes', function() {
           expect(res.body.name).to.be.equal('Christian Ayscue');
           expect(res.body.email).to.be.equal('coayscue@gmail.com');
           done();
-        })
-    })
-
-    it('with routes populated', function(done) {
-      userAgent.get('/api/users/' + userId)
-        .expect(200)
-        .end(function(err, res) {
-          console.log("res.body:",
-            res.body)
-          expect(res.body.routes[0].name).to.be.equal('nyTimes');
-          done();
-        })
-    })
+        });
+    });
 
     it('not if an incorrect id is given', function(done) {
       userAgent.get('/api/users/' + 12341234)
         .expect(200)
         .end(function(err, res) {
           expect(res.body.name).to.be.undefined;
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('UPDATES data', function() {
 
     var userId;
     beforeEach('seed database', function(done) {
-      var testUser = new User(desiredUser)
+      var testUser = new User(desiredUser);
       testUser.save()
         .then(function(user) {
           userId = user._id;
           done();
         }, function(err) {});
-    })
+    });
 
     beforeEach('create user agent and filler apiRoute', function(done) {
       userAgent = supertest.agent(app);
@@ -182,66 +162,64 @@ describe('Users CRUD routes', function() {
           returnObj: true
         },
         userId: userId
-      })
+      });
       tempRoute.save()
         .then(function(apiRoute) {
           tempRoute = apiRoute;
           desiredUser.routes.push(tempRoute);
-          done()
+          done();
         }, function(err) {
           console.log(err);
           done();
-        })
-    })
+        });
+    });
 
     afterEach('remove filler apiRoute', function(done) {
       Route.remove({}).then(function() {
         done();
-      })
-    })
+      });
+    });
 
     afterEach('remove route from db', function(done) {
       User.findByIdAndRemove(userId)
         .then(function() {
           done();
-        })
-    })
+        });
+    });
 
     it('if all fields are filled', function(done) {
       userAgent.put('/api/users/' + userId)
         .send({
           name: "Not Christian Ayscue",
-          email: 'coayscue@gmail.com',
-          routes: []
+          email: 'coayscue@gmail.com'
         })
         .expect(200)
         .end(function(err, res) {
           expect(res.body.name).to.equal('Not Christian Ayscue');
-          expect(res.body.routes.length).to.equal(0);
-          done()
-        })
-    })
-  })
+          done();
+        });
+    });
+  });
 
   describe('DELETES data', function() {
     var userId;
     var tempUser;
     beforeEach('seed database', function(done) {
-      tempUser = new User(desiredUser)
+      tempUser = new User(desiredUser);
       tempUser.save()
         .then(function(user) {
           userId = user._id;
           done();
         });
-    })
+    });
     afterEach('remove route from db', function(done) {
       User.findByIdAndRemove(userId)
         .then(function() {
           done();
         }, function() {
           done();
-        })
-    })
+        });
+    });
 
 
     it('whenever', function(done) {
@@ -256,8 +234,8 @@ describe('Users CRUD routes', function() {
             }, function(err) {
               expect(err).to.be.defined;
               done();
-            })
-        })
-    })
-  })
-})
+            });
+        });
+    });
+  });
+});

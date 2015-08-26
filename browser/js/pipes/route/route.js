@@ -8,7 +8,7 @@ app.directive('route', function() {
 			toggle: '&'
 		},
 		link: function(scope) {
-			scope.route.minimized = scope.route.url.slice(8);
+			scope.route.minimized = scope.route.url.replace(/.*\/\/(www\.)*/, '').replace(/\/$/, '').replace(/\?.*$/, '');
 
 			scope.class = "item-inactive";
 

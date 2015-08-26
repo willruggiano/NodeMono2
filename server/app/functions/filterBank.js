@@ -106,11 +106,11 @@ var filterBank = {
 			// values to pull are passed in after the array
 			return _.pull.apply(null, arguments);
 		},
-		// returns an array of the pulled values (expects indexes)
-		pullAt: function() {
-			// indexes to be pulled are passed in after the array
-			return _.pullAt.apply(null, arguments);
-		},
+		// // returns an array of the pulled values (expects indexes)
+		// pullAt: function() {
+		// 	// indexes to be pulled are passed in after the array
+		// 	return _.pullAt.apply(null, arguments);
+		// },
 		// removes all falsey values (falsy = false, null, 0, '', undefined, NaN)
 		compact: function(arr) {
 			return _.compact(arr);
@@ -138,14 +138,16 @@ var filterBank = {
 			var filterFunc = filterMap[filterName];
 			return arr.filter(filterFunc);
 		},
-		// // keeps/removes elements that match the regex (defaults to keep)
-		// regexFilter: function(arr, str, remove) {
-		// 	var re = new RegExp(str, 'ig');
-		// 	var filterFunc;
-		// 	if (remove) filterFunc = function(elem) {return re.test(elem); };
-		// 	else filterFunc = function(elem) {return !re.test(elem); };
-		// 	return arr.filter(filterFunc);
-		// }
+		// keeps elements that match the regex
+		regexFilter: function(arr, str) {
+			var re = new RegExp(str, 'ig');
+			return arr.filter(function(elem) {return re.test(elem); });
+		},
+		// removes elements that match the regex
+		regexRemove: function(arr, str) {
+			var re = new RegExp(str, 'ig');
+			return arr.filter(function(elem) {return !re.test(elem); });
+		}
 	},
 	// any number of array functions
 	/// how should the user decide which arrays to use? (right now each route has its returned arrays concated into one, and put into array of such arrays)

@@ -17,7 +17,8 @@ var filterDescriptions = {
 	sort: 'sorts the array (given name of the sorting type, and the direction to sort in - defaults to ascending)',
 	randomize: 'randomly shuffle the elements',
 	filter: 'removes values that are not of the specified type',
-	regexFilter: 'removes values that do not match the given regular expression',
+	regexFilter: 'keeps only values that match the given regular expression',
+	regexRemove: 'removes values that match the given regular expression',
 	// multiple array functions
 	union: 'returns array of all unique values between the input objects',
 	intersection: 'returns array of values in all input objects',

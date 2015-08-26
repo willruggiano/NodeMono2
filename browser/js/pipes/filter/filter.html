@@ -1,7 +1,28 @@
-<li ng-class="class" ng-click="toggle(filter); changeClass()">
+<!-- <li ng-class="class" ng-click="toggle(filter); changeClass()"> -->
+<li ng-class="class" ng-click="toggleParams()" ng-hide="settingParameters">
 	<p>
 		<strong>Name: {{filter.name}}</strong>
 		<span class="fui-check-inverted-2"></span>
 	</p>
 	<small>Description: {{filter.description}}<small>
 </li>
+
+<li ng-class="class" ng-show="settingParameters">
+	<p>
+		<strong>Name: {{filter.name}}</strong>
+		<span class="fui-check-inverted-2"></span>
+	</p>
+	<small>Description: {{filter.description}}<small>
+	<p class="parameter-form">
+		Set parameters: 
+		<span ng-repeat="i in parameterLength">
+			<input class="parameter-input" ng-model="filter.parameters[i]">
+		</span>
+		<button class="btn btn-primary" ng-click="toggleParams(true)">Submit</button>
+		<button class="btn btn-inverse" ng-click="cancelParams()">Cancel</button>
+	</p>
+</li>
+
+<!-- maybe use form validation to see if it changed and pass it into toggle params - like $dirty or whatever -->
+
+<!-- maybe add what kind of parameter it is -->

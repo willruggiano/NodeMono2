@@ -1,7 +1,7 @@
 app.config(($stateProvider) => {
   $stateProvider.state('api', {
     abstract: true,
-    url: ':userid/apis/:routeid',
+    url: '/:userid/apis/:routeid',
     templateUrl: 'js/api/api.html',
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),

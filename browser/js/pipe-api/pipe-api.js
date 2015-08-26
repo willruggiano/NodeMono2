@@ -1,7 +1,7 @@
 app.config(($stateProvider) => {
   $stateProvider.state('pipe', {
     abstract: true,
-    url: ':userid/pipes/:pipeid',
+    url: '/:userid/pipes/:pipeid',
     templateUrl: 'js/pipe-api/pipe-api.html',
     resolve: {
       user: (User, $stateParams) => User.find($stateParams.userid),

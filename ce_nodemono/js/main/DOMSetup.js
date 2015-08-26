@@ -1,5 +1,5 @@
 var yellow = "#f1c40f";
-var green = "#1abc9c"
+var green = "#2ecc71"
 
 function setUpDom(scope) {
   giveNodeListArrayMethods();

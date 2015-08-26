@@ -13,6 +13,7 @@
             </button>
 
             <!-- for pagination form -->
+            
             <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
                 <option value='1'>1</option>
                 <option value='5'>5</option>
@@ -25,7 +26,7 @@
             <button id="allButton" ng-click="allBtnClick(); $event.preventDefault(); $event.stopPropagation();" class='toolbarEl hide'>All</button>
             <div id="attrSelectors">
             </div>
-            <input id="nameInput" type="text" placeholder="Prop Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
+            <input id="nameInput" type="text" placeholder="Name" ng-model='currentProperty.name' class='toolbarEl hide'></input>
             <button id="saveBtn" ng-click="save();" class='toolbarEl hide'>Save</button>
                 <!--  -->
             <button type="submit" id="doneBtn" class="toolbarEl show" ng-click="doneClicked()">Done</button>

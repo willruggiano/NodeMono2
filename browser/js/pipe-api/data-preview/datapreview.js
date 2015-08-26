@@ -26,7 +26,7 @@ app.config(($stateProvider) => {
           };
         };
 
-      $scope.resultTypes = ["CSV", "RSS", "JSON"];
+      // $scope.resultTypes = ["CSV", "RSS", "JSON"];
       $scope.activeResultType = "CSV";
 
       $scope.setActiveType = (type) =>{

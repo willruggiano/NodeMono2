@@ -1,19 +1,25 @@
-<div class="row result-view">
-	<ul class="nav nav-pills pull-right">
-		<li class="filter" ng-if="activeResultType==='CSV'">
-			<label>Filter</label>
-			<input class="form-control" ng-model="search.text">
-		</li>
-		<li>
-			<a target="_self" download="{{pipe.name}}.txt" href="/api/pipes/{{user._id}}/{{pipe.name}}">Download</a>
-		</li>
-		<li ng-if="activeResultType==='CSV'" ng-class="{active:hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
-			<a clip-copy="copyToClipBoard()" id="copyToClipBoardBtn">Copy</a>
-		</li>
-		<li ng-repeat="type in resultTypes | orderBy:'-index'" ng-class="{active:activeResultType===type}" class="resultType">
-			<a ng-click="setActiveType(type)">{{type}}&nbsp; </a>
-		</li>
-	</ul>
+<div class="row result-view" ng-hide='!data.length'>
+	<table>
+		<tr>
+			<th>filter</th>
+			<th>preview format</th>
+			<th>copy to clipboard</th>
+		</tr>
+		<tr>
+			<td><input ng-model="search.text"></td>
+			<td>
+				<span ng-repeat="type in resultTypes">
+					<a
+						class="resultType"
+						ng-class="{active:activeResultType===type.name}"
+						ng-click="setActiveType(type)">{{type.name}}
+					</a>
+					<span ng-if='(resultTypes.indexOf(type) < resultTypes.length - 1)'> | </span>
+				</span>
+			</td>
+			<td><a clip-copy="copyToClipBoard()" id="copyToClipBoardBtn">Copy</a></td>
+		</tr>
+	</table>
 </div>
 
 <div class="data-preview">

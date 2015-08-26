@@ -125,6 +125,6 @@
 		<ui-view class='tab-content'></ui-view>
 	</div>
 	<br>
-	<button class='btn btn-danger' ng-click='deletePipe()'>Delete Pipe</button>
+	<button class='btn btn-danger' ng-click='deletePipe()' ng-hide='!data.length'>Delete Pipe</button>
 	<br>
 </section>

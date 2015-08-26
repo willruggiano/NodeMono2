@@ -151,6 +151,7 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 			.then(output => {
 				$scope.pipe.output = output;
 				$scope.error = undefined;
+				user.go(true);
 			})
 			.catch(err => {
 				// display the error in some way

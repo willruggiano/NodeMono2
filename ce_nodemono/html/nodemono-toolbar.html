@@ -40,23 +40,13 @@
             <div id="propButtons">
             </div>
     </div>
-    <!-- popover to load a route -->
-    <div id='popOver'>
-        <span>Select a route to edit:</span>
-        <br><br>
-        <form id='popList' action="">
-        </form>
-        <br>
-        <button class="toolbarEl show" ng-click="noEdit()">New</button>
-        <button class="toolbarEl show" ng-click="edit()">Edit</button>
-    </div>
     <!-- show collection and preview crawl data -->
     <div ng-if="showPreviewData&&!showCollectionOverlay" id="previewData" ng-controller="previewDataCtrl" class="animateOverlay">
         <div class="navbar-form navbar-right">
             <button type="submit" class="toolbarEl show backBtn" ng-click="backClicked()" >Back</button>
         </div>
         <div ng-if="apiRoute.data.length" class="dataPreviewContainer">
-            <button class="btn btn-primary" ng-click="showCollection()">
+            <button class="toolbarEl show" ng-click="showCollection()">
             Collection
             </button>
             <button class="toolbarEl show" ng-click="showPreviewData()">

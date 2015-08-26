@@ -211,6 +211,13 @@ status-bar {
 #main-footer {
   padding-top: 10px !important; }
 
+.hidden-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: text; }
+  .hidden-link:visited, .hidden-link :hover {
+    color: inherit; }
+
 .about-container {
   padding-top: 50px;
   width: 45%;
@@ -573,6 +580,11 @@ table#pipePreviewTable {
     color: #3498DB; }
   .item-active a {
     color: #3498DB; }
+
+.parameter-form * {
+  color: black; }
+.parameter-form input {
+  margin-left: 10px; }
 
 .switch {
   width: 60px;

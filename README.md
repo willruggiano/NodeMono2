@@ -2,11 +2,7 @@
 
 > Turn websites into structured APIs
 
-> GIF Tools
-
-- Use <a href="http://recordit.co/" target="_blank">**Recordit**</a> to create quicks screencasts of your desktop and export them as `GIF`s.
-
-**Recordit**
+- Video coming soon
 
 ![Recordit GIF](http://g.recordit.co/iLN6A0vSD8.gif)
 

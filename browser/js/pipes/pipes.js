@@ -98,8 +98,9 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 	};
 
 	// add filter to pipeline
-	$scope.selectFilter = (filter) => {
+	$scope.selectFilter = (filter, save) => {
 		$scope.pipe.filters.push(filter);
+		if (save) $scope.saveFilter(filter);
 	};
 
 	// remove filter from pipeline
@@ -108,11 +109,12 @@ app.controller('PipesCtrl', function($scope, Pipe, routes, filters, pipes, user)
 		$scope.pipe.filters = $scope.pipe.filters.filter(fil => fil.name !== filter.name);
 	};
 
-	$scope.toggleFilter = (filter) => {
-		if ($scope.pipe.filters.indexOf(filter) === -1){
-			$scope.selectFilter(filter)
+	$scope.toggleFilter = (filter, save) => {
+		// if ($scope.pipe.filters.indexOf(filter) === -1){
+		if (!$scope.pipe.filters.some(filt => filt.name === filter.name)) {
+			$scope.selectFilter(filter, save);
 		} else {
-			$scope.deselectFilter(filter)
+			$scope.deselectFilter(filter);
 		}
 	};
 

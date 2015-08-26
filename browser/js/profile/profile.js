@@ -8,9 +8,10 @@ app.config(($stateProvider) => {
       pipes: (user) => user.getPipes()
     },
     controller: ($scope, user, routes, pipes,shareData) => {
-      shareData.routes = routes
+      shareData.routes = routes;
       $scope.routes = routes;
       $scope.pipes = pipes;
+      $scope.user = user;
       console.log('the user', user);
       console.log('the routes and pipes', routes, pipes);
     }

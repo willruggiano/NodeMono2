@@ -12,7 +12,7 @@
 					<a
 						class="resultType"
 						ng-class="{active:activeResultType===type.name}"
-						ng-click="setActiveType(type)">{{type.name}}
+						ng-click="setActiveType(type.name)">{{type.name}}
 					</a>
 					<span ng-if='(resultTypes.indexOf(type) < resultTypes.length - 1)'> | </span>
 				</span>

@@ -21,20 +21,21 @@
 	      	<tr>
 	          <td class='td-label'>Route URL</td>
 	          <td>
-	            <a href="">nodemono.herokuapp.com/api/routes/{{user._id}}/{{route.name}}</a>
+	            <!-- <a href="http://mashup-app.herokuapp.com/api/routes/{{user._id}}/{{route.name}}" target="_blank">http://mashup-app.herokuapp.com/api/routes/{{user._id}}/{{route.name}}</a> -->
+	            <a href="http://localhost:1337/api/routes/{{user._id}}/{{route.name}}" target="_blank">localhost:1337/api/routes/{{user._id}}/{{route.name}}</a>
 	          </td>
 	        </tr>
 	        <tr>
 	          <td class='td-label'>Endpoints</td>
 	          <td>
-							<span ng-repeat='result in resultTypes'>
-								<a
-									href='/api/routes/{{ route._id }}/endpoints/{{ result.name.toLowerCase() }}'
-									target='_blank'
-									download='{{ route.name }}.{{ result.name.toLowerCase() }}'>{{ result.name.toLowerCase() }}
-								</a>
-								<span ng-if='(resultTypes.indexOf(result) < resultTypes.length - 1)'>| </span>
-							</span>
+				<span ng-repeat='result in resultTypes'>
+					<a
+						href='/api/routes/{{ route._id }}/endpoints/{{ result.name.toLowerCase() }}'
+						target='_blank'
+						download='{{ route.name }}.{{ result.name.toLowerCase() }}'>{{ result.name.toLowerCase() }}
+					</a>
+					<span ng-if='(resultTypes.indexOf(result) < resultTypes.length - 1)'>| </span>
+				</span>
 	          </td>
 	        </tr>
 	        <tr>

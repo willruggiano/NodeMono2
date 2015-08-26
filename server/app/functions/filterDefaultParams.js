@@ -16,7 +16,8 @@ var filterDefaultParams = {
 	sort: ['alphabetic'],
 	randomize: [],
 	filter: ['numeric'],
-	regexFilter: ['item'],
+	regexFilter: ['placeholder'],
+	regexRemove: ['placeholder'],
 	// multiple array functions
 	union: [],
 	intersection: [],

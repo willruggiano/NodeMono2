@@ -142,9 +142,9 @@ function registerToolbarCtrl(app) {
 
       //change stylings on DOM
       for (var i = 0; i < $scope.matchList.length; i++) {
-        $scope.matchList[i].style['background-color'] = 'yellow';
+        $scope.matchList[i].style['background-color'] = yellow;
       }
-      $scope.targetElement.style['background-color'] = '#00ff00';
+      $scope.targetElement.style['background-color'] = green;
 
       //hide/show toolbar
       hideAllElms();
@@ -167,7 +167,7 @@ function registerToolbarCtrl(app) {
 
       //change stylings on DOM
       hideHighlights($scope);
-      $scope.targetElement.style['background-color'] = '#00ff00';
+      $scope.targetElement.style['background-color'] = green;
 
       //hide/show toolbar elements
       hideAllElms();
@@ -192,7 +192,7 @@ function registerToolbarCtrl(app) {
       $scope.currentProperty['selector'] = $scope.selector;
 
       //change stylings on DOM
-      $scope.targetElement.style['background-color'] = '#ffff00'
+      $scope.targetElement.style['background-color'] = yellow
 
       //hide/show toolbar elements
       hideAllElms();

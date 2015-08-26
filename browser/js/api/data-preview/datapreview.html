@@ -24,6 +24,14 @@
 <div ng-if="activeResultType !== 'CSV'">
 	<textarea ng-model="dataPreview" class="textareaPreview"> </textarea>
 </div>
+<div ng-if="!crawlData.data" class="alert alert-info" role="alert">
+	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	Waiting for the data ...
+</div>
+<div ng-if="!route.lastCrawlSucceeded" class="alert alert-danger" role="alert">
+	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	No data was returned
+</div>
 <table id='dataPreviewTable' ng-if="activeResultType == 'CSV'">
   <tr>
     <th>

@@ -22,6 +22,16 @@ app.config(($stateProvider) => {
                      { header: 'Modify Results', url: 'modify', glyphicon: 'wrench' },
                      { header: 'Use Data', url: 'use', glyphicon: 'circle-arrow-down' }];
       $scope.endpoints = ['json', 'csv', 'rss'];
+      $scope.resultTypes = [{
+        index: 1,
+        name: "CSV"
+      }, {
+        index: 2,
+        name: "RSS"
+      }, {
+        index: 3,
+        name: "JSON"
+      }];
       $scope.getPipeStatus = () => {
         $scope.pipeStatus = $scope.pipe.lastPipeSucceeded ? 'Successful' : 'Unsuccessful';
       };

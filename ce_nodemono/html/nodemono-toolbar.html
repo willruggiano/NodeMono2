@@ -1,8 +1,8 @@
 <div class="nodemonoToolbar" ng-controller="ToolbarCtrl">
-    
+
 <!-- navbar logo and title -->
     <div id="title-navbar">
-        <a id="header-navbar" href="#ourwebsite">nodemono</a>
+        <a id="header-navbar" href="#ourwebsite">mashup</a>
     </div>
 
 <!-- navbar -->
@@ -13,7 +13,7 @@
             </button>
 
             <!-- for pagination form -->
-            
+
             <select id='paginationDepthSelector' ng-model="apiRoute.depth" class="toolbarEl hide" ng-change="selectedDepth()">
                 <option value='1'>1</option>
                 <option value='5'>5</option>
@@ -35,9 +35,9 @@
             <button id='paginationMode' class='toolbarEl show' ng-click="paginationMode()" ng-style="inPaginationMode?{'background-color':'#ADD8E6'}:{}">+
             <img src='{{documentImgUrl}}' id='pagButtonImg' ng-click='paginationMode()'>
             </button>
-           
+
             <div id="pagButtons">
-            </div> 
+            </div>
             <div id="propButtons">
             </div>
     </div>

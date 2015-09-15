@@ -1,7 +1,7 @@
 # Nodemono
 
 > Turn websites into structured APIs
-![FSA Presentation](https://youtu.be/Ev39Io0rZiQ)
+![FSA Presentation](https://www.youtube.com/watch?v=Ev39Io0rZiQ)
 
 ---
 

@@ -1,10 +1,7 @@
 # Nodemono
 
 > Turn websites into structured APIs
-
-- Video coming soon
-
-![Recordit GIF](http://g.recordit.co/iLN6A0vSD8.gif)
+![FSA Presentation](https://youtu.be/Ev39Io0rZiQ)
 
 ---
 

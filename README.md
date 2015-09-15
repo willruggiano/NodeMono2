@@ -1,8 +1,7 @@
 # Nodemono
 
 > Turn websites into structured APIs
-
-!link to presentation video: https://www.youtube.com/watch?v=Ev39Io0rZiQ
+> link to presentation video: https://www.youtube.com/watch?v=Ev39Io0rZiQ
 
 ---
 
